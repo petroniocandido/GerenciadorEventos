@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,6 +22,7 @@ import javax.persistence.TemporalType;
  * @author petronio
  */
 @Entity
+@Table(name = "inscricoes")
 public class Inscricao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,6 +44,9 @@ public class Inscricao implements Serializable {
     private boolean pago;
     
     private boolean compareceu;
+    
+    @ManyToOne
+    private Lancamento lancamento;
 
     public Long getId() {
         return id;

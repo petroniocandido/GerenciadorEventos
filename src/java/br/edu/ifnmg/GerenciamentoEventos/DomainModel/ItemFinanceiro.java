@@ -7,28 +7,24 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  *
  * @author petronio
  */
 @Entity
-@Table(name = "locais")
-public class Local implements Serializable {
+public class ItemFinanceiro implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String nome;
-    
-    private int capacidade;
+    private BigDecimal valorUnitario;
 
     public Long getId() {
         return id;
@@ -37,16 +33,6 @@ public class Local implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
-    
 
     @Override
     public int hashCode() {
@@ -58,10 +44,10 @@ public class Local implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Local)) {
+        if (!(object instanceof ItemFinanceiro)) {
             return false;
         }
-        Local other = (Local) object;
+        ItemFinanceiro other = (ItemFinanceiro) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -70,7 +56,7 @@ public class Local implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Local[ id=" + id + " ]";
+        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.ItemFinanceiro[ id=" + id + " ]";
     }
     
 }

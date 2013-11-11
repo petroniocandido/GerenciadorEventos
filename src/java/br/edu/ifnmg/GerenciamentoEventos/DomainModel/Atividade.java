@@ -13,10 +13,15 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -25,11 +30,15 @@ import javax.persistence.TemporalType;
  * @author petronio
  */
 @Entity
+@Table(name = "atividades")
 public class Atividade implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @ManyToOne
+    private AtividadeTipo tipo;
 
     private String nome;
     
@@ -58,6 +67,10 @@ public class Atividade implements Serializable {
     
     private int numeroVagas;
     
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "recursosalocacao", 
+            joinColumns = {@JoinColumn(name = "AtividadeID")}, 
+            inverseJoinColumns = {@JoinColumn(name = "RecursoID")})
     private List<Recurso> recursos;
     
     private BigDecimal valorOrcado;
@@ -72,6 +85,12 @@ public class Atividade implements Serializable {
     
     @Enumerated(EnumType.STRING)
     private Status status;
+    
+    @ManyToMany
+    private List<Atividade> precursores;
+    
+    @ManyToMany
+    private List<Atividade> dependentes;
     
     public Long getId() {
         return id;

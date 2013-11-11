@@ -9,11 +9,13 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,6 +24,7 @@ import javax.persistence.TemporalType;
  * @author petronio
  */
 @Entity
+@Table(name = "lancamentos")
 public class Lancamento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -29,14 +32,33 @@ public class Lancamento implements Serializable {
     private Long id;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date inicio;
+    private Date criacao;
+    
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date baixa;
     
     @ManyToOne
-    private Pessoa responsavel;
+    private Pessoa usuarioCriacao;
     
-    private BigDecimal valorOrcado;
+    @ManyToOne
+    private Pessoa usuarioBaixa;
+    
+    @ManyToOne
+    private Pessoa cliente;
+    
+    private BigDecimal valorOriginal;
+    
+    private BigDecimal valorDescontos;
+    
+    private BigDecimal valorAcrescimos;
+    
+    private BigDecimal valorTotal;
     
     private String descricao;
+    
+    List<ItemFinanceiro> itens;
+    
+    private LancamentoStatus status;
 
     public Long getId() {
         return id;

@@ -11,24 +11,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  *
  * @author petronio
  */
 @Entity
-@Table(name = "locais")
-public class Local implements Serializable {
+public class Perfil implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    private String nome;
-    
-    private int capacidade;
 
     public Long getId() {
         return id;
@@ -37,16 +30,6 @@ public class Local implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-    
-    
 
     @Override
     public int hashCode() {
@@ -58,10 +41,10 @@ public class Local implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Local)) {
+        if (!(object instanceof Perfil)) {
             return false;
         }
-        Local other = (Local) object;
+        Perfil other = (Perfil) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -70,7 +53,7 @@ public class Local implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Local[ id=" + id + " ]";
+        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil[ id=" + id + " ]";
     }
     
 }
