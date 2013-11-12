@@ -17,15 +17,13 @@ import javax.persistence.Id;
  * @author petronio
  */
 @Entity
-public class Permissao implements Serializable {
+public class Log implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String nome;
     
-    private String uri;
 
     public Long getId() {
         return id;
@@ -45,10 +43,10 @@ public class Permissao implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Permissao)) {
+        if (!(object instanceof Log)) {
             return false;
         }
-        Permissao other = (Permissao) object;
+        Log other = (Log) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -57,7 +55,7 @@ public class Permissao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao[ id=" + id + " ]";
+        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log[ id=" + id + " ]";
     }
     
 }

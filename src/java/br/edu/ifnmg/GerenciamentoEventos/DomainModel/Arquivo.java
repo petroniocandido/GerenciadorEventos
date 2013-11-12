@@ -11,13 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author petronio
  */
 @Entity
-public class Permissao implements Serializable {
+public class Arquivo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,6 +27,9 @@ public class Permissao implements Serializable {
     private String nome;
     
     private String uri;
+    
+    @ManyToOne
+    private Pessoa responsavel;
 
     public Long getId() {
         return id;
@@ -45,10 +49,10 @@ public class Permissao implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Permissao)) {
+        if (!(object instanceof Arquivo)) {
             return false;
         }
-        Permissao other = (Permissao) object;
+        Arquivo other = (Arquivo) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -57,7 +61,7 @@ public class Permissao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao[ id=" + id + " ]";
+        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo[ id=" + id + " ]";
     }
     
 }

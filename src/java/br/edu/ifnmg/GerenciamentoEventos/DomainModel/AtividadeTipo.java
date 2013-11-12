@@ -28,6 +28,8 @@ public class AtividadeTipo implements Serializable {
     private String nome;
     
     private String descricao;
+    
+    private boolean publico;
 
     public Long getId() {
         return id;

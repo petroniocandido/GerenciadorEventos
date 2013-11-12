@@ -7,25 +7,28 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author petronio
  */
 @Entity
-public class Permissao implements Serializable {
+@Table(name = "inscricoescoletivas")
+public class InscricaoColetiva extends Inscricao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private String nome;
-    
-    private String uri;
+    @ManyToMany
+    private List<Pessoa> pessoas;
 
     public Long getId() {
         return id;
@@ -45,10 +48,10 @@ public class Permissao implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Permissao)) {
+        if (!(object instanceof InscricaoColetiva)) {
             return false;
         }
-        Permissao other = (Permissao) object;
+        InscricaoColetiva other = (InscricaoColetiva) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -57,7 +60,7 @@ public class Permissao implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao[ id=" + id + " ]";
+        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoColetiva[ id=" + id + " ]";
     }
     
 }

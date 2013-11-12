@@ -38,6 +38,9 @@ public class Atividade implements Serializable {
     private Long id;
     
     @ManyToOne
+    private Evento evento;
+    
+    @ManyToOne
     private AtividadeTipo tipo;
 
     private String nome;
@@ -47,6 +50,8 @@ public class Atividade implements Serializable {
     private boolean publica;
     
     private boolean necessitaInscricao;
+    
+    private boolean inscricaoColetiva;
     
     private BigDecimal valorInscricao;
     
@@ -59,13 +64,21 @@ public class Atividade implements Serializable {
     @ManyToOne
     private Pessoa responsavel;
     
-    @ManyToOne
-    private Evento evento;
+    @ManyToMany
+    private List<Arquivo> arquivos;
     
     @ManyToOne
     private Local local;
     
     private int numeroVagas;
+    
+    private String auxiliar1;
+    
+    private String auxiliar2;
+    
+    private String auxiliar3;
+    
+    private String auxiliar4;
     
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "recursosalocacao", 
