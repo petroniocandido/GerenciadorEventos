@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "atividades")
-public class Atividade implements Serializable {
+public class Atividade extends Entidade implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

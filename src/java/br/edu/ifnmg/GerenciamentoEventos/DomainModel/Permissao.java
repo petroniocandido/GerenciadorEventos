@@ -17,7 +17,7 @@ import javax.persistence.Id;
  * @author petronio
  */
 @Entity
-public class Permissao implements Serializable {
+public class Permissao extends Entidade implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

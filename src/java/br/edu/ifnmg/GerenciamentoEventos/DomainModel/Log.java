@@ -7,10 +7,14 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -23,7 +27,17 @@ public class Log implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @ManyToOne
+    private Pessoa usuario;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date data;
+    
+    @ManyToOne
+    private Entidade entidade;
+    
+    @ManyToOne
+    private Permissao permissao;
 
     public Long getId() {
         return id;
@@ -32,6 +46,40 @@ public class Log implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Pessoa getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Pessoa usuario) {
+        this.usuario = usuario;
+    }
+
+    public Date getData() {
+        return data;
+    }
+
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    public Entidade getEntidade() {
+        return entidade;
+    }
+
+    public void setEntidade(Entidade entidade) {
+        this.entidade = entidade;
+    }
+
+    public Permissao getPermissao() {
+        return permissao;
+    }
+
+    public void setPermissao(Permissao permissao) {
+        this.permissao = permissao;
+    }
+    
+    
 
     @Override
     public int hashCode() {

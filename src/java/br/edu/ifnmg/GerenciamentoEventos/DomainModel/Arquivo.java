@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
  * @author petronio
  */
 @Entity
-public class Arquivo implements Serializable {
+public class Arquivo extends Entidade implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,6 +38,8 @@ public class Arquivo implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    
 
     @Override
     public int hashCode() {
