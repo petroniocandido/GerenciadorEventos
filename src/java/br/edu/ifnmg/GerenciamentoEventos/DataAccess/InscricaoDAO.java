@@ -19,6 +19,10 @@ public class InscricaoDAO
     extends DAOGenerico<Inscricao> 
     implements InscricaoRepositorio {
 
+    public InscricaoDAO(){
+        super(Inscricao.class);
+    }
+    
     @Override
     public List<Inscricao> Buscar(Inscricao filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

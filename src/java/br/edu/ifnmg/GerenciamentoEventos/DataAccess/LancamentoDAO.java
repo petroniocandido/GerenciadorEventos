@@ -19,6 +19,10 @@ public class LancamentoDAO
     extends DAOGenerico<Lancamento> 
     implements LancamentoRepositorio {
 
+    public LancamentoDAO(){
+        super(Lancamento.class);
+    }
+    
     @Override
     public List<Lancamento> Buscar(Lancamento filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

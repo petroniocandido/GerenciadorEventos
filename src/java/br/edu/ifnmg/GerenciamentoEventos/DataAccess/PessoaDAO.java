@@ -19,6 +19,10 @@ public class PessoaDAO
     extends DAOGenerico<Pessoa> 
     implements PessoaRepositorio {
 
+    public PessoaDAO(){
+        super(Pessoa.class);
+    }
+    
     @Override
     public List<Pessoa> Buscar(Pessoa filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

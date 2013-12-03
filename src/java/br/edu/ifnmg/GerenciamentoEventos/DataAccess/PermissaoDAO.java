@@ -19,6 +19,10 @@ public class PermissaoDAO
     extends DAOGenerico<Permissao> 
     implements PermissaoRepositorio {
 
+    public PermissaoDAO(){
+        super(Permissao.class);
+    }
+    
     @Override
     public List<Permissao> Buscar(Permissao filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

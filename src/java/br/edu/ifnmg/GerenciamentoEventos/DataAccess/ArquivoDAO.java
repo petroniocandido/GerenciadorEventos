@@ -18,6 +18,10 @@ import javax.ejb.Stateless;
 public class ArquivoDAO 
     extends DAOGenerico<Arquivo> 
     implements ArquivoRepositorio {
+    
+    public ArquivoDAO(){
+        super(Arquivo.class);
+    }
 
     @Override
     public List<Arquivo> Buscar(Arquivo filtro) {

@@ -19,6 +19,10 @@ public class LogDAO
     extends DAOGenerico<Log> 
     implements LogRepositorio {
 
+    public LogDAO(){
+        super(Log.class);
+    }
+    
     @Override
     public List<Log> Buscar(Log filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

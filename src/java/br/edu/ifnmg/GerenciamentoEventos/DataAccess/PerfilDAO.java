@@ -19,6 +19,10 @@ public class PerfilDAO
     extends DAOGenerico<Perfil> 
     implements PerfilRepositorio {
 
+    public PerfilDAO(){
+        super(Perfil.class);
+    }
+    
     @Override
     public List<Perfil> Buscar(Perfil filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

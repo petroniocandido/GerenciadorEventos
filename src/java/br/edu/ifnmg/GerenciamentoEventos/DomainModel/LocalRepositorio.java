@@ -12,7 +12,7 @@ import javax.ejb.Local;
  *
  * @author petronio
  */
-@Local
-public interface LocalRepositorio extends Repositorio<Local> {
+@javax.ejb.Local
+public interface LocalRepositorio extends Repositorio<br.edu.ifnmg.GerenciamentoEventos.DomainModel.Local> {
     
 }

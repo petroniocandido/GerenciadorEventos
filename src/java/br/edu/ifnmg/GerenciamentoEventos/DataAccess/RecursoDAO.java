@@ -19,6 +19,10 @@ public class RecursoDAO
     extends DAOGenerico<Recurso> 
     implements RecursoRepositorio {
 
+    public RecursoDAO(){
+        super(Recurso.class);
+    }
+    
     @Override
     public List<Recurso> Buscar(Recurso filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

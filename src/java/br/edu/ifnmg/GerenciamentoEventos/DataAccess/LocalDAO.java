@@ -15,10 +15,14 @@ import javax.ejb.Stateless;
  * @author petronio
  */
 @Stateless
-public class LocalxDAO 
+public class LocalDAO 
     extends DAOGenerico<Local> 
     implements LocalRepositorio {
 
+    public LocalDAO(){
+        super(Local.class);
+    }
+    
     @Override
     public List<Local> Buscar(Local filtro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -18,10 +18,17 @@ import javax.ejb.Stateless;
 public class EventoDAO 
     extends DAOGenerico<Evento> 
     implements EventoRepositorio {
+    
+    public EventoDAO(){
+        super(Evento.class);
+    }
 
     @Override
     public List<Evento> Buscar(Evento filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("nome", filtro.getNome())
+                .IgualA("inicio", filtro.getInicio())
+                .IgualA("termino", filtro.getTermino())
+                .Buscar();
     }
     
 }
