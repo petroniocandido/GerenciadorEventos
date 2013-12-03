@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Gerenciamento de Eventos - TADS IFNMG Januária</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Home" target="" />
+                <p:submenu label="Eventos">
+                    <p:menuitem value="Eventos" target="" />
+                    <p:menuitem value="Atividades" target="" />
+                    <p:menuitem value="Recursos" target="" />
+                    <p:menuitem value="Locais" target="" />
+                    <p:menuitem value="Financeiro" target="" />
+                </p:submenu>
+                
+                <p:menuitem value="Inscrições" target="" />
+                
+                <p:submenu label="Relatórios">
+                    <p:menuitem value="Atividades por Evento" target="" />
+                    <p:menuitem value="Inscritos por Atividade" target="" />
+                    <p:menuitem value="Recursos por Atividade" target="" />
+                </p:submenu>
+                
+                <p:submenu label="Segurança">
+                    <p:menuitem value="Usuários" target="" />
+                    <p:menuitem value="Perfis" target="" />
+                    <p:menuitem value="Permissões" target="" />
+                    <p:menuitem value="Logs" target="" />
+                </p:submenu>
+                
+                <p:menuitem value="Sair" target="" />
+            </p:menubar>
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+        </h:form>
+    </h:body>
+
+</html>

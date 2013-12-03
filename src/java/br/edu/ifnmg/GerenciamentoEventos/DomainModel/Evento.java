@@ -73,6 +73,22 @@ public class Evento extends Entidade implements Serializable {
     public void setTermino(Date termino) {
         this.termino = termino;
     }
+
+    public Date getInicioInscricao() {
+        return inicioInscricao;
+    }
+
+    public void setInicioInscricao(Date inicioInscricao) {
+        this.inicioInscricao = inicioInscricao;
+    }
+
+    public Date getTerminoInscricao() {
+        return terminoInscricao;
+    }
+
+    public void setTerminoInscricao(Date terminoInscricao) {
+        this.terminoInscricao = terminoInscricao;
+    }
     
     
 

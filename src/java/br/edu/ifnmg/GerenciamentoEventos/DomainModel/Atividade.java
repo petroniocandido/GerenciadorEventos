@@ -113,6 +113,216 @@ public class Atividade extends Entidade implements Serializable {
         this.id = id;
     }
 
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public AtividadeTipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(AtividadeTipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public boolean isPublica() {
+        return publica;
+    }
+
+    public void setPublica(boolean publica) {
+        this.publica = publica;
+    }
+
+    public boolean isNecessitaInscricao() {
+        return necessitaInscricao;
+    }
+
+    public void setNecessitaInscricao(boolean necessitaInscricao) {
+        this.necessitaInscricao = necessitaInscricao;
+    }
+
+    public boolean isInscricaoColetiva() {
+        return inscricaoColetiva;
+    }
+
+    public void setInscricaoColetiva(boolean inscricaoColetiva) {
+        this.inscricaoColetiva = inscricaoColetiva;
+    }
+
+    public BigDecimal getValorInscricao() {
+        return valorInscricao;
+    }
+
+    public void setValorInscricao(BigDecimal valorInscricao) {
+        this.valorInscricao = valorInscricao;
+    }
+
+    public Date getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
+    }
+
+    public Date getTermino() {
+        return termino;
+    }
+
+    public void setTermino(Date termino) {
+        this.termino = termino;
+    }
+
+    public Pessoa getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Pessoa responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public List<Arquivo> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
+    }
+
+    public Local getLocal() {
+        return local;
+    }
+
+    public void setLocal(Local local) {
+        this.local = local;
+    }
+
+    public int getNumeroVagas() {
+        return numeroVagas;
+    }
+
+    public void setNumeroVagas(int numeroVagas) {
+        this.numeroVagas = numeroVagas;
+    }
+
+    public String getAuxiliar1() {
+        return auxiliar1;
+    }
+
+    public void setAuxiliar1(String auxiliar1) {
+        this.auxiliar1 = auxiliar1;
+    }
+
+    public String getAuxiliar2() {
+        return auxiliar2;
+    }
+
+    public void setAuxiliar2(String auxiliar2) {
+        this.auxiliar2 = auxiliar2;
+    }
+
+    public String getAuxiliar3() {
+        return auxiliar3;
+    }
+
+    public void setAuxiliar3(String auxiliar3) {
+        this.auxiliar3 = auxiliar3;
+    }
+
+    public String getAuxiliar4() {
+        return auxiliar4;
+    }
+
+    public void setAuxiliar4(String auxiliar4) {
+        this.auxiliar4 = auxiliar4;
+    }
+
+    public List<Recurso> getRecursos() {
+        return recursos;
+    }
+
+    public void setRecursos(List<Recurso> recursos) {
+        this.recursos = recursos;
+    }
+
+    public BigDecimal getValorOrcado() {
+        return valorOrcado;
+    }
+
+    public void setValorOrcado(BigDecimal valorOrcado) {
+        this.valorOrcado = valorOrcado;
+    }
+
+    public BigDecimal getValorExecutado() {
+        return valorExecutado;
+    }
+
+    public void setValorExecutado(BigDecimal valorExecutado) {
+        this.valorExecutado = valorExecutado;
+    }
+
+    public Date getInicioInscricao() {
+        return inicioInscricao;
+    }
+
+    public void setInicioInscricao(Date inicioInscricao) {
+        this.inicioInscricao = inicioInscricao;
+    }
+
+    public Date getTerminoInscricao() {
+        return terminoInscricao;
+    }
+
+    public void setTerminoInscricao(Date terminoInscricao) {
+        this.terminoInscricao = terminoInscricao;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public List<Atividade> getPrecursores() {
+        return precursores;
+    }
+
+    public void setPrecursores(List<Atividade> precursores) {
+        this.precursores = precursores;
+    }
+
+    public List<Atividade> getDependentes() {
+        return dependentes;
+    }
+
+    public void setDependentes(List<Atividade> dependentes) {
+        this.dependentes = dependentes;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;

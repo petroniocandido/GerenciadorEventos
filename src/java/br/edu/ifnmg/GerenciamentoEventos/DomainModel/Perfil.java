@@ -29,6 +29,8 @@ public class Perfil extends Entidade implements Serializable {
     
     private String descricao;
     
+    private Permissao home;
+    
     @ManyToMany
     private List<Permissao> permissoes;
 
@@ -39,6 +41,8 @@ public class Perfil extends Entidade implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    
 
     @Override
     public int hashCode() {

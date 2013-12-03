@@ -68,6 +68,104 @@ public class Lancamento extends Entidade implements Serializable {
         this.id = id;
     }
 
+    public Date getCriacao() {
+        return criacao;
+    }
+
+    public void setCriacao(Date criacao) {
+        this.criacao = criacao;
+    }
+
+    public Date getBaixa() {
+        return baixa;
+    }
+
+    public void setBaixa(Date baixa) {
+        this.baixa = baixa;
+    }
+
+    public Pessoa getUsuarioCriacao() {
+        return usuarioCriacao;
+    }
+
+    public void setUsuarioCriacao(Pessoa usuarioCriacao) {
+        this.usuarioCriacao = usuarioCriacao;
+    }
+
+    public Pessoa getUsuarioBaixa() {
+        return usuarioBaixa;
+    }
+
+    public void setUsuarioBaixa(Pessoa usuarioBaixa) {
+        this.usuarioBaixa = usuarioBaixa;
+    }
+
+    public Pessoa getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Pessoa cliente) {
+        this.cliente = cliente;
+    }
+
+    public BigDecimal getValorOriginal() {
+        return valorOriginal;
+    }
+
+    public void setValorOriginal(BigDecimal valorOriginal) {
+        this.valorOriginal = valorOriginal;
+    }
+
+    public BigDecimal getValorDescontos() {
+        return valorDescontos;
+    }
+
+    public void setValorDescontos(BigDecimal valorDescontos) {
+        this.valorDescontos = valorDescontos;
+    }
+
+    public BigDecimal getValorAcrescimos() {
+        return valorAcrescimos;
+    }
+
+    public void setValorAcrescimos(BigDecimal valorAcrescimos) {
+        this.valorAcrescimos = valorAcrescimos;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public List<ItemFinanceiro> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemFinanceiro> itens) {
+        this.itens = itens;
+    }
+
+    public LancamentoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LancamentoStatus status) {
+        this.status = status;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;

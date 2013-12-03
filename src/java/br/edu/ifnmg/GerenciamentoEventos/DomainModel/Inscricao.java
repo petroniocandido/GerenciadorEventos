@@ -73,6 +73,120 @@ public class Inscricao extends Entidade implements Serializable {
         this.id = id;
     }
 
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    public Atividade getAtividade() {
+        return atividade;
+    }
+
+    public void setAtividade(Atividade atividade) {
+        this.atividade = atividade;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
+
+    public String getAuxiliar1() {
+        return auxiliar1;
+    }
+
+    public void setAuxiliar1(String auxiliar1) {
+        this.auxiliar1 = auxiliar1;
+    }
+
+    public String getAuxiliar2() {
+        return auxiliar2;
+    }
+
+    public void setAuxiliar2(String auxiliar2) {
+        this.auxiliar2 = auxiliar2;
+    }
+
+    public String getAuxiliar3() {
+        return auxiliar3;
+    }
+
+    public void setAuxiliar3(String auxiliar3) {
+        this.auxiliar3 = auxiliar3;
+    }
+
+    public String getAuxiliar4() {
+        return auxiliar4;
+    }
+
+    public void setAuxiliar4(String auxiliar4) {
+        this.auxiliar4 = auxiliar4;
+    }
+
+    public Date getDataInscricao() {
+        return dataInscricao;
+    }
+
+    public void setDataInscricao(Date dataInscricao) {
+        this.dataInscricao = dataInscricao;
+    }
+
+    public Date getDataPagamento() {
+        return dataPagamento;
+    }
+
+    public void setDataPagamento(Date dataPagamento) {
+        this.dataPagamento = dataPagamento;
+    }
+
+    public boolean isPago() {
+        return pago;
+    }
+
+    public void setPago(boolean pago) {
+        this.pago = pago;
+    }
+
+    public boolean isCompareceu() {
+        return compareceu;
+    }
+
+    public void setCompareceu(boolean compareceu) {
+        this.compareceu = compareceu;
+    }
+
+    public Lancamento getLancamento() {
+        return lancamento;
+    }
+
+    public void setLancamento(Lancamento lancamento) {
+        this.lancamento = lancamento;
+    }
+
+    public List<Arquivo> getArquivos() {
+        return arquivos;
+    }
+
+    public void setArquivos(List<Arquivo> arquivos) {
+        this.arquivos = arquivos;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;

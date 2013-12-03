@@ -53,6 +53,48 @@ public class Entidade implements Serializable {
         this.id = id;
     }
 
+    public Pessoa getCriador() {
+        return criador;
+    }
+
+    public void setCriador(Pessoa criador) {
+        this.criador = criador;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Pessoa getUltimoAlterador() {
+        return ultimoAlterador;
+    }
+
+    public void setUltimoAlterador(Pessoa ultimoAlterador) {
+        this.ultimoAlterador = ultimoAlterador;
+    }
+
+    public Date getDataUltimaAlteracao() {
+        return dataUltimaAlteracao;
+    }
+
+    public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
+        this.dataUltimaAlteracao = dataUltimaAlteracao;
+    }
+
+    public List<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(List<Log> logs) {
+        this.logs = logs;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;

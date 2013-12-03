@@ -45,6 +45,14 @@ public class Local extends Entidade implements Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public int getCapacidade() {
+        return capacidade;
+    }
+
+    public void setCapacidade(int capacidade) {
+        this.capacidade = capacidade;
+    }
     
     
 

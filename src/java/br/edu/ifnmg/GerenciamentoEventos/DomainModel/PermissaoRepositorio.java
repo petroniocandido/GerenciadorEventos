@@ -13,6 +13,6 @@ import javax.ejb.Local;
  * @author petronio
  */
 @Local
-public interface ArquivoRepositorio extends Repositorio<Arquivo> {
+public interface PermissaoRepositorio extends Repositorio<Permissao> {
     public Arquivo Abrir(String uri);
 }

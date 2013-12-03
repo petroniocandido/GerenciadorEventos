@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * @author petronio
  */
 @Entity
-@Table(name = "inscricoescoletivas")
+@Table(name = "inscricoesColetivas")
 public class InscricaoColetiva extends Inscricao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -37,6 +37,16 @@ public class InscricaoColetiva extends Inscricao implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public List<Pessoa> getPessoas() {
+        return pessoas;
+    }
+
+    public void setPessoas(List<Pessoa> pessoas) {
+        this.pessoas = pessoas;
+    }
+    
+    
 
     @Override
     public int hashCode() {
