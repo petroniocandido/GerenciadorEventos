@@ -25,19 +25,21 @@ public class PessoaDAO
     
     @Override
     public List<Pessoa> Buscar(Pessoa filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("id", filtro.getId())
+                .Like("nome", filtro.getNome())
+                .Like("cpf", filtro.getCpf())
+                .Like("email", filtro.getEmail())
+                .Buscar();
     }
 
     @Override
-    public Arquivo Abrir(String login) {
-       Pessoa tmp = new Pessoa();
-       tmp.setEmail(login);
-       return null;
+    public Pessoa Abrir(String login) {
+       return IgualA("login", login).Abrir();
     }
 
     @Override
-    public Arquivo AbrirPorCPF(String cpf) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Pessoa AbrirPorCPF(String cpf) {
+        return IgualA("cpf", cpf).Abrir();
     }
     
 }

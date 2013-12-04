@@ -14,6 +14,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface PessoaRepositorio extends Repositorio<Pessoa> {
-    public Arquivo Abrir(String login);
-    public Arquivo AbrirPorCPF(String cpf);
+    public Pessoa Abrir(String login);
+    public Pessoa AbrirPorCPF(String cpf);
 }

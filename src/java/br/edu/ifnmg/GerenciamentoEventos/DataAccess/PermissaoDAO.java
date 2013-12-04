@@ -29,8 +29,8 @@ public class PermissaoDAO
     }
 
     @Override
-    public Arquivo Abrir(String uri) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Permissao Abrir(String uri) {
+        return IgualA("uri", uri).Abrir();
     }
     
 }

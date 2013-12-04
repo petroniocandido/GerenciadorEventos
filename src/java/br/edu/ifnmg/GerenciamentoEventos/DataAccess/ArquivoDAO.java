@@ -25,12 +25,16 @@ public class ArquivoDAO
 
     @Override
     public List<Arquivo> Buscar(Arquivo filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("id", filtro.getId())
+                .Like("nome", filtro.getNome())
+                .IgualA("responsavel", filtro.getResponsavel())
+                .Like("uri", filtro.getUri())
+                .Buscar();
     }
 
     @Override
     public Arquivo Abrir(String uri) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("uri", uri).Abrir();
     }
     
 }

@@ -25,7 +25,15 @@ public class InscricaoDAO
     
     @Override
     public List<Inscricao> Buscar(Inscricao filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("id", filtro.getId())
+                .IgualA("pessoa", filtro.getPessoa())
+                .IgualA("atividade", filtro.getAtividade())
+                .Like("auxiliar1", filtro.getAuxiliar1())
+                .Like("auxiliar2", filtro.getAuxiliar2())
+                .Like("auxiliar3", filtro.getAuxiliar3())
+                .Like("auxiliar4", filtro.getAuxiliar4())
+                .Like("titulo", filtro.getTitulo())
+                .Buscar();
     }
     
 }

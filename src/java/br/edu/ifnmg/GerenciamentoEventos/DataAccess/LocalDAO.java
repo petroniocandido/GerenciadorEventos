@@ -25,7 +25,10 @@ public class LocalDAO
     
     @Override
     public List<Local> Buscar(Local filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("id", filtro.getId())
+                .Like("nome", filtro.getNome())
+                .IgualA("capacidade", filtro.getCapacidade())
+                .Buscar();
     }
     
 }

@@ -25,6 +25,16 @@ public class AtividadeDAO
 
     @Override
     public List<Atividade> Buscar(Atividade filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("id", filtro.getId())
+                .Like("nome", filtro.getNome())
+                .IgualA("responsavel", filtro.getResponsavel())
+                .IgualA("evento", filtro.getEvento())
+                .IgualA("inicio", filtro.getInicio())
+                .IgualA("local", filtro.getLocal())
+                .Like("descricao", filtro.getDescricao())
+                .IgualA("status", filtro.getStatus())
+                .IgualA("termino", filtro.getTermino())
+                .IgualA("tipo", filtro.getTipo())
+                .Buscar();
     }
 }

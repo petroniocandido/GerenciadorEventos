@@ -25,7 +25,11 @@ public class LogDAO
     
     @Override
     public List<Log> Buscar(Log filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       return IgualA("id", filtro.getId())
+                .IgualA("data", filtro.getData())
+                .IgualA("usuario", filtro.getUsuario())
+                .IgualA("permissao", filtro.getPermissao())               
+                .Buscar();
     }
     
 }

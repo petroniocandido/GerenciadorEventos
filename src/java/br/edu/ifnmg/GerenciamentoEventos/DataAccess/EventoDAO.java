@@ -25,7 +25,8 @@ public class EventoDAO
 
     @Override
     public List<Evento> Buscar(Evento filtro) {
-        return IgualA("nome", filtro.getNome())
+        return IgualA("id", filtro.getId())
+                .Like("nome", filtro.getNome())
                 .IgualA("inicio", filtro.getInicio())
                 .IgualA("termino", filtro.getTermino())
                 .Buscar();

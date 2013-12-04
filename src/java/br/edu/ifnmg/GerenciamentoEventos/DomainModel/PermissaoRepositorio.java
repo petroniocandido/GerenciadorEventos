@@ -14,5 +14,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface PermissaoRepositorio extends Repositorio<Permissao> {
-    public Arquivo Abrir(String uri);
+    public Permissao Abrir(String uri);
 }

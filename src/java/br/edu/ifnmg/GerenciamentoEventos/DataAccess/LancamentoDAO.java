@@ -25,7 +25,12 @@ public class LancamentoDAO
     
     @Override
     public List<Lancamento> Buscar(Lancamento filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("id", filtro.getId())
+                .Like("descricao", filtro.getDescricao())
+                .IgualA("cliente", filtro.getCliente())
+                .IgualA("usuarioBaixa", filtro.getUsuarioBaixa())
+                .IgualA("baixa", filtro.getBaixa())
+                .Buscar();
     }
     
 }
