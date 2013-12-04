@@ -7,12 +7,13 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <h:outputStylesheet name="./css/default.css"/>
-        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="../resources/css/default.css"/>
+        <h:outputStylesheet name="../resources/css/cssLayout.css"/>
         <title>Gerenciamento de Eventos - TADS IFNMG Januária</title>
     </h:head>
 
     <h:body>
+       
         <h:form>
             <p:menubar>
                 <p:menuitem value="Home" target="" />
@@ -33,7 +34,7 @@
                 </p:submenu>
                 
                 <p:submenu label="Segurança">
-                    <p:menuitem value="Usuários" target="" />
+                    <p:menuitem value="Usuários" target="listagemUsuarios.xhtml" />
                     <p:menuitem value="Perfis" target="" />
                     <p:menuitem value="Permissões" target="" />
                     <p:menuitem value="Logs" target="" />
@@ -41,9 +42,8 @@
                 
                 <p:menuitem value="Sair" target="" />
             </p:menubar>
-        <div id="content" class="center_content">
+        
             <ui:insert name="content">Content</ui:insert>
-        </div>
         </h:form>
     </h:body>
 

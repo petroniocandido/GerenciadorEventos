@@ -7,31 +7,48 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
  * @author petronio
  */
 @Entity
-@Table(name = "pessoas")
+@Table(name = "pessoas", indexes = {@Index(columnList = "cpf"), @Index(columnList = "email")})
 public class Pessoa extends Entidade implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Column(nullable = false, length = 300)
     private String nome;
     
+    @Column(nullable = false, unique = true, length = 11)
     private String cpf;
     
+    @Column(nullable = false, unique = true, length = 300)
     private String email;
     
+    @Column(nullable = false)
     private String senha;
+    
+    @Temporal(TemporalType.DATE)
+    private Date dataNascimento;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Perfil perfil;
 
     public Long getId() {
         return id;
@@ -71,6 +88,14 @@ public class Pessoa extends Entidade implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
     
     

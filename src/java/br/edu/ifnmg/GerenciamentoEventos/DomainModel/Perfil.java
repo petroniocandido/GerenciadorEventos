@@ -8,31 +8,40 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author petronio
  */
 @Entity
+@Table(name="perfis", indexes = {@Index(columnList = "padrao")})
 public class Perfil extends Entidade implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Column(nullable = false)
     private String nome;
     
     private String descricao;
     
+    @ManyToOne
     private Permissao home;
     
     @ManyToMany
     private List<Permissao> permissoes;
+    
+    private boolean padrao;
 
     public Long getId() {
         return id;
@@ -40,6 +49,46 @@ public class Perfil extends Entidade implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Permissao getHome() {
+        return home;
+    }
+
+    public void setHome(Permissao home) {
+        this.home = home;
+    }
+
+    public List<Permissao> getPermissoes() {
+        return permissoes;
+    }
+
+    public void setPermissoes(List<Permissao> permissoes) {
+        this.permissoes = permissoes;
+    }
+
+    public boolean isPadrao() {
+        return padrao;
+    }
+
+    public void setPadrao(boolean padrao) {
+        this.padrao = padrao;
     }
     
     

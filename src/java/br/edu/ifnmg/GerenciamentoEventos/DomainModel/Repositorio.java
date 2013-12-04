@@ -18,4 +18,5 @@ public interface Repositorio<T> {
     public boolean Apagar(T obj);
     public T Abrir(Long id);
     public List<T> Buscar(T filtro);
+    public Exception getErro();
 }

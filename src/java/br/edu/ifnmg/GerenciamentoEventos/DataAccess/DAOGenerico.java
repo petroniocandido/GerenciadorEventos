@@ -316,7 +316,8 @@ public abstract class DAOGenerico<T> implements Repositorio<T> {
         this.erro = erro;
     }
 
-    public Exception getError() {
+    @Override
+    public Exception getErro() {
         return erro;
     }
 

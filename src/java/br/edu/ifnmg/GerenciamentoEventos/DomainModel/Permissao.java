@@ -7,16 +7,20 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 /**
  *
  * @author petronio
  */
 @Entity
+@Table(name="permissoes", indexes = {@Index(columnList = "uri", unique = true)})
 public class Permissao extends Entidade implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -25,6 +29,7 @@ public class Permissao extends Entidade implements Serializable {
     
     private String nome;
     
+    @Column(nullable = false, unique = true)
     private String uri;
 
     public Long getId() {
@@ -34,6 +39,24 @@ public class Permissao extends Entidade implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+    
+    
 
     @Override
     public int hashCode() {
@@ -57,7 +80,7 @@ public class Permissao extends Entidade implements Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao[ id=" + id + " ]";
+        return uri;
     }
     
 }
