@@ -71,7 +71,9 @@ public class Pessoa extends Entidade implements Serializable {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        if(cpf != null){
+            this.cpf = cpf.replace(".", "").replace("-", "");
+        }
     }
 
     public String getEmail() {
