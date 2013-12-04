@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
@@ -19,34 +18,38 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 /**
  *
  * @author petronio
  */
 @Entity
-@Table(name = "pessoas", indexes = {@Index(columnList = "cpf"), @Index(columnList = "email")})
+@Table(name = "pessoas", indexes = {
+    @Index(columnList = "cpf"),
+    @Index(columnList = "email")})
 public class Pessoa extends Entidade implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @Column(nullable = false, length = 300)
     private String nome;
-    
+
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
-    
+
     @Column(nullable = false, unique = true, length = 300)
     private String email;
-    
+
     @Column(nullable = false)
     private String senha;
-    
+
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
-    
+
     @ManyToOne(fetch = FetchType.EAGER)
     private Perfil perfil;
 
@@ -66,13 +69,22 @@ public class Pessoa extends Entidade implements Serializable {
         this.nome = nome;
     }
 
+    @Transient
+    private String cpfFormatado;
+
     public String getCpf() {
-        return cpf;
+        if (cpfFormatado == null) {
+            if (cpf != null && cpf.length() == 11) {
+                cpfFormatado = cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
+            }
+        }
+        return cpfFormatado;
     }
 
     public void setCpf(String cpf) {
-        if(cpf != null){
+        if (cpf != null) {
             this.cpf = cpf.replace(".", "").replace("-", "");
+            cpfFormatado = null;
         }
     }
 
@@ -99,9 +111,15 @@ public class Pessoa extends Entidade implements Serializable {
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
-    
-    
 
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -126,5 +144,5 @@ public class Pessoa extends Entidade implements Serializable {
     public String toString() {
         return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa[ id=" + id + " ]";
     }
-    
+
 }
