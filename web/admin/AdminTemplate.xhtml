@@ -14,7 +14,8 @@
 
     <h:body>
        
-        <h:form>
+        <h:form >
+            
             <p:menubar>
                 <p:menuitem value="Home" target="" />
                 <p:submenu label="Eventos">
@@ -42,7 +43,7 @@
                 
                 <p:menuitem value="Sair" target="" />
             </p:menubar>
-        
+            <p:growl id="msgGlobal" showDetail="true" sticky="true"  life="60" />
             <ui:insert name="content">Content</ui:insert>
         </h:form>
     </h:body>

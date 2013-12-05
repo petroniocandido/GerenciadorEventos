@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -35,15 +37,26 @@ public class Pessoa extends Entidade implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @Size(min = 3, max = 300)
     @Column(nullable = false, length = 300)
     private String nome;
 
+    @NotNull
+    @Size(min = 11, max = 11)
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
+    @NotNull
+    @Size(min = 5, max = 300)
     @Column(nullable = false, unique = true, length = 300)
     private String email;
 
+    @Size(min = 11, max = 11)
+    @Column(length = 11)
+    private String telefone;
+
+    @NotNull
     @Column(nullable = false)
     private String senha;
 
@@ -88,6 +101,24 @@ public class Pessoa extends Entidade implements Serializable {
         }
     }
 
+    @Transient
+    private String telefoneFormatado;
+
+    public String getTelefone() {
+        if (telefoneFormatado == null) {
+            if (telefone != null && telefone.length() == 10) {
+                telefoneFormatado = "(" + telefone.substring(0, 2) + ") " + telefone.substring(3, 4) + "-" + telefone.substring(6, 4);
+            }
+        }
+        return telefoneFormatado;
+    }
+
+    public void setTelefone(String telefone) {
+        if (telefone != null) {
+            this.telefone = telefone.replace(" ", "").replace("(", "").replace(")", "").replace("-", "");
+        }
+    }
+
     public String getEmail() {
         return email;
     }
@@ -119,7 +150,7 @@ public class Pessoa extends Entidade implements Serializable {
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
