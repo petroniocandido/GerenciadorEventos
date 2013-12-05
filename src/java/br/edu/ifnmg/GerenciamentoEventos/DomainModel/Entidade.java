@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Version;
 
 /**
  *
@@ -46,6 +47,8 @@ public class Entidade implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimaAlteracao;
     
+    @Version
+    private Long versao;
     
     @OneToMany
     private List<Log> logs;
@@ -96,6 +99,14 @@ public class Entidade implements Serializable {
 
     public void setLogs(List<Log> logs) {
         this.logs = logs;
+    }
+
+    public Long getVersao() {
+        return versao;
+    }
+
+    public void setVersao(Long versao) {
+        this.versao = versao;
     }
     
     

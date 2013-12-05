@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,6 +39,11 @@ public class Log implements Serializable {
     
     @ManyToOne
     private Permissao permissao;
+    
+    @Column(length = 1000)
+    private String descricao;
+    
+    private String maquina;
 
     public Long getId() {
         return id;
@@ -77,6 +83,22 @@ public class Log implements Serializable {
 
     public void setPermissao(Permissao permissao) {
         this.permissao = permissao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getMaquina() {
+        return maquina;
+    }
+
+    public void setMaquina(String maquina) {
+        this.maquina = maquina;
     }
     
     

@@ -43,7 +43,6 @@ public class Pessoa extends Entidade implements Serializable {
     private String nome;
 
     @NotNull
-    @Size(min = 11, max = 11)
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
@@ -52,7 +51,6 @@ public class Pessoa extends Entidade implements Serializable {
     @Column(nullable = false, unique = true, length = 300)
     private String email;
 
-    @Size(min = 11, max = 11)
     @Column(length = 11)
     private String telefone;
 
