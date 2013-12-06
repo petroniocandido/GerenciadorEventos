@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
+package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import java.util.List;
 

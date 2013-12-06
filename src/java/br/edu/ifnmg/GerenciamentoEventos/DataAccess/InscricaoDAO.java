@@ -6,6 +6,7 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.ejb.Stateless;

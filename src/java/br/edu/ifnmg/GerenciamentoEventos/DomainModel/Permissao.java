@@ -32,6 +32,16 @@ public class Permissao extends Entidade implements Serializable {
     @Column(nullable = false, unique = true)
     private String uri;
 
+    public Permissao(String nome, String uri) {
+        this.nome = nome;
+        this.uri = uri;
+    }
+
+    public Permissao() {
+    }
+    
+    
+    
     public Long getId() {
         return id;
     }

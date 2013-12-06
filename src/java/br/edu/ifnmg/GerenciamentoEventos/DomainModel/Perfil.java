@@ -43,6 +43,18 @@ public class Perfil extends Entidade implements Serializable {
     
     private boolean padrao;
 
+    public Perfil(String nome, String descricao, Permissao home, boolean padrao) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.home = home;
+        this.padrao = padrao;
+    }
+
+    public Perfil() {
+    }
+    
+    
+
     public Long getId() {
         return id;
     }
@@ -81,6 +93,16 @@ public class Perfil extends Entidade implements Serializable {
 
     public void setPermissoes(List<Permissao> permissoes) {
         this.permissoes = permissoes;
+    }
+    
+    public void add(Permissao p){
+        if(!permissoes.contains(p))
+            permissoes.add(p);
+    }
+    
+    public void remove(Permissao p){
+        if(permissoes.contains(p))
+            permissoes.remove(p);
     }
 
     public boolean isPadrao() {

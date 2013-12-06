@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
+package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import javax.ejb.Local;
 
@@ -12,7 +12,7 @@ import javax.ejb.Local;
  *
  * @author petronio
  */
-@Local
-public interface LogRepositorio extends Repositorio<Log> {
+@javax.ejb.Local
+public interface LocalRepositorio extends Repositorio<br.edu.ifnmg.GerenciamentoEventos.DomainModel.Local> {
     
 }

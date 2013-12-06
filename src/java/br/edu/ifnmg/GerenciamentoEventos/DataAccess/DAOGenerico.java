@@ -5,7 +5,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Repositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;

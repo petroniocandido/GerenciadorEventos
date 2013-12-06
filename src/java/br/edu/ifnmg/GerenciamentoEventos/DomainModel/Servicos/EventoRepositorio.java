@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
+package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import javax.ejb.Local;
 
 /**
@@ -13,6 +14,6 @@ import javax.ejb.Local;
  * @author petronio
  */
 @Local
-public interface RecursoRepositorio extends Repositorio<Recurso> {
+public interface EventoRepositorio extends Repositorio<Evento> {
     
 }
