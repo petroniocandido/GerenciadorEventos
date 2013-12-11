@@ -8,7 +8,9 @@ package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.HashMap;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -19,7 +21,7 @@ import javax.persistence.Query;
  */
 public abstract class DAOGenerico<T> implements Repositorio<T> {
 
-    @PersistenceContext(name = "")
+    @PersistenceContext(name = "GerenciamentoEventosPU")
     private EntityManager manager;
     
     private Class tipo;
@@ -42,6 +44,12 @@ public abstract class DAOGenerico<T> implements Repositorio<T> {
      * @author petronio
      * @return 
      */
+     
+     @PostConstruct
+     public void configure() {
+         manager.setFlushMode(FlushModeType.COMMIT);
+     }
+     
     protected DAOGenerico<T> IgualA(String campo, Object valor) {
         addOp(campo,"=",valor);
         return this;
@@ -274,8 +282,13 @@ public abstract class DAOGenerico<T> implements Repositorio<T> {
     @Override
     public boolean Salvar(T obj) {
         try {
-            manager.merge(obj);
-            manager.flush();
+            
+            if(manager.contains(obj))
+               obj =manager.merge(obj);
+            else
+               manager.persist(obj);
+            
+            manager.flush(); 
             
             return true;
         } catch (Exception ex) {

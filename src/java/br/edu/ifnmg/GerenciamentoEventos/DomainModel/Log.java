@@ -33,10 +33,7 @@ public class Log implements Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date data;
-    
-    @ManyToOne
-    private Entidade entidade;
-    
+        
     @ManyToOne
     private Permissao permissao;
     
@@ -67,14 +64,6 @@ public class Log implements Serializable {
 
     public void setData(Date data) {
         this.data = data;
-    }
-
-    public Entidade getEntidade() {
-        return entidade;
-    }
-
-    public void setEntidade(Entidade entidade) {
-        this.entidade = entidade;
     }
 
     public Permissao getPermissao() {
