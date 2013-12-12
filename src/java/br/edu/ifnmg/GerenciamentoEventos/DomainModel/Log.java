@@ -22,7 +22,7 @@ import javax.persistence.TemporalType;
  * @author petronio
  */
 @Entity
-public class Log implements Serializable {
+public class Log implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +32,7 @@ public class Log implements Serializable {
     private Pessoa usuario;
     
     @Temporal(TemporalType.TIMESTAMP)
-    private Date data;
+    private Date dataEvento;
         
     @ManyToOne
     private Permissao permissao;
@@ -42,10 +42,12 @@ public class Log implements Serializable {
     
     private String maquina;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -59,11 +61,11 @@ public class Log implements Serializable {
     }
 
     public Date getData() {
-        return data;
+        return dataEvento;
     }
 
     public void setData(Date data) {
-        this.data = data;
+        this.dataEvento = data;
     }
 
     public Permissao getPermissao() {
@@ -115,6 +117,51 @@ public class Log implements Serializable {
     @Override
     public String toString() {
         return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log[ id=" + id + " ]";
+    }
+
+    @Override
+    public Pessoa getCriador() {
+       return null;
+    }
+
+    @Override
+    public void setCriador(Pessoa obj) {
+        
+    }
+
+    @Override
+    public Date getDataCriacao() {
+        return dataEvento;
+    }
+
+    @Override
+    public void setDataCriacao(Date obj) {
+        this.dataEvento = obj;
+    }
+
+    @Override
+    public Pessoa getUltimoAlterador() {
+        return null;
+    }
+
+    @Override
+    public void setUltimoAlterador(Pessoa obj) {
+        
+    }
+
+    @Override
+    public Date getDataUltimaAlteracao() {
+        return dataEvento;
+    }
+
+    @Override
+    public void setDataUltimaAlteracao(Date obj) {
+        
+    }
+
+    @Override
+    public Long getVersao() {
+        return 1L;
     }
     
 }

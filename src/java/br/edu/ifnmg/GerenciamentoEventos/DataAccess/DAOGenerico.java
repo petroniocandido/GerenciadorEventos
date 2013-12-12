@@ -5,6 +5,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ import javax.persistence.Query;
  * @author petronio
  * @param <T>
  */
-public abstract class DAOGenerico<T> implements Repositorio<T> {
+public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
     @PersistenceContext(name = "GerenciamentoEventosPU")
     private EntityManager manager;
@@ -283,7 +284,7 @@ public abstract class DAOGenerico<T> implements Repositorio<T> {
     public boolean Salvar(T obj) {
         try {
             
-            if(manager.contains(obj))
+            if(obj.getId() != null && obj.getId() > 0)
                obj =manager.merge(obj);
             else
                manager.persist(obj);

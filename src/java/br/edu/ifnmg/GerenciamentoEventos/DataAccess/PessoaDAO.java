@@ -35,7 +35,7 @@ public class PessoaDAO
 
     @Override
     public Pessoa Abrir(String login) {
-       return IgualA("login", login).Abrir();
+       return IgualA("email", login).Abrir();
     }
 
     @Override

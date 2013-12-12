@@ -45,10 +45,10 @@ public class Perfil implements Entidade, Serializable {
     
     private String descricao;
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Permissao home;
     
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, targetEntity = Permissao.class)
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, targetEntity = Permissao.class)
     private List<Permissao> permissoes;
     
     private boolean padrao;
