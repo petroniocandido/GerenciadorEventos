@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -32,7 +33,7 @@ import javax.persistence.Version;
  */
 @Cacheable
 @Entity
-@Table(name="perfis", indexes = {@Index(columnList = "padrao")})
+@Table(name="perfis")
 public class Perfil implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
    
@@ -40,15 +41,15 @@ public class Perfil implements Entidade, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
     
     private String descricao;
     
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Permissao.class)
     private Permissao home;
     
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, targetEntity = Permissao.class)
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Permissao.class)
     private List<Permissao> permissoes;
     
     private boolean padrao;
@@ -66,10 +67,12 @@ public class Perfil implements Entidade, Serializable {
     }
  
     
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -127,24 +130,28 @@ public class Perfil implements Entidade, Serializable {
     public void setPadrao(boolean padrao) {
         this.padrao = padrao;
     }
-    
-    
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.id);
+        hash = 73 * hash + Objects.hashCode(this.nome);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Perfil)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Perfil other = (Perfil) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Perfil other = (Perfil) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.nome, other.nome)) {
             return false;
         }
         return true;
@@ -152,16 +159,18 @@ public class Perfil implements Entidade, Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil[ id=" + id + " ]";
+        return nome;
     }
     
-        @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -171,38 +180,47 @@ public class Perfil implements Entidade, Serializable {
     private Long versao;
     
 
+    @Override
     public Pessoa getCriador() {
         return criador;
     }
 
+    @Override
     public void setCriador(Pessoa criador) {
         this.criador = criador;
     }
 
+    @Override
     public Date getDataCriacao() {
         return dataCriacao;
     }
 
+    @Override
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
+    @Override
     public Pessoa getUltimoAlterador() {
         return ultimoAlterador;
     }
 
+    @Override
     public void setUltimoAlterador(Pessoa ultimoAlterador) {
         this.ultimoAlterador = ultimoAlterador;
     }
 
+    @Override
     public Date getDataUltimaAlteracao() {
         return dataUltimaAlteracao;
     }
 
+    @Override
     public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
         this.dataUltimaAlteracao = dataUltimaAlteracao;
     }
 
+    @Override
     public Long getVersao() {
         return versao;
     }

@@ -15,5 +15,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface PerfilRepositorio extends Repositorio<Perfil> {
-    
+    public Perfil Abrir(String nome);
+    public Perfil getPadrao();
+
+    @Override
+    public boolean Salvar(Perfil obj);
 }

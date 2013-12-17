@@ -80,7 +80,6 @@ public class Permissao implements Entidade, Serializable {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 79 * hash + Objects.hashCode(this.id);
         hash = 79 * hash + Objects.hashCode(this.uri);
         return hash;
     }
@@ -94,9 +93,7 @@ public class Permissao implements Entidade, Serializable {
             return false;
         }
         final Permissao other = (Permissao) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
+
         if (!Objects.equals(this.uri, other.uri)) {
             return false;
         }

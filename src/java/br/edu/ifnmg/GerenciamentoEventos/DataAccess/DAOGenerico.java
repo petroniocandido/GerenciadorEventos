@@ -112,18 +112,14 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
         return this;
     }
 
-    protected DAOGenerico<T> Setar(String campo, String valor) {
+    protected DAOGenerico<T> Setar(String campo, Object valor) {
         int key = params.size();
 
         if(update.length() > 0) {
             update.append(", ");
         }
 
-        if(!campo.contains(".")) {
-            where.append("o.");
-        }
-
-        update.append(campo).append(" = ").append(" :p").append(Integer.toString(key));
+        update.append("o.").append(campo).append(" = ").append(" :p").append(Integer.toString(key));
         params.put(key, valor);
         
         
@@ -132,7 +128,7 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
 
     protected boolean Atualiza() {
         try {
-            StringBuilder sql = new StringBuilder("update ").append(tipo.getSimpleName()).append(" set ").append(update.toString());
+            StringBuilder sql = new StringBuilder("update ").append(tipo.getSimpleName()).append(" o set ").append(update.toString());
 
             if(where.length() > 0) {
                 sql.append(" where ").append(where.toString());
@@ -157,6 +153,7 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
             params.clear();
             where = new StringBuilder();
             order = new StringBuilder();
+            update = new StringBuilder();
         }
     }
 

@@ -8,11 +8,11 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,11 +37,15 @@ public class Log implements Entidade, Serializable {
     @ManyToOne
     private Permissao permissao;
     
-    @Column(length = 1000)
+    @Lob
     private String descricao;
     
     private String maquina;
 
+    public Log() {
+        this.dataEvento = new Date();
+    }
+    
     @Override
     public Long getId() {
         return id;
