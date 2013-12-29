@@ -92,7 +92,7 @@ public class Pessoa implements Entidade, Serializable {
     public String getCpf() {
         if (cpfFormatado == null) {
             if (cpf != null && cpf.length() == 11) {
-                cpfFormatado = cpf.substring(1, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
+                cpfFormatado = cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
             }
         }
         return cpfFormatado;
@@ -111,7 +111,7 @@ public class Pessoa implements Entidade, Serializable {
     public String getTelefone() {
         if (telefoneFormatado == null) {
             if (telefone != null && telefone.length() == 10) {
-                telefoneFormatado = "(" + telefone.substring(1, 2) + ") " + telefone.substring(3, 4) + "-" + telefone.substring(6, 4);
+                telefoneFormatado = "(" + telefone.substring(0, 2) + ") " + telefone.substring(3, 6) + "-" + telefone.substring(6, 10);
             }
         }
         return telefoneFormatado;
