@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+   
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html;" />
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
+        <title>Gerenciamento de Eventos - TADS IFNMG Januaria</title>
+    </h:head>
+
+    <h:body>
+        <div style="float: top">
+            <img  src="./resources/imagens/logo-ifnmg.png" width="200" height="80" />
+            <h1 >Gerenciamento de Eventos - TADS IFNMG Januaria</h1>
+        </div>
+        <h:form >
+            <p:growl showDetail="true" sticky="true"  life="60" />
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+            <div id="bottom" style="float: bottom">
+                Copyright 2013 - Gerenciamento de Eventos - TADS IFNMG Januaria
+            </div>
+        </h:form>
+    </h:body>
+
+</html>

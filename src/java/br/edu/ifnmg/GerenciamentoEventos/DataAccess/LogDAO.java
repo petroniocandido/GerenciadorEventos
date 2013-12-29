@@ -26,8 +26,7 @@ public class LogDAO
     
     @Override
     public List<Log> Buscar(Log filtro) {
-       return IgualA("id", filtro.getId())
-                .IgualA("data", filtro.getData())
+       return MaiorOuIgualA("dataEvento", filtro.getDataEvento())
                 .IgualA("usuario", filtro.getUsuario())
                 .IgualA("permissao", filtro.getPermissao())               
                 .Buscar();

@@ -64,11 +64,11 @@ public class Log implements Entidade, Serializable {
         this.usuario = usuario;
     }
 
-    public Date getData() {
+    public Date getDataEvento() {
         return dataEvento;
     }
 
-    public void setData(Date data) {
+    public void setDataEvento(Date data) {
         this.dataEvento = data;
     }
 

@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <f:facet name="footer">
+        <p:commandButton id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
+        <p:commandButton rendered="#{controller.id > 0}" id="btnApagar" value="Apagar" icon="ui-icon-close" onclick="msgApagar.show();"  />
+        <p:commandButton ajax="false" id="btnCancelar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{controller.cancelar()}" />
+        <p:commandButton ajax="false" id="btnNovo" value="Novo"  immediate="true"   action="#{controller.novo()}" />
+    </f:facet>
+    <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
+                     header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+        <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{controller.salvar()}" />  
+        <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
+    </p:confirmDialog>  
+
+    <p:confirmDialog id="confirmaApagar" message="Deseja realmente apagar os dados?"  
+                     header="Confirmação" severity="alert" widgetVar="msgApagar">  
+        <p:commandButton ajax="false" id="simApagar" value="SIM" action="#{controller.apagar()}" />  
+        <p:commandButton id="naoApagar" value="NÃO" onclick="msgApagar.hide();" type="button" />   
+    </p:confirmDialog>
+</ui:composition>
+

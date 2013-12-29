@@ -14,36 +14,35 @@
 
     <h:body>
        
-        <h:form >
-            
+        <h:form >            
             <p:menubar>
-                <p:menuitem value="Home" url="index.xhtml" />
+                <p:menuitem value="Home"  url="index.xhtml" />
                 <p:submenu label="Eventos">
-                    <p:menuitem value="Eventos" url="" />
-                    <p:menuitem value="Atividades" url="" />
-                    <p:menuitem value="Recursos" url="" />
-                    <p:menuitem value="Locais" url="" />
-                    <p:menuitem value="Financeiro" url="" />
+                    <p:menuitem value="Eventos"  />
+                    <p:menuitem value="Atividades"  />
+                    <p:menuitem value="Recursos"  />
+                    <p:menuitem value="Locais"  />
+                    <p:menuitem value="Financeiro"  />
                 </p:submenu>
                 
-                <p:menuitem value="Inscrições" url="" />
+                <p:menuitem value="Inscrições"  />
                 
                 <p:submenu label="Relatórios">
-                    <p:menuitem value="Atividades por Evento" url="" />
-                    <p:menuitem value="Inscritos por Atividade" url="" />
-                    <p:menuitem value="Recursos por Atividade" url="" />
+                    <p:menuitem value="Atividades por Evento"  />
+                    <p:menuitem value="Inscritos por Atividade"  />
+                    <p:menuitem value="Recursos por Atividade"  />
                 </p:submenu>
                 
                 <p:submenu label="Segurança">
                     <p:menuitem value="Usuários" url="listagemUsuarios.xhtml" />
-                    <p:menuitem value="Perfis" url="" />
-                    <p:menuitem value="Permissões" url="" />
-                    <p:menuitem value="Logs" url="" />
+                    <p:menuitem value="Perfis" url="listagemPerfis.xhtml" />
+                    <p:menuitem value="Permissões"  url="listagemPermissoes.xhtml"   />
+                    <p:menuitem value="Logs" url="listagemLogs.xhtml"  />
                 </p:submenu>
                 
-                <p:menuitem value="Sair" url="" />
+                <p:menuitem value="Sair"  />
             </p:menubar>
-            <p:growl id="msgGlobal" showDetail="true" sticky="true"  life="60" />
+            <p:growl showDetail="true" sticky="true"  life="60" />
             <ui:insert name="content">Content</ui:insert>
         </h:form>
     </h:body>
