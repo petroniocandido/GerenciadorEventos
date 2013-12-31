@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Editar dados gerais do evento
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Nome: " />
+                                <p:inputText value="#{eventoController.entidade.nome}" 
+                                             required="true" requiredMessage="O campo nome é obrigatório" />
+                                <h:outputText value="Descrição: " />
+                                <p:editor id="editor" value="#{eventoController.entidade.descricao}" width="200"/> 
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab id="tabDetalhes" title="Detalhes">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Início: " />
+                                <p:calendar value="#{eventoController.entidade.inicio}"  pattern="MM/dd/yyyy HH:mm"  />
+                                <h:outputText value="Término: " />
+                                <p:calendar value="#{eventoController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" />
+                                <h:outputText value="Local: " />
+                                
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab id="tabInscricoes" title="Inscrições">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Necessita inscrição?: " />
+                                <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
+                                <h:outputText value="Valor Inscrição: " />
+                                <h:inputText style="text-align: right" value="#{eventoController.entidade.valorInscricao}" >
+                                    <f:convertNumber currencyCode="BRL" minFractionDigits="2" />
+                                </h:inputText>
+                                <h:outputText value="Início Inscrições: " />
+                                <p:calendar value="#{eventoController.entidade.inicioInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
+                                <h:outputText value="Término Inscrições: " />
+                                <p:calendar value="#{eventoController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm" />
+                            </h:panelGrid> 
+                        </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{eventoController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{eventoController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

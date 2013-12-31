@@ -28,12 +28,7 @@ public class InscricaoDAO
     public List<Inscricao> Buscar(Inscricao filtro) {
         return IgualA("id", filtro.getId())
                 .IgualA("pessoa", filtro.getPessoa())
-                .IgualA("atividade", filtro.getAtividade())
-                .Like("auxiliar1", filtro.getAuxiliar1())
-                .Like("auxiliar2", filtro.getAuxiliar2())
-                .Like("auxiliar3", filtro.getAuxiliar3())
-                .Like("auxiliar4", filtro.getAuxiliar4())
-                .Like("titulo", filtro.getTitulo())
+                .IgualA("evento", filtro.getEvento())
                 .Buscar();
     }
     

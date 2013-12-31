@@ -46,6 +46,9 @@ public class Configuracao implements Entidade, Serializable {
         this.id = id;
     }
     
+    @ManyToOne
+    private Pessoa usuario;
+    
     @Column(unique = true, nullable = false)
     private String chave;
     
@@ -77,9 +80,15 @@ public class Configuracao implements Entidade, Serializable {
     public void setValor(String valor) {
         this.valor = valor;
     }
-    
-    
 
+    public Pessoa getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Pessoa usuario) {
+        this.usuario = usuario;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

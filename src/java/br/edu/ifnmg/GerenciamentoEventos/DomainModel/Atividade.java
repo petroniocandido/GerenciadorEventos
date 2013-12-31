@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -23,6 +24,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -44,9 +46,10 @@ public class Atividade implements Entidade, Serializable {
     @ManyToOne
     private Evento evento;
     
-    @ManyToOne
+    @ManyToOne()
     private AtividadeTipo tipo;
 
+    @Column(nullable = false)
     private String nome;
     
     private String descricao;
@@ -68,7 +71,7 @@ public class Atividade implements Entidade, Serializable {
     @ManyToOne
     private Pessoa responsavel;
     
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Arquivo> arquivos;
     
     @ManyToOne
@@ -83,12 +86,6 @@ public class Atividade implements Entidade, Serializable {
     private String auxiliar3;
     
     private String auxiliar4;
-    
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "recursosalocacao", 
-            joinColumns = {@JoinColumn(name = "AtividadeID")}, 
-            inverseJoinColumns = {@JoinColumn(name = "RecursoID")})
-    private List<Recurso> recursos;
     
     private BigDecimal valorOrcado;
     
@@ -109,10 +106,15 @@ public class Atividade implements Entidade, Serializable {
     @ManyToMany
     private List<Atividade> dependentes;
     
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "atividade")
+    private List<Alocacao> recursos;
+    
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -261,13 +263,15 @@ public class Atividade implements Entidade, Serializable {
         this.auxiliar4 = auxiliar4;
     }
 
-    public List<Recurso> getRecursos() {
+    public List<Alocacao> getRecursos() {
         return recursos;
     }
 
-    public void setRecursos(List<Recurso> recursos) {
+    public void setRecursos(List<Alocacao> recursos) {
         this.recursos = recursos;
     }
+
+    
 
     public BigDecimal getValorOrcado() {
         return valorOrcado;
@@ -352,7 +356,7 @@ public class Atividade implements Entidade, Serializable {
         return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade[ id=" + id + " ]";
     }
     
-        @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Pessoa criador;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -368,38 +372,47 @@ public class Atividade implements Entidade, Serializable {
     private Long versao;
     
 
+    @Override
     public Pessoa getCriador() {
         return criador;
     }
 
+    @Override
     public void setCriador(Pessoa criador) {
         this.criador = criador;
     }
 
+    @Override
     public Date getDataCriacao() {
         return dataCriacao;
     }
 
+    @Override
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
+    @Override
     public Pessoa getUltimoAlterador() {
         return ultimoAlterador;
     }
 
+    @Override
     public void setUltimoAlterador(Pessoa ultimoAlterador) {
         this.ultimoAlterador = ultimoAlterador;
     }
 
+    @Override
     public Date getDataUltimaAlteracao() {
         return dataUltimaAlteracao;
     }
 
+    @Override
     public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
         this.dataUltimaAlteracao = dataUltimaAlteracao;
     }
 
+    @Override
     public Long getVersao() {
         return versao;
     }

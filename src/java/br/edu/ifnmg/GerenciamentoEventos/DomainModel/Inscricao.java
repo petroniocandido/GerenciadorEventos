@@ -15,8 +15,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +31,7 @@ import javax.persistence.Version;
  * @author petronio
  */
 @Entity
+@Inheritance(strategy= InheritanceType.JOINED)
 @Table(name = "inscricoes")
 public class Inscricao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,23 +39,11 @@ public class Inscricao implements Entidade, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Pessoa pessoa;
     
-    @ManyToOne
-    private Atividade atividade;
-    
-    private String titulo;
-    
-    private String observacoes;
-    
-    private String auxiliar1;
-    
-    private String auxiliar2;
-    
-    private String auxiliar3;
-    
-    private String auxiliar4;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Evento evento;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataInscricao;
@@ -62,16 +55,22 @@ public class Inscricao implements Entidade, Serializable {
     
     private boolean compareceu;
     
-    @ManyToOne
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "inscricao")
+    private List<InscricaoItem> itens;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     private Lancamento lancamento;
     
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "inscricoesarquivos")
     private List<Arquivo> arquivos;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -82,62 +81,6 @@ public class Inscricao implements Entidade, Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
-    }
-
-    public Atividade getAtividade() {
-        return atividade;
-    }
-
-    public void setAtividade(Atividade atividade) {
-        this.atividade = atividade;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
-    }
-
-    public String getAuxiliar1() {
-        return auxiliar1;
-    }
-
-    public void setAuxiliar1(String auxiliar1) {
-        this.auxiliar1 = auxiliar1;
-    }
-
-    public String getAuxiliar2() {
-        return auxiliar2;
-    }
-
-    public void setAuxiliar2(String auxiliar2) {
-        this.auxiliar2 = auxiliar2;
-    }
-
-    public String getAuxiliar3() {
-        return auxiliar3;
-    }
-
-    public void setAuxiliar3(String auxiliar3) {
-        this.auxiliar3 = auxiliar3;
-    }
-
-    public String getAuxiliar4() {
-        return auxiliar4;
-    }
-
-    public void setAuxiliar4(String auxiliar4) {
-        this.auxiliar4 = auxiliar4;
     }
 
     public Date getDataInscricao() {
@@ -186,6 +129,22 @@ public class Inscricao implements Entidade, Serializable {
 
     public void setArquivos(List<Arquivo> arquivos) {
         this.arquivos = arquivos;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public List<InscricaoItem> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<InscricaoItem> itens) {
+        this.itens = itens;
     }
     
     
