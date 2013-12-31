@@ -51,6 +51,9 @@
                                 <p:column headerText="Nome">#{item.nome}</p:column>
                             </p:autoComplete>
                         </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{usuarioController}"  />
+                        </ui:include>
                     </p:tabView>
                     <ui:include src="./comum/botoesEntidade.xhtml">
                         <ui:param name="controller" value="#{usuarioController}"  />

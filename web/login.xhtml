@@ -1,19 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
         <ui:composition template="./TemplateExterno.xhtml">
 
             <ui:define name="content">
-            <p:panelGrid columns="2" style="position: absolute; top: 40%; left: 40%">
+                
+                <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="2">
                 <f:facet name="header">
-                    Autenticação
+                    Autenticacao
                 </f:facet>
 
                 <h:outputText value="Login: " />
@@ -22,12 +23,13 @@
                 <p:password value="#{autenticacaoController.senha}" />
 
                 <f:facet name="footer">
-                    <p:commandButton style="position: relative; left: 40%"  value="Entrar" action="#{autenticacaoController.validar()}" />
-                    <p:commandButton ajax="falsa" value="Cadastrar" action="#{autenticacaoController.novo()}" />
+                    <p:commandButton style="float: left" value="Entrar" action="#{autenticacaoController.validar()}" />
+                    <p:commandButton style="float: right" ajax="false" value="Cadastrar" action="#{autenticacaoController.novo()}" />
                 </f:facet>
 
             </p:panelGrid>
-                        </ui:define>
+
+            </ui:define>
 
         </ui:composition>
 

@@ -42,6 +42,9 @@
                                 <f:selectItems value="#{permissaoController.listagemGeral}" /> 
                             </p:selectManyCheckbox>
                         </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{perfilController}"  />
+                        </ui:include>
                     </p:tabView>
                     <ui:include src="./comum/botoesEntidade.xhtml">
                         <ui:param name="controller" value="#{perfilController}"  />

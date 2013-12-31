@@ -24,10 +24,11 @@ public class AutenticacaoPhaseListener implements PhaseListener {
 
     @Override
     public void afterPhase(PhaseEvent event) {
+        
         FacesContext fc = event.getFacesContext();
         ExternalContext ec = fc.getExternalContext();
-
-        if (!fc.getViewRoot().getViewId().contains("login.xhtml")) {
+        String viewid = fc.getViewRoot().getViewId();
+        if (!viewid.contains("login.xhtml")) {
             HttpSession session = (HttpSession) ec.getSession(true);
             Pessoa usuario = (Pessoa) session.getAttribute("usuarioAutenticado");
 

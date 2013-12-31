@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:tab rendered="#{controller.entidade.id gt 0}" title="Auditoria">
+        <p:panelGrid columns="2">
+            <h:outputText value="Data Criação" style="float: right" /> 
+            <h:outputText value="#{controller.entidade.dataCriacao}">
+                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
+            </h:outputText>
+            <h:outputText value="Usuário Criador" style="float: right" /> 
+            <h:outputText value=" #{controller.entidade.criador.nome}" />
+            <h:outputText value="Data última Alteração" style="float: right" /> 
+            <h:outputText value="#{controller.entidade.dataUltimaAlteracao}">
+                <f:convertDateTime pattern="dd/MM/yyyy  HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both"  />
+            </h:outputText>
+            <h:outputText value="Usuário última Alteração" style="float: right" /> 
+            <h:outputText value=" #{controller.entidade.ultimoAlterador.nome}" />
+            <h:outputText value="Modificações" style="float: right" /> 
+            <h:outputText value=" #{controller.entidade.versao}" />
+        </p:panelGrid>
+    </p:tab>
+</ui:composition>
