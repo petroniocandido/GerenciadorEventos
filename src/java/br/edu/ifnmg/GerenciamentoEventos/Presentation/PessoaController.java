@@ -4,9 +4,8 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
@@ -34,11 +33,14 @@ public class PessoaController
         setEntidade(new Pessoa());
         setFiltro(new Pessoa());
     }
-    
+
     @EJB
     PessoaRepositorio dao;
-   
-    
+    @EJB
+    HashService hash;
+
+    String senha1, senha2;
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
@@ -57,9 +59,19 @@ public class PessoaController
 
     @Override
     public void salvar() {
-        
+
+        if (senha1.length() != 0) {
+
+            if (senha1.equals(senha2)) {
+                entidade.setSenha(hash.getMD5(senha1));
+            } else {
+                Mensagem("Erro", "As senhas não conferem!");
+                return;
+            }
+        }
+
         SalvarEntidade();
-        
+
         // atualiza a listagem
         filtrar();
     }
@@ -84,7 +96,7 @@ public class PessoaController
 
     @Override
     public void limpar() {
-        
+
         setEntidade(new Pessoa());
     }
 
@@ -93,8 +105,6 @@ public class PessoaController
         limpar();
         return "editarUsuario.xhtml";
     }
-
-   
 
     @Override
     public List<Pessoa> getListagem() {
@@ -107,4 +117,22 @@ public class PessoaController
     public void setListagem(List<Pessoa> listagem) {
         this.listagem = listagem;
     }
+
+    public String getSenha1() {
+        return senha1;
+    }
+
+    public void setSenha1(String senha1) {
+        this.senha1 = senha1;
+    }
+
+    public String getSenha2() {
+        return senha2;
+    }
+
+    public void setSenha2(String senha2) {
+        this.senha2 = senha2;
+    }
+    
+    
 }

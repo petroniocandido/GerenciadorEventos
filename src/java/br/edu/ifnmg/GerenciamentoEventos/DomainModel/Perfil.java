@@ -122,6 +122,10 @@ public class Perfil implements Entidade, Serializable {
         if(permissoes.contains(p))
             permissoes.remove(p);
     }
+    
+    public boolean contains(Permissao p){
+        return permissoes.contains(p);
+    }
 
     public boolean isPadrao() {
         return padrao;

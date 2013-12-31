@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -28,11 +29,18 @@
                                 <p:selectBooleanCheckbox value="#{perfilController.entidade.padrao}" />
                                 <h:outputText value="Página Inicial: " />
                                 <p:autoComplete converter="#{permissaoConverter}" value="#{perfilController.entidade.home}"
-                                                completeMethod="#{permissaoController.autoCompletePermissao}" var="item">
+                                                completeMethod="#{permissaoController.autoCompletePermissao}" var="item"
+                                                itemLabel="#{item.uri}" itemValue="#{item}">
                                     <p:column headerText="URL">#{item.uri}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>
                                 </p:autoComplete>
                             </h:panelGrid> 
+                        </p:tab>
+                        <p:tab id="tabPermissoes" title="Permissões">  
+                            <p:selectManyCheckbox value="#{perfilController.entidade.permissoes}" 
+                                                  layout="pageDirection">
+                                <f:selectItems value="#{permissaoController.listagemGeral}" /> 
+                            </p:selectManyCheckbox>
                         </p:tab>
                     </p:tabView>
                     <ui:include src="./comum/botoesEntidade.xhtml">

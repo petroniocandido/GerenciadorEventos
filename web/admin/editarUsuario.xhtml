@@ -33,9 +33,23 @@
                                              mask="(99) 9999-9999" />
                                 <h:outputText value="Data de Nascimento: " />
                                 <p:calendar value="#{usuarioController.entidade.dataNascimento}" />
-                                <h:outputText value="Senha: " />
-                                <p:password value="#{usuarioController.entidade.senha}" />
+
                             </h:panelGrid> 
+                        </p:tab>
+                        <p:tab id="tabSenha" title="Senha">
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Senha: " />
+                                <p:password value="#{usuarioController.senha1}" />
+                                <h:outputText value="Repita a Senha: " />
+                                <p:password value="#{usuarioController.senha2}" />
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab id="tabPerfil" title="Perfil">  
+                            <p:autoComplete converter="#{perfilConverter}" value="#{usuarioController.entidade.perfil}"
+                                            completeMethod="#{perfilController.autoCompletePerfil}" var="item"
+                                            itemLabel="#{item.nome}" itemValue="#{item}">
+                                <p:column headerText="Nome">#{item.nome}</p:column>
+                            </p:autoComplete>
                         </p:tab>
                     </p:tabView>
                     <ui:include src="./comum/botoesEntidade.xhtml">

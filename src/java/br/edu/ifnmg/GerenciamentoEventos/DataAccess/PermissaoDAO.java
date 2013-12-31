@@ -26,7 +26,9 @@ public class PermissaoDAO
     
     @Override
     public List<Permissao> Buscar(Permissao filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Like("nome", filtro.getNome())
+                .Like("uri", filtro.getUri())
+                .Buscar();
     }
 
     @Override

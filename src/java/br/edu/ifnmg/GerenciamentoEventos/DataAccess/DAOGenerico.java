@@ -101,14 +101,21 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
     }
     
     
-    protected Repositorio<T> ENulo(String campo) {
+    protected DAOGenerico<T> ENulo(String campo) {
         addSpecialOp(campo, "is null");
         return this;
     }
 
     
-    protected Repositorio<T> NaoENulo(String campo) {
+    protected DAOGenerico<T> NaoENulo(String campo) {
         addSpecialOp(campo, "is null");
+        return this;
+    }
+    
+    protected DAOGenerico<T> Ordenar(String campo, String sentido) {
+        if(order.length() > 0)
+            order.append(",");
+        order.append(campo).append(" ").append(sentido);
         return this;
     }
 

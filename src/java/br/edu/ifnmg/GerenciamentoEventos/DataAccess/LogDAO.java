@@ -28,8 +28,10 @@ public class LogDAO
     public List<Log> Buscar(Log filtro) {
        return MaiorOuIgualA("dataEvento", filtro.getDataEvento())
                 .IgualA("usuario", filtro.getUsuario())
-                .IgualA("permissao", filtro.getPermissao())               
+                .IgualA("permissao", filtro.getPermissao())    
+                .Ordenar("dataEvento", "desc")
                 .Buscar();
+               
     }
     
 }

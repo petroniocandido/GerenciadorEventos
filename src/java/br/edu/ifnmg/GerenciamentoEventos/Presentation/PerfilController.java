@@ -7,7 +7,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -38,6 +39,8 @@ public class PerfilController
     
     @EJB
     PerfilRepositorio dao;
+    
+    Permissao permissao;
    
     
     @PostConstruct
@@ -108,4 +111,22 @@ public class PerfilController
     public void setListagem(List<Perfil> listagem) {
         this.listagem = listagem;
     }
+    
+    public void valueChangeListener(ValueChangeEvent evt){
+        
+        if((boolean)evt.getNewValue())
+            entidade.add(permissao);
+        else
+            entidade.remove(permissao);
+    }
+
+    public Permissao getPermissao() {
+        return permissao;
+    }
+
+    public void setPermissao(Permissao permissao) {
+        this.permissao = permissao;
+    }
+    
+    
 }

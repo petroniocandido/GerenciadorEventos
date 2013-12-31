@@ -40,7 +40,7 @@
                     <p:menuitem value="Logs" url="listagemLogs.xhtml"  />
                 </p:submenu>
                 
-                <p:menuitem value="Sair"  />
+                <p:menuitem value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
             <p:growl showDetail="true" sticky="true"  life="60" />
             <ui:insert name="content">Content</ui:insert>

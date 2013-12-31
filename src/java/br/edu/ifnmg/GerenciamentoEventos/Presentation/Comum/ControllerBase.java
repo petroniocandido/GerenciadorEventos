@@ -12,7 +12,10 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
+import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -89,6 +92,14 @@ public abstract class ControllerBase {
             
         } catch(Exception ex){
         } finally {
+        }
+    }
+    
+    protected void Redirect(String url){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect( url);
+        } catch (IOException ex) {
+            Logger.getLogger(ControllerBase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -104,6 +104,14 @@ public class PermissaoController
         }
         return listagem;
     }
+    
+    List<Permissao> todos;
+    public List<Permissao> getListagemGeral() {
+        if (todos == null) {
+            todos = dao.Buscar(new Permissao());
+        }
+        return todos;
+    }
 
     public void setListagem(List<Permissao> listagem) {
         this.listagem = listagem;

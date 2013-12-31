@@ -177,7 +177,7 @@ public class Pessoa implements Entidade, Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa[ id=" + id + " ]";
+        return nome + " [" + getEmail()+ "]";
     }
     
         @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)

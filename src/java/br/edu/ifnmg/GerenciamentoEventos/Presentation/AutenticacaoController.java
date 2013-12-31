@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -43,12 +42,12 @@ public class AutenticacaoController
     private String login, senha, senhaconferencia;
     Pessoa usuario;
 
-    public String validar() {
+    public void validar() {
         usuario = dao.Abrir(login);
 
         if (usuario == null) {
             Mensagem("Falha", "Login ou senha não correspondem");
-            return "login.xhtml";
+            //return "login.xhtml";
         } else {
             if (hash.getMD5(senha).equals(usuario.getSenha())) {
 
@@ -59,12 +58,10 @@ public class AutenticacaoController
                 session.setAttribute("usuarioAutenticado", usuario);
 
                 AppendLog("Login");
-
-                return usuario.getPerfil().getHome().getUri();
-
+                Redirect(usuario.getPerfil().getHome().getUri());
             } else {
                 Mensagem("Falha", "Login ou senha não correspondem");
-                return "login.xhtml";
+                //return "login.xhtml";
             }
         }
 
