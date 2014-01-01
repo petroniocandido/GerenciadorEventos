@@ -75,7 +75,7 @@ public class Atividade implements Entidade, Serializable {
     private List<Arquivo> arquivos;
     
     @ManyToOne
-    private Local local;
+    private Recurso local;
     
     private int numeroVagas;
     
@@ -215,11 +215,11 @@ public class Atividade implements Entidade, Serializable {
         this.arquivos = arquivos;
     }
 
-    public Local getLocal() {
+    public Recurso getLocal() {
         return local;
     }
 
-    public void setLocal(Local local) {
+    public void setLocal(Recurso local) {
         this.local = local;
     }
 

@@ -4,7 +4,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <body>
 
@@ -41,9 +42,7 @@
                                 <h:outputText value="Necessita inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Valor Inscrição: " />
-                                <h:inputText style="text-align: right" value="#{eventoController.entidade.valorInscricao}" >
-                                    <f:convertNumber currencyCode="BRL" minFractionDigits="2" />
-                                </h:inputText>
+                                <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" />
                                 <h:outputText value="Início Inscrições: " />
                                 <p:calendar value="#{eventoController.entidade.inicioInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
                                 <h:outputText value="Término Inscrições: " />

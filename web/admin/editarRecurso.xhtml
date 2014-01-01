@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Editar dados gerais do recurso
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Nome: " />
+                                <p:inputText value="#{recursoController.entidade.nome}" 
+                                             required="true" requiredMessage="O campo nome é obrigatório" />
+                                <h:outputText value="Tipo: " />
+                                <h:selectOneMenu value="#{recursoController.entidade.tipo}" >
+                                    <f:selectItems value="#{recursoController.tipos}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Descrição: " />
+                                <p:editor value="#{recursoController.entidade.descricao}" maxlength="600" />
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab id="tabDetalhes" title="Detalhes">  
+                            <h:outputText value="Capacidade/Quantidade: " />
+                            <pe:inputNumber value="#{recursoController.entidade.capacidade}" />
+                            <h:outputText value="Valor: " />
+                            <pe:inputNumber value="#{recursoController.entidade.valor}" />
+                            <h:outputText value="Contato: " />
+                            <p:autoComplete converter="#{usuarioConverter}" value="#{recursoController.entidade.contato}"
+                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
+                                    <p:column headerText="CPF">#{item.cpf}</p:column>
+                                    <p:column headerText="E-Mail">#{item.email}</p:column>
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
+                                </p:autoComplete>
+                        </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{recursoController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{recursoController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

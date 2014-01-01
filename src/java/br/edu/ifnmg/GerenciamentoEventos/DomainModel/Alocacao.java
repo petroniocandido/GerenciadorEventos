@@ -44,9 +44,6 @@ public class Alocacao implements Entidade, Serializable {
     @ManyToOne
     private Pessoa responsavel;
     
-    @ManyToOne
-    private Local local;
-    
     @Temporal(TemporalType.TIMESTAMP)
     private Date inicio;
     
@@ -93,14 +90,6 @@ public class Alocacao implements Entidade, Serializable {
 
     public void setResponsavel(Pessoa responsavel) {
         this.responsavel = responsavel;
-    }
-
-    public Local getLocal() {
-        return local;
-    }
-
-    public void setLocal(Local local) {
-        this.local = local;
     }
 
     public Date getInicio() {

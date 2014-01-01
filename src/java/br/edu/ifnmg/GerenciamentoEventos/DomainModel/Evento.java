@@ -50,7 +50,7 @@ public class Evento implements Entidade, Serializable {
     private BigDecimal valorInscricao;
     
     @ManyToOne
-    private Local local;
+    private Recurso local;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date inicio;
@@ -110,11 +110,11 @@ public class Evento implements Entidade, Serializable {
         this.valorInscricao = valorInscricao;
     }
 
-    public Local getLocal() {
+    public Recurso getLocal() {
         return local;
     }
 
-    public void setLocal(Local local) {
+    public void setLocal(Recurso local) {
         this.local = local;
     }
 

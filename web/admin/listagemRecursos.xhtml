@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagem de Recursos
+                    </f:facet>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Nome: " />
+                                <p:inputText id="txtNome" size="50" value="#{recursoController.filtro.nome}"/>                                 
+                                <h:outputText value="Tipo: " />
+                                <h:selectOneMenu value="#{recursoController.filtro.tipo}" >
+                                    <f:selectItem itemValue="" itemLabel="" />
+                                    <f:selectItems value="#{recursoController.tipos}" />
+                                </h:selectOneMenu>
+                            </p:panelGrid>
+                            <ui:include src="./comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{recursoController}"  />
+                                <ui:param name="campos" value="txtNome"  />
+                            </ui:include>
+                        </p:tab>
+                    </p:accordionPanel>
+                    <!-- Início da Tabela -->
+                    <p:dataTable value="#{recursoController.dataModel}" var="item" selectionMode="single"
+                                 paginator="true" rows="30"  lazy="true" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+
+                        <p:ajax event="rowSelect" listener="#{recursoController.onRowSelect}" />
+                        <!-- Coluna Codigo -->
+                        <p:column headerText="Cód." sortBy="#{item.id}"   >
+                            #{item.id}
+                        </p:column>
+                        <!-- Coluna Nome -->
+                        <p:column headerText="Nome" sortBy="#{item.nome}"  >
+                            #{item.nome}                            
+                        </p:column>
+                        <p:column headerText="Tipo" sortBy="#{item.tipo}"  >
+                            #{item.tipo}
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

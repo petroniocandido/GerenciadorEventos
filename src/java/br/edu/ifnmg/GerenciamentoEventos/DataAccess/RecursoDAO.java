@@ -26,7 +26,12 @@ public class RecursoDAO
     
     @Override
     public List<Recurso> Buscar(Recurso filtro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return IgualA("id", filtro.getId())
+                .Like("nome", filtro.getNome())
+                .Like("descricao", filtro.getDescricao())
+                .IgualA("tipo", filtro.getTipo())
+                .Buscar();
+
     }
     
 }
