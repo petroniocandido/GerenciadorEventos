@@ -18,23 +18,27 @@
             Usuário: #{autenticacaoController.usuarioCorrente.nome}
             <p:menubar>
                 <p:menuitem value="Home"  url="index.xhtml" />
+                <p:submenu label="Cadastros">
+                    <p:menuitem value="Tipos de Atividades"  />
+                    <p:menuitem value="Recursos" url="listagemRecursos.xhtml"   />                    
+                </p:submenu>
                 <p:submenu label="Eventos">
                     <p:menuitem value="Eventos" url="listagemEventos.xhtml" />
                     <p:menuitem value="Atividades"  />
-                    <p:menuitem value="Recursos" url="listagemRecursos.xhtml"   />
-                    <p:menuitem value="Financeiro"  />
+                    <p:menuitem value="Inscrições"  />
                 </p:submenu>
-                
-                <p:menuitem value="Inscrições"  />
-                
+                <p:submenu label="Financeiro">
+                    <p:menuitem value="Lançamentos" />
+                    <p:menuitem value="Sessões de Caixa"  />
+                </p:submenu>
                 <p:submenu label="Relatórios">
                     <p:menuitem value="Atividades por Evento"  />
                     <p:menuitem value="Inscritos por Atividade"  />
                     <p:menuitem value="Recursos por Atividade"  />
-                </p:submenu>
-                
+                </p:submenu>                
                 <p:submenu label="Segurança">
                     <p:menuitem value="Usuários" url="listagemUsuarios.xhtml" />
+                    <p:menuitem value="Configurações" url="listagemConfiguracoes.xhtml" />
                     <p:menuitem value="Perfis" url="listagemPerfis.xhtml" />
                     <p:menuitem value="Permissões"  url="listagemPermissoes.xhtml"   />
                     <p:menuitem value="Logs" url="listagemLogs.xhtml"  />

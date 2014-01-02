@@ -4,11 +4,9 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
-
-
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.RecursoTipo;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -21,41 +19,32 @@ import javax.enterprise.context.SessionScoped;
  *
  * @author petronio
  */
-@Named(value = "recursoController")
+@Named(value = "configuracaoController")
 @SessionScoped
-public class RecursoController
-        extends ControllerBaseEntidade<Recurso>
+public class ConfiguracaoController
+        extends ControllerBaseEntidade<Configuracao>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public RecursoController() {
+    public ConfiguracaoController() {
         id = 0L;
-        setEntidade(new Recurso());
-        setFiltro(new Recurso());
+        setEntidade(new Configuracao());
+        setFiltro(new Configuracao());
     }
-    
+
     @EJB
-    RecursoRepositorio dao;
-    
-    RecursoTipo[] tipos;
-        
+    ConfiguracaoRepositorio dao;
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
     }
 
-    public List<Recurso> autoCompleteRecurso(String query) {
-        Recurso i = new Recurso();
-        i.setNome(query);
-        return dao.Buscar(i);
-    }
-    
-    public List<Recurso> autoCompleteImoveis(String query) {
-        Recurso i = new Recurso();
-        i.setNome(query);
-        i.setTipo(RecursoTipo.Imovel);
+    public List<Configuracao> autoCompleteConfiguracao(String query) {
+        Configuracao i = new Configuracao();
+        i.setChave(query);
         return dao.Buscar(i);
     }
 
@@ -66,9 +55,9 @@ public class RecursoController
 
     @Override
     public void salvar() {
-        
+
         SalvarEntidade();
-        
+
         // atualiza a listagem
         filtrar();
     }
@@ -77,50 +66,41 @@ public class RecursoController
     public String apagar() {
         ApagarEntidade();
         filtrar();
-        return "listagemRecursos.xtml";
+        return "listarConfiguracoes.xtml";
     }
 
     @Override
     public String abrir() {
         setEntidade(dao.Abrir(id));
-        return "editarRecurso.xhtml";
+        return "editarConfiguracao.xhtml";
     }
 
     @Override
     public String cancelar() {
-        return "listagemRecursos.xhtml";
+        return "listagemConfiguracoes.xhtml";
     }
 
     @Override
     public void limpar() {
-        
-        setEntidade(new Recurso());
+
+        setEntidade(new Configuracao());
     }
 
     @Override
     public String novo() {
         limpar();
-        return "editarRecurso.xhtml";
+        return "editarConfiguracao.xhtml";
     }
 
     @Override
-    public List<Recurso> getListagem() {
+    public List<Configuracao> getListagem() {
         if (listagem == null) {
             filtrar();
         }
         return listagem;
     }
 
-    public void setListagem(List<Recurso> listagem) {
+    public void setListagem(List<Configuracao> listagem) {
         this.listagem = listagem;
-    }
-
-    public RecursoTipo[] getTipos() {
-        if(tipos == null){
-            tipos = RecursoTipo.values();
-        }
-        return tipos;
-    }
-    
-    
+    }    
 }

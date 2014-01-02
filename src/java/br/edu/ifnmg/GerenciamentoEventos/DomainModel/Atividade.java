@@ -20,8 +20,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -46,15 +46,14 @@ public class Atividade implements Entidade, Serializable {
     @ManyToOne
     private Evento evento;
     
-    @ManyToOne()
+    @ManyToOne
     private AtividadeTipo tipo;
 
     @Column(nullable = false)
     private String nome;
     
+    @Lob
     private String descricao;
-    
-    private boolean publica;
     
     private boolean necessitaInscricao;
     
@@ -68,8 +67,9 @@ public class Atividade implements Entidade, Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date termino;
     
-    @ManyToOne
-    private Pessoa responsavel;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "atividadesresponsaveis")
+    private List<Pessoa> responsaveis;
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Arquivo> arquivos;
@@ -151,14 +151,6 @@ public class Atividade implements Entidade, Serializable {
         this.descricao = descricao;
     }
 
-    public boolean isPublica() {
-        return publica;
-    }
-
-    public void setPublica(boolean publica) {
-        this.publica = publica;
-    }
-
     public boolean isNecessitaInscricao() {
         return necessitaInscricao;
     }
@@ -199,13 +191,15 @@ public class Atividade implements Entidade, Serializable {
         this.termino = termino;
     }
 
-    public Pessoa getResponsavel() {
-        return responsavel;
+    public List<Pessoa> getResponsaveis() {
+        return responsaveis;
     }
 
-    public void setResponsavel(Pessoa responsavel) {
-        this.responsavel = responsavel;
+    public void setResponsaveis(List<Pessoa> responsaveis) {
+        this.responsaveis = responsaveis;
     }
+
+    
 
     public List<Arquivo> getArquivos() {
         return arquivos;
@@ -270,8 +264,6 @@ public class Atividade implements Entidade, Serializable {
     public void setRecursos(List<Alocacao> recursos) {
         this.recursos = recursos;
     }
-
-    
 
     public BigDecimal getValorOrcado() {
         return valorOrcado;

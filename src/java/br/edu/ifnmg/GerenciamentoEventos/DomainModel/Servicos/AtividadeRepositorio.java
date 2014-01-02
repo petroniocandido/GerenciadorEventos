@@ -7,6 +7,8 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,5 +17,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface AtividadeRepositorio extends Repositorio<Atividade> {
-    
+    public boolean Salvar(AtividadeTipo obj);
+    public boolean Apagar(AtividadeTipo obj);
+    public AtividadeTipo AbrirTipo(Long id);
+    public List<AtividadeTipo> Buscar(AtividadeTipo obj);
 }

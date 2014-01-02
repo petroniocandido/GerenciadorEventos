@@ -38,11 +38,11 @@
                             <pe:inputNumber value="#{recursoController.entidade.valor}" />
                             <h:outputText value="Contato: " />
                             <p:autoComplete converter="#{usuarioConverter}" value="#{recursoController.entidade.contato}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
-                                    <p:column headerText="CPF">#{item.cpf}</p:column>
-                                    <p:column headerText="E-Mail">#{item.email}</p:column>
-                                    <p:column headerText="Nome">#{item.nome}</p:column>
-                                </p:autoComplete>
+                                            completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
+                                <p:column headerText="CPF">#{item.cpf}</p:column>
+                                <p:column headerText="E-Mail">#{item.email}</p:column>
+                                <p:column headerText="Nome">#{item.nome}</p:column>
+                            </p:autoComplete>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{recursoController}"  />

@@ -20,7 +20,7 @@ import javax.persistence.Query;
  * @author petronio
  * @param <T>
  */
-public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> {
+public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
     @PersistenceContext(name = "GerenciamentoEventosPU")
     private EntityManager manager;
@@ -340,5 +340,7 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
     }
 
     @Override
-    public abstract List<T> Buscar(T filtro);
+    public  List<T> Buscar(T filtro) {
+        return Buscar();
+    }
 }

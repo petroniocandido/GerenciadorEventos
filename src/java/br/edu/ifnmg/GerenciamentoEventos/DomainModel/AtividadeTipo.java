@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,16 +33,21 @@ public class AtividadeTipo implements Entidade, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Column(length = 100, unique = true, nullable = false)
     private String nome;
     
+    @Column(length = 500)
     private String descricao;
     
+    @Column(nullable = false)
     private boolean publico;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

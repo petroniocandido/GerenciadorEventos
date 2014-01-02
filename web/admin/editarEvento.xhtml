@@ -34,7 +34,11 @@
                                 <h:outputText value="Término: " />
                                 <p:calendar value="#{eventoController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" />
                                 <h:outputText value="Local: " />
-                                
+                                <p:autoComplete converter="#{recursoConverter}" value="#{eventoController.entidade.local}"
+                                                completeMethod="#{recursoController.autoCompleteImoveis}" var="item">
+                                <p:column headerText="Nome">#{item.nome}</p:column>
+                                <p:column headerText="Capacidade">#{item.capacidade}</p:column>
+                            </p:autoComplete>
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab id="tabInscricoes" title="Inscrições">  
