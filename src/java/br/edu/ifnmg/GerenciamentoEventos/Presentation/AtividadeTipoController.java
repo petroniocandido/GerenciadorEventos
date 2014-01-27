@@ -10,6 +10,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.GenericDataModel;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -105,6 +106,12 @@ public class AtividadeTipoController
     public void setListagem(List<AtividadeTipo> listagem) {
         this.listagem = listagem;
     }
-
+    
+    @Override
+    public GenericDataModel getDataModel(){
+        AtividadeTipoDataModel dm = new AtividadeTipoDataModel(getListagem(),null);
+        dm.setAtividadeRepositorio(dao);
+        return dm;
+    }
     
 }

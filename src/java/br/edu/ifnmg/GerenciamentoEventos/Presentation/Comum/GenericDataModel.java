@@ -12,7 +12,7 @@ import java.util.List;
 import javax.faces.model.ListDataModel;
 import org.primefaces.model.SelectableDataModel;
 
-public class GenericDataModel<T> extends ListDataModel<T> implements SelectableDataModel<T> {
+public class GenericDataModel<T extends Entidade> extends ListDataModel<T> implements SelectableDataModel<T> {
 
     Repositorio<T> dao;
 

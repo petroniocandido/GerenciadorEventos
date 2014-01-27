@@ -170,7 +170,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     }
     
     public GenericDataModel getDataModel(){
-        return new GenericDataModel<T>(getListagem(),repositorio);
+        return new GenericDataModel<>(getListagem(),repositorio);
     }
     
     public void onRowSelect(SelectEvent event) {          
