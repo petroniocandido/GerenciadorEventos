@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='ISO-8859-1' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -14,13 +14,13 @@
                 
                 <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="2">
                 <f:facet name="header">
-                    Autenticacao
+                    Autenticação
                 </f:facet>
 
                 <h:outputText value="Login: " />
-                <p:inputText value="#{autenticacaoController.login}" />
+                <p:inputText id="txtEmail" value="#{autenticacaoController.login}" />
                 <h:outputText value="Senha: " />
-                <p:password value="#{autenticacaoController.senha}" />
+                <p:password id="txtSenha" value="#{autenticacaoController.senha}" />
 
                 <f:facet name="footer">
                     <p:commandButton style="float: left" value="Entrar" action="#{autenticacaoController.validar()}" />

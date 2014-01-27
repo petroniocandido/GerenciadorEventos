@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='ISO-8859-1' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -7,24 +7,24 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets" >
     <h:panelGrid columns="2" cellpadding="3">
         <h:outputText value="Nome: " />
-        <p:inputText value="#{pessoa.nome}" 
+        <p:inputText id="txtNome" value="#{pessoa.nome}" 
                      required="true" requiredMessage="O campo nome é obrigatório" />
         <h:outputText value="CPF: " />
-        <p:inputMask value="#{pessoa.cpf}" mask="999.999.999-99" 
+        <p:inputMask id="txtCpf" value="#{pessoa.cpf}" mask="999.999.999-99" 
                      required="true" requiredMessage="O campo cpf é obrigatório" />
         <h:outputText value="E-Mail: " />
-        <p:inputText value="#{pessoa.email}" 
+        <p:inputText id="txtEmail" value="#{pessoa.email}" 
                      required="true" requiredMessage="O campo e-mail é obrigatório" />
         <h:outputText value="Telefone: " />
-        <p:inputMask value="#{pessoa.telefone}" 
+        <p:inputMask id="txtTelefone" value="#{pessoa.telefone}" 
                      mask="(99) 9999-9999" />
         <h:outputText value="Data de Nascimento: " />
-        <p:calendar value="#{pessoa.dataNascimento}" />
+        <p:calendar id="txtDataNascimento" value="#{pessoa.dataNascimento}" />
         <h:outputText value="Senha: " />
-        <p:password value="#{senha}" 
+        <p:password id="txtSenha" value="#{senha}" 
                     required="true" requiredMessage="O campo senha é obrigatório!"/>
         <h:outputText value="Repetir Senha: " />
-        <p:password value="#{senhaconferencia}" 
+        <p:password id="txtSenha2" value="#{senhaconferencia}" 
                     required="true" requiredMessage="O campo repetir senha é obrigatório!"/>
     </h:panelGrid> 
 </ui:composition>

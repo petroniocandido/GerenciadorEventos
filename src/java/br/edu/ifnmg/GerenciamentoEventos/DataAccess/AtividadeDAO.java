@@ -9,8 +9,10 @@ package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.PostActivate;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -29,9 +31,10 @@ public class AtividadeDAO
          
     }
     
-    @PostActivate
+    @PostConstruct
     public void inicializar() {
-        daoTipo.setManager(getManager());       
+        EntityManager tmp = getManager();
+        daoTipo.setManager(tmp);       
     }
 
     @Override
