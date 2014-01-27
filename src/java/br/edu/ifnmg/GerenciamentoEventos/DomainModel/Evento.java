@@ -14,6 +14,8 @@ import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -63,6 +65,15 @@ public class Evento implements Entidade, Serializable {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date terminoInscricao;
+    
+    @Enumerated(EnumType.STRING)
+    private Status status;
+    
+    @ManyToOne
+    private Arquivo logo;
+    
+    @ManyToOne
+    private Arquivo banner;
     
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
@@ -124,8 +135,6 @@ public class Evento implements Entidade, Serializable {
     }
 
     public void setInicio(Date inicio) {
-        if(terminoInscricao == null)
-            return;
         this.inicio = inicio;
     }
 
@@ -133,11 +142,12 @@ public class Evento implements Entidade, Serializable {
         return termino;
     }
 
-    public void setTermino(Date termino) throws ValidacaoException {
-        if(termino == null)
+    public void setTermino(Date termino) throws ValidacaoException {    
+        /*if(termino == null)
             return;
         if(termino.before(inicio))
             throw new ValidacaoException("A data de término do evento não pode ser menor do que a data de início!");
+                */
         this.termino = termino;
     }
 
@@ -146,10 +156,11 @@ public class Evento implements Entidade, Serializable {
     }
 
     public void setInicioInscricao(Date inicioInscricao) throws ValidacaoException {
-        if(inicioInscricao == null)
+       /* if(inicioInscricao == null)
             return;
         if(inicioInscricao.after(termino))
             throw new ValidacaoException("A data de início de inscrições do evento não pode ser maior do que a data de término do evento!");
+               */
         this.inicioInscricao = inicioInscricao;
     }
 
@@ -158,10 +169,11 @@ public class Evento implements Entidade, Serializable {
     }
 
     public void setTerminoInscricao(Date terminoInscricao) throws ValidacaoException {
-        if(terminoInscricao == null)
+        /*if(terminoInscricao == null)
             return;
         if(terminoInscricao.before(inicioInscricao))
             throw new ValidacaoException("A data de término de inscrições do evento não pode ser menor do que a data de início do evento!");
+                */
         this.terminoInscricao = terminoInscricao;
     }
 
@@ -171,6 +183,30 @@ public class Evento implements Entidade, Serializable {
 
     public void setRecursos(List<Alocacao> recursos) {
         this.recursos = recursos;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Arquivo getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Arquivo logo) {
+        this.logo = logo;
+    }
+
+    public Arquivo getBanner() {
+        return banner;
+    }
+
+    public void setBanner(Arquivo banner) {
+        this.banner = banner;
     }
     
     

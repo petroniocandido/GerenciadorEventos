@@ -26,7 +26,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "alocacoesrecursos")
-public class Alocacao implements Entidade, Serializable {
+public class Alocacao implements Entidade, Serializable, Comparable<Alocacao> {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -198,6 +198,24 @@ public class Alocacao implements Entidade, Serializable {
 
     public void setVersao(Long versao) {
         this.versao = versao;
+    }
+
+    @Override
+    public int compareTo(Alocacao o) {
+        if(this.termino.before(o.inicio))
+            return -1;
+        if(this.inicio.after(o.termino))
+            return 1;
+        if(this.inicio.before(o.inicio) && this.termino.after(o.inicio) && this.termino.before(o.termino))
+            return 0;
+        if(this.inicio.before(o.inicio) && this.termino.after(o.termino))
+            return 0;
+        if(this.inicio.after(o.inicio) && this.inicio.before(o.termino) )
+            return 0;
+        if(this.termino.after(o.inicio) && this.termino.before(o.termino) )
+            return 0;
+        
+        return 0;
     }
     
 }

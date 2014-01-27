@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8' ?> 
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -14,17 +14,17 @@
 
     <h:body>
        
-        <h:form >
+        <h:form acceptcharset="ISO-8859-1" >
             Usuário: #{autenticacaoController.usuarioCorrente.nome}
             <p:menubar>
                 <p:menuitem value="Home"  url="index.xhtml" />
                 <p:submenu label="Cadastros">
-                    <p:menuitem value="Tipos de Atividades"  />
+                    <p:menuitem value="Tipos de Atividades" url="listagemAtividadeTipos.xhtml"   />
                     <p:menuitem value="Recursos" url="listagemRecursos.xhtml"   />                    
                 </p:submenu>
                 <p:submenu label="Eventos">
                     <p:menuitem value="Eventos" url="listagemEventos.xhtml" />
-                    <p:menuitem value="Atividades"  />
+                    <p:menuitem value="Atividades"  url="listagemAtividades.xhtml"  />
                     <p:menuitem value="Inscrições"  />
                 </p:submenu>
                 <p:submenu label="Financeiro">

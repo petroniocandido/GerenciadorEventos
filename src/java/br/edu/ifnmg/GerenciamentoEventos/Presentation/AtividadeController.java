@@ -6,8 +6,11 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -37,7 +40,13 @@ public class AtividadeController
     
     @EJB
     AtividadeRepositorio dao;
-        
+    
+    Status[] status;
+    
+    Pessoa responsavel;
+    
+    Alocacao alocacao;
+    
     @PostConstruct
     public void init() {
         setRepositorio(dao);
@@ -104,5 +113,31 @@ public class AtividadeController
     public void setListagem(List<Atividade> listagem) {
         this.listagem = listagem;
     }
+
+    public Status[] getStatus() {
+        if(status == null){
+            status = Status.values();
+        }
+        return status;
+    }
+
+    public Pessoa getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Pessoa responsavel) {
+        this.responsavel = responsavel;
+    }
+
+    public Alocacao getAlocacao() {
+        return alocacao;
+    }
+
+    public void setAlocacao(Alocacao alocacao) {
+        this.alocacao = alocacao;
+    }
+    
+    
+
     
 }

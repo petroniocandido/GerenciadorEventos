@@ -43,10 +43,10 @@ public class Atividade implements Entidade, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Evento evento;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private AtividadeTipo tipo;
 
     @Column(nullable = false)
@@ -55,16 +55,21 @@ public class Atividade implements Entidade, Serializable {
     @Lob
     private String descricao;
     
+    @Column(nullable = true)
     private boolean necessitaInscricao;
     
+    @Column(nullable = true)
     private boolean inscricaoColetiva;
     
+    @Column(nullable = true)
     private BigDecimal valorInscricao;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date inicio;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date termino;
     
     @ManyToMany(fetch = FetchType.LAZY)
@@ -72,29 +77,39 @@ public class Atividade implements Entidade, Serializable {
     private List<Pessoa> responsaveis;
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "atividadesarquivos")
     private List<Arquivo> arquivos;
     
     @ManyToOne
     private Recurso local;
     
+    @Column(nullable = true)
     private int numeroVagas;
     
+    @Column(nullable = true)
     private String auxiliar1;
     
+    @Column(nullable = true)
     private String auxiliar2;
     
+    @Column(nullable = true)
     private String auxiliar3;
     
+    @Column(nullable = true)
     private String auxiliar4;
     
+    @Column(nullable = true)
     private BigDecimal valorOrcado;
     
+    @Column(nullable = true)
     private BigDecimal valorExecutado;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
     private Date inicioInscricao;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
     private Date terminoInscricao;
     
     @Enumerated(EnumType.STRING)
@@ -345,16 +360,16 @@ public class Atividade implements Entidade, Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade[ id=" + id + " ]";
+        return nome + " (" + evento + ")";
     }
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
     
     @Temporal(TemporalType.TIMESTAMP)

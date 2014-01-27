@@ -26,4 +26,6 @@ public interface Entidade  {
     public Date getDataUltimaAlteracao();
     public void setDataUltimaAlteracao(Date obj);
     public Long getVersao();
+    //public boolean isAtivo();
+    //public void setAtivo(boolean value);
 }

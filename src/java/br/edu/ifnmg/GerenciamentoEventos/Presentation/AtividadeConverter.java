@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Presentation;
+package br.edu.ifnmg.GerenciamentoAtividades.Presentation;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.GenericConverter;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -17,14 +17,14 @@ import javax.inject.Named;
  *
  * @author petronio
  */
-@Named(value = "permissaoConverter")
+@Named(value = "atividadeConverter")
 @SessionScoped
-public class PermissaoConverter
-        extends GenericConverter<Permissao, PermissaoRepositorio>
+public class AtividadeConverter
+        extends GenericConverter<Atividade, AtividadeRepositorio>
         implements Serializable {
 
     @EJB
-    PermissaoRepositorio dao;
+    AtividadeRepositorio dao;
 
     @PostConstruct
     public void init() {

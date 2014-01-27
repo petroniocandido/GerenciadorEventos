@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
+import javax.ejb.PostActivate;
 import javax.ejb.Stateless;
 
 /**
@@ -20,10 +21,17 @@ public class AtividadeDAO
     extends DAOGenerico<Atividade> 
     implements AtividadeRepositorio {
     
-    DAOGenerico<AtividadeTipo> daoTipo = new DAOGenerico<>(AtividadeTipo.class);
+    DAOGenerico<AtividadeTipo> daoTipo;
     
     public AtividadeDAO(){
         super(Atividade.class);
+        daoTipo = new DAOGenerico<>(AtividadeTipo.class);
+         
+    }
+    
+    @PostActivate
+    public void inicializar() {
+        daoTipo.setManager(getManager());       
     }
 
     @Override

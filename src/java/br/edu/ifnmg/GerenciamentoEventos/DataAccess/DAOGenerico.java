@@ -37,6 +37,16 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
      public DAOGenerico(Class t) {
         tipo = t;     
     }
+
+    public EntityManager getManager() {
+        return manager;
+    }
+
+    public void setManager(EntityManager manager) {
+        this.manager = manager;
+    }
+     
+     
     
     /**
      * Cria um filtro para consulta de igualdade  

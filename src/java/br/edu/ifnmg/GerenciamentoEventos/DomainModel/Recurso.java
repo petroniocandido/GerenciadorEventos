@@ -31,7 +31,9 @@ import javax.persistence.Version;
 @Cacheable
 @Entity
 @Table(name = "recursos")
-public class Recurso implements Entidade, Serializable {
+public class Recurso 
+    implements Entidade, Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -201,5 +203,7 @@ public class Recurso implements Entidade, Serializable {
     public void setVersao(Long versao) {
         this.versao = versao;
     }
+
+    
 
 }

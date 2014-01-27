@@ -21,10 +21,14 @@
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Nome: " />
-                                <p:inputText value="#{eventoController.entidade.nome}" 
+                                <p:inputText value="#{eventoController.entidade.nome}" size="100"
                                              required="true" requiredMessage="O campo nome é obrigatório" />
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{eventoController.entidade.status}" >
+                                    <f:selectItems value="#{atividadeController.status}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Descrição: " />
-                                <p:editor id="editor" value="#{eventoController.entidade.descricao}" width="200"/> 
+                                <p:editor id="editor" value="#{eventoController.entidade.descricao}" width="600"/> 
                             </h:panelGrid>
                         </p:tab>
                         <p:tab id="tabDetalhes" title="Detalhes">  
@@ -35,10 +39,11 @@
                                 <p:calendar value="#{eventoController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" />
                                 <h:outputText value="Local: " />
                                 <p:autoComplete converter="#{recursoConverter}" value="#{eventoController.entidade.local}"
-                                                completeMethod="#{recursoController.autoCompleteImoveis}" var="item">
-                                <p:column headerText="Nome">#{item.nome}</p:column>
-                                <p:column headerText="Capacidade">#{item.capacidade}</p:column>
-                            </p:autoComplete>
+                                                completeMethod="#{recursoController.autoCompleteImoveis}" 
+                                                var="item" itemValue="#{item}" itemLabel="#{item.nome}">
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
+                                    <p:column headerText="Capacidade">#{item.capacidade}</p:column>
+                                </p:autoComplete>
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab id="tabInscricoes" title="Inscrições">  

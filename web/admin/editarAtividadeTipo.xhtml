@@ -1,10 +1,11 @@
-<?xml version='1.0' encoding='UTF-8' ?>
+<?xml version='1.0' encoding='ISO-8859-1' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <body>
 
@@ -14,25 +15,27 @@
                 <p:panel>
 
                     <f:facet name="header">
-                        Editar dados gerais da permissão
+                        Editar dados gerais do tipo de atividade
                     </f:facet>
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Nome: " />
-                                <p:inputText value="#{permissaoController.entidade.nome}" 
+                                <p:inputText value="#{atividadeTipoController.entidade.nome}" 
                                              required="true" requiredMessage="O campo nome é obrigatório" />
-                                <h:outputText value="URL: " />
-                                <p:inputText value="#{permissaoController.entidade.uri}" />
+                                <h:outputText value="Descrição: " />
+                                <p:editor value="#{atividadeTipoController.entidade.descricao}" maxlength="600" />
+                                <h:outputText value="Público: " />
+                                <p:selectBooleanCheckbox value="#{atividadeTipoController.entidade.publico}" />
                                 
                             </h:panelGrid> 
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
-                            <ui:param name="controller" value="#{permissaoController}"  />
+                            <ui:param name="controller" value="#{atividadeTipoController}"  />
                         </ui:include>
                     </p:tabView>
                     <ui:include src="./comum/botoesEntidade.xhtml">
-                        <ui:param name="controller" value="#{permissaoController}"  />
+                        <ui:param name="controller" value="#{atividadeTipoController}"  />
                     </ui:include>
                 </p:panel>
             </ui:define>
