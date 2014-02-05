@@ -8,8 +8,10 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
@@ -36,10 +38,18 @@ public class AtividadeController
         id = 0L;
         setEntidade(new Atividade());
         setFiltro(new Atividade());
+        alocacao = new Alocacao();
+        responsavel = new Pessoa();
+        
     }
+    
+    Evento padrao;
     
     @EJB
     AtividadeRepositorio dao;
+    
+    @EJB
+    EventoRepositorio evtDAO;
     
     Status[] status;
     
@@ -50,6 +60,16 @@ public class AtividadeController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+        checaEventoPadrao();
+    }
+    
+    public void checaEventoPadrao(){
+        String evt = getConfiguracao("EVENTO_PADRAO");
+        if(evt != null){
+            padrao = evtDAO.Abrir(Long.parseLong(evt));
+            getEntidade().setEvento(padrao);
+            getFiltro().setEvento(padrao);
+        }
     }
 
     public List<Atividade> autoCompleteAtividade(String query) {
@@ -60,6 +80,7 @@ public class AtividadeController
 
     @Override
     public void filtrar() {
+        checaEventoPadrao();
         listagem = dao.Buscar(filtro);
     }
 
@@ -92,7 +113,7 @@ public class AtividadeController
 
     @Override
     public void limpar() {
-        
+        checaEventoPadrao();
         setEntidade(new Atividade());
     }
 
@@ -137,7 +158,25 @@ public class AtividadeController
         this.alocacao = alocacao;
     }
     
+    public void addResponsavel() {
+        entidade.add(responsavel);
+        SalvarAgregado(responsavel);
+    }
     
+    public void removeResponsavel() {
+        entidade.remove(responsavel);
+        RemoverAgregado(responsavel);
+    }
+    
+    public void addAlocacao() {
+        entidade.add(alocacao);
+        SalvarAgregado(alocacao);
+    }
+    
+    public void removeAlocacao() {
+        entidade.remove(alocacao);
+        RemoverAgregado(alocacao);
+    }
 
     
 }

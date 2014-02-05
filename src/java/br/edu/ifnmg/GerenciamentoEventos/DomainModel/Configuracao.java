@@ -17,6 +17,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -49,9 +50,10 @@ public class Configuracao implements Entidade, Serializable {
     @ManyToOne
     private Pessoa usuario;
     
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, length = 255)
     private String chave;
-    
+
+    @Lob
     @Column(nullable = false)
     private String valor;
 
@@ -62,8 +64,7 @@ public class Configuracao implements Entidade, Serializable {
 
     public Configuracao() {
     }
-    
-    
+      
 
     public String getChave() {
         return chave;
@@ -111,16 +112,16 @@ public class Configuracao implements Entidade, Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao[ id=" + id + " ]";
+        return chave + " = " + valor;
     }
     
-        @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -130,38 +131,47 @@ public class Configuracao implements Entidade, Serializable {
     private Long versao;
     
 
+    @Override
     public Pessoa getCriador() {
         return criador;
     }
 
+    @Override
     public void setCriador(Pessoa criador) {
         this.criador = criador;
     }
 
+    @Override
     public Date getDataCriacao() {
         return dataCriacao;
     }
 
+    @Override
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
+    @Override
     public Pessoa getUltimoAlterador() {
         return ultimoAlterador;
     }
 
+    @Override
     public void setUltimoAlterador(Pessoa ultimoAlterador) {
         this.ultimoAlterador = ultimoAlterador;
     }
 
+    @Override
     public Date getDataUltimaAlteracao() {
         return dataUltimaAlteracao;
     }
 
+    @Override
     public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
         this.dataUltimaAlteracao = dataUltimaAlteracao;
     }
 
+    @Override
     public Long getVersao() {
         return versao;
     }

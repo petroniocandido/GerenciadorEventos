@@ -8,6 +8,8 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Cacheable;
@@ -123,6 +125,50 @@ public class Atividade implements Entidade, Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "atividade")
     private List<Alocacao> recursos;
+    
+    public Atividade() {
+        recursos = new ArrayList<>();
+        responsaveis = new ArrayList<>();
+        precursores = new ArrayList<>();
+        dependentes= new ArrayList<>();
+        arquivos = new ArrayList<>();
+        status = Status.Pendente;
+        valorOrcado = new BigDecimal("0.00");
+        valorExecutado = new BigDecimal("0.00");
+        valorInscricao = new BigDecimal("0.00");
+    }
+    
+    
+    public void add(Pessoa responsavel){
+        if(!responsaveis.contains(responsavel))
+            responsaveis.add(responsavel);
+    }
+    public void remove(Pessoa responsavel){
+        if(responsaveis.contains(responsavel))
+            responsaveis.remove(responsavel);
+    }
+    
+    public void add(Arquivo arquivo){
+        if(!arquivos.contains(arquivo))
+            arquivos.add(arquivo);
+    }
+    public void remove(Arquivo arquivo){
+        if(arquivos.contains(arquivo))
+            arquivos.remove(arquivo);
+    }
+    
+    public void add(Alocacao recurso){
+        recurso.setAtividade(this);
+        if(!recursos.contains(recurso)){            
+            recursos.add(recurso);
+        }
+    }
+    public void remove(Alocacao recurso){
+        if(recursos.contains(recurso)){
+            recursos.remove(recurso);
+            recurso.setAtividade(null);
+        }
+    }
     
     @Override
     public Long getId() {

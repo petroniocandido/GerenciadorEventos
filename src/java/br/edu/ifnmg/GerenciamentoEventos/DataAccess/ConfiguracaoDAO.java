@@ -46,17 +46,28 @@ public class ConfiguracaoDAO extends DAOGenerico<Configuracao> implements Config
 
     @Override
     public boolean Set(String chave, String valor) {
-        return IgualA("chave", chave)
-                .ENulo("usuario")
-                .Setar("valor", valor)
-                .Atualiza();
+        Configuracao c = Abrir(chave);
+        
+        if(c != null){
+            c.setValor(valor);
+        } else {
+            c = new Configuracao(chave, valor);
+        }
+        
+        return Salvar(c);
     }
 
     @Override
     public boolean Set(Pessoa pessoa, String chave, String valor) {
-        return IgualA("chave", chave)
-                .IgualA("usuario", pessoa)
-                .Setar("valor", valor)
-                .Atualiza();
+        Configuracao c = Abrir(pessoa, chave);
+        
+        if(c != null){
+            c.setValor(valor);
+        } else {
+            c = new Configuracao(chave, valor);
+            c.setUsuario(pessoa);
+        }
+        
+        return Salvar(c);
     }
 }

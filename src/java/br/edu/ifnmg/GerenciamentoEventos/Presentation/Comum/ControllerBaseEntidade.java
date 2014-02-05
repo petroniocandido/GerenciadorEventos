@@ -4,10 +4,14 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 
@@ -19,6 +23,9 @@ import org.primefaces.event.SelectEvent;
 public abstract class ControllerBaseEntidade<T extends Entidade> extends ControllerBase {
     
     protected Long id;
+    
+    @EJB
+    ConfiguracaoRepositorio confDAO;
     
     public Long getId() {
         return id;
@@ -183,6 +190,26 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
         }
     } 
     
+    public void setConfiguracao(String chave, String valor){
+        confDAO.Set(chave, valor);
+        AppendLog("Alterando configuração global" + chave + " = " + valor);
+    }
     
+    public void setConfiguracao(Pessoa usr, String chave, String valor){
+        confDAO.Set(usr, chave, valor);
+        AppendLog("Alterando configuração de usuário " + chave + " = " + valor);
+    }
+    
+    public String getConfiguracao(String chave){
+        Configuracao c = confDAO.Abrir(chave);
+        if(c == null ) {
+            c = confDAO.Abrir(getUsuarioCorrente(), chave);
+        }
+        
+        if(c != null)
+            return c.getValor();
+        else
+            return null;
+    }
     
 }

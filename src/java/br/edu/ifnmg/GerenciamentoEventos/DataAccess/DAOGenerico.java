@@ -125,7 +125,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     protected DAOGenerico<T> Ordenar(String campo, String sentido) {
         if(order.length() > 0)
             order.append(",");
-        order.append(campo).append(" ").append(sentido);
+        order.append("o.").append(campo).append(" ").append(sentido);
         return this;
     }
 

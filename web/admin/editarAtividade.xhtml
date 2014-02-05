@@ -49,7 +49,7 @@
 
                             </h:panelGrid> 
                         </p:tab>
-                        <p:tab title="Inscrições">  
+                        <p:tab rendered="#{atividadeController.entidade.id gt 0}"  title="Inscrições">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Número de vagas: " />
                                 <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" />
@@ -65,7 +65,7 @@
                                 <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab title="Campos auxiliares">  
+                        <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Campos auxiliares">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Campo Auxiliar 1: " />
                                 <p:editor value="#{atividadeController.entidade.auxiliar1}" maxlength="600" />
@@ -77,7 +77,7 @@
                                 <p:editor value="#{atividadeController.entidade.auxiliar4}" maxlength="600" />
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab title="Responsáveis">  
+                        <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Responsáveis">  
                             <h:panelGrid columns="3" cellpadding="3"> 
                                 <h:outputText value="Responsável: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{atividadeController.responsavel}"
@@ -85,7 +85,7 @@
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
-                                <p:commandButton value="Adicionar" />
+                                <p:commandButton value="Adicionar" action="#{atividadeController.addResponsavel}" />
                             </h:panelGrid>
                             <p:dataTable value="#{atividadeController.entidade.responsaveis}" var="item" selectionMode="single"
                                          paginator="true" rows="30"  lazy="true" 
@@ -98,11 +98,13 @@
                                     #{item.email}                            
                                 </p:column>
                                 <p:column >
-                                    <p:commandButton value="Remover" />
+                                    <p:commandButton value="Remover" action="#{atividadeController.removeResponsavel}" >
+                                        <f:setPropertyActionListener target="#{atividadeController.responsavel}" value="#{item}" />
+                                </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </p:tab>
-                        <p:tab title="Recursos">  
+                        <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Recursos">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Recurso: " />
                                 <p:autoComplete converter="#{recursoConverter}" value="#{atividadeController.alocacao.recurso}"
@@ -116,6 +118,7 @@
                                     </p:column>
                                 </p:autoComplete>
                                 <h:outputText value="Responsável: " />
+                                <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}" />
                             </h:panelGrid>
                             <p:dataTable value="#{atividadeController.entidade.recursos}" var="item" selectionMode="single"
                                          paginator="true" rows="30"  lazy="true" 
@@ -138,7 +141,9 @@
                                     </p:outputLabel>
                                 </p:column>
                                 <p:column >
-                                    <p:commandButton value="Remover" />
+                                    <p:commandButton value="Remover" action="#{atividadeController.removeAlocacao}" >
+                                        <f:setPropertyActionListener target="#{atividadeController.alocacao}" value="#{item}" />
+                                </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </p:tab>

@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
@@ -38,6 +39,8 @@ public class EventoController
     
     @EJB
     EventoRepositorio dao;
+    
+    
         
     @PostConstruct
     public void init() {
@@ -104,6 +107,16 @@ public class EventoController
 
     public void setListagem(List<Evento> listagem) {
         this.listagem = listagem;
+    }
+    
+    public void configurarEventoGlobal() {
+        setConfiguracao("EVENTO_PADRAO", entidade.getId().toString());
+        Mensagem("Sucesso", "Configuração global alterada com êxito!");
+    }
+    
+    public void configurarEventoUsuario() {
+        setConfiguracao(getUsuarioCorrente(), "EVENTO_PADRAO", entidade.getId().toString());
+        Mensagem("Sucesso", "Configuração do usuário alterada com êxito!");
     }
     
 }
