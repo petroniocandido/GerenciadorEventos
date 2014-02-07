@@ -71,7 +71,7 @@ public class QuestionarioSecao implements Serializable,Entidade {
     
     public void add(QuestionarioSecao m){
         if(filhos == null){
-            filhos = new LinkedList<QuestionarioSecao>();
+            filhos = new LinkedList<>();
         }
         m.setPai(this);
         if(!filhos.contains(m)){
@@ -81,7 +81,7 @@ public class QuestionarioSecao implements Serializable,Entidade {
     
     public void remove(QuestionarioSecao m){
         if(filhos == null){
-            filhos = new LinkedList<QuestionarioSecao>();
+            filhos = new LinkedList<>();
         }
         m.setPai(null);
         if(filhos.contains(m)){

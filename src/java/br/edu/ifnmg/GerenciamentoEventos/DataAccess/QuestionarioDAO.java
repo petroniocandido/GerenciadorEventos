@@ -10,42 +10,51 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioReposi
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
 import java.util.HashMap;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless(name="QuestionarioRepositorio")
+@Stateless
 public class QuestionarioDAO
-    extends DAOGenerico<Questionario>
-    implements QuestionarioRepositorio {
-
+        extends DAOGenerico<Questionario>
+        implements QuestionarioRepositorio {
+    
     DAOGenerico<Questao> daoQuestao;
     DAOGenerico<QuestionarioSecao> daoSecao;
     
-    public QuestionarioDAO(){
+    public QuestionarioDAO() {
         super(Questionario.class);
+        daoQuestao = new DAOGenerico<>(Questao.class);
+        daoSecao = new DAOGenerico<>(QuestionarioSecao.class);
+    }
+    
+    @PostConstruct
+    public void inicializar() {
+        daoQuestao.setManager(getManager());
+        daoSecao.setManager(getManager());
     }
     
     @Override
     public List<Questionario> Buscar(Questionario obj) {
-        Ordenar("titulo","Asc")
+        Ordenar("titulo", "Asc")
                 .IgualA("id", obj.getId())
                 .Like("titulo", obj.getTitulo());
-         return  Buscar();
+        return Buscar();
     }    
-
+    
     @Override
     public QuestionarioSecao AbrirSecao(Long id) {        
         return daoSecao.Abrir(id);
     }
-
+    
     @Override
     public Questao AbrirQuestao(Long id) {
         return daoQuestao.Abrir(id);
     }
-
+    
     @Override
     public List<QuestionarioSecao> Buscar(QuestionarioSecao obj) {
         return daoSecao.
@@ -53,9 +62,9 @@ public class QuestionarioDAO
                 Like("nome", obj.getNome()).
                 IgualA("questionario", obj.getQuestionario()).
                 Buscar();
-                
+        
     }
-
+    
     @Override
     public List<Questao> Buscar(Questao obj) {
         return daoQuestao.
@@ -66,12 +75,12 @@ public class QuestionarioDAO
                 IgualA("secao", obj.getSecao()).
                 Buscar();
     }
-
+    
     @Override
     public void Salvar(QuestionarioSecao obj) {
         daoSecao.Salvar(obj);
     }
-
+    
     @Override
     public void Salvar(Questao obj) {
         daoQuestao.Salvar(obj);

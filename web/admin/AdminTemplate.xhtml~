@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet name="/css/default.css"/>
         <h:outputStylesheet name="/css/cssLayout.css"/>
         <title>Gerenciamento de Eventos - TADS IFNMG Januária</title>
@@ -14,7 +14,7 @@
 
     <h:body>
        
-        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  >
+        <h:form acceptcharset="ISO-8859-1" >
             Usuário: #{autenticacaoController.usuarioCorrente.nome}
             <p:menubar>
                 <p:menuitem value="Home"  url="index.xhtml" />
@@ -25,9 +25,7 @@
                 <p:submenu label="Eventos">
                     <p:menuitem value="Eventos" url="listagemEventos.xhtml" />
                     <p:menuitem value="Atividades"  url="listagemAtividades.xhtml"  />
-                    <p:menuitem value="Questionários"  url="listagemQuestionarios.xhtml"  />
                     <p:menuitem value="Inscrições"  />
-                    <p:menuitem value="Respostas de Questionários"  url="listagemRespostas.xhtml"  />
                 </p:submenu>
                 <p:submenu label="Financeiro">
                     <p:menuitem value="Lançamentos" />
