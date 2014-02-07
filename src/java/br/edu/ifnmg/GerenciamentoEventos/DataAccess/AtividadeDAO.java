@@ -70,7 +70,7 @@ public class AtividadeDAO
     public List<AtividadeTipo> Buscar(AtividadeTipo obj) {
         return daoTipo
                 .Like("nome", obj.getNome())
-                .IgualA("publico", obj.isPublico())
+                .IgualA("publico", obj.getPublico())
                 .Buscar();
     }
 }

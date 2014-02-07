@@ -43,26 +43,16 @@ public class InscricaoItem extends Inscricao implements Serializable {
     @ManyToOne
     private Atividade atividade;
     
-    private String titulo;
-    
-    private String observacoes;
-    
-    private String auxiliar1;
-    
-    private String auxiliar2;
-    
-    private String auxiliar3;
-    
-    private String auxiliar4;
-    
     @ManyToMany
     @JoinTable(name = "inscricoescoletivas")
     private List<Pessoa> pessoas;
     
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -73,54 +63,6 @@ public class InscricaoItem extends Inscricao implements Serializable {
 
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getObservacoes() {
-        return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-        this.observacoes = observacoes;
-    }
-
-    public String getAuxiliar1() {
-        return auxiliar1;
-    }
-
-    public void setAuxiliar1(String auxiliar1) {
-        this.auxiliar1 = auxiliar1;
-    }
-
-    public String getAuxiliar2() {
-        return auxiliar2;
-    }
-
-    public void setAuxiliar2(String auxiliar2) {
-        this.auxiliar2 = auxiliar2;
-    }
-
-    public String getAuxiliar3() {
-        return auxiliar3;
-    }
-
-    public void setAuxiliar3(String auxiliar3) {
-        this.auxiliar3 = auxiliar3;
-    }
-
-    public String getAuxiliar4() {
-        return auxiliar4;
-    }
-
-    public void setAuxiliar4(String auxiliar4) {
-        this.auxiliar4 = auxiliar4;
     }
 
     public Inscricao getInscricao() {
@@ -138,6 +80,8 @@ public class InscricaoItem extends Inscricao implements Serializable {
     public void setPessoas(List<Pessoa> pessoas) {
         this.pessoas = pessoas;
     }
+    
+    
  
 
     @Override

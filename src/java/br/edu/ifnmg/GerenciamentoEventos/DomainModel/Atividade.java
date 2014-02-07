@@ -83,22 +83,13 @@ public class Atividade implements Entidade, Serializable {
     private List<Arquivo> arquivos;
     
     @ManyToOne
+    Questionario questionario;
+    
+    @ManyToOne
     private Recurso local;
     
     @Column(nullable = true)
     private int numeroVagas;
-    
-    @Column(nullable = true)
-    private String auxiliar1;
-    
-    @Column(nullable = true)
-    private String auxiliar2;
-    
-    @Column(nullable = true)
-    private String auxiliar3;
-    
-    @Column(nullable = true)
-    private String auxiliar4;
     
     @Column(nullable = true)
     private BigDecimal valorOrcado;
@@ -159,6 +150,7 @@ public class Atividade implements Entidade, Serializable {
     
     public void add(Alocacao recurso){
         recurso.setAtividade(this);
+        recurso.setEvento(this.getEvento());
         if(!recursos.contains(recurso)){            
             recursos.add(recurso);
         }
@@ -167,6 +159,7 @@ public class Atividade implements Entidade, Serializable {
         if(recursos.contains(recurso)){
             recursos.remove(recurso);
             recurso.setAtividade(null);
+            recurso.setEvento(null);
         }
     }
     
@@ -260,6 +253,14 @@ public class Atividade implements Entidade, Serializable {
         this.responsaveis = responsaveis;
     }
 
+    public Questionario getQuestionario() {
+        return questionario;
+    }
+
+    public void setQuestionario(Questionario questionario) {
+        this.questionario = questionario;
+    }
+
     
 
     public List<Arquivo> getArquivos() {
@@ -284,38 +285,6 @@ public class Atividade implements Entidade, Serializable {
 
     public void setNumeroVagas(int numeroVagas) {
         this.numeroVagas = numeroVagas;
-    }
-
-    public String getAuxiliar1() {
-        return auxiliar1;
-    }
-
-    public void setAuxiliar1(String auxiliar1) {
-        this.auxiliar1 = auxiliar1;
-    }
-
-    public String getAuxiliar2() {
-        return auxiliar2;
-    }
-
-    public void setAuxiliar2(String auxiliar2) {
-        this.auxiliar2 = auxiliar2;
-    }
-
-    public String getAuxiliar3() {
-        return auxiliar3;
-    }
-
-    public void setAuxiliar3(String auxiliar3) {
-        this.auxiliar3 = auxiliar3;
-    }
-
-    public String getAuxiliar4() {
-        return auxiliar4;
-    }
-
-    public void setAuxiliar4(String auxiliar4) {
-        this.auxiliar4 = auxiliar4;
     }
 
     public List<Alocacao> getRecursos() {

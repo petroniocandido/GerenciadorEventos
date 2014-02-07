@@ -91,7 +91,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         return this;
     }
     
-    private void addSpecialOp(String campo, String op){
+    private void addSpecialOp(StringBuilder where, String campo, String op){
         if(where.length() > 0) {
             where.append(logicalConnector);
         }
@@ -101,6 +101,10 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         }
 
         where.append(campo).append(" ").append(op);        
+    }
+    
+    private void addSpecialOp(String campo, String op){
+        addSpecialOp(where, campo, op);
     }
 
     protected DAOGenerico<T> Like(String campo, String valor) {
@@ -268,16 +272,16 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         }
     }
     
-    private void addOp(String field, String op,  Object value){
+    protected StringBuilder addOp(StringBuilder where, HashMap<Integer,Object> params, String field, String op,  Object value){
         if(value == null ) {
-            return;
+            return where;
         }
         if(value.toString().equals("")){
-            return;
+            return where;
         }
         
         if(value.toString().equals("0")){
-            return;
+            return where;
         }
         
         int key = params.size();
@@ -292,6 +296,11 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
         where.append(field).append(" ").append(op).append(" :p").append(Integer.toString(key));
         params.put(key, value);
+        return where;
+    }
+    
+    private void addOp(String field, String op,  Object value){
+        addOp(where, params, field, op, value);
     }
 
     @Override

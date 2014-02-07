@@ -75,6 +75,8 @@ public class Evento implements Entidade, Serializable {
     @ManyToOne
     private Arquivo banner;
     
+    @ManyToOne
+    Questionario questionario;
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
@@ -207,6 +209,14 @@ public class Evento implements Entidade, Serializable {
 
     public void setBanner(Arquivo banner) {
         this.banner = banner;
+    }
+
+    public Questionario getQuestionario() {
+        return questionario;
+    }
+
+    public void setQuestionario(Questionario questionario) {
+        this.questionario = questionario;
     }
     
     

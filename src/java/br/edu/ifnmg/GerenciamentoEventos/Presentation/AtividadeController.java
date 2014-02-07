@@ -161,21 +161,28 @@ public class AtividadeController
     public void addResponsavel() {
         entidade.add(responsavel);
         SalvarAgregado(responsavel);
+        responsavel = new Pessoa();
     }
     
     public void removeResponsavel() {
         entidade.remove(responsavel);
         RemoverAgregado(responsavel);
+        responsavel = new Pessoa();
     }
     
     public void addAlocacao() {
+        Rastrear(alocacao);
+        alocacao.setInicio(entidade.getInicio());
+        alocacao.setTermino(entidade.getTermino());
         entidade.add(alocacao);
         SalvarAgregado(alocacao);
+        alocacao= new Alocacao();
     }
     
     public void removeAlocacao() {
         entidade.remove(alocacao);
         RemoverAgregado(alocacao);
+        alocacao= new Alocacao();
     }
 
     

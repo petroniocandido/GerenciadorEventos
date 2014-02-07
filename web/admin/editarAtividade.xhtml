@@ -38,7 +38,7 @@
                                     <f:selectItems value="#{atividadeController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Nome: " />
-                                <p:inputText value="#{atividadeController.entidade.nome}" 
+                                <p:inputText value="#{atividadeController.entidade.nome}" size="150" 
                                              required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="Descrição: " />
                                 <p:editor value="#{atividadeController.entidade.descricao}" maxlength="600" />
@@ -49,7 +49,8 @@
 
                             </h:panelGrid> 
                         </p:tab>
-                        <p:tab rendered="#{atividadeController.entidade.id gt 0}"  title="Inscrições">  
+                        <p:tab rendered="#{atividadeController.entidade.id gt 0}"  
+                               title="Inscrições">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Número de vagas: " />
                                 <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" />
@@ -65,7 +66,8 @@
                                 <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Campos auxiliares">  
+                        <p:tab rendered="#{atividadeController.entidade.id gt 0}"
+                               title="Campos auxiliares">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Campo Auxiliar 1: " />
                                 <p:editor value="#{atividadeController.entidade.auxiliar1}" maxlength="600" />
@@ -85,11 +87,11 @@
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
-                                <p:commandButton value="Adicionar" action="#{atividadeController.addResponsavel}" />
+                                <p:commandButton value="Adicionar" action="#{atividadeController.addResponsavel}" update="tblResponsaveis" />
                             </h:panelGrid>
-                            <p:dataTable value="#{atividadeController.entidade.responsaveis}" var="item" selectionMode="single"
-                                         paginator="true" rows="30"  lazy="true" 
-                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+                            <p:dataTable id="tblResponsaveis" value="#{atividadeController.entidade.responsaveis}" var="item"
+                                         paginator="true" lazy="true" 
+                                         >  
 
                                 <p:column headerText="Nome" sortBy="#{item.nome}"  >
                                     #{item.nome}                            
@@ -98,9 +100,14 @@
                                     #{item.email}                            
                                 </p:column>
                                 <p:column >
+                                    <p:commandButton value="Editar" >
+                                        <f:setPropertyActionListener target="#{atividadeController.responsavel}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column >
                                     <p:commandButton value="Remover" action="#{atividadeController.removeResponsavel}" >
                                         <f:setPropertyActionListener target="#{atividadeController.responsavel}" value="#{item}" />
-                                </p:commandButton>
+                                    </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </p:tab>
@@ -111,7 +118,7 @@
                                                 completeMethod="#{recursoController.autoCompleteRecurso}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     <p:column headerText="Recurso"  >
-                                        #{item.recurso}                            
+                                        #{item.nome}                            
                                     </p:column>
                                     <p:column headerText="Capacidade"  >
                                         #{item.capacidade}                            
@@ -120,9 +127,8 @@
                                 <h:outputText value="Responsável: " />
                                 <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}" />
                             </h:panelGrid>
-                            <p:dataTable value="#{atividadeController.entidade.recursos}" var="item" selectionMode="single"
-                                         paginator="true" rows="30"  lazy="true" 
-                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+                            <p:dataTable value="#{atividadeController.entidade.recursos}" var="item" 
+                                         lazy="true" >  
 
                                 <p:column headerText="Recurso"  >
                                     #{item.recurso}                            
@@ -141,9 +147,14 @@
                                     </p:outputLabel>
                                 </p:column>
                                 <p:column >
+                                    <p:commandButton value="Editar" >
+                                        <f:setPropertyActionListener target="#{atividadeController.alocacao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column >
                                     <p:commandButton value="Remover" action="#{atividadeController.removeAlocacao}" >
                                         <f:setPropertyActionListener target="#{atividadeController.alocacao}" value="#{item}" />
-                                </p:commandButton>
+                                    </p:commandButton>
                                 </p:column>
                             </p:dataTable>
                         </p:tab>

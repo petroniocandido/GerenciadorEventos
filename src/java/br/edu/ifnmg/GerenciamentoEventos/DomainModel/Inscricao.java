@@ -51,6 +51,9 @@ public class Inscricao implements Entidade, Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPagamento;
     
+    @ManyToOne
+    QuestionarioResposta resposta;
+    
     private boolean pago;
     
     private boolean compareceu;
@@ -145,6 +148,14 @@ public class Inscricao implements Entidade, Serializable {
 
     public void setItens(List<InscricaoItem> itens) {
         this.itens = itens;
+    }
+
+    public QuestionarioResposta getResposta() {
+        return resposta;
+    }
+
+    public void setResposta(QuestionarioResposta resposta) {
+        this.resposta = resposta;
     }
     
     

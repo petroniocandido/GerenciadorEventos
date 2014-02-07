@@ -18,6 +18,12 @@
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
+                                <h:outputText value="Evento: " />
+                                <p:autoComplete converter="#{eventoConverter}" value="#{atividadeController.filtro.evento}"
+                                                completeMethod="#{eventoController.autoCompleteEvento}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
                                 <h:outputText value="Nome: " />
                                 <p:inputText id="txtNome" size="50" value="#{atividadeController.filtro.nome}"/> 
                             </p:panelGrid>
@@ -40,12 +46,14 @@
                             <p:outputLabel value="#{item.nome}" />                            
                         </p:column>
                         <p:column headerText="Início" sortBy="#{item.inicio}"  >
-                            <p:outputLabel value="#{item.inicio}" />                            
+                            <p:outputLabel value="#{item.inicio}" >
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
+                            </p:outputLabel>                           
                         </p:column>
                         <p:column headerText="Status" sortBy="#{item.status}"  >
                             <p:outputLabel value="#{item.status}" />                            
                         </p:column>
-                        
+
                     </p:dataTable>
                 </p:panel>
             </ui:define>

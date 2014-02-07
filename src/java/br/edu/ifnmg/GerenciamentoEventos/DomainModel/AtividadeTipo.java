@@ -40,7 +40,7 @@ public class AtividadeTipo implements Entidade, Serializable {
     private String descricao;
     
     @Column(nullable = false)
-    private boolean publico;
+    private Boolean publico;
 
     @Override
     public Long getId() {
@@ -68,16 +68,14 @@ public class AtividadeTipo implements Entidade, Serializable {
         this.descricao = descricao;
     }
 
-    public boolean isPublico() {
+    public Boolean getPublico() {
         return publico;
     }
 
-    public void setPublico(boolean publico) {
+    public void setPublico(Boolean publico) {
         this.publico = publico;
-    }
+   }
     
-    
-
     @Override
     public int hashCode() {
         int hash = 0;
