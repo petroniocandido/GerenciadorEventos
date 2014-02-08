@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
+        <title>Gerenciamento de Eventos - TADS IFNMG Januária</title>
+    </h:head>
+
+    <h:body>
+
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
+            <p:panelGrid> 
+                <p:row>
+                    <p:column>
+                        <img src="../resources/imagens/logo-ifnmg.png" width="200" height="100" />
+                    </p:column>
+                    <p:column style="width: 100%" >
+                        <h1 style="text-align: center">Gestão de Eventos - IFNMG</h1>
+                        <h:outputText style="float: right" value="Usuário: #{autenticacaoController.usuarioCorrente.nome}" />
+                    </p:column>
+                </p:row>
+
+            </p:panelGrid>
+            <p:menubar>
+                <p:menuitem value="Dados Pessoais"  url="index.xhtml" />
+                <p:menuitem value="Inscrição"  url="index.xhtml" />
+                <p:menuitem value="Site do Evento"  url="index.xhtml" />
+                <p:menuitem value="Sair"  url="index.xhtml" />
+            </p:menubar>
+            <p:growl showDetail="true" sticky="true"  life="60" />
+            <ui:insert name="content">Content</ui:insert>
+        </h:form>
+    </h:body>
+
+</html>
