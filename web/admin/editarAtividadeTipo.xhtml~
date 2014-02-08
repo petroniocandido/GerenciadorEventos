@@ -22,10 +22,10 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Nome: " />
                                 <p:inputText value="#{atividadeTipoController.entidade.nome}" 
-                                             required="true" requiredMessage="O campo nome é obrigatório" />
-                                <h:outputText value="Descrição: " />
+                                             required="true" requiredMessage="O campo nome Ã© obrigatÃ³rio" />
+                                <h:outputText value="DescriÃ§Ã£o: " />
                                 <p:editor value="#{atividadeTipoController.entidade.descricao}" maxlength="600" />
-                                <h:outputText value="Público: " />
+                                <h:outputText value="PÃºblico: " />
                                 <p:selectBooleanCheckbox value="#{atividadeTipoController.entidade.publico}" />
                                 
                             </h:panelGrid> 

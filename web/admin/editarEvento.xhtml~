@@ -5,8 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pe="http://primefaces.org/ui/extensions"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <body>
 
@@ -31,7 +30,7 @@
                                 <h:outputText value="Descrição: " />
                                 <p:editor id="editor" value="#{eventoController.entidade.descricao}" width="600"/> 
                                 <p:commandButton value="Tornar Padrão Global" action="#{eventoController.configurarEventoGlobal}" style="background-color: red" />
-                                <p:commandButton value="Tornar Padrão do Usuário" action="#{eventoController.configurarEventoUsuario()}" style="background-color: red" />
+                                <p:commandButton value="Tornar Padrão do Usuaário" action="#{eventoController.configurarEventoUsuario()}" style="background-color: red" />
                             </h:panelGrid>
                         </p:tab>
                         <p:tab id="tabDetalhes" title="Detalhes">  
@@ -51,45 +50,15 @@
                         </p:tab>
                         <p:tab id="tabInscricoes" title="Inscrições">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <h:outputText value="Necessita inscri��o?: " />
+                                <h:outputText value="Necessita inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
-                                <h:outputText value="Valor Inscri��o: " />
+                                <h:outputText value="Valor Inscrição: " />
                                 <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" />
-                                <h:outputText value="In�cio Inscri��es: " />
+                                <h:outputText value="Início Inscrições: " />
                                 <p:calendar value="#{eventoController.entidade.inicioInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
-                                <h:outputText value="T�rmino Inscri��es: " />
+                                <h:outputText value="Término Inscrições: " />
                                 <p:calendar value="#{eventoController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm" />
-                                <h:outputText value="Formulário de Inscrição: " />
-                                <p:autoComplete value="#{eventoController.entidade.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  
-                                                var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  
-                                    <p:column>  
-                                        #{p.titulo}  
-                                    </p:column>                                
-                                </p:autoComplete>
                             </h:panelGrid> 
-                        </p:tab>
-                        <p:tab id="tabArquivos" title="Arquivos">  
-                            <h:panelGrid columns="2" cellpadding="3">
-                                <c:if test="#{eventoController.entidade.logo ne  null}">
-                                    <h:outputText value="Logo Evento: " />
-                                    <h:graphicImage value="/arquivos/#{eventoController.entidade.logo.uri}" />
-                                </c:if>
-                                <h:outputText value="Enviar Logo Evento: " />
-                                <p:fileUpload fileUploadListener="#{eventoController.logoFileUpload}" mode="advanced"             
-                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
-                                              invalidFileMessage="Tipo de arquivo não permitido!"
-                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
-                                              label="Escolher arquivo!"
-                                              multiple="false"/> 
-                                <c:if test="#{eventoController.entidade.banner ne  null}">
-                                    <h:outputText value="Banner Evento: " />
-                                    <h:graphicImage value="/arquivos/#{eventoController.entidade.banner.uri}" />
-                                </c:if>
-                                <h:outputText value="Banner Evento: " />
-                                <p:fileUpload fileUploadListener="#{eventoController.bannerFileUpload}" mode="advanced"             
-                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/> 
-                            </h:panelGrid>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{eventoController}"  />

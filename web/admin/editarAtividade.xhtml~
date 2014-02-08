@@ -52,25 +52,31 @@
                         <p:tab rendered="#{atividadeController.entidade.id gt 0}"  
                                title="Inscrições">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <h:outputText value="Valor da Inscrição: " />
-                                <pe:inputNumber value="#{atividadeController.entidade.valorInscricao}" />
                                 <h:outputText value="Número de vagas: " />
                                 <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" />
                                 <h:outputText value="Necessita de Inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Inscrição é por grupos?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.inscricaoColetiva}" />
+                                <h:outputText value="Valor da Inscrição: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.valorInscricao}" />
                                 <h:outputText value="Início do período de inscrições: " />
                                 <p:calendar value="#{atividadeController.entidade.inicioInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
                                 <h:outputText value="Término do período de inscrições: " />
                                 <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
-                                <h:outputText value="Formulário de Inscrição: " />
-                                <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  
-                                                var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  
-                                    <p:column>  
-                                        #{p.titulo}  
-                                    </p:column>                                
-                                </p:autoComplete>
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab rendered="#{atividadeController.entidade.id gt 0}"
+                               title="Campos auxiliares">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Campo Auxiliar 1: " />
+                                <p:editor value="#{atividadeController.entidade.auxiliar1}" maxlength="600" />
+                                <h:outputText value="Campo Auxiliar 2: " />
+                                <p:editor value="#{atividadeController.entidade.auxiliar2}" maxlength="600" />
+                                <h:outputText value="Campo Auxiliar 3: " />
+                                <p:editor value="#{atividadeController.entidade.auxiliar3}" maxlength="600" />
+                                <h:outputText value="Campo Auxiliar 4: " />
+                                <p:editor value="#{atividadeController.entidade.auxiliar4}" maxlength="600" />
                             </h:panelGrid>
                         </p:tab>
                         <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Responsáveis">  

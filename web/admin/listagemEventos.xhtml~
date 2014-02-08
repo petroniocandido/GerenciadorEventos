@@ -13,36 +13,44 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Listagem de Tipos de Atividades
+                        Listagem de Eventos
                     </f:facet>
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
                                 <h:outputText value="Nome: " />
-                                <p:inputText id="txtNome" size="50" value="#{atividadeTipoController.filtro.nome}"/> 
-                                <h:outputText value="Público: " />
-                                <p:selectBooleanCheckbox value="#{atividadeTipoController.filtro.publico}" />
+                                <p:inputText id="txtNome" size="50" value="#{eventoController.filtro.nome}"/>                                 
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
-                                <ui:param name="controller" value="#{atividadeTipoController}"  />
+                                <ui:param name="controller" value="#{eventoController}"  />
                                 <ui:param name="campos" value="txtNome"  />
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
-                    <!-- Início da Tabela -->
-                    <p:dataTable value="#{atividadeTipoController.dataModel}" var="item" selectionMode="single"
+                    <!-- InÃ­cio da Tabela -->
+                    <p:dataTable value="#{eventoController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
-                        <p:ajax event="rowSelect" listener="#{atividadeTipoController.onRowSelect}" />
+                        <p:ajax event="rowSelect" listener="#{eventoController.onRowSelect}" />
                         <!-- Coluna Codigo -->
-                        <p:column headerText="Cód." sortBy="#{item.id}"   >
-                            <p:outputLabel value="#{item.id}" />
+                        <p:column headerText="CÃ³d." sortBy="#{item.id}"   >
+                            #{item.id}
                         </p:column>
                         <!-- Coluna Nome -->
                         <p:column headerText="Nome" sortBy="#{item.nome}"  >
-                            <p:outputLabel value="#{item.nome}" />                            
-                        </p:column>                        
+                            #{item.nome}                            
+                        </p:column>
+                        <p:column headerText="Data InÃ­cio" sortBy="#{item.inicio}"  >
+                            <p:outputLabel value="#{item.inicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="TÃ©rmino" sortBy="#{item.termino}"  >
+                            <p:outputLabel value="#{item.termino}">
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
+                            </p:outputLabel>
+                        </p:column>
                     </p:dataTable>
                 </p:panel>
             </ui:define>

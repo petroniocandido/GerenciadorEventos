@@ -19,4 +19,5 @@ public interface Repositorio<T> {
     public T Abrir(Long id);
     public List<T> Buscar(T filtro);
     public Exception getErro();
+    public T Refresh(T obj);
 }

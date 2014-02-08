@@ -69,10 +69,10 @@ public class Evento implements Entidade, Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo logo;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo banner;
     
     @ManyToOne

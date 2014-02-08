@@ -7,8 +7,6 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
@@ -17,6 +15,12 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultUploadedFile;
+import org.primefaces.model.NativeUploadedFile;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -118,5 +122,13 @@ public class EventoController
         setConfiguracao(getUsuarioCorrente(), "EVENTO_PADRAO", entidade.getId().toString());
         Mensagem("Sucesso", "Configuração do usuário alterada com êxito!");
     }
+    
+    public void logoFileUpload(FileUploadEvent event) {  
+        entidade.setLogo(criaArquivo(event.getFile()));
+    }
+    
+    public void bannerFileUpload(FileUploadEvent event) {  
+        entidade.setBanner(criaArquivo(event.getFile()));
+    }  
     
 }

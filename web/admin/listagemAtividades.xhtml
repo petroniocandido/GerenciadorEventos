@@ -33,7 +33,7 @@
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
-                    <!-- InÃ­cio da Tabela -->
+                    <!-- Início da Tabela -->
                     <p:dataTable value="#{atividadeController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
@@ -45,7 +45,7 @@
                         <p:column headerText="Atividade" sortBy="#{item.nome}"  >
                             <p:outputLabel value="#{item.nome}" />                            
                         </p:column>
-                        <p:column headerText="InÃ­cio" sortBy="#{item.inicio}"  >
+                        <p:column headerText="Início" sortBy="#{item.inicio}"  >
                             <p:outputLabel value="#{item.inicio}" >
                                 <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
                             </p:outputLabel>                           

@@ -362,4 +362,12 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     public  List<T> Buscar(T filtro) {
         return Buscar();
     }
+    
+    @Override
+    public T Refresh(T obj) {
+        manager.flush();
+        //manager.refresh(obj);
+        obj = (T) manager.getReference(tipo, obj.getId());
+        return obj;
+    }
 }

@@ -4,7 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
@@ -43,12 +42,11 @@ public class QuestionarioController
     QuestionarioSecao secao;
     QuestaoTipo[] tipos;
     Questao questao;
-    
-    
+
     @PostConstruct
-   public void init() {
-      setRepositorio(dao);
-   }
+    public void init() {
+        setRepositorio(dao);
+    }
 
     public List<Questionario> autoCompleteQuestionario(String query) {
         Questionario i = new Questionario();
@@ -71,7 +69,7 @@ public class QuestionarioController
     @Override
     public void salvar() {
         SalvarEntidade();
-        
+
         // atualiza a listagem
         filtrar();
     }
@@ -99,40 +97,43 @@ public class QuestionarioController
         setId(0L);
         setEntidade(new Questionario());
         setQuestao(new Questao());
-        setSecao(new QuestionarioSecao());        
+        setSecao(new QuestionarioSecao());
     }
-    
+
     @Override
-    public String novo(){
+    public String novo() {
         limpar();
         return "editarQuestionario.xhtml";
     }
 
     public void addSecao() {
-        entidade.add(secao);        
+        dao.Refresh(entidade);
+        entidade.add(secao);
         SalvarAgregado(secao);
         setSecao(new QuestionarioSecao());
     }
 
     public void removeSecao() {
+        dao.Refresh(entidade);
         entidade.remove(secao);
         RemoverAgregado(secao);
         setSecao(new QuestionarioSecao());
-        
+
     }
 
     public void addQuestao() {
+        dao.Refresh(entidade);
         entidade.add(questao);
         SalvarAgregado(questao);
-        setQuestao(new Questao());        
+        setQuestao(new Questao());
     }
 
-    public void removeQuestao() {        
+    public void removeQuestao() {
+        dao.Refresh(entidade);
         entidade.remove(questao);
         RemoverAgregado(questao);
         setQuestao(new Questao());
     }
-
 
     public Questao getQuestao() {
         return questao;
@@ -140,7 +141,7 @@ public class QuestionarioController
 
     public void setQuestao(Questao questao) {
         this.questao = questao;
-        setSecao(questao.getSecao());
+        //setSecao(questao.getSecao());
         //questao.get
     }
 
@@ -151,7 +152,7 @@ public class QuestionarioController
     public void setSecao(QuestionarioSecao secao) {
         this.secao = secao;
     }
-   
+
     public QuestaoTipo[] getTipos() {
         if (tipos == null) {
             tipos = QuestaoTipo.values();

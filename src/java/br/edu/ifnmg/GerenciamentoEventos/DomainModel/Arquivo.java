@@ -40,10 +40,12 @@ public class Arquivo implements Entidade, Serializable {
     @ManyToOne
     private Pessoa responsavel;
 
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -96,16 +98,16 @@ public class Arquivo implements Entidade, Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo[ id=" + id + " ]";
+        return nome;
     }
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -115,38 +117,47 @@ public class Arquivo implements Entidade, Serializable {
     private Long versao;
     
 
+    @Override
     public Pessoa getCriador() {
         return criador;
     }
 
+    @Override
     public void setCriador(Pessoa criador) {
         this.criador = criador;
     }
 
+    @Override
     public Date getDataCriacao() {
         return dataCriacao;
     }
 
+    @Override
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
+    @Override
     public Pessoa getUltimoAlterador() {
         return ultimoAlterador;
     }
 
+    @Override
     public void setUltimoAlterador(Pessoa ultimoAlterador) {
         this.ultimoAlterador = ultimoAlterador;
     }
 
+    @Override
     public Date getDataUltimaAlteracao() {
         return dataUltimaAlteracao;
     }
 
+    @Override
     public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
         this.dataUltimaAlteracao = dataUltimaAlteracao;
     }
 
+    @Override
     public Long getVersao() {
         return versao;
     }

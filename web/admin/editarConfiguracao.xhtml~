@@ -14,12 +14,12 @@
                 <p:panel>
 
                     <f:facet name="header">
-                        Editar configuração
+                        Editar configuraÃ§Ã£o
                     </f:facet>
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <h:outputText value="Usuário: " />
+                                <h:outputText value="UsuÃ¡rio: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{configuracaoController.entidade.usuario}"
                                                 completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
@@ -29,10 +29,10 @@
 
                                 <h:outputText value="Chave: " />
                                 <p:inputText value="#{configuracaoController.entidade.chave}" 
-                                             required="true" requiredMessage="O campo chave é obrigatório" />
+                                             required="true" requiredMessage="O campo chave Ã© obrigatÃ³rio" />
                                 <h:outputText value="Valor: " />
                                 <p:inputText value="#{configuracaoController.entidade.valor}" 
-                                             required="true" requiredMessage="O campo valor é obrigatório" />
+                                             required="true" requiredMessage="O campo valor Ã© obrigatÃ³rio" />
                                 <h:outputText value="Telefone: " />
 
                             </h:panelGrid> 
