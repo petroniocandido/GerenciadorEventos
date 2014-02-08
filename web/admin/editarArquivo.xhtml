@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Editar dados gerais do arquivo
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Nome: " />
+                                    <p:inputText value="#{arquivoController.entidade.nome}" 
+                                             required="true" requiredMessage="O campo nome � obrigat�rio" />
+                                <h:outputText value="URI: " />
+                                <p:editor value="#{arquivoController.entidade.uri}" maxlength="600" />
+                                
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab title="Preview">
+                            <h:graphicImage value="/arquivos/#{arquivoController.entidade.uri}" />
+                        </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{arquivoController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{arquivoController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
