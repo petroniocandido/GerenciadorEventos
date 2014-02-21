@@ -122,14 +122,23 @@ public class EventoController
         entidade.setLogo(criaArquivo(event.getFile()));
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
+            AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
         } else {
             Mensagem("Falha", "Falha ao anexar o arquivo!");
+            AppendLog("Erro ao anexar o arquivo " + entidade.getLogo() + " ao evento " + entidade + ":" + dao.getErro());
         }
         
     }
     
     public void bannerFileUpload(FileUploadEvent event) {  
         entidade.setBanner(criaArquivo(event.getFile()));
+        if(dao.Salvar(entidade)){
+            Mensagem("Sucesso", "Arquivo anexado com êxito!");
+            AppendLog("Anexou o arquivo " + entidade.getBanner()+ " ao evento " + entidade);
+        } else {
+            Mensagem("Falha", "Falha ao anexar o arquivo!");
+            AppendLog("Erro ao anexar o arquivo " + entidade.getBanner()+ " ao evento " + entidade + ":" + dao.getErro());
+        }
     }  
     
 }

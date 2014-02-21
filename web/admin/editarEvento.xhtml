@@ -25,7 +25,8 @@
                                 <p:inputText value="#{eventoController.entidade.nome}" size="100"
                                              required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="Situação: " />
-                                <h:selectOneMenu value="#{eventoController.entidade.status}" >
+                                <h:selectOneMenu value="#{eventoController.entidade.status}" 
+                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!" >
                                     <f:selectItems value="#{atividadeController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Descrição: " />
@@ -37,9 +38,11 @@
                         <p:tab id="tabDetalhes" title="Detalhes">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Início: " />
-                                <p:calendar value="#{eventoController.entidade.inicio}"  pattern="MM/dd/yyyy HH:mm"  />
+                                <p:calendar value="#{eventoController.entidade.inicio}" pattern="MM/dd/yyyy HH:mm"
+                                            required="true" requiredMessage="A campo Início é de preenchimento obrigatório!"/>
                                 <h:outputText value="Término: " />
-                                <p:calendar value="#{eventoController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" />
+                                <p:calendar value="#{eventoController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" 
+                                            required="true" requiredMessage="A campo Término é de preenchimento obrigatório!"/>
                                 <h:outputText value="Local: " />
                                 <p:autoComplete converter="#{recursoConverter}" value="#{eventoController.entidade.local}"
                                                 completeMethod="#{recursoController.autoCompleteImoveis}" 
@@ -51,13 +54,13 @@
                         </p:tab>
                         <p:tab id="tabInscricoes" title="Inscrições">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <h:outputText value="Necessita inscri��o?: " />
+                                <h:outputText value="Necessita inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
-                                <h:outputText value="Valor Inscri��o: " />
+                                <h:outputText value="Valor Inscrição: " />
                                 <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" />
-                                <h:outputText value="In�cio Inscri��es: " />
+                                <h:outputText value="Início Inscriçães: " />
                                 <p:calendar value="#{eventoController.entidade.inicioInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
-                                <h:outputText value="T�rmino Inscri��es: " />
+                                <h:outputText value="Término Inscriçães: " />
                                 <p:calendar value="#{eventoController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm" />
                                 <h:outputText value="Formulário de Inscrição: " />
                                 <p:autoComplete value="#{eventoController.entidade.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  

@@ -24,17 +24,20 @@
                                 <h:outputText value="Evento: " />
                                 <p:autoComplete converter="#{eventoConverter}" value="#{atividadeController.entidade.evento}"
                                                 completeMethod="#{eventoController.autoCompleteEvento}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                                itemLabel="#{item.nome}" itemValue="#{item}"
+                                                required="true" requiredMessage="A campo Evento é de preenchimento obrigatório!">
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Tipo: " />
                                 <p:autoComplete converter="#{atividadeTipoConverter}" value="#{atividadeController.entidade.tipo}"
                                                 completeMethod="#{atividadeTipoController.autoCompleteAtividadeTipo}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                                itemLabel="#{item.nome}" itemValue="#{item}"
+                                                required="true" requiredMessage="A campo Tipo é de preenchimento obrigatório!">
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Situação: " />
-                                <h:selectOneMenu value="#{atividadeController.entidade.status}" >
+                                <h:selectOneMenu value="#{atividadeController.entidade.status}" 
+                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
                                     <f:selectItems value="#{atividadeController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Nome: " />
@@ -43,9 +46,11 @@
                                 <h:outputText value="Descrição: " />
                                 <p:editor value="#{atividadeController.entidade.descricao}" maxlength="600" />
                                 <h:outputText value="Início: " />
-                                <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="MM/dd/yyyy HH:mm"  />
+                                <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="MM/dd/yyyy HH:mm" 
+                                            required="true" requiredMessage="A campo Início é de preenchimento obrigatório!" />
                                 <h:outputText value="Término: " />
-                                <p:calendar value="#{atividadeController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" />
+                                <p:calendar value="#{atividadeController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" 
+                                            required="true" requiredMessage="A campo Término é de preenchimento obrigatório!" />
 
                             </h:panelGrid> 
                         </p:tab>
@@ -119,9 +124,14 @@
                                     </p:column>
                                 </p:autoComplete>
                                 <h:outputText value="Responsável: " />
-                                <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}" />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{atividadeController.alocacao.responsavel}"
+                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}"  update="tblRecursos"  />
                             </h:panelGrid>
-                            <p:dataTable value="#{atividadeController.entidade.recursos}" var="item" 
+                            <p:dataTable id="tblRecursos" value="#{atividadeController.entidade.recursos}" var="item" 
                                          lazy="true" >  
 
                                 <p:column headerText="Recurso"  >
