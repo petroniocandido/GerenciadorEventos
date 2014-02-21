@@ -228,13 +228,13 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
             String deploymentDirectoryPath = ctx.getRealPath("/");
             File file = new File(deploymentDirectoryPath + "/arquivos/" + upload.getFileName());
             is = upload.getInputstream();
-            OutputStream os = new FileOutputStream(file);
-            byte buf[] = new byte[1024];
-            int len;
-            while ((len = is.read(buf)) > 0) {
-                os.write(buf, 0, len);
+            try (OutputStream os = new FileOutputStream(file)) {
+                byte buf[] = new byte[1024];
+                int len;
+                while ((len = is.read(buf)) > 0) {
+                    os.write(buf, 0, len);
+                }
             }
-            os.close();
             is.close();
 
             Arquivo arquivo = new Arquivo();
@@ -246,7 +246,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
             return arquivo;
 
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             System.out.println(ex.getStackTrace());
         }
         return null;

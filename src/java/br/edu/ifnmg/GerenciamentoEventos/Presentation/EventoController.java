@@ -15,12 +15,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultUploadedFile;
-import org.primefaces.model.NativeUploadedFile;
-import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -125,6 +120,12 @@ public class EventoController
     
     public void logoFileUpload(FileUploadEvent event) {  
         entidade.setLogo(criaArquivo(event.getFile()));
+        if(dao.Salvar(entidade)){
+            Mensagem("Sucesso", "Arquivo anexado com êxito!");
+        } else {
+            Mensagem("Falha", "Falha ao anexar o arquivo!");
+        }
+        
     }
     
     public void bannerFileUpload(FileUploadEvent event) {  
