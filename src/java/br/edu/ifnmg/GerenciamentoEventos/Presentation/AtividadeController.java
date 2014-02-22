@@ -171,6 +171,7 @@ public class AtividadeController
     }
     
     public void addAlocacao() {
+        entidade = dao.Refresh(entidade);
         Rastrear(alocacao);
         alocacao.setInicio(entidade.getInicio());
         alocacao.setTermino(entidade.getTermino());
@@ -184,6 +185,4 @@ public class AtividadeController
         RemoverAgregado(alocacao);
         alocacao= new Alocacao();
     }
-
-    
 }
