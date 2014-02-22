@@ -66,8 +66,8 @@ public class InscricaoController
 
     public List<Inscricao> autoCompleteInscricao(String query) {
         Inscricao i = new Inscricao();
-        Long id = Long.parseLong(query);
-        i.setId(id);
+        Long id2 = Long.parseLong(query);
+        i.setId(id2);
         return dao.Buscar(i);
     }
 
@@ -127,9 +127,19 @@ public class InscricaoController
     public void setListagem(List<Inscricao> listagem) {
         this.listagem = listagem;
     } 
+
+    public InscricaoItem getItem() {
+        return item;
+    }
+
+    public void setItem(InscricaoItem item) {
+        this.item = item;
+    }
+    
+    
     
     public void addItem() {
-        entidade = dao.Refresh(entidade);
+        Refresh();
         item.setEvento(entidade.getEvento());
         Rastrear(item);
         entidade.add(item);
@@ -138,6 +148,7 @@ public class InscricaoController
     }
     
     public void removeItem() {
+        Refresh();
         entidade.remove(item);
         RemoverAgregado(item);
         item = new InscricaoItem();

@@ -107,14 +107,14 @@ public class QuestionarioController
     }
 
     public void addSecao() {
-        dao.Refresh(entidade);
+        Refresh();
         entidade.add(secao);
         SalvarAgregado(secao);
         setSecao(new QuestionarioSecao());
     }
 
     public void removeSecao() {
-        dao.Refresh(entidade);
+        Refresh();
         entidade.remove(secao);
         RemoverAgregado(secao);
         setSecao(new QuestionarioSecao());
@@ -122,14 +122,14 @@ public class QuestionarioController
     }
 
     public void addQuestao() {
-        dao.Refresh(entidade);
+        Refresh();
         entidade.add(questao);
         SalvarAgregado(questao);
         setQuestao(new Questao());
     }
 
     public void removeQuestao() {
-        dao.Refresh(entidade);
+        Refresh();
         entidade.remove(questao);
         RemoverAgregado(questao);
         setQuestao(new Questao());

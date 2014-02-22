@@ -163,6 +163,10 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
             MensagemErro("Falha", "Item não removido! Consulte o log.");
         }
     }
+    
+    protected void Refresh() {
+        entidade = repositorio.Refresh(entidade);
+    }
 
     public boolean isNew() {
         if (getEntidade() == null) {

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagem de Lançamentos
+                    </f:facet>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+                            <p:panelGrid columns="2">
+                               <h:outputText value="Usuário: " />
+                               <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.cliente}"
+                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
+                                    <p:column headerText="CPF">#{item.cpf}</p:column>
+                                    <p:column headerText="E-Mail">#{item.email}</p:column>
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
+                                </p:autoComplete>
+                                <h:outputText value="Data de Baixa: " />
+                                <p:calendar value="#{lancamentoController.filtro.baixa}" />
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{lancamentoController.filtro.status}" 
+                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                    <f:selectItems value="#{lancamentoController.status}" />
+                                </h:selectOneMenu>
+                            </p:panelGrid>
+                            <ui:include src="./comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{lancamentoController}"  />
+                                <ui:param name="campos" value=""  />
+                            </ui:include>
+                        </p:tab>
+                    </p:accordionPanel>
+                    <p:dataTable value="#{lancamentoController.dataModel}" var="item" selectionMode="single"
+                                 paginator="true" rows="30"  lazy="true" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+
+                        <p:ajax event="rowSelect" listener="#{lancamentoController.onRowSelect}" />
+                        
+                        <p:column headerText="Cód." sortBy="#{item.id}"   >
+                            <p:outputLabel value="#{item.id}" />
+                        </p:column>
+                        <p:column headerText="Cliente" sortBy="#{item.cliente}"  >
+                            <p:outputLabel value="#{item.cliente}" />                            
+                        </p:column>
+                        <p:column headerText="Valor" sortBy="#{item.valorOriginal}"  >
+                            <p:outputLabel value="#{item.valorOriginal}" />                            
+                        </p:column>
+                        <p:column headerText="Situação" sortBy="#{item.status}"  >
+                            <p:outputLabel value="#{item.status}" />                            
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

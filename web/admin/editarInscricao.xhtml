@@ -36,40 +36,38 @@
                                                 required="true" requiredMessage="A campo Participante é de preenchimento obrigatório!">
                                     #{item.nome}
                                 </p:autoComplete>   
-                                 <h:outputText value="Pago?: " />
-                                 <p:selectBooleanCheckbox value="#{inscricaoController.entidade.pago}" />
-                                 <h:outputText value="Compareceu?: " />
-                                 <p:selectBooleanCheckbox value="#{inscricaoController.entidade.compareceu}" />
+                                <h:outputText value="Pago?: " />
+                                <p:selectBooleanCheckbox value="#{inscricaoController.entidade.pago}" />
+                                <h:outputText value="Compareceu?: " />
+                                <p:selectBooleanCheckbox value="#{inscricaoController.entidade.compareceu}" />
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab rendered="#{inscricaoController.entidade.id gt 0}" title="Itens">
                             <h:panelGrid columns="3" cellpadding="3"> 
                                 <h:outputText value="Atividade: " />
-                                <p:autoComplete converter="#{atividadeConverter}" value="#{inscricaoController.item}"
+                                <p:autoComplete id="txtAtividade" converter="#{atividadeConverter}" value="#{inscricaoController.item.atividade}"
                                                 completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome} - #{item.evento}
                                 </p:autoComplete>
-                                <p:commandButton value="Adicionar" action="#{inscricaoController.addItem}" update="tblResponsaveis" />
+                                <p:commandButton id="btnAddItem" value="Adicionar" action="#{inscricaoController.addItem}" update="tblItens" />
                             </h:panelGrid>
-                            <p:dataTable id="tblItens" value="#{inscricaoController.entidade.itens}" var="item"
-                                         paginator="true" lazy="true" 
-                                         >  
-
-                                <p:column headerText="Atividade" sortBy="#{item.atividade}"  >
-                                    #{item.atividade}                            
-                                </p:column>
-                                <p:column >
-                                    <p:commandButton value="Editar" >
-                                        <f:setPropertyActionListener target="#{inscricaoController.item}" value="#{item}" />
-                                    </p:commandButton>
-                                </p:column>
-                                <p:column >
-                                    <p:commandButton value="Remover" action="#{inscricaoController.removeItem}" >
-                                        <f:setPropertyActionListener target="#{inscricaoController.item}" value="#{item}" />
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
+                            <p:tabView id="tblItens">
+                                <c:forEach rendered="#{respostaController.editing}" items="#{inscricaoController.entidade.itens}" var="insc">
+                                    <p:tab title="#{insc.atividade.nome}">
+                                        <h:panelGrid columns="2" cellpadding="3">
+                                            <h:outputText value="Pago?: " />
+                                            <p:selectBooleanCheckbox value="#{insc.pago}" />
+                                            <h:outputText value="Compareceu?: " />
+                                            <p:selectBooleanCheckbox value="#{insc.compareceu}" />
+                                            <p:commandButton value="Salvar" action="#{inscricaoController.salvar()}" update="tblItens" />
+                                            <p:commandButton value="Remover" action="#{inscricaoController.removeItem}" update="tblItens">
+                                                <f:setPropertyActionListener target="#{inscricaoController.item}" value="#{insc}" />
+                                            </p:commandButton>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </c:forEach>
+                            </p:tabView>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{inscricaoController}"  />
