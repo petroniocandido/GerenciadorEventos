@@ -7,6 +7,8 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -67,6 +69,37 @@ public class Inscricao implements Entidade, Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "inscricoesarquivos")
     private List<Arquivo> arquivos;
+    
+    public Inscricao() {
+        arquivos = new ArrayList<>();
+        itens = new ArrayList<>();
+    }
+    
+    public void add(InscricaoItem item){
+        item.setInscricao(this);
+        if(!itens.contains(item)){
+            itens.add(item);
+        }
+    }
+    
+    public void remove(InscricaoItem item){
+        if(itens.contains(item)){
+            itens.remove(item);
+            item.setInscricao(null);            
+        }
+    }
+    
+    public void add(Arquivo arquivo){
+        if(!arquivos.contains(arquivo)){
+            arquivos.add(arquivo);
+        }
+    }
+    
+    public void remove(Arquivo arquivo){
+        if(arquivos.contains(arquivo)){
+            arquivos.remove(arquivo);
+        }
+    }
 
     @Override
     public Long getId() {
@@ -185,13 +218,13 @@ public class Inscricao implements Entidade, Serializable {
         return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao[ id=" + id + " ]";
     }
     
-        @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -201,38 +234,47 @@ public class Inscricao implements Entidade, Serializable {
     private Long versao;
     
 
+    @Override
     public Pessoa getCriador() {
         return criador;
     }
 
+    @Override
     public void setCriador(Pessoa criador) {
         this.criador = criador;
     }
 
+    @Override
     public Date getDataCriacao() {
         return dataCriacao;
     }
 
+    @Override
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
+    @Override
     public Pessoa getUltimoAlterador() {
         return ultimoAlterador;
     }
 
+    @Override
     public void setUltimoAlterador(Pessoa ultimoAlterador) {
         this.ultimoAlterador = ultimoAlterador;
     }
 
+    @Override
     public Date getDataUltimaAlteracao() {
         return dataUltimaAlteracao;
     }
 
+    @Override
     public void setDataUltimaAlteracao(Date dataUltimaAlteracao) {
         this.dataUltimaAlteracao = dataUltimaAlteracao;
     }
 
+    @Override
     public Long getVersao() {
         return versao;
     }
