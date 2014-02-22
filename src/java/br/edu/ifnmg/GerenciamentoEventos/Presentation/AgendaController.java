@@ -78,26 +78,26 @@ public class AgendaController
     }
 
     public ScheduleModel getEventModel() {
-        //if(eventModel == null){
-        checaEventoPadrao();
-        eventModel = new DefaultScheduleModel();
-        if (padrao != null) {
-            eventModel.addEvent(add(padrao));
-            if (padrao.isNecessitaInscricao()) {
-                eventModel.addEvent(addInscricao(padrao));
-            }
+        if (eventModel == null) {
+            checaEventoPadrao();
+            eventModel = new DefaultScheduleModel();
+            if (padrao != null) {
+                eventModel.addEvent(add(padrao));
+                if (padrao.isNecessitaInscricao()) {
+                    eventModel.addEvent(addInscricao(padrao));
+                }
 
-            Atividade filtro = new Atividade();
-            filtro.setEvento(padrao);
-            List<Atividade> atividades = daoA.Buscar(filtro);
-            for (Atividade atividade : atividades) {
-                eventModel.addEvent(add(atividade));
-                if (atividade.isNecessitaInscricao()) {
-                    eventModel.addEvent(addInscricao(atividade));
+                Atividade filtro = new Atividade();
+                filtro.setEvento(padrao);
+                List<Atividade> atividades = daoA.Buscar(filtro);
+                for (Atividade atividade : atividades) {
+                    eventModel.addEvent(add(atividade));
+                    if (atividade.isNecessitaInscricao()) {
+                        eventModel.addEvent(addInscricao(atividade));
+                    }
                 }
             }
         }
-        // }
         return eventModel;
     }
 

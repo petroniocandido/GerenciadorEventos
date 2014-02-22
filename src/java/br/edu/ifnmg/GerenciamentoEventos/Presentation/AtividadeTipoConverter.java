@@ -7,6 +7,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,13 +22,14 @@ import javax.inject.Named;
 @SessionScoped
 public class AtividadeTipoConverter implements Converter, Serializable {
 
+    @EJB
     private AtividadeRepositorio repositorio;
 
     
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        if (value.trim().equals("") || value == null) {
+        if (value == null || value.trim().equals("") ) {
             return null;
         } else {
             try {
@@ -39,9 +41,7 @@ public class AtividadeTipoConverter implements Converter, Serializable {
             } catch (NumberFormatException exception) {
                 //throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid player"));  
                 return null;
-            } catch (Exception e) {
-                return null;
-            }
+            } 
         }
     }
 

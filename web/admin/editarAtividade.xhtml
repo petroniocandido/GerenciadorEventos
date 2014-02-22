@@ -137,15 +137,15 @@
                                 <p:column headerText="Recurso"  >
                                     #{item.recurso}                            
                                 </p:column>
-                                <p:column headerText="Responsável" sortBy="#{item.email}"  >
+                                <p:column headerText="Responsável" >
                                     #{item.responsavel}                            
                                 </p:column>
-                                <p:column headerText="Início" sortBy="#{item.inicio}"  >
+                                <p:column headerText="Início" >
                                     <p:outputLabel value="#{item.inicio}">
                                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
                                     </p:outputLabel>
                                 </p:column>
-                                <p:column headerText="Término" sortBy="#{item.termino}"  >
+                                <p:column headerText="Término" >
                                     <p:outputLabel value="#{item.termino}">
                                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
                                     </p:outputLabel>
