@@ -8,7 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.CascadeType;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,6 +25,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
+@Cacheable
 @Entity
 @Table(name = "atividadestipos")
 public class AtividadeTipo implements Entidade, Serializable {

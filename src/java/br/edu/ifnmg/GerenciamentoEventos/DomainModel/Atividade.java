@@ -8,7 +8,6 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
