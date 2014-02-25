@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -56,6 +58,10 @@ public class Inscricao implements Entidade, Serializable {
     @ManyToOne
     QuestionarioResposta resposta;
     
+    @Enumerated
+    @Column(name = "DTYPE")
+    protected InscricaoTipo tipo;
+    
     private boolean pago;
     
     private boolean compareceu;
@@ -73,6 +79,7 @@ public class Inscricao implements Entidade, Serializable {
     public Inscricao() {
         arquivos = new ArrayList<>();
         itens = new ArrayList<>();
+        tipo = InscricaoTipo.Inscricao;
     }
     
     public void add(InscricaoItem item){
@@ -190,9 +197,15 @@ public class Inscricao implements Entidade, Serializable {
     public void setResposta(QuestionarioResposta resposta) {
         this.resposta = resposta;
     }
-    
-    
 
+    public InscricaoTipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(InscricaoTipo tipo) {
+        this.tipo = tipo;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -42,6 +42,7 @@ public class InscricaoItem extends Inscricao implements Serializable {
     
     public InscricaoItem(){
         pessoas = new ArrayList<>();                
+        tipo = InscricaoTipo.InscricaoItem;
     }
     
     @Override

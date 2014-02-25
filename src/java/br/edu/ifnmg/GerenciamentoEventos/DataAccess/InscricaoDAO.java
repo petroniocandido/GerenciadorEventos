@@ -29,6 +29,7 @@ public class InscricaoDAO
         return IgualA("id", filtro.getId())
                 .IgualA("pessoa", filtro.getPessoa())
                 .IgualA("evento", filtro.getEvento())
+                .IgualA("tipo", filtro.getTipo())
                 .Buscar();
     }
     

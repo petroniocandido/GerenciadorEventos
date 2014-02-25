@@ -60,6 +60,30 @@
                                             <p:selectBooleanCheckbox value="#{insc.pago}" />
                                             <h:outputText value="Compareceu?: " />
                                             <p:selectBooleanCheckbox value="#{insc.compareceu}" />
+
+                                            <c:if test="#{insc.resposta ne null}">
+                                                <p:dataTable value="#{insc.resposta.respostas}" var="item">                                                
+                                                    <p:column sortBy="#{item.questao.secao.ordem}"> 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Seção"/> 
+                                                        </f:facet> 
+                                                        #{item.questao.secao.nome}
+                                                    </p:column>
+                                                    <p:column sortBy="#{item.questao.ordem}"> 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Questão"/> 
+                                                        </f:facet> 
+                                                        #{item.questao.enunciado}
+                                                    </p:column>                                     
+                                                    <p:column > 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Resposta"/> 
+                                                        </f:facet> 
+                                                        #{item.valor}
+                                                    </p:column>                            
+                                                </p:dataTable>
+                                            </c:if>
+
                                             <p:commandButton value="Salvar" action="#{inscricaoController.salvar()}" update="tblItens" />
                                             <p:commandButton value="Remover" action="#{inscricaoController.removeItem}" update="tblItens">
                                                 <f:setPropertyActionListener target="#{inscricaoController.item}" value="#{insc}" />
