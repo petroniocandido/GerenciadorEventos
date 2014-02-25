@@ -13,7 +13,9 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,6 +38,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Inheritance(strategy= InheritanceType.JOINED)
+@DiscriminatorColumn(name = "DTYPE")
 @Table(name = "inscricoes")
 public class Inscricao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,7 +61,7 @@ public class Inscricao implements Entidade, Serializable {
     @ManyToOne
     QuestionarioResposta resposta;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "DTYPE")
     protected InscricaoTipo tipo;
     
