@@ -162,6 +162,21 @@ public class Atividade implements Entidade, Serializable {
         }
     }
     
+    
+    public boolean isPeriodoInscricaoAberto() {
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicioInscricao) >= 0 && hoje.compareTo(terminoInscricao) <= 0;
+    }
+    
+    public boolean isAtiva() {
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
+    }
+    
     @Override
     public Long getId() {
         return id;

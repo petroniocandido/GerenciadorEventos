@@ -80,6 +80,20 @@ public class Evento implements Entidade, Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
+    
+    public boolean isPeriodoInscricaoAberto() {
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicioInscricao) >= 0 && hoje.compareTo(terminoInscricao) <= 0;
+    }
+    
+    public boolean isAtivo() {
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
+    }
 
     @Override
     public Long getId() {

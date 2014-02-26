@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -13,8 +14,10 @@
     </h:head>
 
     <h:body>
-
         <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
+            <f:metadata>
+                <f:viewParam name="eventoID" value="#{publicoController.eventoID}" />
+            </f:metadata>
             <p:panelGrid> 
                 <p:row>
                     <p:column>
@@ -31,7 +34,7 @@
                 <p:menuitem value="Dados Pessoais"  url="index.xhtml" />
                 <p:menuitem value="Inscrição"  url="index.xhtml" />
                 <p:menuitem value="Site do Evento"  url="index.xhtml" />
-                <p:menuitem value="Sair"  url="index.xhtml" />
+                <p:menuitem value="Sair" action="#{autenticacaoController.logout()}" />
             </p:menubar>
             <p:growl showDetail="true" sticky="true"  life="60" />
             <ui:insert name="content">Content</ui:insert>

@@ -110,6 +110,14 @@ public class Inscricao implements Entidade, Serializable {
             arquivos.remove(arquivo);
         }
     }
+    
+    public InscricaoItem getItem(Atividade a){
+        for(InscricaoItem i : getItens()){
+            if(i.getAtividade().equals(a))
+                return i;
+        }
+        return null;
+    }
 
     @Override
     public Long getId() {

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./PublicTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Inscricção no Evento e Atividades
+                    </f:facet>
+                    <p:tabView>
+                        <p:tab title="Evento Principal">
+                            <c:if test="#{publicoController.evento.necessitaInscricao}">
+                                <c:choose>
+                                    <c:when test="#{publicoController.evento.periodoInscricaoAberto}">
+                                        <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
+                                        <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever">
+                                            <f:setPropertyActionListener target="eventoID" value="#{publicoController.evento.id}" />
+                                        </p:commandButton>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
+                                        <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" >
+                                            <f:setPropertyActionListener target="eventoID" value="#{publicoController.evento.id}" />
+                                        </p:commandButton>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:if>
+                            <p:outputPanel>#{publicoController.evento.descricao}</p:outputPanel>
+                        </p:tab>
+                        <c:if test="#{not empty publicoController.inscricao}">
+                            <c:forEach items="#{publicoController.atividades}" var="atividade">
+                                <p:tab title="#{atividade.nome}">
+                                    <c:choose>
+                                        <c:when test="#{atividade.periodoInscricaoAberto}">
+                                            <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
+                                            <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever">
+                                                <f:setPropertyActionListener target="eventoID" value="#{publicoController.evento.id}" />
+                                                <f:setPropertyActionListener target="atividadeID" value="#{atividade.id}" />
+                                            </p:commandButton>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
+                                            <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" >
+                                                <f:setPropertyActionListener target="eventoID" value="#{publicoController.evento.id}" />
+                                                <f:setPropertyActionListener target="atividadeID" value="#{atividade.id}" />
+                                            </p:commandButton>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <p:outputPanel>#{atividade.descricao}</p:outputPanel>
+
+
+                                </p:tab>
+                            </c:forEach>
+                        </c:if>
+                    </p:tabView>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
