@@ -83,6 +83,7 @@ public class Inscricao implements Entidade, Serializable {
         arquivos = new ArrayList<>();
         itens = new ArrayList<>();
         tipo = InscricaoTipo.Inscricao;
+        dataInscricao = new Date();
     }
     
     public void add(InscricaoItem item){

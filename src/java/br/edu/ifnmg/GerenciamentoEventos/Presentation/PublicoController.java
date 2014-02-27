@@ -5,8 +5,8 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
-import br.edu.ifnmg.GerenciamentoEventos.DataAccess.PessoaDAO;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
@@ -15,26 +15,26 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "publicoController")
-@RequestScoped
-public class PublicoController {
-
-    @ManagedProperty(value = "#{param.pessoaID}")
-    Long pessoaID;
-    @ManagedProperty(value = "#{param.eventoID}")
-    Long eventoID;
-    @ManagedProperty(value = "#{param.inscricaoID}")
-    Long inscricaoID;
+@ConversationScoped
+public class PublicoController implements Serializable {
 
     @EJB
     EventoRepositorio eventoDAO;
@@ -47,6 +47,10 @@ public class PublicoController {
 
     @EJB
     PessoaRepositorio pessoaDAO;
+    
+    Evento evento;
+    
+    Atividade atividade;
 
     /**
      * Creates a new instance of PublicoController
@@ -55,94 +59,112 @@ public class PublicoController {
 
     }
 
+    List<Evento> eventos;
+
     public List<Evento> getEventos() {
-        Evento filtro = new Evento();
-        filtro.setStatus(Status.EmExecucao);
-        return eventoDAO.Buscar(filtro);
+        if (eventos == null) {
+            Evento filtro = new Evento();
+            filtro.setStatus(Status.EmExecucao);
+            eventos = eventoDAO.Buscar(filtro);
+        }
+        return eventos;
     }
 
+    List<AtividadeTipo> tipos = new ArrayList<>();
+
+    public List<AtividadeTipo> getAtividadesTipos() {
+        if (tipos == null) {
+            for (Atividade a : getAtividades()) {
+                if (!tipos.contains(a.getTipo())) {
+                    tipos.add(a.getTipo());
+                }
+            }
+        }
+        return tipos;
+    }
+
+    List<Atividade> atividades;
+
     public List<Atividade> getAtividades() {
-        if (eventoID > 0) {
+        if (atividades == null) {
             Atividade filtro = new Atividade();
-            filtro.setEvento(eventoDAO.Abrir(eventoID));
-            return atividadeDAO.Buscar(filtro);
+                AtividadeTipo tipo = new AtividadeTipo();
+                tipo.setPublico(true);
+                filtro.setTipo(tipo);
+                filtro.setEvento(getEvento());
+                atividades = atividadeDAO.Buscar(filtro);
+                return atividades;
+            
         } else {
-            return null;
+            return atividades;
         }
     }
-    
+
+    public List<Atividade> getAtividades(AtividadeTipo t) {
+        List<Atividade> tmp = new ArrayList<>();
+        for (Atividade a : getAtividades()) {
+            if (a.getTipo().equals(t)) {
+                tmp.add(a);
+            }
+        }
+        return tmp;
+    }
+
     Inscricao inscricao;
 
     public Inscricao getInscricao() {
-        if(inscricao == null){
-        if (inscricaoID != null) {
-            inscricao = inscricaoDAO.Abrir(inscricaoID);
-            return inscricao;
-        } else if (eventoID != null) {
-            inscricao = inscricaoDAO.Abrir(getEvento(), getPessoa());
-            return inscricao;
+        if (inscricao == null) {
+            if (getEvento() != null) {
+                inscricao = inscricaoDAO.Abrir(getEvento(), getPessoa());
+                return inscricao;
+            } else {
+                return null;
+            }
         } else {
-            return null;
+            return inscricao;
         }
-        } else return inscricao;
     }
 
     Pessoa pessoa;
 
     public Pessoa getPessoa() {
         if (pessoa == null) {
-            if (pessoaID != null) {
-                pessoa = pessoaDAO.Abrir(pessoaID);
-                return pessoa;
-            } else {
-                return null;
+                FacesContext fc = FacesContext.getCurrentInstance();
+                ExternalContext ec = fc.getExternalContext();
+                HttpSession session = (HttpSession) ec.getSession(true);
+                pessoa = (Pessoa) session.getAttribute("usuarioAutenticado");                
             }
-        } else {
-            return pessoa;
-        }
+                 
+        return pessoa;        
     }
-
-    public Long getPessoaID() {
-        return pessoaID;
-    }
-
-    public void setPessoaID(Long pessoaID) {
-        this.pessoaID = pessoaID;
-    }
-
-    Evento evento;
 
     public Evento getEvento() {
-        if (evento == null) {
-            if (eventoID != null) {
-                evento = eventoDAO.Abrir(eventoID);
-                return evento;
-            } else {
-                return null;
-            }
-        } else {
-            return evento;
-        }
+        return evento;
     }
 
-    public Long getEventoID() {
-        return eventoID;
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
 
-    public void setEventoID(Long eventoID) {
-        this.eventoID = eventoID;
+    public Atividade getAtividade() {
+        return atividade;
     }
 
-    public Long getInscricaoID() {
-        return inscricaoID;
+    public void setAtividade(Atividade atividade) {
+        this.atividade = atividade;
     }
 
-    public void setInscricaoID(Long inscricaoID) {
-        this.inscricaoID = inscricaoID;
-    }
+    
 
     public String selecionaEvento() {
         return "inscricao.xhtml";
+    }
+
+    public void inscreverEvento() {
+        Inscricao i = new Inscricao();
+        i.setEvento(getEvento());
+        i.setPessoa(getPessoa());
+        inscricaoDAO.Salvar(i);        
     }
 
 }

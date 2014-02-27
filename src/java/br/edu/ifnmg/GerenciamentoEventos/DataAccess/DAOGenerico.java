@@ -25,14 +25,14 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     @PersistenceContext(name = "GerenciamentoEventosPU")
     private EntityManager manager;
     
-    private Class tipo;
+    private final Class tipo;
     private Exception erro;
     private String logicalConnector = " and ";
     private StringBuilder where = new StringBuilder();
     private StringBuilder update = new StringBuilder();
     private StringBuilder order = new StringBuilder();
-    private HashMap<String,String> join = new HashMap<String,String>();
-    private HashMap<Integer,Object> params = new HashMap<Integer, Object>();
+    private HashMap<String,String> join = new HashMap<>();
+    private HashMap<Integer,Object> params = new HashMap<>();
     
      public DAOGenerico(Class t) {
         tipo = t;     
@@ -60,6 +60,11 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
      public void configure() {
          manager.setFlushMode(FlushModeType.COMMIT);
      }
+    
+    protected DAOGenerico<T> Join(String campo, String alias) {
+        join.put(campo, alias);
+        return this;
+    }
      
     protected DAOGenerico<T> IgualA(String campo, Object valor) {
         addOp(campo,"=",valor);

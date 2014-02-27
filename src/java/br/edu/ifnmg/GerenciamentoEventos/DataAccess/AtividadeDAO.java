@@ -39,16 +39,20 @@ public class AtividadeDAO
 
     @Override
     public List<Atividade> Buscar(Atividade filtro) {
-        return IgualA("id", filtro.getId())
+        IgualA("id", filtro.getId())
                 .Like("nome", filtro.getNome())
                 .IgualA("evento", filtro.getEvento())
                 .IgualA("inicio", filtro.getInicio())
                 .IgualA("local", filtro.getLocal())
                 .Like("descricao", filtro.getDescricao())
                 .IgualA("status", filtro.getStatus())
-                .IgualA("termino", filtro.getTermino())
-                .IgualA("tipo", filtro.getTipo())
-                .Buscar();
+                .IgualA("termino", filtro.getTermino());
+        if(filtro.getTipo() != null){
+            if(filtro.getTipo().getId() > 0) IgualA("tipo", filtro.getTipo());
+            else Join("tipo", "t").IgualA("t.publico", filtro.getTipo().getPublico());
+        }
+                
+        return   Buscar();
     }
 
     @Override

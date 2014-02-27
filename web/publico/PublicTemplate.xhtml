@@ -15,9 +15,7 @@
 
     <h:body>
         <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
-            <f:metadata>
-                <f:viewParam name="eventoID" value="#{publicoController.eventoID}" />
-            </f:metadata>
+            
             <p:panelGrid> 
                 <p:row>
                     <p:column>
@@ -34,7 +32,7 @@
                 <p:menuitem value="Dados Pessoais"  url="index.xhtml" />
                 <p:menuitem value="Inscrição"  url="index.xhtml" />
                 <p:menuitem value="Site do Evento"  url="index.xhtml" />
-                <p:menuitem value="Sair" action="#{autenticacaoController.logout()}" />
+                <p:menuitem ajax="false" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
             <p:growl showDetail="true" sticky="true"  life="60" />
             <ui:insert name="content">Content</ui:insert>

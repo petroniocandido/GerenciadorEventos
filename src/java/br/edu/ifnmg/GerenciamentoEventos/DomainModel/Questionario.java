@@ -47,7 +47,12 @@ public class Questionario implements Serializable, Entidade {
     @OneToMany(mappedBy = "questionario", fetch = FetchType.LAZY, cascade= CascadeType.ALL, targetEntity=Questao.class, orphanRemoval=true)
     @OrderBy(value="ordem")
     private List<Questao> questoes;
-
+    
+    public Questionario() {
+        secoes = new LinkedList<>();
+        questoes = new LinkedList<>();
+    }
+    
     @Override
     public Long getId() {
         return id;
@@ -59,9 +64,6 @@ public class Questionario implements Serializable, Entidade {
     }
     
     public void add(QuestionarioSecao m){
-        if(secoes == null){
-            secoes = new LinkedList<QuestionarioSecao>();
-        }
         m.setQuestionario(this);
         if(!secoes.contains(m)){
             secoes.add(m);
@@ -69,9 +71,6 @@ public class Questionario implements Serializable, Entidade {
     }
     
     public void remove(QuestionarioSecao m){
-        if(secoes == null){
-            secoes = new LinkedList<QuestionarioSecao>();
-        }
         if(secoes.contains(m)){
             secoes.remove(m);
             m.setQuestionario(null);
@@ -79,9 +78,6 @@ public class Questionario implements Serializable, Entidade {
     }
     
     public void add(Questao m){
-        if(questoes == null){
-            questoes = new LinkedList<Questao>();
-        }
         m.setQuestionario(this);
         if(!questoes.contains(m)){
             questoes.add(m);
@@ -89,9 +85,6 @@ public class Questionario implements Serializable, Entidade {
     }
     
     public void remove(Questao m){
-        if(questoes == null){
-            questoes = new LinkedList<Questao>();
-        }
         if(questoes.contains(m)){
             questoes.remove(m);
             m.setQuestionario(null);
