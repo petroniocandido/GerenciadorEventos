@@ -331,6 +331,9 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         try {
             // Persiste o objeto
             manager.remove(manager.merge(obj));
+            
+            manager.flush(); 
+            
             return true;
         } catch (Exception ex) {
             setErro(ex);
@@ -355,6 +358,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     
     public void setErro(Exception erro) {
         System.out.println(erro.getMessage());
+        System.out.println(erro.getStackTrace());
         this.erro = erro;
     }
 

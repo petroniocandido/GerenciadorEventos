@@ -11,7 +11,7 @@
         <ui:composition template="./PublicTemplate.xhtml">
 
             <ui:define name="content">
-               
+
                 <p:panel>
                     <f:facet name="header">
                         Inscricção no Evento e Atividades
@@ -24,6 +24,7 @@
                                         <c:when test="#{publicoController.evento.periodoInscricaoAberto}">
                                             <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
                                             <p:commandButton rendered="#{empty publicoController.inscricao}" ajax="false" value="Inscrever" action="#{publicoController.inscreverEvento}"/>
+                                            <p:commandButton rendered="#{not empty publicoController.inscricao}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoEvento}" />
                                         </c:when>                                        
                                         <c:otherwise>
                                             <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
@@ -40,36 +41,40 @@
                         <c:if test="#{not empty publicoController.inscricao}">
                             <c:forEach items="#{publicoController.atividadesTipos}" var="atividadeTipo">
                                 <c:if test="#{not empty publicoController.getAtividades(atividadeTipo)}">
-                                    <c:forEach items="#{publicoController.getAtividades(atividadeTipo)}" var="atividade">
-                                        <p:tab title="#{atividade.nome}">
-                                            <c:choose>
-                                                <c:when test="#{atividade.necessitaInscricao}">
+                                    <p:tab title="#{atividadeTipo.nome}">
+                                        <p:accordionPanel>
+                                            <c:forEach items="#{publicoController.getAtividades(atividadeTipo)}" var="atividade">
+                                                <p:tab title="#{atividade.nome}">
                                                     <c:choose>
-                                                        <c:when test="#{atividade.periodoInscricaoAberto}">
-                                                            <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
-                                                            <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever">
-                                                                <f:setPropertyActionListener target="#{publicoController.atividade}" value="#{atividade}" />
-                                                            </p:commandButton>
+                                                        <c:when test="#{atividade.necessitaInscricao}">
+                                                            <c:choose>
+                                                                <c:when test="#{atividade.periodoInscricaoAberto}">
+                                                                    <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
+                                                                    <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever">
+                                                                        <f:setPropertyActionListener target="#{publicoController.atividade}" value="#{atividade}" />
+                                                                    </p:commandButton>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
+                                                                    <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" >
+                                                                        <f:setPropertyActionListener target="#{publicoController.atividade}" value="#{atividade}" />
+                                                                    </p:commandButton>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
-                                                            <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" >
-                                                                <f:setPropertyActionListener target="#{publicoController.atividade}" value="#{atividade}" />
-                                                            </p:commandButton>
+                                                            <p:outputLabel value="Não é necessário fazer inscrição específica para essa atividade!" style="background-color: greenyellow" />
                                                         </c:otherwise>
                                                     </c:choose>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <p:outputLabel value="Não é necessário fazer inscrição específica para essa atividade!" style="background-color: greenyellow" />
-                                                </c:otherwise>
-                                            </c:choose>
-                                            <p:outputPanel>#{atividade.descricao}</p:outputPanel>
-                                        </p:tab>
-                                    </c:forEach>
+                                                    <p:outputPanel>#{atividade.descricao}</p:outputPanel>
+                                                </p:tab>
+                                            </c:forEach>
+                                        </p:accordionPanel>
+                                    </p:tab>
                                 </c:if>
                             </c:forEach>
+                        </c:if> 
 
-                        </c:if>
                     </p:tabView>
                 </p:panel>
             </ui:define>

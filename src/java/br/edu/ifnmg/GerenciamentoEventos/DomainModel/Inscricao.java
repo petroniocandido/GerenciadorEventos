@@ -75,7 +75,7 @@ public class Inscricao implements Entidade, Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Lancamento lancamento;
     
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "inscricoesarquivos")
     private List<Arquivo> arquivos;
     

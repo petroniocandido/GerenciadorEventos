@@ -49,4 +49,14 @@ public class InscricaoDAO
                 .Abrir();
     }
     
+    @Override
+    public boolean Apagar(Inscricao i){
+        /*for(InscricaoItem item : i.getItens()){
+            i.remove(item);
+        }
+        for(Arquivo a : i.getArquivos())
+            i.remove(a);*/
+        return super.Apagar(i);
+    }
+    
 }

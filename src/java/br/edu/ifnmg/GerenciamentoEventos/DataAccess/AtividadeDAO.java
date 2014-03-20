@@ -48,7 +48,7 @@ public class AtividadeDAO
                 .IgualA("status", filtro.getStatus())
                 .IgualA("termino", filtro.getTermino());
         if(filtro.getTipo() != null){
-            if(filtro.getTipo().getId() > 0) IgualA("tipo", filtro.getTipo());
+            if(filtro.getTipo().getId() != null && filtro.getTipo().getId() > 0) IgualA("tipo", filtro.getTipo());
             else Join("tipo", "t").IgualA("t.publico", filtro.getTipo().getPublico());
         }
                 

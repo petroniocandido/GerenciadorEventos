@@ -17,13 +17,10 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.bean.ManagedProperty;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -33,7 +30,7 @@ import javax.servlet.http.HttpSession;
  * @author petronio
  */
 @Named(value = "publicoController")
-@ConversationScoped
+@SessionScoped
 public class PublicoController implements Serializable {
 
     @EJB
@@ -51,6 +48,8 @@ public class PublicoController implements Serializable {
     Evento evento;
     
     Atividade atividade;
+    
+    Inscricao inscricao;
 
     /**
      * Creates a new instance of PublicoController
@@ -73,7 +72,7 @@ public class PublicoController implements Serializable {
     List<AtividadeTipo> tipos = new ArrayList<>();
 
     public List<AtividadeTipo> getAtividadesTipos() {
-        if (tipos == null) {
+        if (tipos.isEmpty()) {
             for (Atividade a : getAtividades()) {
                 if (!tipos.contains(a.getTipo())) {
                     tipos.add(a.getTipo());
@@ -110,7 +109,7 @@ public class PublicoController implements Serializable {
         return tmp;
     }
 
-    Inscricao inscricao;
+    
 
     public Inscricao getInscricao() {
         if (inscricao == null) {
@@ -137,6 +136,18 @@ public class PublicoController implements Serializable {
                  
         return pessoa;        
     }
+    
+    Long eventoID;
+
+    public Long getEventoID() {
+        return eventoID;
+    }
+
+    public void setEventoID(Long eventoID) {
+        this.eventoID = eventoID;
+    }
+    
+    
 
     public Evento getEvento() {
         return evento;
@@ -165,6 +176,11 @@ public class PublicoController implements Serializable {
         i.setEvento(getEvento());
         i.setPessoa(getPessoa());
         inscricaoDAO.Salvar(i);        
+    }
+    
+    public String cancelarInscricaoEvento() {
+        inscricaoDAO.Apagar(inscricao);        
+        return "selecionaEvento.xhtml";
     }
 
 }

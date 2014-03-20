@@ -12,13 +12,18 @@
         <ui:composition template="./PublicTemplate.xhtml">
 
             <ui:define name="content">
+                <f:metadata>
+                    <f:viewParam name="eventoID" value="#{publicoController.evento}"
+                                 converter="#{eventoConverter}"/>
+               </f:metadata>
                 <p:panel>
 
                     <f:facet name="header">
                         Escolha um evento:
                     </f:facet>
                     <c:forEach items="#{publicoController.eventos}" var="evento">
-                        <p:commandButton value="#{evento.nome}" action="#{publicoController.selecionaEvento}">
+                        <p:commandButton ajax="false" value="#{evento.nome}" action="#{publicoController.selecionaEvento}"
+                                        >
                             <f:setPropertyActionListener target="#{publicoController.evento}" value="#{evento}" />
                         </p:commandButton>
                     </c:forEach>
