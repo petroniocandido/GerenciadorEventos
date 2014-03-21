@@ -50,6 +50,8 @@ public class PublicoController implements Serializable {
     Atividade atividade;
     
     Inscricao inscricao;
+    
+    Inscricao inscricaoItem;
 
     /**
      * Creates a new instance of PublicoController
@@ -165,10 +167,12 @@ public class PublicoController implements Serializable {
         this.atividade = atividade;
     }
 
-    
-
     public String selecionaEvento() {
         return "inscricao.xhtml";
+    }
+    
+    public String selecionaAtividade() {
+        return "inscricaoAtividade.xhtml";
     }
 
     public void inscreverEvento() {
@@ -181,6 +185,13 @@ public class PublicoController implements Serializable {
     public String cancelarInscricaoEvento() {
         inscricaoDAO.Apagar(inscricao);        
         return "selecionaEvento.xhtml";
+    }
+
+    public Inscricao getInscricaoItem() {
+        if(inscricaoItem == null ){
+            inscricaoItem = inscricao.getItem(atividade);
+        }
+        return inscricaoItem;
     }
 
 }

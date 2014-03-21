@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./PublicTemplate.xhtml">
+
+            <ui:define name="content">
+
+                <p:panel>
+                    <f:facet name="header">
+                        Inscricção na atividade
+                    </f:facet>
+                    <p:tabView>
+                        <p:tab title="Detalhes">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Atividade:" />
+                                <p:outputLabel value="#{publicoController.atividade.nome}" />
+                                <p:outputLabel value="Tipo" />
+                                <p:outputLabel value="#{publicoController.atividade.tipo}" />
+                                <p:outputLabel value="Descrição" />
+                                <p:outputLabel value="#{publicoController.atividade.descricao}" />
+                                <p:outputLabel value="Inscrições:" />
+                                <c:choose>
+                                    <c:when test="#{publicoController.atividade.necessitaInscricao}">
+                                        <c:choose>
+                                            <c:when test="#{publicoController.atividade.periodoInscricaoAberto}">
+                                                <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />
+                                                <p:outputLabel value="Valor Inscrição:" />
+                                                <p:outputLabel value="#{publicoController.atividade.valorInscricao}" />
+                                                <p:outputLabel value="" />
+                                                <p:commandButton rendered="#{empty publicoController.inscricaoItem}" ajax="false" value="Inscrever" action="#{publicoController.inscreverEvento}"/>
+                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoEvento}" />
+                                            </c:when>                                        
+                                            <c:otherwise>
+                                                <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
+                                                <p:outputLabel value="" />
+                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" />
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p:outputLabel value="Não é necessário se inscrever para participar desse evento!" style="background-color: greenyellow" />
+                                    </c:otherwise>
+                                </c:choose>
+                            </p:panelGrid>
+                        </p:tab>
+                        <c:if test="#{not empty publicoController.atividade.questionario}">
+                            <p:tab title="Formulário de Inscrição">
+
+                            </p:tab>
+                        </c:if> 
+
+                    </p:tabView>
+                    <p:commandButton value="Voltar" action="#{publicoController.selecionaEvento}" />
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
