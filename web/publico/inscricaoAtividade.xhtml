@@ -51,10 +51,15 @@
                             </p:panelGrid>
                         </p:tab>
                         <c:if test="#{not empty publicoController.atividade.questionario}">
-                            <p:tab title="Formulário de Inscrição">
-
-                            </p:tab>
-                        </c:if> 
+                                <p:tab title="Dados da Inscrição">
+                                    <p:tabView>
+                                        <ui:include src="../comum/questionario.xhtml">
+                                            <ui:param name="questionario" value="#{publicoController.atividade.questionario}"  />
+                                            <ui:param name="resposta" value="#{publicoController.resposta}"  />
+                                        </ui:include>
+                                    </p:tabView>
+                                </p:tab>
+                            </c:if> 
 
                     </p:tabView>
                     <p:commandButton value="Voltar" action="#{publicoController.selecionaEvento}" />

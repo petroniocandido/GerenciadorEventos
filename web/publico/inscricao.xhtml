@@ -24,33 +24,43 @@
                                 <p:outputLabel value="Detalhes:" />
                                 <p:outputLabel value="#{publicoController.evento.descricao}" />
                                 <p:outputLabel value="Inscrições:" />
-                            <c:choose>
-                                <c:when test="#{publicoController.evento.necessitaInscricao}">
-                                    <c:choose>
-                                        <c:when test="#{publicoController.evento.periodoInscricaoAberto}">
-                                            <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
-                                            <p:outputLabel value="Valor Inscrição:" />
-                                            <p:outputLabel rendered="#{publicoController.evento.valorInscricao > 0}" value="#{publicoController.evento.valorInscricao}" />
-                                            <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />
-                                            <p:outputLabel value="" />
-                                            <p:commandButton rendered="#{empty publicoController.inscricao}" ajax="false" value="Inscrever" action="#{publicoController.inscreverEvento}"/>
-                                            <p:commandButton rendered="#{not empty publicoController.inscricao}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoEvento}" />
-                                        </c:when>                                        
-                                        <c:otherwise>
-                                            <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
-                                            <p:outputLabel value="" />
-                                            <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" />
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when>
-                                <c:otherwise>
-                                    <p:outputLabel value="Não é necessário se inscrever para participar desse evento!" style="background-color: greenyellow" />
-                                </c:otherwise>
-                            </c:choose>
-                            
+                                <c:choose>
+                                    <c:when test="#{publicoController.evento.necessitaInscricao}">
+                                        <c:choose>
+                                            <c:when test="#{publicoController.evento.periodoInscricaoAberto}">
+                                                <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
+                                                <p:outputLabel value="Valor Inscrição:" />
+                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao > 0}" value="#{publicoController.evento.valorInscricao}" />
+                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />
+                                                <p:outputLabel value="" />
+                                                <p:commandButton rendered="#{empty publicoController.inscricao}" ajax="false" value="Inscrever" action="#{publicoController.inscreverEvento}"/>
+                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoEvento}" />
+                                            </c:when>                                        
+                                            <c:otherwise>
+                                                <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
+                                                <p:outputLabel value="" />
+                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" />
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p:outputLabel value="Não é necessário se inscrever para participar desse evento!" style="background-color: greenyellow" />
+                                    </c:otherwise>
+                                </c:choose>
+
                             </p:panelGrid>
                         </p:tab>
                         <c:if test="#{not empty publicoController.inscricao}">
+                            <c:if test="#{not empty publicoController.evento.questionario}">
+                                <p:tab title="Dados da Inscrição">
+                                    <p:tabView>
+                                        <ui:include src="../comum/questionario.xhtml">
+                                            <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
+                                            <ui:param name="resposta" value="#{publicoController.resposta}"  />
+                                        </ui:include>
+                                    </p:tabView>
+                                </p:tab>
+                            </c:if>
                             <c:forEach items="#{publicoController.atividadesTipos}" var="atividadeTipo">
                                 <c:if test="#{not empty publicoController.getAtividades(atividadeTipo)}">  
                                     <p:tab title="#{atividadeTipo.nome}">

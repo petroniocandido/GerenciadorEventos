@@ -58,8 +58,8 @@ public class QuestionarioResposta implements Serializable, Entidade {
 
     public QuestionarioResposta(){
         this.id = 0L;
-        this.respostas = new LinkedList<QuestaoResposta>();
-        this.maps = new HashMap<Questao, QuestaoResposta>();
+        this.respostas = new LinkedList<>();
+        this.maps = new HashMap<>();
     }
     
     @Override

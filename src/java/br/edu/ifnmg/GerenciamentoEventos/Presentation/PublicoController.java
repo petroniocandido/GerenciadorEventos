@@ -11,10 +11,13 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import java.io.IOException;
 import java.io.Serializable;
@@ -46,6 +49,9 @@ public class PublicoController implements Serializable {
 
     @EJB
     PessoaRepositorio pessoaDAO;
+    
+    @EJB
+    QuestionarioRespostaRepositorio respostaDAO;
 
     Evento evento;
 
@@ -54,6 +60,10 @@ public class PublicoController implements Serializable {
     Inscricao inscricao;
 
     Inscricao inscricaoItem;
+    
+    Questionario questionario;
+    
+    QuestionarioResposta resposta;
 
     /**
      * Creates a new instance of PublicoController
@@ -198,6 +208,15 @@ public class PublicoController implements Serializable {
     public String cancelarInscricaoAtividade() {
         inscricao.remove(getInscricaoItem());
         return "inscricaoAtividade.xhtml";
+    }
+    
+    public QuestionarioResposta getResposta(){
+        if(resposta == null){
+            resposta = new QuestionarioResposta();
+            resposta.setPessoa(pessoa);
+            resposta.setQuestionario(questionario);
+        }
+        return resposta;
     }
 
 }

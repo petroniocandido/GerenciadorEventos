@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:forEach items="#{questoes}" var="q">
+        <h:panelGrid id="grid#{q.id}" columns="4" cellpadding="3">
+            <h:outputText value="#{q.enunciado}" />
+            <c:if test="#{resposta.RespostaDeQuestao(q) == null}">                
+                <c:if test="#{q.tipo == 'SimNao'}">
+                    <h:selectBooleanCheckbox id="valor#{q.id}" />
+                </c:if>
+                <c:if test="#{q.tipo == 'TextoLinha'}">
+                    <p:inputText  id="valor#{q.id}" size="50" />
+                </c:if>
+                <c:if test="#{q.tipo == 'TextoMultiLinha'}">
+                    <p:inputTextarea  id="valor#{q.id}" rows="5" cols="35" />
+                </c:if>
+                <c:if test="#{q.tipo == 'Inteiro'}">
+                    <p:spinner  id="valor#{q.id}" min="1">
+                        <f:convertNumber type="number" integerOnly="true" />
+                    </p:spinner>
+                </c:if>
+                <c:if test="#{q.tipo == 'Real'}">
+
+                </c:if>
+                <c:if test="#{q.tipo == 'Data'}">
+
+                </c:if>
+            </c:if>
+            <c:if test="#{resposta.RespostaDeQuestao(q) != null}">
+                <c:if test="#{q.tipo == 'SimNao'}">
+                    <h:selectBooleanCheckbox id="valor#{q.id}" value="#{resposta.RespostaDeQuestao(q).booleano}" />
+                </c:if>
+                
+                <c:if test="#{q.tipo == 'TextoLinha'}">
+                    <p:inputText  id="valor#{q.id}" size="50" value="#{resposta.RespostaDeQuestao(q).valor}"/>
+                </c:if>
+                <c:if test="#{q.tipo == 'TextoMultiLinha'}">
+                    <p:inputTextarea  id="valor#{q.id}" rows="5" cols="35" value="#{resposta.RespostaDeQuestao(q).valor}"/>
+                </c:if>
+                <c:if test="#{q.tipo == 'Inteiro'}">
+                    <p:spinner  id="valor#{q.id}" value="#{resposta.RespostaDeQuestao(q).inteiro}"  min="1">
+                        <f:convertNumber type="number" integerOnly="true" />
+                    </p:spinner>
+                </c:if>
+                <c:if test="#{q.tipo == 'Real'}">
+
+                </c:if>
+                <c:if test="#{q.tipo == 'Data'}">
+
+                </c:if>
+            </c:if>              
+        </h:panelGrid>
+    </c:forEach>
+</div>

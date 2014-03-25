@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:h="http://java.sun.com/jsf/html"
+     xmlns:p="http://primefaces.org/ui"
+     xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+     xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <c:forEach items="#{questionario.secoes}" var="sec">
+        <c:if test="#{sec.pai == null}">
+            <p:tab title="#{sec.nome}"> 
+                <c:if test="#{sec.filhos.size() gt 0}">
+                    <p:accordionPanel>  
+                        <c:forEach items="#{sec.filhos}" var="subsec">
+                            <p:tab title="#{subsec.nome}"> 
+                                <ui:include src="../comum/questoes.xhtml">
+                                    <ui:param name="questoes" value="#{subsec.questoes}"  />
+                                    <ui:param name="resposta" value="#{resposta}"  />
+                                </ui:include>
+                            </p:tab>
+                        </c:forEach>
+                    </p:accordionPanel>  
+                </c:if>
+                <c:if test="#{sec.questoes.size() gt 0}">
+                    <ui:include src="../comum/questoes.xhtml">
+                        <ui:param name="questoes" value="#{sec.questoes}"  />
+                        <ui:param name="resposta" value="#{resposta}"  />
+                    </ui:include>
+                </c:if>
+            </p:tab>
+        </c:if>
+    </c:forEach>
+
+</div>
+
