@@ -9,12 +9,14 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +46,13 @@ public class PublicoController implements Serializable {
 
     @EJB
     PessoaRepositorio pessoaDAO;
-    
+
     Evento evento;
-    
+
     Atividade atividade;
-    
+
     Inscricao inscricao;
-    
+
     Inscricao inscricaoItem;
 
     /**
@@ -73,7 +75,7 @@ public class PublicoController implements Serializable {
 
     List<AtividadeTipo> tipos = new ArrayList<>();
 
-    public List<AtividadeTipo> getAtividadesTipos() {
+    public List<AtividadeTipo> getAtividadesTipos() throws IOException {
         if (tipos.isEmpty()) {
             for (Atividade a : getAtividades()) {
                 if (!tipos.contains(a.getTipo())) {
@@ -86,22 +88,22 @@ public class PublicoController implements Serializable {
 
     List<Atividade> atividades;
 
-    public List<Atividade> getAtividades() {
+    public List<Atividade> getAtividades() throws IOException {
         if (atividades == null) {
             Atividade filtro = new Atividade();
-                AtividadeTipo tipo = new AtividadeTipo();
-                tipo.setPublico(true);
-                filtro.setTipo(tipo);
-                filtro.setEvento(getEvento());
-                atividades = atividadeDAO.Buscar(filtro);
-                return atividades;
-            
+            AtividadeTipo tipo = new AtividadeTipo();
+            tipo.setPublico(true);
+            filtro.setTipo(tipo);
+            filtro.setEvento(getEvento());
+            atividades = atividadeDAO.Buscar(filtro);
+            return atividades;
+
         } else {
             return atividades;
         }
     }
 
-    public List<Atividade> getAtividades(AtividadeTipo t) {
+    public List<Atividade> getAtividades(AtividadeTipo t) throws IOException {
         List<Atividade> tmp = new ArrayList<>();
         for (Atividade a : getAtividades()) {
             if (a.getTipo().equals(t)) {
@@ -111,9 +113,7 @@ public class PublicoController implements Serializable {
         return tmp;
     }
 
-    
-
-    public Inscricao getInscricao() {
+    public Inscricao getInscricao() throws IOException {
         if (inscricao == null) {
             if (getEvento() != null) {
                 inscricao = inscricaoDAO.Abrir(getEvento(), getPessoa());
@@ -130,28 +130,21 @@ public class PublicoController implements Serializable {
 
     public Pessoa getPessoa() {
         if (pessoa == null) {
-                FacesContext fc = FacesContext.getCurrentInstance();
-                ExternalContext ec = fc.getExternalContext();
-                HttpSession session = (HttpSession) ec.getSession(true);
-                pessoa = (Pessoa) session.getAttribute("usuarioAutenticado");                
-            }
-                 
-        return pessoa;        
-    }
-    
-    Long eventoID;
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            HttpSession session = (HttpSession) ec.getSession(true);
+            pessoa = (Pessoa) session.getAttribute("usuarioAutenticado");
+        }
 
-    public Long getEventoID() {
-        return eventoID;
+        return pessoa;
     }
 
-    public void setEventoID(Long eventoID) {
-        this.eventoID = eventoID;
-    }
-    
-    
-
-    public Evento getEvento() {
+    public Evento getEvento() throws IOException {
+        if (evento == null) {
+            FacesContext fc = FacesContext.getCurrentInstance();
+            ExternalContext ec = fc.getExternalContext();
+            ec.redirect("selecionaEvento.xhtml");
+        }
         return evento;
     }
 
@@ -170,28 +163,41 @@ public class PublicoController implements Serializable {
     public String selecionaEvento() {
         return "inscricao.xhtml";
     }
-    
+
     public String selecionaAtividade() {
         return "inscricaoAtividade.xhtml";
     }
 
-    public void inscreverEvento() {
+    public void inscreverEvento() throws IOException {
         Inscricao i = new Inscricao();
         i.setEvento(getEvento());
         i.setPessoa(getPessoa());
-        inscricaoDAO.Salvar(i);        
+        if(inscricaoDAO.Salvar(i)) {
+            inscricao = i;
+        }
     }
-    
+
     public String cancelarInscricaoEvento() {
-        inscricaoDAO.Apagar(inscricao);        
+        inscricaoDAO.Apagar(inscricao);
         return "selecionaEvento.xhtml";
     }
 
-    public Inscricao getInscricaoItem() {
-        if(inscricaoItem == null ){
-            inscricaoItem = inscricao.getItem(atividade);
-        }
-        return inscricaoItem;
+    public InscricaoItem getInscricaoItem() {
+        return inscricao.getItem(atividade);        
+    }
+    
+    public void inscreverAtividade() throws IOException {
+        InscricaoItem i = new InscricaoItem();
+        i.setEvento(getEvento());
+        i.setPessoa(getPessoa());
+        i.setAtividade(atividade);
+        inscricao.add(i);
+        inscricaoDAO.Salvar(i);
+    }
+
+    public String cancelarInscricaoAtividade() {
+        inscricao.remove(getInscricaoItem());
+        return "inscricaoAtividade.xhtml";
     }
 
 }

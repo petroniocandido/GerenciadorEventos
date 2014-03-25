@@ -34,8 +34,8 @@
                                                 <p:outputLabel value="Valor Inscrição:" />
                                                 <p:outputLabel value="#{publicoController.atividade.valorInscricao}" />
                                                 <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{empty publicoController.inscricaoItem}" ajax="false" value="Inscrever" action="#{publicoController.inscreverEvento}"/>
-                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoEvento}" />
+                                                <p:commandButton rendered="#{empty publicoController.inscricaoItem}" ajax="false" value="Inscrever" action="#{publicoController.inscreverAtividade}"/>
+                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoAtividade}" />
                                             </c:when>                                        
                                             <c:otherwise>
                                                 <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
