@@ -12,7 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -31,12 +31,14 @@ public class QuestaoResposta implements Serializable, Entidade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "idAvaliacao")
-    private QuestionarioResposta avaliacao;
+    private QuestionarioResposta resposta;
+    
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "idQuestao")
     private Questao questao;
+    
+    @Lob
     @Column(name = "valor")
     private String valor;
 
@@ -55,12 +57,12 @@ public class QuestaoResposta implements Serializable, Entidade {
         this.id = id;
     }
 
-    public QuestionarioResposta getAvaliacao() {
-        return avaliacao;
+    public QuestionarioResposta getResposta() {
+        return resposta;
     }
 
-    public void setAvaliacao(QuestionarioResposta avaliacao) {
-        this.avaliacao = avaliacao;
+    public void setResposta(QuestionarioResposta avaliacao) {
+        this.resposta = avaliacao;
     }
 
     public Questao getQuestao() {
@@ -118,7 +120,7 @@ public class QuestaoResposta implements Serializable, Entidade {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? this.getAvaliacao().hashCode() * this.getQuestao().hashCode() : 0);
+        hash += (id != null ? this.getResposta().hashCode() * this.getQuestao().hashCode() : 0);
         return hash;
     }
 
@@ -130,7 +132,7 @@ public class QuestaoResposta implements Serializable, Entidade {
         }
         QuestaoResposta other = (QuestaoResposta) object;
         if (//(this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)) || 
-                this.getAvaliacao() != other.getAvaliacao() || this.getQuestao() != other.getQuestao()) {
+                this.getResposta() != other.getResposta() || this.getQuestao() != other.getQuestao()) {
             return false;
         }
         return true;

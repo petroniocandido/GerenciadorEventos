@@ -56,9 +56,10 @@
                                     <p:tabView>
                                         <ui:include src="../comum/questionario.xhtml">
                                             <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
-                                            <ui:param name="resposta" value="#{publicoController.resposta}"  />
+                                            <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
                                         </ui:include>
                                     </p:tabView>
+                                    <p:commandButton value="Salvar" action="#{publicoController.processaQuestionarioEvento}" />
                                 </p:tab>
                             </c:if>
                             <c:forEach items="#{publicoController.atividadesTipos}" var="atividadeTipo">

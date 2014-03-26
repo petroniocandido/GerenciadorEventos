@@ -46,6 +46,7 @@ public class InscricaoDAO
     public Inscricao Abrir(Evento evt, Pessoa p) {
         return IgualA("evento", evt)
                 .IgualA("pessoa", p)
+                .IgualA("tipo", InscricaoTipo.Inscricao)
                 .Abrir();
     }
     

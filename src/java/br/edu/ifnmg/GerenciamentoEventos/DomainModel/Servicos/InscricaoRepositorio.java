@@ -6,10 +6,8 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import javax.ejb.Local;
 

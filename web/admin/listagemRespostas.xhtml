@@ -25,7 +25,7 @@
                                         #{p.nome}  
                                     </p:column>  
                                 </p:autoComplete>
-                                <h:outputText value="Questionário: " />
+                                <h:outputText value="Questionï¿½rio: " />
                                 <p:autoComplete value="#{respostaController.filtro.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  
                                                 var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" forceSelection="true">  
                                     <p:column>  
@@ -48,7 +48,7 @@
                         <p:ajax event="rowSelect" listener="#{respostaController.onRowSelect}" />
 
                         <!-- Coluna Codigo -->
-                        <p:column headerText="Cód." sortBy="#{item.id}" width="30"  >
+                        <p:column headerText="Cï¿½d." sortBy="#{item.id}" width="30"  >
                             #{item.id}
                         </p:column>
 
@@ -56,7 +56,7 @@
                             #{item.pessoa.nome}
                         </p:column>
 
-                        <p:column headerText="Questionário" sortBy="#{item.questionario.titulo}" >
+                        <p:column headerText="Questionï¿½rio" sortBy="#{item.questionario.titulo}" >
                             #{item.questionario.titulo}
                         </p:column>
 

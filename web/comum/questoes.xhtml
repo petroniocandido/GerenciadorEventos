@@ -9,18 +9,18 @@
     <c:forEach items="#{questoes}" var="q">
         <h:panelGrid id="grid#{q.id}" columns="4" cellpadding="3">
             <h:outputText value="#{q.enunciado}" />
-            <c:if test="#{resposta.RespostaDeQuestao(q) == null}">                
+            <c:if test="#{inscricao.resposta == null or inscricao.resposta.RespostaDeQuestao(q) == null}">                
                 <c:if test="#{q.tipo == 'SimNao'}">
-                    <h:selectBooleanCheckbox id="valor#{q.id}" />
+                    <h:selectBooleanCheckbox id="valor-#{q.id}" />
                 </c:if>
                 <c:if test="#{q.tipo == 'TextoLinha'}">
-                    <p:inputText  id="valor#{q.id}" size="50" />
+                    <p:inputText id="valor-#{q.id}" size="50" />
                 </c:if>
                 <c:if test="#{q.tipo == 'TextoMultiLinha'}">
-                    <p:inputTextarea  id="valor#{q.id}" rows="5" cols="35" />
+                    <p:inputTextarea  id="valor-#{q.id}" rows="5" cols="35" />
                 </c:if>
                 <c:if test="#{q.tipo == 'Inteiro'}">
-                    <p:spinner  id="valor#{q.id}" min="1">
+                    <p:spinner  id="valor-#{q.id}" min="1">
                         <f:convertNumber type="number" integerOnly="true" />
                     </p:spinner>
                 </c:if>
@@ -31,19 +31,19 @@
 
                 </c:if>
             </c:if>
-            <c:if test="#{resposta.RespostaDeQuestao(q) != null}">
+            <c:if test="#{inscricao.resposta != null and inscricao.resposta.RespostaDeQuestao(q) != null}">
                 <c:if test="#{q.tipo == 'SimNao'}">
-                    <h:selectBooleanCheckbox id="valor#{q.id}" value="#{resposta.RespostaDeQuestao(q).booleano}" />
+                    <h:selectBooleanCheckbox id="valor-#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).booleano}" />
                 </c:if>
                 
                 <c:if test="#{q.tipo == 'TextoLinha'}">
-                    <p:inputText  id="valor#{q.id}" size="50" value="#{resposta.RespostaDeQuestao(q).valor}"/>
+                    <p:inputText  id="valor-#{q.id}" size="50" value="#{inscricao.resposta.RespostaDeQuestao(q).valor}"/>
                 </c:if>
                 <c:if test="#{q.tipo == 'TextoMultiLinha'}">
-                    <p:inputTextarea  id="valor#{q.id}" rows="5" cols="35" value="#{resposta.RespostaDeQuestao(q).valor}"/>
+                    <p:inputTextarea  id="valor-#{q.id}" rows="5" cols="35" value="#{inscricao.resposta.RespostaDeQuestao(q).valor}"/>
                 </c:if>
                 <c:if test="#{q.tipo == 'Inteiro'}">
-                    <p:spinner  id="valor#{q.id}" value="#{resposta.RespostaDeQuestao(q).inteiro}"  min="1">
+                    <p:spinner  id="valor-#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).inteiro}"  min="1">
                         <f:convertNumber type="number" integerOnly="true" />
                     </p:spinner>
                 </c:if>

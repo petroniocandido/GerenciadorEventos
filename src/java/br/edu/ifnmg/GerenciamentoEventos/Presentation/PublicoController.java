@@ -11,18 +11,22 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -49,7 +53,10 @@ public class PublicoController implements Serializable {
 
     @EJB
     PessoaRepositorio pessoaDAO;
-    
+
+    @EJB
+    QuestionarioRepositorio questionarioDAO;
+
     @EJB
     QuestionarioRespostaRepositorio respostaDAO;
 
@@ -59,11 +66,7 @@ public class PublicoController implements Serializable {
 
     Inscricao inscricao;
 
-    Inscricao inscricaoItem;
-    
-    Questionario questionario;
-    
-    QuestionarioResposta resposta;
+    InscricaoItem inscricaoItem;
 
     /**
      * Creates a new instance of PublicoController
@@ -182,7 +185,7 @@ public class PublicoController implements Serializable {
         Inscricao i = new Inscricao();
         i.setEvento(getEvento());
         i.setPessoa(getPessoa());
-        if(inscricaoDAO.Salvar(i)) {
+        if (inscricaoDAO.Salvar(i)) {
             inscricao = i;
         }
     }
@@ -193,9 +196,9 @@ public class PublicoController implements Serializable {
     }
 
     public InscricaoItem getInscricaoItem() {
-        return inscricao.getItem(atividade);        
+        return inscricao.getItem(atividade);
     }
-    
+
     public void inscreverAtividade() throws IOException {
         InscricaoItem i = new InscricaoItem();
         i.setEvento(getEvento());
@@ -209,14 +212,48 @@ public class PublicoController implements Serializable {
         inscricao.remove(getInscricaoItem());
         return "inscricaoAtividade.xhtml";
     }
-    
-    public QuestionarioResposta getResposta(){
-        if(resposta == null){
-            resposta = new QuestionarioResposta();
-            resposta.setPessoa(pessoa);
-            resposta.setQuestionario(questionario);
+
+
+    public void processaQuestionario(Inscricao i, Questionario qr) {
+
+        i = inscricaoDAO.Refresh(i);
+        
+        if (i.getResposta() == null) {
+            QuestionarioResposta r = new QuestionarioResposta();
+            r.setPessoa(pessoa);
+            r.setQuestionario(qr);
+            i.setResposta(r);
+            inscricaoDAO.Salvar(i);
         }
-        return resposta;
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+
+        ExternalContext ec = fc.getExternalContext();
+        Map<String, String> req = ec.getRequestParameterMap();
+        for (String key : req.keySet()) {
+            if (key.contains("valor-")) {
+                String idQuestao = key.substring(key.lastIndexOf("-") + 1);
+                String valor = req.get(key);
+                Long id = Long.parseLong(idQuestao);
+                Questao q = questionarioDAO.AbrirQuestao(id);
+                QuestaoResposta r = new QuestaoResposta();
+                r.setQuestao(q);
+                r.setValor(valor);
+
+                i.getResposta().add(r);
+            }
+        }
+
+        respostaDAO.Salvar(i.getResposta());
+    }
+    
+    public void processaQuestionarioEvento() {
+        processaQuestionario(inscricao, inscricao.getEvento().getQuestionario());
+    }
+    
+    public void processaQuestionarioAtividade() {
+        inscricaoItem = inscricao.getItem(atividade);
+        processaQuestionario(inscricaoItem, inscricaoItem.getAtividade().getQuestionario());
     }
 
 }

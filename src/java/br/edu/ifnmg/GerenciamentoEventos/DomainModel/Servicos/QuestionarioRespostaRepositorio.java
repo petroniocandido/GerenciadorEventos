@@ -4,8 +4,10 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import javax.ejb.Local;
 
 /**
@@ -14,5 +16,6 @@ import javax.ejb.Local;
  */
 @Local
 public interface QuestionarioRespostaRepositorio extends Repositorio<QuestionarioResposta> {
-    
+     public QuestionarioResposta Abrir(Pessoa p, Questionario q);
+     public QuestionarioResposta Abrir(Inscricao i);
 }

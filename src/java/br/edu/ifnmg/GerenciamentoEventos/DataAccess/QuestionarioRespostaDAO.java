@@ -5,6 +5,9 @@
 package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import java.util.List;
@@ -29,5 +32,17 @@ public class QuestionarioRespostaDAO
                 .IgualA("pessoa", obj.getPessoa())
                 .IgualA("questionario", obj.getQuestionario());
         return Buscar();
+    }
+
+    @Override
+    public QuestionarioResposta Abrir(Pessoa p, Questionario q) {
+                IgualA("pessoa", p)
+                .IgualA("questionario", q);
+        return Abrir();
+    }
+
+    @Override
+    public QuestionarioResposta Abrir(Inscricao i) {
+        return IgualA("inscricao", i).Abrir();
     }
 }

@@ -12,16 +12,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,22 +35,17 @@ public class QuestionarioResposta implements Serializable, Entidade {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+    private Long id;
     
-    @JoinColumn(name = "idPessoa", referencedColumnName = "idPessoa", updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Pessoa pessoa;
    
-    @JoinColumn(name = "idQuestionario", referencedColumnName = "idQuestionario", updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Questionario questionario;
     
-    @OneToMany(fetch= FetchType.LAZY, cascade= CascadeType.ALL, mappedBy="avaliacao")
+    @OneToMany(fetch= FetchType.LAZY, cascade= CascadeType.ALL, mappedBy="resposta")
     private List<QuestaoResposta> respostas;
     
-    @Column(name="identidade")
-    private Long chave;
-
     @Transient
     private Map<Questao,QuestaoResposta> maps;
 
@@ -73,29 +66,20 @@ public class QuestionarioResposta implements Serializable, Entidade {
     }
     
     public void add(QuestaoResposta m){
-        if(respostas == null){
-            respostas = new LinkedList<QuestaoResposta>();
-        }
-        m.setAvaliacao(this);
+        m.setResposta(this);
         if(!respostas.contains(m)){
             respostas.add(m);
         }
     }
     
     public void remove(QuestaoResposta m){
-        if(respostas == null){
-            respostas = new LinkedList<QuestaoResposta>();
-        }
         if(respostas.contains(m)){
             respostas.remove(m);
-            m.setAvaliacao(null);
+            m.setResposta(null);
         }
     }
     
     public QuestaoResposta RespostaDeQuestao(Questao q){        
-        if(maps.containsKey(q)){
-            return maps.get(q);
-        }
         for(QuestaoResposta r : respostas){
             if(r.getQuestao().equals(q)){
                 maps.put(q, r);
@@ -104,6 +88,7 @@ public class QuestionarioResposta implements Serializable, Entidade {
         }
         return null;
     }
+
 
     public Pessoa getPessoa() {
         return pessoa;
@@ -128,15 +113,6 @@ public class QuestionarioResposta implements Serializable, Entidade {
     public void setRespostas(List<QuestaoResposta> respostas) {
         this.respostas = respostas;
     }
-
-    public Long getChave() {
-        return chave;
-    }
-
-    public void setChave(Long chave) {
-        this.chave = chave;
-    }
-    
         
     @Override
     public int hashCode() {
@@ -163,7 +139,7 @@ public class QuestionarioResposta implements Serializable, Entidade {
         return "br.edu.ifnmg.LevantamentoDados.DomainModel.Avaliacao[ avaliacaoPK=" + id + " ]";
     }
     
-        @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
 
     @Temporal(TemporalType.TIMESTAMP)

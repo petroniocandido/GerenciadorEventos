@@ -7,7 +7,6 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +26,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,10 +46,10 @@ public class Inscricao implements Entidade, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
     
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Evento evento;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -58,7 +58,7 @@ public class Inscricao implements Entidade, Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPagamento;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL,optional = true, fetch = FetchType.LAZY)
     QuestionarioResposta resposta;
     
     @Enumerated(EnumType.STRING)
