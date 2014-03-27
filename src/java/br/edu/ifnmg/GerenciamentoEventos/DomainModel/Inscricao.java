@@ -58,7 +58,7 @@ public class Inscricao implements Entidade, Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPagamento;
     
-    @ManyToOne(cascade = CascadeType.ALL,optional = true, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     QuestionarioResposta resposta;
     
     @Enumerated(EnumType.STRING)
@@ -72,7 +72,7 @@ public class Inscricao implements Entidade, Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Lancamento lancamento;
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

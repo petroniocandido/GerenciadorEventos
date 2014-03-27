@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/web/comum/questionario.xhtml</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/Inscricao.java</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Presentation/PublicoController.java</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/web/publico/inscricao.xhtml</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DataAccess/InscricaoDAO.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/QuestionarioResposta.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/web/comum/questoes.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Presentation/Comum/ControllerBase.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/web/publico/inscricaoAtividade.xhtml</file>
         </group>
     </open-files>
 </project-private>

@@ -22,6 +22,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
+import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBase;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ import javax.servlet.http.HttpSession;
  */
 @Named(value = "publicoController")
 @SessionScoped
-public class PublicoController implements Serializable {
+public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
     EventoRepositorio eventoDAO;
@@ -129,7 +130,7 @@ public class PublicoController implements Serializable {
     public Inscricao getInscricao() throws IOException {
         if (inscricao == null) {
             if (getEvento() != null) {
-                inscricao = inscricaoDAO.Abrir(getEvento(), getPessoa());
+                inscricao = inscricaoDAO.Abrir(getEvento(), getUsuarioCorrente());
                 return inscricao;
             } else {
                 return null;
@@ -139,24 +140,10 @@ public class PublicoController implements Serializable {
         }
     }
 
-    Pessoa pessoa;
-
-    public Pessoa getPessoa() {
-        if (pessoa == null) {
-            FacesContext fc = FacesContext.getCurrentInstance();
-            ExternalContext ec = fc.getExternalContext();
-            HttpSession session = (HttpSession) ec.getSession(true);
-            pessoa = (Pessoa) session.getAttribute("usuarioAutenticado");
-        }
-
-        return pessoa;
-    }
 
     public Evento getEvento() throws IOException {
         if (evento == null) {
-            FacesContext fc = FacesContext.getCurrentInstance();
-            ExternalContext ec = fc.getExternalContext();
-            ec.redirect("selecionaEvento.xhtml");
+           Redirect("selecionaEvento.xhtml");
         }
         return evento;
     }
@@ -184,7 +171,8 @@ public class PublicoController implements Serializable {
     public void inscreverEvento() throws IOException {
         Inscricao i = new Inscricao();
         i.setEvento(getEvento());
-        i.setPessoa(getPessoa());
+        i.setPessoa(getUsuarioCorrente());
+        Rastrear(i);
         if (inscricaoDAO.Salvar(i)) {
             inscricao = i;
         }
@@ -210,15 +198,20 @@ public class PublicoController implements Serializable {
     public void inscreverAtividade() throws IOException {
         InscricaoItem i = new InscricaoItem();
         i.setEvento(getEvento());
-        i.setPessoa(getPessoa());
+        i.setPessoa(getUsuarioCorrente());
         i.setAtividade(atividade);
+        Rastrear(i);
         inscricao.add(i);
+        
         inscricaoDAO.Salvar(i);
+        
+        inscricaoItem = i;
     }
 
     public String cancelarInscricaoAtividade() {
         inscricao.remove(getInscricaoItem());
-        return "inscricaoAtividade.xhtml";
+            inscricaoItem = null;
+            return "inscricaoAtividade.xhtml";
     }
 
 
@@ -228,9 +221,11 @@ public class PublicoController implements Serializable {
         
         if (i.getResposta() == null) {
             QuestionarioResposta r = new QuestionarioResposta();
-            r.setPessoa(pessoa);
+            r.setPessoa(getUsuarioCorrente());
             r.setQuestionario(qr);
             i.setResposta(r);
+            Rastrear(r);
+            Rastrear(i);
             inscricaoDAO.Salvar(i);
         }
 
@@ -249,12 +244,15 @@ public class PublicoController implements Serializable {
                     r = new QuestaoResposta();
                 r.setQuestao(q);
                 r.setValor(valor);
-
+                Rastrear(r);
                 i.getResposta().add(r);
             }
         }
 
+        Rastrear(i);
+        Rastrear(i.getResposta());
         respostaDAO.Salvar(i.getResposta());
+        inscricaoDAO.Salvar(i);
     }
     
     public void processaQuestionarioEvento() {
