@@ -33,13 +33,13 @@
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao > 0}" value="#{publicoController.evento.valorInscricao}" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />
                                                 <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{empty publicoController.inscricao}" ajax="false" value="Inscrever" action="#{publicoController.inscreverEvento}"/>
-                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoEvento}" />
+                                                <p:commandButton rendered="#{empty publicoController.inscricao}"  value="Inscrever" onclick="msgSalvar.show()" />
+                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
                                             </c:when>                                        
                                             <c:otherwise>
                                                 <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
                                                 <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" />
+                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();" />
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
@@ -94,6 +94,28 @@
                         </c:if> 
                     </p:tabView>
                 </p:panel>
+                <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricao}" message="Deseja realmente salvar as alterações?"  
+                                 header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                    <c:if test="#{not empty publicoController.evento.questionario}">
+                        <p:tabView>
+                            <ui:include src="../comum/questionario.xhtml">
+                                <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
+                                <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
+                            </ui:include>
+                        </p:tabView>
+                    </c:if>
+                    <p:commandButton ajax="false" value="Confirmar Inscrição" action="#{publicoController.inscreverEvento}" />  
+                    <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
+                </p:confirmDialog>  
+
+                <p:confirmDialog id="cancelaInscricao" rendered="#{not empty publicoController.inscricao}" message="Deseja realmente cancelar sua inscrição?"  
+                                 header="Confirmação" severity="alert" widgetVar="msgCancelar">  
+                    <c:if test="#{not empty publicoController.evento.questionario}">
+
+                    </c:if>
+                    <p:commandButton ajax="false" value="Confirmar Cancelamento" action="#{publicoController.cancelarInscricaoEvento}" />  
+                    <p:commandButton value="Voltar" onclick="msgCancelar.hide();" type="button" />   
+                </p:confirmDialog>
             </ui:define>
         </ui:composition>
     </body>

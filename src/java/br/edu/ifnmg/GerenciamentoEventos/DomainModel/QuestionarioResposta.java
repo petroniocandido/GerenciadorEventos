@@ -79,17 +79,19 @@ public class QuestionarioResposta implements Serializable, Entidade {
         }
     }
     
-    public QuestaoResposta RespostaDeQuestao(Questao q){        
-        for(QuestaoResposta r : respostas){
-            if(r.getQuestao().equals(q)){
-                maps.put(q, r);
-                return r;
-            }
-        }
-        return null;
+    public QuestaoResposta RespostaDeQuestao(Questao q){  
+        if(!maps.containsKey(q))
+            criaMapaQuestoes();
+        
+        return maps.get(q);
     }
-
-
+    
+    private void criaMapaQuestoes() {
+        for(QuestaoResposta r : respostas){
+            maps.put(r.getQuestao(), r);
+        }
+    }
+   
     public Pessoa getPessoa() {
         return pessoa;
     }
@@ -136,7 +138,7 @@ public class QuestionarioResposta implements Serializable, Entidade {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.LevantamentoDados.DomainModel.Avaliacao[ avaliacaoPK=" + id + " ]";
+        return  id.toString() ;
     }
     
     @ManyToOne(fetch = FetchType.LAZY)

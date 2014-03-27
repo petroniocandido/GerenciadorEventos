@@ -7,6 +7,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,10 +38,10 @@ public class Questao implements Serializable, Entidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Questionario.class)
+    @ManyToOne(targetEntity = Questionario.class)
     private Questionario questionario;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = QuestionarioSecao.class)
+    @ManyToOne(targetEntity = QuestionarioSecao.class)
     private QuestionarioSecao secao;
 
     @Enumerated(EnumType.ORDINAL)
@@ -132,6 +133,11 @@ public class Questao implements Serializable, Entidade {
     }
 
     @Override
+    public String toString() {
+        return  id.toString() ;
+    }
+    
+    @Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() + enunciado.hashCode() : 0);
@@ -139,19 +145,33 @@ public class Questao implements Serializable, Entidade {
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Questao)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Questao other = (Questao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))
-                || this.getQuestionario() != other.getQuestionario() || this.getSecao() != other.getSecao()
-                || !this.getEnunciado().equals(other.getEnunciado()) || this.getTipo() != other.getTipo()) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Questao other = (Questao) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.questionario, other.questionario)) {
+            return false;
+        }
+        if (!Objects.equals(this.secao, other.secao)) {
+            return false;
+        }
+        if (this.tipo != other.tipo) {
+            return false;
+        }
+        if (!Objects.equals(this.enunciado, other.enunciado)) {
             return false;
         }
         return true;
     }
+
+    
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;

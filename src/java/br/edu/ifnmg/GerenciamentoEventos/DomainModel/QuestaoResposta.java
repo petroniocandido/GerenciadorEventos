@@ -32,10 +32,10 @@ public class QuestaoResposta implements Serializable, Entidade {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     private QuestionarioResposta resposta;
     
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne
     private Questao questao;
     
     @Lob
@@ -140,7 +140,7 @@ public class QuestaoResposta implements Serializable, Entidade {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.LevantamentoDados.DomainModel.AvaliacaoResposta[ id=" + id + " ]";
+        return  id.toString() ;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

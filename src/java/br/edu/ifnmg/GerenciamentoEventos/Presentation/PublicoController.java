@@ -188,11 +188,19 @@ public class PublicoController implements Serializable {
         if (inscricaoDAO.Salvar(i)) {
             inscricao = i;
         }
+        
+        processaQuestionarioEvento();
     }
 
     public String cancelarInscricaoEvento() {
-        inscricaoDAO.Apagar(inscricao);
-        return "selecionaEvento.xhtml";
+        if(inscricaoDAO.Apagar(inscricao)) {
+            inscricao = null;
+            return "selecionaEvento.xhtml";
+        }
+        else {
+            return "";
+        }
+        
     }
 
     public InscricaoItem getInscricaoItem() {
@@ -236,7 +244,9 @@ public class PublicoController implements Serializable {
                 String valor = req.get(key);
                 Long id = Long.parseLong(idQuestao);
                 Questao q = questionarioDAO.AbrirQuestao(id);
-                QuestaoResposta r = new QuestaoResposta();
+                QuestaoResposta r = i.getResposta().RespostaDeQuestao(q);
+                if(r == null)
+                    r = new QuestaoResposta();
                 r.setQuestao(q);
                 r.setValor(valor);
 
@@ -253,7 +263,7 @@ public class PublicoController implements Serializable {
     
     public void processaQuestionarioAtividade() {
         inscricaoItem = inscricao.getItem(atividade);
-        processaQuestionario(inscricaoItem, inscricaoItem.getAtividade().getQuestionario());
+        processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
     }
 
 }
