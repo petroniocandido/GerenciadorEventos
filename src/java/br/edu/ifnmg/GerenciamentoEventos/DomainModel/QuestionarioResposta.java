@@ -43,7 +43,7 @@ public class QuestionarioResposta implements Serializable, Entidade {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Questionario questionario;
     
-    @OneToMany(fetch= FetchType.LAZY, cascade= CascadeType.ALL, mappedBy="resposta")
+    @OneToMany(cascade= CascadeType.ALL, mappedBy="resposta")
     private List<QuestaoResposta> respostas;
     
     @Transient

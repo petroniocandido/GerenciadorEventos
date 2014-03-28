@@ -26,7 +26,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -69,7 +68,7 @@ public class Inscricao implements Entidade, Serializable {
     
     private boolean compareceu;
     
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "inscricao")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
     
     @ManyToOne

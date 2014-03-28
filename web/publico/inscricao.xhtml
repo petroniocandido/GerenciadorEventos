@@ -94,9 +94,10 @@
                         </c:if> 
                     </p:tabView>
                 </p:panel>
-                <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricao}" message="Deseja realmente salvar as alterações?"  
+                <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricao}" message="Deseja se inscrever no evento?"  
                                  header="Confirmação" severity="alert" widgetVar="msgSalvar">  
                     <c:if test="#{not empty publicoController.evento.questionario}">
+                        <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
                         <p:tabView>
                             <ui:include src="../comum/questionario.xhtml">
                                 <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
@@ -108,11 +109,10 @@
                     <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
                 </p:confirmDialog>  
 
-                <p:confirmDialog id="cancelaInscricao" rendered="#{not empty publicoController.inscricao}" message="Deseja realmente cancelar sua inscrição?"  
+                <p:confirmDialog id="cancelaInscricao" rendered="#{not empty publicoController.inscricao}" message="Deseja realmente cancelar sua inscrição? 
+                                 Ao confirmar a inscrição todos os dados preenchidos serão apagados."
                                  header="Confirmação" severity="alert" widgetVar="msgCancelar">  
-                    <c:if test="#{not empty publicoController.evento.questionario}">
-
-                    </c:if>
+                    
                     <p:commandButton ajax="false" value="Confirmar Cancelamento" action="#{publicoController.cancelarInscricaoEvento}" />  
                     <p:commandButton value="Voltar" onclick="msgCancelar.hide();" type="button" />   
                 </p:confirmDialog>

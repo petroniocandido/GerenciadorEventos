@@ -181,6 +181,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public String cancelarInscricaoEvento() {
+        inscricao = inscricaoDAO.Refresh(inscricao);
         if(inscricaoDAO.Apagar(inscricao)) {
             inscricao = null;
             return "selecionaEvento.xhtml";
@@ -209,6 +210,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public String cancelarInscricaoAtividade() {
+        inscricao = inscricaoDAO.Refresh(inscricao);
         inscricao.remove(getInscricaoItem());
             inscricaoItem = null;
             return "inscricaoAtividade.xhtml";
@@ -219,14 +221,12 @@ public class PublicoController extends ControllerBase implements Serializable {
 
         i = inscricaoDAO.Refresh(i);
         
-        if (i.getResposta() == null) {
-            QuestionarioResposta r = new QuestionarioResposta();
-            r.setPessoa(getUsuarioCorrente());
-            r.setQuestionario(qr);
-            i.setResposta(r);
-            Rastrear(r);
-            Rastrear(i);
-            inscricaoDAO.Salvar(i);
+        QuestionarioResposta resposta = i.getResposta();
+        
+        if (resposta == null) {
+            resposta = new QuestionarioResposta();
+            resposta.setPessoa(getUsuarioCorrente());
+            resposta.setQuestionario(qr);
         }
 
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -239,29 +239,35 @@ public class PublicoController extends ControllerBase implements Serializable {
                 String valor = req.get(key);
                 Long id = Long.parseLong(idQuestao);
                 Questao q = questionarioDAO.AbrirQuestao(id);
-                QuestaoResposta r = i.getResposta().RespostaDeQuestao(q);
+                QuestaoResposta r = resposta.RespostaDeQuestao(q);
                 if(r == null)
                     r = new QuestaoResposta();
                 r.setQuestao(q);
                 r.setValor(valor);
                 Rastrear(r);
-                i.getResposta().add(r);
+                resposta.add(r);
             }
         }
 
+        Rastrear(resposta);
+        respostaDAO.Salvar(resposta);
+        
+        i.setResposta(resposta);
+        
         Rastrear(i);
-        Rastrear(i.getResposta());
-        respostaDAO.Salvar(i.getResposta());
         inscricaoDAO.Salvar(i);
+        
     }
     
     public void processaQuestionarioEvento() {
         processaQuestionario(inscricao, inscricao.getEvento().getQuestionario());
+        inscricao = inscricaoDAO.Refresh(inscricao);
     }
     
     public void processaQuestionarioAtividade() {
         inscricaoItem = inscricao.getItem(atividade);
         processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
+        inscricao = inscricaoDAO.Refresh(inscricao);
     }
 
 }

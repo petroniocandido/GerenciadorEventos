@@ -34,13 +34,13 @@
                                                 <p:outputLabel value="Valor Inscrição:" />
                                                 <p:outputLabel value="#{publicoController.atividade.valorInscricao}" />
                                                 <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{empty publicoController.inscricaoItem}" ajax="false" value="Inscrever" action="#{publicoController.inscreverAtividade}"/>
-                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" ajax="false"  value="Cancelar Inscrição" action="#{publicoController.cancelarInscricaoAtividade}" />
+                                                <p:commandButton rendered="#{empty publicoController.inscricaoItem}" value="Inscrever" onclick="msgSalvar.show()" />
+                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" onclick="msgCancelar.show()" />
                                             </c:when>                                        
                                             <c:otherwise>
                                                 <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
                                                 <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" />
+                                                <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" onclick="msgCancelar.show()" />
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
@@ -64,6 +64,28 @@
 
                     </p:tabView>
                     <p:commandButton value="Voltar" action="#{publicoController.selecionaEvento}" />
+                    <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricaoItem}" message="Deseja se inscrever no evento?"  
+                                 header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                    <c:if test="#{not empty publicoController.atividade.questionario}">
+                        <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
+                        <p:tabView>
+                            <ui:include src="../comum/questionario.xhtml">
+                                <ui:param name="questionario" value="#{publicoController.atividade.questionario}"  />
+                                <ui:param name="inscricao" value="#{publicoController.inscricaoItem}"  />
+                            </ui:include>
+                        </p:tabView>
+                    </c:if>
+                    <p:commandButton ajax="false" value="Confirmar Inscrição" action="#{publicoController.inscreverAtividade}" />  
+                    <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
+                </p:confirmDialog>  
+
+                <p:confirmDialog id="cancelaInscricao" rendered="#{not empty publicoController.inscricaoItem}" message="Deseja realmente cancelar sua inscrição? 
+                                 Ao confirmar a inscrição todos os dados preenchidos serão apagados."
+                                 header="Confirmação" severity="alert" widgetVar="msgCancelar">  
+                    
+                    <p:commandButton ajax="false" value="Confirmar Cancelamento" action="#{publicoController.cancelarInscricaoAtividade}" />  
+                    <p:commandButton value="Voltar" onclick="msgCancelar.hide();" type="button" />   
+                </p:confirmDialog>
                 </p:panel>
             </ui:define>
         </ui:composition>
