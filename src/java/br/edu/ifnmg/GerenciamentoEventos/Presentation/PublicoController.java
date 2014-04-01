@@ -10,7 +10,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
@@ -18,6 +17,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
@@ -33,7 +33,6 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -51,6 +50,9 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
     InscricaoRepositorio inscricaoDAO;
+    
+    @EJB
+    InscricaoService inscricaoservice;
 
     @EJB
     PessoaRepositorio pessoaDAO;
@@ -169,20 +171,16 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public void inscreverEvento() throws IOException {
-        Inscricao i = new Inscricao();
-        i.setEvento(getEvento());
-        i.setPessoa(getUsuarioCorrente());
-        Rastrear(i);
-        if (inscricaoDAO.Salvar(i)) {
-            inscricao = i;
-        }
+        inscricao = inscricaoservice.inscrever(evento, getUsuarioCorrente());
         
-        processaQuestionarioEvento();
+        if(inscricao != null){
+            processaQuestionarioEvento();
+        }
     }
 
     public String cancelarInscricaoEvento() {
         inscricao = inscricaoDAO.Refresh(inscricao);
-        if(inscricaoDAO.Apagar(inscricao)) {
+        if(inscricaoservice.cancelar(inscricao)) {
             inscricao = null;
             return "selecionaEvento.xhtml";
         }
@@ -197,21 +195,13 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public void inscreverAtividade() throws IOException {
-        InscricaoItem i = new InscricaoItem();
-        i.setEvento(getEvento());
-        i.setPessoa(getUsuarioCorrente());
-        i.setAtividade(atividade);
-        Rastrear(i);
-        inscricao.add(i);
-        
-        inscricaoDAO.Salvar(i);
-        
-        inscricaoItem = i;
+        inscricao = inscricaoDAO.Refresh(inscricao);
+        inscricaoItem = inscricaoservice.inscrever(inscricao, atividade, getUsuarioCorrente());
     }
 
     public String cancelarInscricaoAtividade() {
         inscricao = inscricaoDAO.Refresh(inscricao);
-        inscricao.remove(getInscricaoItem());
+        inscricaoservice.cancelar(inscricaoItem);
             inscricaoItem = null;
             return "inscricaoAtividade.xhtml";
     }

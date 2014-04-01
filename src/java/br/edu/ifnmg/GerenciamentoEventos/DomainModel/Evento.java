@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Cacheable;
@@ -23,6 +24,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,7 +51,12 @@ public class Evento implements Entidade, Serializable {
     
     private boolean necessitaInscricao;
     
+    private int numeroVagas;
+    
     private BigDecimal valorInscricao;
+    
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "evento")
+    private Controle controle;
     
     @ManyToOne
     private Recurso local;
@@ -80,6 +87,17 @@ public class Evento implements Entidade, Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
+
+    public Evento() {
+        recursos = new ArrayList<>();
+        numeroVagas = 0;
+        controle = new Controle(this, 0, 0);
+        status = Status.Pendente;
+        valorInscricao = new BigDecimal("0.0");
+        necessitaInscricao = false;
+        inicio = new Date();
+        termino  = new Date();
+    }   
     
     public boolean isPeriodoInscricaoAberto() {
         if(status == Status.Cancelado && status == Status.Concluido)
@@ -104,6 +122,24 @@ public class Evento implements Entidade, Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public int getNumeroVagas() {
+        return numeroVagas;
+    }
+
+    public void setNumeroVagas(int capacidadeMaxima) {
+        this.numeroVagas = capacidadeMaxima;
+    }
+
+    public Controle getControle() {
+        return controle;
+    }
+
+    public void setControle(Controle controle) {
+        this.controle = controle;
+    }
+    
+    
 
     public String getNome() {
         return nome;

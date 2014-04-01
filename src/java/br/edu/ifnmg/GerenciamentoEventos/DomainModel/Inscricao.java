@@ -64,6 +64,9 @@ public class Inscricao implements Entidade, Serializable {
     @Column(name = "DTYPE")
     protected InscricaoTipo tipo;
     
+    @Enumerated(EnumType.STRING)
+    protected InscricaoCategoria categoria;
+    
     private boolean pago;
     
     private boolean compareceu;
@@ -83,6 +86,7 @@ public class Inscricao implements Entidade, Serializable {
         itens = new ArrayList<>();
         tipo = InscricaoTipo.Inscricao;
         dataInscricao = new Date();
+        categoria = InscricaoCategoria.Normal;        
     }
     
     public void add(InscricaoItem item){
@@ -128,6 +132,16 @@ public class Inscricao implements Entidade, Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public InscricaoCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(InscricaoCategoria categoria) {
+        this.categoria = categoria;
+    }
+    
+    
 
     public Pessoa getPessoa() {
         return pessoa;

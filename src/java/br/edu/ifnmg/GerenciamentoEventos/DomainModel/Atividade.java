@@ -26,6 +26,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,6 +44,9 @@ public class Atividade implements Entidade, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "atividade")
+    private Controle controle;
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Evento evento;
@@ -125,9 +129,23 @@ public class Atividade implements Entidade, Serializable {
         status = Status.Pendente;
         valorOrcado = new BigDecimal("0.00");
         valorExecutado = new BigDecimal("0.00");
-        valorInscricao = new BigDecimal("0.00");
+        valorInscricao = new BigDecimal("0.00");        
+        controle = new Controle(this, 0, 0);
     }
     
+    public boolean isAtivo() {
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
+    }
+
+    public boolean isPeriodoInscricaoAberto() {
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicioInscricao) >= 0 && hoje.compareTo(terminoInscricao) <= 0;
+    }
     
     public void add(Pessoa responsavel){
         if(!responsaveis.contains(responsavel))
@@ -161,22 +179,7 @@ public class Atividade implements Entidade, Serializable {
             recurso.setEvento(null);
         }
     }
-    
-    
-    public boolean isPeriodoInscricaoAberto() {
-        if(status == Status.Cancelado && status == Status.Concluido)
-            return false;
-        Date hoje = new Date();
-        return hoje.compareTo(inicioInscricao) >= 0 && hoje.compareTo(terminoInscricao) <= 0;
-    }
-    
-    public boolean isAtiva() {
-        if(status == Status.Cancelado && status == Status.Concluido)
-            return false;
-        Date hoje = new Date();
-        return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
-    }
-    
+
     @Override
     public Long getId() {
         return id;
@@ -186,6 +189,16 @@ public class Atividade implements Entidade, Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Controle getControle() {
+        return controle;
+    }
+
+    public void setControle(Controle controle) {
+        this.controle = controle;
+    }
+    
+    
 
     public Evento getEvento() {
         return evento;

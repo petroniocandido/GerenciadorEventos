@@ -56,6 +56,8 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Necessita inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
+                                <h:outputText value="Número de vagas: " />
+                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" />
                                 <h:outputText value="Valor Inscrição: " />
                                 <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" />
                                 <h:outputText value="Início Inscriçães: " />
