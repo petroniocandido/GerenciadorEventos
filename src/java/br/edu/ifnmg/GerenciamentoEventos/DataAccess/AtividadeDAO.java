@@ -56,6 +56,14 @@ public class AtividadeDAO
     }
 
     @Override
+    public boolean Salvar(Atividade obj) {
+        if(obj.getControle()== null){
+            obj.setControle(new Controle(obj, 0, 0));
+        }
+        return super.Salvar(obj);
+    }
+    
+    @Override
     public boolean Salvar(AtividadeTipo obj) {
         return daoTipo.Salvar(obj);
     }

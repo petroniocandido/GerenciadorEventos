@@ -27,8 +27,9 @@
                                 <c:choose>
                                     <c:when test="#{publicoController.evento.necessitaInscricao}">
                                         <c:choose>
-                                            <c:when test="#{publicoController.evento.periodoInscricaoAberto}">
-                                                <p:outputLabel value="Inscrições Abertas!" style="background-color: greenyellow" />                                    
+                                            <c:when test="#{publicoController.evento.inscricaoAberto}">
+                                                <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
+                                                <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
                                                 <p:outputLabel value="Valor Inscrição:" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao > 0}" value="#{publicoController.evento.valorInscricao}" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />

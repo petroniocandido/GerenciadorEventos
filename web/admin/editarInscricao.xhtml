@@ -52,10 +52,12 @@
                                 </p:autoComplete>
                                 <p:commandButton id="btnAddItem" value="Adicionar" action="#{inscricaoController.addItem}" update="tblItens" />
                             </h:panelGrid>
-                            <p:tabView id="tblItens">
+                            <p:accordionPanel id="tblItens">
                                 <c:forEach rendered="#{respostaController.editing}" items="#{inscricaoController.entidade.itens}" var="insc">
                                     <p:tab title="#{insc.atividade.nome}">
                                         <h:panelGrid columns="2" cellpadding="3">
+                                            <h:outputText value="Data inscrição: " />
+                                            <h:outputText value="#{insc.dataInscricao}" />
                                             <h:outputText value="Pago?: " />
                                             <p:selectBooleanCheckbox value="#{insc.pago}" />
                                             <h:outputText value="Compareceu?: " />
@@ -91,7 +93,7 @@
                                         </h:panelGrid>
                                     </p:tab>
                                 </c:forEach>
-                            </p:tabView>
+                            </p:accordionPanel>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{inscricaoController}"  />

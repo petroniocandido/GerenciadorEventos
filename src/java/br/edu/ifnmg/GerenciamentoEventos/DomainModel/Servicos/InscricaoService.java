@@ -34,9 +34,6 @@ public class InscricaoService {
         if(!e.isPeriodoInscricaoAberto())
             return null;
         
-        if(!e.isAtivo())
-            return null;
-        
         if(!e.isNecessitaInscricao())
             return null;
         
@@ -60,9 +57,6 @@ public class InscricaoService {
     public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p){
         
         if(!e.isPeriodoInscricaoAberto())
-            return null;
-        
-        if(!e.isAtivo())
             return null;
         
         if(!e.isNecessitaInscricao())

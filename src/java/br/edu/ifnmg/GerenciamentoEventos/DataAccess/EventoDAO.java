@@ -28,9 +28,15 @@ public class EventoDAO
     public List<Evento> Buscar(Evento filtro) {
         return IgualA("id", filtro.getId())
                 .Like("nome", filtro.getNome())
-                .IgualA("inicio", filtro.getInicio())
-                .IgualA("termino", filtro.getTermino())
                 .Buscar();
+    }
+    
+    @Override
+    public boolean Salvar(Evento e){
+        if(e.getControle() == null){
+            e.setControle(new Controle(e, 0, 0));
+        }
+        return super.Salvar(e);
     }
     
 }

@@ -147,6 +147,25 @@ public class Atividade implements Entidade, Serializable {
         return hoje.compareTo(inicioInscricao) >= 0 && hoje.compareTo(terminoInscricao) <= 0;
     }
     
+    public boolean isVagasAberto() {
+        if(getNumeroVagas() == 0)
+            return true;
+        
+        return getControle().getQuantidadeGeral() < getNumeroVagas();
+    }
+    
+    public boolean isListaEsperaAberto() {
+        if(getNumeroVagas() == 0)
+            return true;
+        
+        return !isVagasAberto() &&
+                getControle().getQuantidadeListaEspera()< (getNumeroVagas()*0.1);
+    }
+    
+    public boolean isInscricaoAberto() {
+        return isPeriodoInscricaoAberto() && (isVagasAberto() || isListaEsperaAberto());
+    }
+    
     public void add(Pessoa responsavel){
         if(!responsaveis.contains(responsavel))
             responsaveis.add(responsavel);
