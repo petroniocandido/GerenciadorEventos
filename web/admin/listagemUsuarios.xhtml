@@ -13,17 +13,17 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Listagem de Usuários
+                        Listagem de Usuï¿½rios
                     </f:facet>
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
                                 <h:outputText value="Nome: " />
-                                <p:inputText id="txtNome" size="50" value="#{usuarioController.filtro.nome}"/> 
+                                <p:inputText id="txtNome" required="false" value="#{usuarioController.filtro.nome}"/> 
                                 <h:outputText value="CPF: " />
-                                <p:inputMask id="txtCpf" size="50" value="#{usuarioController.filtro.cpf}" mask="999.999.999-99" /> 
+                                <p:inputMask id="txtCpf" value="#{usuarioController.filtro.cpf}" mask="999.999.999-99" /> 
                                 <h:outputText value="E-mail: " />
-                                <p:inputText id="txtEmail" size="50" value="#{usuarioController.filtro.email}"/> 
+                                <p:inputText id="txtEmail" required="false" value="#{usuarioController.filtro.email}"/> 
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{usuarioController}"  />
@@ -31,14 +31,14 @@
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
-                    <!-- Início da Tabela -->
+                    <!-- Inï¿½cio da Tabela -->
                     <p:dataTable value="#{usuarioController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{usuarioController.onRowSelect}" />
                         <!-- Coluna Codigo -->
-                        <p:column headerText="Cód." sortBy="#{item.id}"   >
+                        <p:column headerText="Cï¿½d." sortBy="#{item.id}"   >
                             <p:outputLabel value="#{item.id}" />
                         </p:column>
                         <!-- Coluna Nome -->

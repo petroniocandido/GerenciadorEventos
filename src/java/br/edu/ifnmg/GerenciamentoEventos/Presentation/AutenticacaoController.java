@@ -6,6 +6,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutorizacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
@@ -38,6 +39,8 @@ public class AutenticacaoController
     HashService hash;
     @EJB
     PerfilRepositorio perfilDAO;
+    @EJB
+    AutorizacaoService autorizacao;
 
     private String login, senha, senhaconferencia;
     Pessoa usuario;
@@ -132,4 +135,9 @@ public class AutenticacaoController
     public void setUsuario(Pessoa usuario) {
         this.usuario = usuario;
     }
+    
+    public boolean autorizacao(String url){
+        return autorizacao.possuiPermissao(url, usuario);
+    }
+    
 }

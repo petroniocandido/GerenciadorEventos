@@ -7,6 +7,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,10 +45,10 @@ public class Perfil implements Entidade, Serializable {
     
     private String descricao;
     
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Permissao.class)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Permissao home;
     
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Permissao.class)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Permissao> permissoes;
     
     private boolean padrao;
@@ -57,11 +58,11 @@ public class Perfil implements Entidade, Serializable {
         this.descricao = descricao;
         this.home = home;
         this.padrao = padrao;
-        permissoes = new LinkedList<>();
+        permissoes = new ArrayList<>();
     }
 
     public Perfil() {
-        permissoes = new LinkedList<>();
+        permissoes = new ArrayList<>();
     }
  
     
@@ -109,9 +110,6 @@ public class Perfil implements Entidade, Serializable {
     }
     
     public void add(Permissao p){
-        if(permissoes == null){
-            permissoes = new LinkedList<>();
-        }
         if(!permissoes.contains(p))
             permissoes.add(p);
     }
@@ -163,8 +161,6 @@ public class Perfil implements Entidade, Serializable {
     public String toString() {
         return nome;
     }
-    
-    
     
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;

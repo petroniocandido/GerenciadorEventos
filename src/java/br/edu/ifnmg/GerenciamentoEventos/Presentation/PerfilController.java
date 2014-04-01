@@ -113,7 +113,7 @@ public class PerfilController
     }
     
     public void valueChangeListener(ValueChangeEvent evt){
-        
+        entidade = dao.Refresh(entidade);
         if((boolean)evt.getNewValue())
             entidade.add(permissao);
         else
