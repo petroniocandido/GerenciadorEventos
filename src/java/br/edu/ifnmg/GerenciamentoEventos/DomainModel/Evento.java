@@ -53,6 +53,7 @@ public class Evento implements Entidade, Serializable {
     
     private int numeroVagas;
     
+    @Column(precision = 10, scale = 2)
     private BigDecimal valorInscricao;
     
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "evento")
@@ -93,7 +94,7 @@ public class Evento implements Entidade, Serializable {
         numeroVagas = 0;
         controle = new Controle(this, 0, 0);
         status = Status.Pendente;
-        valorInscricao = new BigDecimal("0.0");
+        valorInscricao = new BigDecimal("0.00");
         necessitaInscricao = false;
         inicio = new Date();
         termino  = new Date();

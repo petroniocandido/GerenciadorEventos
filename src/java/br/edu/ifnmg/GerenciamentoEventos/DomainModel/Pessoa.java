@@ -41,24 +41,18 @@ public class Pessoa implements Entidade, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
    
-    @NotNull
-    @Size(min = 3, max = 300)
     @Column(nullable = false, length = 300)
     private String nome;
 
-    @NotNull
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @NotNull
-    @Size(min = 5, max = 300)
     @Column(nullable = false, unique = true, length = 300)
     private String email;
 
     @Column(length = 11)
     private String telefone;
 
-    @NotNull
     @Column(nullable = false)
     private String senha;
 
@@ -69,10 +63,12 @@ public class Pessoa implements Entidade, Serializable {
     private Perfil perfil;
 
     
+    @Override
     public Long getId() {
         return id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }

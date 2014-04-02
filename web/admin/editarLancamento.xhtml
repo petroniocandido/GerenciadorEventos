@@ -5,7 +5,8 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <body>
 
@@ -20,17 +21,39 @@
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{lancamentoController.entidade.status}" 
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!" >
+                                    <f:selectItems value="#{lancamentoController.status}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Cliente: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.entidade.cliente}"
                                                 completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>
                                 </p:autoComplete>
-                                
+                                <h:outputText value="Histórico: " />
+                                <p:inputTextarea value="#{lancamentoController.entidade.descricao}" />
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab title="Valores">
-                            
+                            <h:outputText value="Valor Original: " />
+                            <pe:inputNumber value="#{lancamentoController.entidade.valorOriginal}">
+                                <f:convertNumber currencyCode="pt-BR" />
+                            </pe:inputNumber>
+                            <h:outputText value="Valor Acréscimos: " />
+                            <pe:inputNumber value="#{lancamentoController.entidade.valorAcrescimos}">
+                                <f:convertNumber currencyCode="pt-BR" />
+                            </pe:inputNumber>
+                            <h:outputText value="Valor Descontos:" />
+                            <pe:inputNumber value="#{lancamentoController.entidade.valorDescontos}">
+                                <f:convertNumber currencyCode="pt-BR" />
+                            </pe:inputNumber>
+                            <h:outputText value="Valor Total: " />
+                            <pe:inputNumber value="#{lancamentoController.entidade.valorTotal}">
+                                <f:convertNumber currencyCode="pt-BR" />
+                            </pe:inputNumber>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{lancamentoController}"  />

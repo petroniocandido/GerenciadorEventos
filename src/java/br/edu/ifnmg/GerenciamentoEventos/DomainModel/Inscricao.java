@@ -7,6 +7,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -122,6 +123,22 @@ public class Inscricao implements Entidade, Serializable {
         }
         return null;
     }
+    
+    public Lancamento criarLancamento() {
+        Lancamento l = new Lancamento();
+        BigDecimal valor = new BigDecimal("0.00");
+        valor.add(this.getEvento().getValorInscricao());
+        String tmp = "";
+        for(InscricaoItem i : getItens()){
+            valor.add(i.getAtividade().getValorInscricao());
+            tmp += i.getAtividade().getNome() + ",";
+        }
+        l.setValorOriginal(valor);
+        l.setCliente(this.getPessoa());
+        l.setDescricao("Referente pagto inscrição " + id.toString() + " do evento " + this.getEvento().getNome() + " e das atividades " + tmp);
+        setLancamento(l);
+        return l;
+    }
 
     @Override
     public Long getId() {
@@ -140,8 +157,6 @@ public class Inscricao implements Entidade, Serializable {
     public void setCategoria(InscricaoCategoria categoria) {
         this.categoria = categoria;
     }
-    
-    
 
     public Pessoa getPessoa() {
         return pessoa;

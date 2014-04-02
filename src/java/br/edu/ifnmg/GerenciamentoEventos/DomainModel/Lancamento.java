@@ -12,6 +12,8 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,27 +43,39 @@ public class Lancamento implements Entidade, Serializable {
     private Date baixa;
     
     @ManyToOne
-    private Pessoa usuarioCriacao;
-    
-    @ManyToOne
     private Pessoa usuarioBaixa;
     
     @ManyToOne
     private Pessoa cliente;
-    
+
+    @Column(precision = 10, scale = 2)
     private BigDecimal valorOriginal;
     
+    @Column(precision = 10, scale = 2)
     private BigDecimal valorDescontos;
     
+    @Column(precision = 10, scale = 2)
     private BigDecimal valorAcrescimos;
     
+    @Column(precision = 10, scale = 2)
     private BigDecimal valorTotal;
 
     @Column(length = 255)
     private String descricao;
     
+    @Enumerated(EnumType.STRING)
     private LancamentoStatus status;
 
+    public Lancamento() {
+        valorOriginal = new BigDecimal("0.00");
+        valorAcrescimos = new BigDecimal("0.00");
+        valorDescontos = new BigDecimal("0.00");
+        valorTotal = new BigDecimal("0.00");
+        status= LancamentoStatus.Aberto;
+    }
+
+    
+    
     @Override
     public Long getId() {
         return id;
@@ -88,13 +102,6 @@ public class Lancamento implements Entidade, Serializable {
         this.baixa = baixa;
     }
 
-    public Pessoa getUsuarioCriacao() {
-        return usuarioCriacao;
-    }
-
-    public void setUsuarioCriacao(Pessoa usuarioCriacao) {
-        this.usuarioCriacao = usuarioCriacao;
-    }
 
     public Pessoa getUsuarioBaixa() {
         return usuarioBaixa;

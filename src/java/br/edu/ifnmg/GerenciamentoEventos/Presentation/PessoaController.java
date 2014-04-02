@@ -133,6 +133,5 @@ public class PessoaController
     public void setSenha2(String senha2) {
         this.senha2 = senha2;
     }
-    
-    
+   
 }

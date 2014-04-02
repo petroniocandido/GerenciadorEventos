@@ -13,17 +13,17 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Listagem de Usu�rios
+                        Listagem de Usuarios
                     </f:facet>
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
                                 <h:outputText value="Nome: " />
-                                <p:inputText id="txtNome" required="false" value="#{usuarioController.filtro.nome}"/> 
+                                <p:inputText id="txtNome" size="150" value="#{usuarioController.filtro.nome}"/> 
                                 <h:outputText value="CPF: " />
                                 <p:inputMask id="txtCpf" value="#{usuarioController.filtro.cpf}" mask="999.999.999-99" /> 
                                 <h:outputText value="E-mail: " />
-                                <p:inputText id="txtEmail" required="false" value="#{usuarioController.filtro.email}"/> 
+                                <p:inputText id="txtEmail" size="150" value="#{usuarioController.filtro.email}"/> 
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{usuarioController}"  />

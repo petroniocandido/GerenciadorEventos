@@ -58,9 +58,13 @@
                                title="Inscrições">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Valor da Inscrição: " />
-                                <pe:inputNumber value="#{atividadeController.entidade.valorInscricao}" />
+                                <pe:inputNumber value="#{atividadeController.entidade.valorInscricao}">
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
                                 <h:outputText value="Número de vagas: " />
-                                <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" />
+                                <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
                                 <h:outputText value="Necessita de Inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Inscrição é por grupos?: " />

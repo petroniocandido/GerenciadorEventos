@@ -66,7 +66,7 @@ public class Atividade implements Entidade, Serializable {
     @Column(nullable = true)
     private boolean inscricaoColetiva;
     
-    @Column(nullable = true)
+    @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal valorInscricao;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -94,10 +94,10 @@ public class Atividade implements Entidade, Serializable {
     @Column(nullable = true)
     private int numeroVagas;
     
-    @Column(nullable = true)
+    @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal valorOrcado;
     
-    @Column(nullable = true)
+    @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal valorExecutado;
     
     @Temporal(TemporalType.TIMESTAMP)

@@ -40,7 +40,6 @@ public class LancamentoController
     @EJB
     LancamentoRepositorio dao;
     
-    
     LancamentoStatus status[];
     
     @PostConstruct
