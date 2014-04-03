@@ -52,6 +52,7 @@ public abstract class ControllerBase {
 
         FacesMessage m = new FacesMessage(severity, msg, titulo);
         context.addMessage(null, m);
+        context.getExternalContext().getFlash().setKeepMessages(true);
     }
 
     protected void Mensagem(String titulo, String msg) {

@@ -247,6 +247,8 @@ public class PublicoController extends ControllerBase implements Serializable {
         Rastrear(i);
         inscricaoDAO.Salvar(i);
         
+        
+        
     }
     
     public void processaQuestionarioEvento() {

@@ -8,8 +8,9 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
-import javax.persistence.CascadeType;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,6 +67,9 @@ public class Lancamento implements Entidade, Serializable {
     
     @Enumerated(EnumType.STRING)
     private LancamentoStatus status;
+    
+    @OneToMany(mappedBy = "lancamento")
+    private List<Inscricao> inscricoes;
 
     public Lancamento() {
         valorOriginal = new BigDecimal("0.00");
@@ -72,8 +77,30 @@ public class Lancamento implements Entidade, Serializable {
         valorDescontos = new BigDecimal("0.00");
         valorTotal = new BigDecimal("0.00");
         status= LancamentoStatus.Aberto;
+        inscricoes = new ArrayList<>();
     }
 
+    public void add(Inscricao i){
+        if(!inscricoes.contains(i)){
+            inscricoes.add(i);
+            i.setLancamento(this);
+            valorOriginal = valorOriginal.add(i.getValorTotal());
+        }
+        recalcularValorTotal();
+    }
+    
+    public void remove(Inscricao i){
+        if(inscricoes.contains(i)){
+            inscricoes.remove(i);
+            i.setLancamento(null);
+            valorOriginal = valorOriginal.subtract(i.getValorTotal());
+        }
+        recalcularValorTotal();
+    }
+    
+    public void recalcularValorTotal() {
+        valorTotal = valorOriginal.add(valorAcrescimos).subtract(valorDescontos);
+    }
     
     
     @Override
@@ -125,6 +152,7 @@ public class Lancamento implements Entidade, Serializable {
 
     public void setValorOriginal(BigDecimal valorOriginal) {
         this.valorOriginal = valorOriginal;
+        recalcularValorTotal();
     }
 
     public BigDecimal getValorDescontos() {
@@ -133,6 +161,7 @@ public class Lancamento implements Entidade, Serializable {
 
     public void setValorDescontos(BigDecimal valorDescontos) {
         this.valorDescontos = valorDescontos;
+        recalcularValorTotal();
     }
 
     public BigDecimal getValorAcrescimos() {
@@ -141,6 +170,7 @@ public class Lancamento implements Entidade, Serializable {
 
     public void setValorAcrescimos(BigDecimal valorAcrescimos) {
         this.valorAcrescimos = valorAcrescimos;
+        recalcularValorTotal();
     }
 
     public BigDecimal getValorTotal() {
@@ -166,6 +196,14 @@ public class Lancamento implements Entidade, Serializable {
 
     public void setStatus(LancamentoStatus status) {
         this.status = status;
+    }
+
+    public List<Inscricao> getInscricoes() {
+        return inscricoes;
+    }
+
+    public void setInscricoes(List<Inscricao> inscricoes) {
+        this.inscricoes = inscricoes;
     }
     
     

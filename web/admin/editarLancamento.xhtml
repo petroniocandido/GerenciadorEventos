@@ -27,33 +27,44 @@
                                     <f:selectItems value="#{lancamentoController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Cliente: " />
-                                <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.entidade.cliente}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
+                                <p:autoComplete converter="#{usuarioConverter}" size="100" value="#{lancamentoController.entidade.cliente}"
+                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item"
+                                                required="required" >
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>
                                 </p:autoComplete>
                                 <h:outputText value="Histórico: " />
-                                <p:inputTextarea value="#{lancamentoController.entidade.descricao}" />
+                                <p:inputTextarea value="#{lancamentoController.entidade.descricao}" required="required" rows="4" cols="100" />
+                                <h:outputText value="Data Criação:" />
+                                <h:outputText value="#{lancamentoController.entidade.criacao}" />
+                                <h:outputText value="Usuário Criação:" />
+                                <h:outputText value="#{lancamentoController.entidade.criador}" />
+                                <h:outputText value="Data Baixa:" />
+                                <h:outputText value="#{lancamentoController.entidade.baixa}" />
+                                <h:outputText value="Usuário Baixa:" />
+                                <h:outputText value="#{lancamentoController.entidade.usuarioBaixa}" />
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab title="Valores">
-                            <h:outputText value="Valor Original: " />
-                            <pe:inputNumber value="#{lancamentoController.entidade.valorOriginal}">
-                                <f:convertNumber currencyCode="pt-BR" />
-                            </pe:inputNumber>
-                            <h:outputText value="Valor Acréscimos: " />
-                            <pe:inputNumber value="#{lancamentoController.entidade.valorAcrescimos}">
-                                <f:convertNumber currencyCode="pt-BR" />
-                            </pe:inputNumber>
-                            <h:outputText value="Valor Descontos:" />
-                            <pe:inputNumber value="#{lancamentoController.entidade.valorDescontos}">
-                                <f:convertNumber currencyCode="pt-BR" />
-                            </pe:inputNumber>
-                            <h:outputText value="Valor Total: " />
-                            <pe:inputNumber value="#{lancamentoController.entidade.valorTotal}">
-                                <f:convertNumber currencyCode="pt-BR" />
-                            </pe:inputNumber>
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Valor Original: " />
+                                <pe:inputNumber value="#{lancamentoController.entidade.valorOriginal}" required="required">
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
+                                <h:outputText value="Valor Acréscimos: " />
+                                <pe:inputNumber value="#{lancamentoController.entidade.valorAcrescimos}">
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
+                                <h:outputText value="Valor Descontos:" />
+                                <pe:inputNumber value="#{lancamentoController.entidade.valorDescontos}">
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
+                                <h:outputText value="Valor Total: " />
+                                <pe:inputNumber value="#{lancamentoController.entidade.valorTotal}" required="required">
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
+                            </h:panelGrid>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{lancamentoController}"  />

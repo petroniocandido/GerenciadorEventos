@@ -38,10 +38,10 @@
                         <p:tab id="tabDetalhes" title="Detalhes">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Início: " />
-                                <p:calendar value="#{eventoController.entidade.inicio}" pattern="MM/dd/yyyy HH:mm"
+                                <p:calendar value="#{eventoController.entidade.inicio}" pattern="dd/MM/yyyy HH:mm"
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!"/>
                                 <h:outputText value="Término: " />
-                                <p:calendar value="#{eventoController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" 
+                                <p:calendar value="#{eventoController.entidade.termino}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Término é de preenchimento obrigatório!"/>
                                 <h:outputText value="Local: " />
                                 <p:autoComplete converter="#{recursoConverter}" value="#{eventoController.entidade.local}"
@@ -57,13 +57,17 @@
                                 <h:outputText value="Necessita inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Número de vagas: " />
-                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" />
+                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
                                 <h:outputText value="Valor Inscrição: " />
-                                <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" />
+                                <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" >
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
                                 <h:outputText value="Início Inscriçães: " />
-                                <p:calendar value="#{eventoController.entidade.inicioInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
+                                <p:calendar value="#{eventoController.entidade.inicioInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Término Inscriçães: " />
-                                <p:calendar value="#{eventoController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm" />
+                                <p:calendar value="#{eventoController.entidade.terminoInscricao}"  pattern="dd/MM/yyyy HH:mm" />
                                 <h:outputText value="Formulário de Inscrição: " />
                                 <p:autoComplete value="#{eventoController.entidade.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  
                                                 var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  

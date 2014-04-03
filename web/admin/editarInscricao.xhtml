@@ -94,11 +94,14 @@
                                     </p:tab>
                                 </c:forEach>
                             </p:accordionPanel>
+                            
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{inscricaoController}"  />
                         </ui:include>
+                        
                     </p:tabView>
+                    <p:commandButton value="Gerar Pagamento" action="#{inscricaoController.gerarLancamento()}" />
                     <ui:include src="./comum/botoesEntidade.xhtml">
                         <ui:param name="controller" value="#{inscricaoController}"  />
                     </ui:include>

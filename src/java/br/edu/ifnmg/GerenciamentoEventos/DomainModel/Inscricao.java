@@ -124,17 +124,26 @@ public class Inscricao implements Entidade, Serializable {
         return null;
     }
     
-    public Lancamento criarLancamento() {
-        Lancamento l = new Lancamento();
+    public BigDecimal getValorTotal() {
         BigDecimal valor = new BigDecimal("0.00");
         valor.add(this.getEvento().getValorInscricao());
-        String tmp = "";
         for(InscricaoItem i : getItens()){
             valor.add(i.getAtividade().getValorInscricao());
+        }
+        return valor;
+    }
+    
+    public Lancamento criarLancamento(Pessoa p) {
+        Lancamento l = new Lancamento();
+        l.add(this);
+        String tmp = "";
+        for(InscricaoItem i : getItens()){
             tmp += i.getAtividade().getNome() + ",";
         }
-        l.setValorOriginal(valor);
         l.setCliente(this.getPessoa());
+        l.setCriacao(new Date());
+        l.setCriador(p);
+        
         l.setDescricao("Referente pagto inscrição " + id.toString() + " do evento " + this.getEvento().getNome() + " e das atividades " + tmp);
         setLancamento(l);
         return l;

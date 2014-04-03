@@ -46,10 +46,10 @@
                                 <h:outputText value="Descrição: " />
                                 <p:editor value="#{atividadeController.entidade.descricao}" maxlength="600" />
                                 <h:outputText value="Início: " />
-                                <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="MM/dd/yyyy HH:mm" 
+                                <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!" />
                                 <h:outputText value="Término: " />
-                                <p:calendar value="#{atividadeController.entidade.termino}"  pattern="MM/dd/yyyy HH:mm" 
+                                <p:calendar value="#{atividadeController.entidade.termino}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Término é de preenchimento obrigatório!" />
 
                             </h:panelGrid> 
@@ -70,9 +70,9 @@
                                 <h:outputText value="Inscrição é por grupos?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.inscricaoColetiva}" />
                                 <h:outputText value="Início do período de inscrições: " />
-                                <p:calendar value="#{atividadeController.entidade.inicioInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
+                                <p:calendar value="#{atividadeController.entidade.inicioInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Término do período de inscrições: " />
-                                <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="MM/dd/yyyy HH:mm"  />
+                                <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Formulário de Inscrição: " />
                                 <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  
                                                 var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  

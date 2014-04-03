@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
@@ -18,6 +19,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -46,6 +48,9 @@ public class InscricaoController
     
     @EJB
     EventoRepositorio evtDAO;
+    
+    @Inject
+    LancamentoController lancamentoCtl;
     
     InscricaoItem item;
     
@@ -135,9 +140,7 @@ public class InscricaoController
     public void setItem(InscricaoItem item) {
         this.item = item;
     }
-    
-    
-    
+       
     public void addItem() {
         Refresh();
         item.setEvento(entidade.getEvento());
@@ -153,4 +156,23 @@ public class InscricaoController
         RemoverAgregado(item);
         item = new InscricaoItem();
     }
+    
+    public String gerarLancamento() {
+        Lancamento l = entidade.criarLancamento(getUsuarioCorrente());
+        Rastrear(l);
+        Rastrear(entidade);
+        dao.Salvar(entidade);
+        lancamentoCtl.setEntidade(l);
+        return "editarLancamento.xhtml";
+    }
+
+    public LancamentoController getLancamentoCtl() {
+        return lancamentoCtl;
+    }
+
+    public void setLancamentoCtl(LancamentoController lancamentoCtl) {
+        this.lancamentoCtl = lancamentoCtl;
+    }
+    
+    
 }
