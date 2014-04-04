@@ -126,9 +126,9 @@ public class Inscricao implements Entidade, Serializable {
     
     public BigDecimal getValorTotal() {
         BigDecimal valor = new BigDecimal("0.00");
-        valor.add(this.getEvento().getValorInscricao());
+        valor = valor.add(this.getEvento().getValorInscricao());
         for(InscricaoItem i : getItens()){
-            valor.add(i.getAtividade().getValorInscricao());
+            valor = valor.add(i.getAtividade().getValorInscricao());
         }
         return valor;
     }

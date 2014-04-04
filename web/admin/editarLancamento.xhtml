@@ -22,26 +22,29 @@
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Situação: " />
-                                <h:selectOneMenu value="#{lancamentoController.entidade.status}" 
-                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!" >
-                                    <f:selectItems value="#{lancamentoController.status}" />
-                                </h:selectOneMenu>
+                                <h:outputText value="#{lancamentoController.entidade.status}" />
                                 <h:outputText value="Cliente: " />
-                                <p:autoComplete converter="#{usuarioConverter}" size="100" value="#{lancamentoController.entidade.cliente}"
+                                <p:autoComplete id="txtPessoa" converter="#{usuarioConverter}" size="100" value="#{lancamentoController.entidade.cliente}"
                                                 completeMethod="#{usuarioController.autoCompletePessoa}" var="item"
-                                                required="required" >
+                                                required="required" disabled="#{not lancamentoController.editavel}">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>
                                 </p:autoComplete>
                                 <h:outputText value="Histórico: " />
-                                <p:inputTextarea value="#{lancamentoController.entidade.descricao}" required="required" rows="4" cols="100" />
+                                <p:inputTextarea value="#{lancamentoController.entidade.descricao}" 
+                                                 required="required" rows="4" cols="100" 
+                                                 disabled="#{not lancamentoController.editavel}" />
                                 <h:outputText value="Data Criação:" />
-                                <h:outputText value="#{lancamentoController.entidade.criacao}" />
+                                <h:outputText value="#{lancamentoController.entidade.criacao}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
+                                </h:outputText>
                                 <h:outputText value="Usuário Criação:" />
                                 <h:outputText value="#{lancamentoController.entidade.criador}" />
                                 <h:outputText value="Data Baixa:" />
-                                <h:outputText value="#{lancamentoController.entidade.baixa}" />
+                                <h:outputText value="#{lancamentoController.entidade.baixa}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
+                                </h:outputText>
                                 <h:outputText value="Usuário Baixa:" />
                                 <h:outputText value="#{lancamentoController.entidade.usuarioBaixa}" />
                             </h:panelGrid> 
@@ -49,31 +52,72 @@
                         <p:tab title="Valores">
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Valor Original: " />
-                                <pe:inputNumber value="#{lancamentoController.entidade.valorOriginal}" required="required">
+                                <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorOriginal}" 
+                                                required="required" disabled="#{not lancamentoController.editavel}">
                                     <f:convertNumber currencyCode="pt-BR" />
+                                    <f:ajax render="txtValorTotal" />
                                 </pe:inputNumber>
                                 <h:outputText value="Valor Acréscimos: " />
-                                <pe:inputNumber value="#{lancamentoController.entidade.valorAcrescimos}">
+                                <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorAcrescimos}"
+                                                disabled="#{not lancamentoController.editavel}">
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                                 <h:outputText value="Valor Descontos:" />
-                                <pe:inputNumber value="#{lancamentoController.entidade.valorDescontos}">
+                                <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorDescontos}"
+                                                disabled="#{not lancamentoController.editavel}">
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                                 <h:outputText value="Valor Total: " />
-                                <pe:inputNumber value="#{lancamentoController.entidade.valorTotal}" required="required">
+                                <pe:inputNumber id="txtValorTotal" symbol="R$ " value="#{lancamentoController.entidade.valorTotal}" 
+                                                disabled="#{not lancamentoController.editavel}" required="required">
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                             </h:panelGrid>
+                        </p:tab>
+                        <p:tab title="Inscrições">
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Inscrição: " />
+                                <p:autoComplete converter="#{inscricaoConverter}" value="#{lancamentoController.inscricao}"
+                                                completeMethod="#{inscricaoController.autoCompleteInscricao}" 
+                                                var="item" itemValue="#{item}" itemLabel="#{item.id}"
+                                                disabled="#{not lancamentoController.editavel}">
+                                    <p:column headerText="Inscrição">#{item.id}</p:column>
+                                    <p:column headerText="Pessoa">#{item.pessoa}</p:column>
+                                    <p:column headerText="Evento">#{item.evento}</p:column>
+                                </p:autoComplete>
+                                <p:commandButton value="Adicionar" action="#{lancamentoController.addInscricao}" disabled="#{not lancamentoController.editavel}" />
+                            </h:panelGrid>
+                            <p:dataTable value="#{lancamentoController.entidade.inscricoes}" var="item">
+                                <p:column headerText="Inscrição">#{item.id}</p:column>
+                                <p:column headerText="Pessoa">#{item.pessoa}</p:column>
+                                <p:column headerText="Evento">#{item.evento}</p:column>
+                                <p:column>
+                                    <p:commandButton value="Remover" action="#{lancamentoController.removeInscricao}" disabled="#{not lancamentoController.editavel}">
+                                        <f:setPropertyActionListener target="#{lancamentoController.inscricao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{lancamentoController}"  />
                         </ui:include>
                     </p:tabView>
+                    <p:commandButton rendered="#{lancamentoController.editavel}" value="Baixar" onclick="msgBaixar.show()" />
+                    <p:commandButton rendered="#{lancamentoController.editavel}" value="Cancelar" onclick="msgCancelar.show()"  />
                     <ui:include src="./comum/botoesEntidade.xhtml">
                         <ui:param name="controller" value="#{lancamentoController}"  />
                     </ui:include>
                 </p:panel>
+                <p:confirmDialog rendered="#{lancamentoController.editavel}" id="baixar" message="Deseja realmente baixar o lançamento? Após essa operação não será possível alterar os dados do lançamento!"  
+                                 header="Confirmação" severity="alert" widgetVar="msgBaixar">  
+                    <p:commandButton ajax="false" id="simBaixar" value="SIM" action="#{lancamentoController.baixarLancamento}" />  
+                    <p:commandButton id="naoBaixar" value="NÃO" onclick="msgBaixar.hide();" type="button" />   
+                </p:confirmDialog>
+                <p:confirmDialog rendered="#{lancamentoController.editavel}" id="Cancelar" message="Deseja realmente cancelar o lançamento? Após essa operação não será possível alterar os dados do lançamento!"  
+                                 header="Confirmação" severity="alert" widgetVar="msgCancelar">  
+                    <p:commandButton ajax="false" id="simCancelar" value="SIM" action="#{lancamentoController.cancelarLancamento}" />  
+                    <p:commandButton id="naoCancelar" value="NÃO" onclick="msgCancelar.hide();" type="button" />   
+                </p:confirmDialog>
             </ui:define>
 
         </ui:composition>

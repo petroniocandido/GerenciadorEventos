@@ -79,8 +79,15 @@ public class Lancamento implements Entidade, Serializable {
         status= LancamentoStatus.Aberto;
         inscricoes = new ArrayList<>();
     }
+    
+    public boolean editavel(){
+        return status == LancamentoStatus.Aberto;
+    }
 
     public void add(Inscricao i){
+        if(!editavel())
+            return;
+        
         if(!inscricoes.contains(i)){
             inscricoes.add(i);
             i.setLancamento(this);
@@ -90,6 +97,9 @@ public class Lancamento implements Entidade, Serializable {
     }
     
     public void remove(Inscricao i){
+        if(!editavel())
+            return;
+        
         if(inscricoes.contains(i)){
             inscricoes.remove(i);
             i.setLancamento(null);
@@ -99,7 +109,32 @@ public class Lancamento implements Entidade, Serializable {
     }
     
     public void recalcularValorTotal() {
+        if(!editavel())
+            return;
+        
         valorTotal = valorOriginal.add(valorAcrescimos).subtract(valorDescontos);
+    }
+    
+    public void baixar(Pessoa p){
+        if(!editavel())
+            return;
+        
+        setStatus(LancamentoStatus.Baixado);
+        setUsuarioBaixa(p);
+        setUltimoAlterador(p);
+        setDataUltimaAlteracao(new Date());
+        setBaixa(new Date());
+    }
+    
+    public void cancelar(Pessoa p){
+        if(!editavel())
+            return;
+        
+        setStatus(LancamentoStatus.Cancelado);
+        setUsuarioBaixa(p);
+        setUltimoAlterador(p);
+        setDataUltimaAlteracao(new Date());
+        setBaixa(new Date());
     }
     
     

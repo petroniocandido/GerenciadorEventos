@@ -6,10 +6,10 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets" >
     <f:facet name="footer">
-        <p:commandButton id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
-        <p:commandButton rendered="#{controller.id > 0}" id="btnApagar" value="Apagar" icon="ui-icon-close" onclick="msgApagar.show();"  />
-        <p:commandButton ajax="false" id="btnCancelar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{controller.cancelar()}" />
-        <p:commandButton ajax="false" id="btnNovo" value="Novo"  immediate="true"   action="#{controller.novo()}" />
+        <p:commandButton rendered="#{autenticacaoController.autorizacao('btnSalvar')}" id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
+        <p:commandButton rendered="#{controller.id > 0 and autenticacaoController.autorizacao('btnApagar')}" id="btnApagar" value="Apagar" icon="ui-icon-close" onclick="msgApagar.show();"  />
+        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{controller.cancelar()}" />
+        <p:commandButton rendered="#{autenticacaoController.autorizacao('btnNovo')}"  ajax="false" id="btnNovo" value="Novo"  immediate="true"   action="#{controller.novo()}" />
     </f:facet>
     <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
                      header="Confirmação" severity="alert" widgetVar="msgSalvar">  

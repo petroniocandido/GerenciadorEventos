@@ -6,6 +6,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
@@ -34,6 +35,7 @@ public class LancamentoController
         id = 0L;
         setEntidade(new Lancamento());
         setFiltro(new Lancamento());
+        inscricao = new Inscricao();
         
     }
     
@@ -41,6 +43,8 @@ public class LancamentoController
     LancamentoRepositorio dao;
     
     LancamentoStatus status[];
+    
+    Inscricao inscricao;
     
     @PostConstruct
     public void init() {
@@ -109,5 +113,42 @@ public class LancamentoController
         return status;
     }
 
+    public Inscricao getInscricao() {
+        return inscricao;
+    }
+
+    public void setInscricao(Inscricao inscricao) {
+        this.inscricao = inscricao;
+    }
+    
+    public void addInscricao() {
+        entidade = dao.Refresh(entidade);
+        entidade.add(inscricao);
+        dao.Salvar(entidade);
+        inscricao = new Inscricao();
+    }
+
+    public void removeInscricao() {
+        entidade = dao.Refresh(entidade);
+        entidade.remove(inscricao);
+        dao.Salvar(entidade);
+        inscricao = new Inscricao();
+    }
+    
+    public void baixarLancamento() {
+        entidade = dao.Refresh(entidade);
+        entidade.baixar(getUsuarioCorrente());
+        dao.Salvar(entidade);
+    }
+    
+    public void cancelarLancamento() {
+        entidade = dao.Refresh(entidade);
+        entidade.cancelar(getUsuarioCorrente());
+        dao.Salvar(entidade);
+    }
+    
+    public boolean isEditavel() {
+        return entidade.editavel();
+    }
     
 }
