@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Relatório de Lista de Presença
+                    </f:facet>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Atividade: " />
+                        <p:autoComplete converter="#{atividadeConverter}" value="#{atividadeController.filtro.evento}"
+                                        completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
+                                        itemLabel="#{item.nome}" itemValue="#{item}">
+                            <p:column headerText="Evento">#{item.evento}</p:column>
+                            <p:column headerText="Atividade">#{item.nome}</p:column>
+                            <p:column headerText="Tipo">#{item.tipo}</p:column>
+                        </p:autoComplete>
+                    </p:panelGrid>
+                    <p:commandButton value="Gerar Relatório" />
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

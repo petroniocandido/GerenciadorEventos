@@ -44,8 +44,7 @@
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentos.xhtml')}"  value="Lançamentos" url="listagemLancamentos.xhtml" />                    
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Relatórios')}" label="Relatórios">
-                    <p:menuitem  value="Atividades por Evento"  />
-                    <p:menuitem  value="Inscritos por Atividade"  />
+                    <p:menuitem  value="Lista de Presença de Atividade" url="relatorioListaPresenca.xhtml"  />
                     <p:menuitem   value="Recursos por Atividade"  />
                 </p:submenu>                
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Segurança')}" label="Segurança">
