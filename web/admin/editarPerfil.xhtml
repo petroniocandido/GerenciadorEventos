@@ -37,7 +37,7 @@
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab id="tabPermissoes" title="Permissões">  
-                            <p:selectManyCheckbox value="#{perfilController.entidade.permissoes}" converter="#{permissaoConverter}"
+                            <p:selectManyCheckbox value="#{perfilController.entidade.permissoes}"  converter="#{permissaoConverter}"
                                                   layout="pageDirection">
                                 <f:selectItems value="#{permissaoController.listagemGeral}" /> 
                             </p:selectManyCheckbox>

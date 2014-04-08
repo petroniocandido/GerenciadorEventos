@@ -151,4 +151,20 @@ public class LancamentoController
         return entidade.editavel();
     }
     
+    public String getCorStatus(LancamentoStatus s){
+        if(s == null)
+            return "white";
+        
+        switch(s){
+            case Aberto:
+                return "white";
+            case Baixado:
+                return "green";
+            case Cancelado:
+                return "gray";
+            default:
+                return "white";
+        }
+    }
+    
 }

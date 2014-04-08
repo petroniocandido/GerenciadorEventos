@@ -91,6 +91,7 @@ public class Lancamento implements Entidade, Serializable {
         if(!inscricoes.contains(i)){
             inscricoes.add(i);
             i.setLancamento(this);
+            i.setPago(true);
             valorOriginal = valorOriginal.add(i.getValorTotal());
         }
         recalcularValorTotal();

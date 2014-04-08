@@ -4,11 +4,10 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
@@ -16,6 +15,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -40,32 +40,32 @@ public class AtividadeController
         setFiltro(new Atividade());
         alocacao = new Alocacao();
         responsavel = new Pessoa();
-        
+
     }
-    
+
     Evento padrao;
-    
+
     @EJB
     AtividadeRepositorio dao;
-    
+
     @EJB
     EventoRepositorio evtDAO;
-    
+
     Status[] status;
-    
+
     Pessoa responsavel;
-    
+
     Alocacao alocacao;
-    
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
         checaEventoPadrao();
     }
-    
-    public void checaEventoPadrao(){
+
+    public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
-        if(evt != null){
+        if (evt != null) {
             padrao = evtDAO.Abrir(Long.parseLong(evt));
             getEntidade().setEvento(padrao);
             getFiltro().setEvento(padrao);
@@ -86,9 +86,9 @@ public class AtividadeController
 
     @Override
     public void salvar() {
-        
+
         SalvarEntidade();
-        
+
         // atualiza a listagem
         filtrar();
     }
@@ -136,7 +136,7 @@ public class AtividadeController
     }
 
     public Status[] getStatus() {
-        if(status == null){
+        if (status == null) {
             status = Status.values();
         }
         return status;
@@ -157,19 +157,19 @@ public class AtividadeController
     public void setAlocacao(Alocacao alocacao) {
         this.alocacao = alocacao;
     }
-    
+
     public void addResponsavel() {
         entidade.add(responsavel);
         SalvarAgregado(responsavel);
         responsavel = new Pessoa();
     }
-    
+
     public void removeResponsavel() {
         entidade.remove(responsavel);
         RemoverAgregado(responsavel);
         responsavel = new Pessoa();
     }
-    
+
     public void addAlocacao() {
         entidade = dao.Refresh(entidade);
         Rastrear(alocacao);
@@ -177,12 +177,63 @@ public class AtividadeController
         alocacao.setTermino(entidade.getTermino());
         entidade.add(alocacao);
         SalvarAgregado(alocacao);
-        alocacao= new Alocacao();
+        alocacao = new Alocacao();
     }
-    
+
     public void removeAlocacao() {
         entidade.remove(alocacao);
         RemoverAgregado(alocacao);
-        alocacao= new Alocacao();
+        alocacao = new Alocacao();
     }
+
+    public String getCorStatus(Atividade a) {
+        if (a == null) {
+            return "white";
+        }
+
+        Date hoje = new Date();
+        
+        if (a.getInicio().before(hoje)) {
+            switch (a.getStatus()) {
+                case EmExecucao:
+                    return "green";
+                case Pendente:
+                    return "yellow";
+                case Cancelado:
+                    return "gray";
+                case Concluido:
+                    return "green";
+            }
+        }
+
+        if (a.getInicio().before(hoje) && a.getTermino().after(hoje)) {
+            switch (a.getStatus()) {
+                case EmExecucao:
+                    return "green";
+                case Pendente:
+                    return "red";
+                case Cancelado:
+                    return "gray";
+                case Concluido:
+                    return "green";
+            }
+        }
+        
+        if (a.getTermino().before(hoje)) {
+            switch (a.getStatus()) {
+                case EmExecucao:
+                    return "red";
+                case Pendente:
+                    return "red";
+                case Cancelado:
+                    return "gray";
+                case Concluido:
+                    return "green";
+            }
+        }
+        
+        return "white";
+
+    }
+
 }

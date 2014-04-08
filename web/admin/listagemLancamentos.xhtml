@@ -55,7 +55,7 @@
                             <p:outputLabel value="#{item.valorOriginal}" />                            
                         </p:column>
                         <p:column headerText="Situação" sortBy="#{item.status}"  >
-                            <p:outputLabel value="#{item.status}" />                            
+                            <p:outputLabel value="#{item.status}" style="background-color: #{lancamentoController.getCorStatus(item.status)};" />                            
                         </p:column>
                     </p:dataTable>
                 </p:panel>
