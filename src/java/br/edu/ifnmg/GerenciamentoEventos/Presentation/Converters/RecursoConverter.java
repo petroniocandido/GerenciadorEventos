@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Presentation;
+package br.edu.ifnmg.GerenciamentoEventos.Presentation.Converters;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.GenericConverter;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -17,14 +17,14 @@ import javax.inject.Named;
  *
  * @author petronio
  */
-@Named(value = "inscricaoConverter")
+@Named(value = "recursoConverter")
 @SessionScoped
-public class InscricaoConverter
-        extends GenericConverter<Inscricao, InscricaoRepositorio>
+public class RecursoConverter
+        extends GenericConverter<Recurso, RecursoRepositorio>
         implements Serializable {
 
     @EJB
-    InscricaoRepositorio dao;
+    RecursoRepositorio dao;
 
     @PostConstruct
     public void init() {
