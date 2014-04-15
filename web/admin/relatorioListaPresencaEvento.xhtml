@@ -17,13 +17,13 @@
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
-                        <p:autoComplete converter="#{eventoConverter}" value="#{atividadeController.filtro.evento}"
-                                        completeMethod="#{eventoController.autoCompleteAtividade}" var="item"
+                        <p:autoComplete converter="#{eventoConverter}" value="#{listaPresencaEventoController.evento}"
+                                        completeMethod="#{eventoController.autoCompleteEvento}" var="item"
                                         itemLabel="#{item.nome}" itemValue="#{item}">
                             #{item.nome}
                         </p:autoComplete>
                     </p:panelGrid>
-                    <p:commandButton value="Gerar Relatório" />
+                    <p:commandButton value="Gerar Relatório" ajax="false" action="#{listaPresencaEventoController.executaRelatorioPDF}"  />
                 </p:panel>
             </ui:define>
 

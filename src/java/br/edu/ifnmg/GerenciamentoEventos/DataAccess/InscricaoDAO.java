@@ -41,6 +41,15 @@ public class InscricaoDAO
                 .IgualA("tipo", filtro.getTipo())
                 .Buscar();
     }
+    
+    public List<InscricaoItem> Buscar(InscricaoItem filtro) {
+        return itemDAO.IgualA("id", filtro.getId())
+                .IgualA("pessoa", filtro.getPessoa())
+                .IgualA("evento", filtro.getEvento())
+                .IgualA("atividade", filtro.getAtividade())
+                .IgualA("tipo", filtro.getTipo())
+                .Buscar();
+    }
 
     @Override
     public Inscricao Abrir(Evento evt, Pessoa p) {

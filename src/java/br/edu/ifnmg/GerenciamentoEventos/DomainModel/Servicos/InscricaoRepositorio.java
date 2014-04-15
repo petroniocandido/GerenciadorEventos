@@ -8,7 +8,9 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -18,4 +20,5 @@ import javax.ejb.Local;
 @Local
 public interface InscricaoRepositorio extends Repositorio<Inscricao> {
     public Inscricao Abrir(Evento evt, Pessoa p);
+    public List<InscricaoItem> Buscar(InscricaoItem filtro);
 }

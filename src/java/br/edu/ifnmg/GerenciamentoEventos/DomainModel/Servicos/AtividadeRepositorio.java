@@ -21,4 +21,6 @@ public interface AtividadeRepositorio extends Repositorio<Atividade> {
     public boolean Apagar(AtividadeTipo obj);
     public AtividadeTipo AbrirTipo(Long id);
     public List<AtividadeTipo> Buscar(AtividadeTipo obj);
+    @Override
+    public boolean Salvar(Atividade obj);
 }

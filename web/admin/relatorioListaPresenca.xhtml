@@ -17,7 +17,7 @@
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Atividade: " />
-                        <p:autoComplete converter="#{atividadeConverter}" value="#{atividadeController.filtro.evento}"
+                        <p:autoComplete converter="#{atividadeConverter}" value="#{listaPresencaController.atividade}"
                                         completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
                                         itemLabel="#{item.nome}" itemValue="#{item}">
                             <p:column headerText="Evento">#{item.evento}</p:column>
@@ -25,7 +25,7 @@
                             <p:column headerText="Tipo">#{item.tipo}</p:column>
                         </p:autoComplete>
                     </p:panelGrid>
-                    <p:commandButton value="Gerar Relatório" />
+                    <p:commandButton value="Gerar Relatório" action="#{listaPresencaController.executaRelatorioPDF}" />
                 </p:panel>
             </ui:define>
 
