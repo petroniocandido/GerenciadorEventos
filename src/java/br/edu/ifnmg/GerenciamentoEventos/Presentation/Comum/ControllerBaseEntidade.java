@@ -232,7 +232,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
             String deploymentDirectoryPath = ctx.getRealPath("/");
             String extension = upload.getFileName().substring(upload.getFileName().lastIndexOf("."));
             String name = java.util.UUID.randomUUID().toString() + extension;
-            File file = new File(deploymentDirectoryPath + "/arquivos/" + name);
+            File file = new File("/home/petronio/arquivos/" + name);
             is = upload.getInputstream();
             try (OutputStream os = new FileOutputStream(file)) {
                 byte buf[] = new byte[1024];

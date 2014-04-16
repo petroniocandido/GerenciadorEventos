@@ -47,12 +47,12 @@ public class AtividadeTipoController
     public List<AtividadeTipo> autoCompleteAtividadeTipo(String query) {
         AtividadeTipo i = new AtividadeTipo();
         i.setNome(query);
-        return dao.Buscar(i);
+        return dao.BuscarTipo(i);
     }
 
     @Override
     public void filtrar() {
-        listagem = dao.Buscar(filtro);
+        listagem = dao.BuscarTipo(filtro);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class AtividadeTipoController
         Rastrear(entidade);
 
         // salva o objeto no BD
-        if (repositorio.Salvar(entidade)) {
+        if (dao.SalvarTipo(entidade)) {
 
             setId(entidade.getId());
 

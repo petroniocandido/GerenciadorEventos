@@ -34,8 +34,8 @@ public class QuestionarioController
         id = 0L;
         setEntidade(new Questionario());
         setFiltro(new Questionario());
-        questao = new Questao();
-        secao = new QuestionarioSecao();
+        novaQuestao();
+        novaSecao();
     }
     @EJB
     QuestionarioRepositorio dao;
@@ -110,29 +110,40 @@ public class QuestionarioController
         Refresh();
         entidade.add(secao);
         SalvarAgregado(secao);
+        novaSecao();
+    }
+    
+    private void novaSecao() {
         setSecao(new QuestionarioSecao());
+        if(entidade != null)
+            getSecao().setOrdem(entidade.getSecoes().size()+1);
     }
 
     public void removeSecao() {
         Refresh();
         entidade.remove(secao);
         RemoverAgregado(secao);
-        setSecao(new QuestionarioSecao());
-
+        novaSecao();
     }
 
     public void addQuestao() {
         Refresh();
         entidade.add(questao);
         SalvarAgregado(questao);
+        novaQuestao();
+    }
+    
+    private void novaQuestao() {
         setQuestao(new Questao());
+        if(entidade != null)
+            getQuestao().setOrdem(entidade.getQuestoes().size()+1);
     }
 
     public void removeQuestao() {
         Refresh();
         entidade.remove(questao);
         RemoverAgregado(questao);
-        setQuestao(new Questao());
+        novaQuestao();
     }
 
     public Questao getQuestao() {

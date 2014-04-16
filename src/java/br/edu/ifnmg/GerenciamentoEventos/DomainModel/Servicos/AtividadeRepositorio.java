@@ -17,10 +17,9 @@ import javax.ejb.Local;
  */
 @Local
 public interface AtividadeRepositorio extends Repositorio<Atividade> {
-    public boolean Salvar(AtividadeTipo obj);
-    public boolean Apagar(AtividadeTipo obj);
+    public boolean SalvarTipo(AtividadeTipo obj);
+    public boolean ApagarTipo(AtividadeTipo obj);
     public AtividadeTipo AbrirTipo(Long id);
-    public List<AtividadeTipo> Buscar(AtividadeTipo obj);
-    @Override
-    public boolean Salvar(Atividade obj);
+    public List<AtividadeTipo> BuscarTipo(AtividadeTipo obj);
+  
 }

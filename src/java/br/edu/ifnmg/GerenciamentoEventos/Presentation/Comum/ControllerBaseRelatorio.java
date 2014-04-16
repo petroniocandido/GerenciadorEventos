@@ -47,9 +47,7 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
 
     public Map<String, Object> getParametrosComuns() throws MalformedURLException {
         HashMap<String, Object> par = new HashMap<>();
-        String tmp = FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getRealPath("/arquivos/" + evento.getLogo().getUri());
+        String tmp = "/home/petronio/arquivos/" + evento.getBanner().getUri();
         par.put("banner", tmp);
         return par;
     }

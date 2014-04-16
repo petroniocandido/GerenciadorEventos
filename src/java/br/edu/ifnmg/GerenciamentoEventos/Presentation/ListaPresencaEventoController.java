@@ -12,9 +12,12 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositor
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseRelatorio;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 
@@ -43,7 +46,12 @@ public class ListaPresencaEventoController
         
     @Override
     protected Map<String, Object> carregaParametros() {
-        return getParametrosComuns();
+        try {
+            return getParametrosComuns();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ListaPresencaEventoController.class.getName()).log(Level.SEVERE, null, ex);
+            return new HashMap<>();
+        }
     }
 
     @Override

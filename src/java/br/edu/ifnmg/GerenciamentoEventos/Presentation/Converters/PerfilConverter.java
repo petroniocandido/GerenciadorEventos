@@ -10,6 +10,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.GenericConverter;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
@@ -18,7 +19,7 @@ import javax.inject.Named;
  * @author petronio
  */
 @Named(value = "perfilConverter")
-@SessionScoped
+@RequestScoped
 public class PerfilConverter
         extends GenericConverter<Perfil, PerfilRepositorio>
         implements Serializable {

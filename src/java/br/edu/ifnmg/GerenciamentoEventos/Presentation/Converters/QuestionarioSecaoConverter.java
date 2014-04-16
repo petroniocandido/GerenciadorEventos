@@ -12,7 +12,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.GenericConverter;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,7 +24,7 @@ import javax.inject.Named;
  * @author petronio
  */
 @Named(value = "questionarioSecaoConverter")
-@SessionScoped
+@RequestScoped
 public class QuestionarioSecaoConverter  extends GenericConverter<Questionario, QuestionarioRepositorio>
         implements Serializable {
 

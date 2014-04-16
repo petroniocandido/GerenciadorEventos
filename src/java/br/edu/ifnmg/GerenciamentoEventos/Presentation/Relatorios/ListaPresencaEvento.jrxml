@@ -11,28 +11,27 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
-			<image>
-				<reportElement x="0" y="0" width="555" height="79" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
-				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
-			</image>
-		</band>
+		<band height="8" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="0" width="555" height="35" uuid="8c0d87a3-23a9-4b82-b3ca-51b49a6c21c5"/>
-				<textElement textAlignment="Center">
-					<font size="24" isBold="true"/>
+		<band height="143" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="98" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="4" y="99" width="551" height="33" uuid="01fa99e0-44c4-4322-bd40-6f57c7b0201f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{evento.nome}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Lista de Presença]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="24" splitType="Stretch">
 			<staticText>
-				<reportElement x="6" y="4" width="244" height="20" uuid="d5f4ae4f-5c54-430f-9074-289631d24378"/>
+				<reportElement x="4" y="4" width="244" height="20" uuid="d5f4ae4f-5c54-430f-9074-289631d24378"/>
 				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>

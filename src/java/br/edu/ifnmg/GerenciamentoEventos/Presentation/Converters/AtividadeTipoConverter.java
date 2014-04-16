@@ -8,6 +8,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -19,7 +20,7 @@ import javax.inject.Named;
  * @author petronio
  */
 @Named(value = "atividadeTipoConverter")
-@SessionScoped
+@RequestScoped
 public class AtividadeTipoConverter implements Converter, Serializable {
 
     @EJB

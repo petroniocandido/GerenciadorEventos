@@ -64,12 +64,12 @@ public class AtividadeDAO
     }
     
     @Override
-    public boolean Salvar(AtividadeTipo obj) {
+    public boolean SalvarTipo(AtividadeTipo obj) {
         return daoTipo.Salvar(obj);
     }
 
     @Override
-    public boolean Apagar(AtividadeTipo obj) {
+    public boolean ApagarTipo(AtividadeTipo obj) {
         return daoTipo.Apagar(obj);
     }
 
@@ -79,7 +79,7 @@ public class AtividadeDAO
     }
 
     @Override
-    public List<AtividadeTipo> Buscar(AtividadeTipo obj) {
+    public List<AtividadeTipo> BuscarTipo(AtividadeTipo obj) {
         return daoTipo
                 .Like("nome", obj.getNome())
                 .IgualA("publico", obj.getPublico())
