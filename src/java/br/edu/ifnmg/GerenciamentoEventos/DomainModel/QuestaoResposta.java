@@ -5,7 +5,11 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,6 +41,9 @@ public class QuestaoResposta implements Serializable, Entidade {
     
     @ManyToOne
     private Questao questao;
+    
+    @ManyToOne
+    private Arquivo arquivo;
     
     @Lob
     @Column(name = "valor")
@@ -92,6 +99,20 @@ public class QuestaoResposta implements Serializable, Entidade {
     public void setInteiro(int valor) {
         this.valor = Integer.toString(valor);
     }
+    
+    public Date getData() throws ParseException {
+        if (valor != null && valor.length() > 0) {
+            DateFormat df = DateFormat.getDateInstance();
+            return df.parse(valor);
+        } else {
+            return new Date();
+        }
+    }
+
+    public void setData(Date valor) {
+        DateFormat df = DateFormat.getDateInstance();
+        this.valor = df.format(valor);
+    }
 
     public Long getLongo() {
         if (valor != null && valor.length() > 0) {
@@ -116,6 +137,16 @@ public class QuestaoResposta implements Serializable, Entidade {
     public void setBooleano(boolean valor) {
         this.valor = Boolean.toString(valor);
     }
+
+    public Arquivo getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(Arquivo arquivo) {
+        this.arquivo = arquivo;
+    }
+    
+    
 
     @Override
     public int hashCode() {

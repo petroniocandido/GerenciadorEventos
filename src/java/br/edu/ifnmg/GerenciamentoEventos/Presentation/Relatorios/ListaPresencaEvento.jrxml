@@ -3,30 +3,72 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<field name="pessoa" class="java.lang.Object"/>
+	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<field name="pessoa.nome" class="java.lang.String"/>
+	<field name="pessoa.cpf" class="java.lang.String"/>
+	<field name="evento.nome" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch"/>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="555" height="79" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch"/>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="35" uuid="8c0d87a3-23a9-4b82-b3ca-51b49a6c21c5"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{evento.nome}]]></textFieldExpression>
+			</textField>
+		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="24" splitType="Stretch">
 			<staticText>
-				<reportElement x="10" y="4" width="281" height="20" uuid="d5f4ae4f-5c54-430f-9074-289631d24378"/>
+				<reportElement x="6" y="4" width="244" height="20" uuid="d5f4ae4f-5c54-430f-9074-289631d24378"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
 				<text><![CDATA[Participante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="254" y="4" width="100" height="20" uuid="3aca9c1b-a667-4670-8999-3610ce8a1c7a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="4" width="201" height="20" uuid="2c8dbac9-cb9a-4fde-b1e0-9c2207491a2c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assinatura]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="23" splitType="Stretch">
 			<textField>
-				<reportElement x="10" y="0" width="281" height="20" uuid="8e818878-2fee-4c95-bbc3-94931ac1bb69"/>
-				<textFieldExpression><![CDATA[""+$F{pessoa}]]></textFieldExpression>
+				<reportElement x="3" y="0" width="251" height="20" uuid="06dd83bb-c06f-4306-b9bd-0cb111afd6bb"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{pessoa.nome}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="254" y="0" width="100" height="20" uuid="1fbc73f9-832b-4720-a03b-06a25c3c4ff2"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{pessoa.cpf}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="354" y="19" width="201" height="1" uuid="39e0d790-41af-4852-97ef-1317248c9f1b"/>
+			</line>
 		</band>
 	</detail>
 	<columnFooter>

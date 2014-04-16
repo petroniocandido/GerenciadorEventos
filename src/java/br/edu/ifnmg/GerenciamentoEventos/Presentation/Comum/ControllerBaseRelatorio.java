@@ -5,14 +5,17 @@
 package br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -34,23 +37,35 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
     private String relatorio;
     private String arquivoSaida;
 
+    Evento evento;
+
     private List<T> dados;
 
     protected abstract Map<String, Object> carregaParametros();
+
     public abstract List<T> getDados();
 
+    public Map<String, Object> getParametrosComuns() throws MalformedURLException {
+        HashMap<String, Object> par = new HashMap<>();
+        String tmp = FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getRealPath("/arquivos/" + evento.getLogo().getUri());
+        par.put("banner", tmp);
+        return par;
+    }
+
     public void executaRelatorioPDF() throws JRException, IOException {
-        
+
         InputStream reportStream = null;
         try {
             reportStream = getClass().getResourceAsStream(relatorio);
             JasperReport report = JasperCompileManager.compileReport(reportStream);
 
             JRDataSource ds = new JRBeanCollectionDataSource(getDados(), true);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(report, null, ds);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, carregaParametros(), ds);
 
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-            httpServletResponse.addHeader("Content-disposition", "attachment; filename="+getArquivoSaida()+".pdf");
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + getArquivoSaida() + ".pdf");
             ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
             FacesContext.getCurrentInstance().responseComplete();
@@ -76,5 +91,11 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
         this.arquivoSaida = arquivoSaida;
     }
 
-    
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
 }

@@ -31,10 +31,26 @@
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Real'}">
-
+                    <p:spinner  id="valor#{q.id}" value="#{respostaController.resposta.longo}"  min="1">
+                        <f:convertNumber type="number" integerOnly="false" />
+                    </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Data'}">
-
+                    <p:calendar value="#{respostaController.resposta.data}"  pattern="dd/MM/yyyy HH:mm" />
+                </c:if>
+                <c:if test="#{q.tipo == 'Opcoes'}">
+                    <p:selectOneMenu value="#{respostaController.resposta.valor}">
+                        <f:selectItems value="#{respostaController.resposta.questao.opcoesLista}" />
+                    </p:selectOneMenu>
+                </c:if>
+                <c:if test="#{q.tipo == 'Arquivo'}">
+                    <p:fileUpload fileUploadListener="#{respostaController.arquivoFileUpload}" mode="advanced"             
+                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                              invalidFileMessage="Tipo de arquivo não permitido!"
+                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                              label="Escolher arquivo!"
+                                              multiple="false"/> 
                 </c:if>
                 <p:commandButton id="btnSalvar#{q.id}" icon="ui-icon-check" process="@this,valor#{q.id}" action="#{respostaController.responder()}" update="grid#{q.id}" >
                     <f:setPropertyActionListener target="#{respostaController.questao}" value="#{q}" />
@@ -57,10 +73,26 @@
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Real'}">
-
+                    <p:spinner  id="valor#{q.id}" value="#{respostaController.entidade.RespostaDeQuestao(q).longo}"  min="1">
+                        <f:convertNumber type="number" integerOnly="false" />
+                    </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Data'}">
-
+                    <p:calendar value="#{respostaController.entidade.RespostaDeQuestao(q).data}"  pattern="dd/MM/yyyy HH:mm" />
+                </c:if>
+                <c:if test="#{q.tipo == 'Opcoes'}">
+                    <p:selectOneMenu value="#{respostaController.entidade.RespostaDeQuestao(q).valor}">
+                        <f:selectItems value="#{q.opcoesLista}" />
+                    </p:selectOneMenu>
+                </c:if>
+                <c:if test="#{q.tipo == 'Arquivo'}">
+                    <p:fileUpload fileUploadListener="#{respostaController.arquivoFileUpload}" mode="advanced"             
+                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                              invalidFileMessage="Tipo de arquivo não permitido!"
+                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                              label="Escolher arquivo!"
+                                              multiple="false"/> 
                 </c:if>
                 <p:commandButton id="btnSalvar#{q.id}" icon="ui-icon-check" process="@this,valor#{q.id}" action="#{respostaController.responder()}"  update="grid#{q.id}" >
                     <f:setPropertyActionListener target="#{respostaController.resposta}" value="#{respostaController.entidade.RespostaDeQuestao(q)}" />

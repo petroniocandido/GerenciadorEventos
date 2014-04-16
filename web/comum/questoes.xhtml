@@ -25,10 +25,26 @@
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Real'}">
-
+                    <p:spinner  id="valor#{q.id}" min="1">
+                        <f:convertNumber type="number" integerOnly="false" />
+                    </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Data'}">
-
+                    <p:calendar pattern="dd/MM/yyyy HH:mm" />
+                </c:if>
+                <c:if test="#{q.tipo == 'Opcoes'}">
+                    <p:selectOneMenu >
+                        <f:selectItems value="#{q.opcoesLista}" />
+                    </p:selectOneMenu>
+                </c:if>
+                <c:if test="#{q.tipo == 'Arquivo'}">
+                    <p:fileUpload fileUploadListener="#{respostaController.arquivoFileUpload}" mode="advanced"             
+                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                              invalidFileMessage="Tipo de arquivo não permitido!"
+                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                              label="Escolher arquivo!"
+                                              multiple="false"/> 
                 </c:if>
             </c:if>
             <c:if test="#{inscricao.resposta != null and inscricao.resposta.RespostaDeQuestao(q) != null}">
@@ -48,10 +64,26 @@
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Real'}">
-
+                    <p:spinner  id="valor#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).longo}"  min="1">
+                        <f:convertNumber type="number" integerOnly="false" />
+                    </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Data'}">
-
+                    <p:calendar value="#{inscricao.resposta.RespostaDeQuestao(q).data}"  pattern="dd/MM/yyyy HH:mm" />
+                </c:if>
+                <c:if test="#{q.tipo == 'Opcoes'}">
+                    <p:selectOneMenu value="#{inscricao.resposta.RespostaDeQuestao(q).valor}">
+                        <f:selectItems value="#{q.opcoesLista}" />
+                    </p:selectOneMenu>
+                </c:if>
+                <c:if test="#{q.tipo == 'Arquivo'}">
+                    <p:fileUpload fileUploadListener="#{respostaController.arquivoFileUpload}" mode="advanced"             
+                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                              invalidFileMessage="Tipo de arquivo não permitido!"
+                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                              label="Escolher arquivo!"
+                                              multiple="false"/> 
                 </c:if>
             </c:if>              
         </h:panelGrid>

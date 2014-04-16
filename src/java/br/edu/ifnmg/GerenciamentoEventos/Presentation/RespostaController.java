@@ -4,12 +4,8 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoTipo;
-import static br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoTipo.Constante;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
@@ -19,6 +15,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -138,11 +135,26 @@ public class RespostaController
     }
 
         
+    @Override
     public List<QuestionarioResposta> getListagem() {
         if (listagem == null) {
             filtrar();
         }
         return listagem;
+    }
+    
+    public void arquivoFileUpload(FileUploadEvent event) {  
+        entidade = dao.Refresh(entidade);
+        resposta = entidade.RespostaDeQuestao(questao);
+        resposta.setArquivo(criaArquivo(event.getFile()));
+        if(dao.Salvar(entidade)){
+            Mensagem("Sucesso", "Arquivo anexado com êxito!");
+            AppendLog("Anexou o arquivo " + resposta.getArquivo()+ " a resposta " + entidade);
+        } else {
+            Mensagem("Falha", "Falha ao anexar o arquivo!");
+            AppendLog("Erro ao anexar o arquivo " + resposta.getArquivo() + " a resposta " + entidade + ":" + dao.getErro());
+        }
+        
     }
 
     

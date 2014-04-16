@@ -230,7 +230,9 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
         try {
             ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
             String deploymentDirectoryPath = ctx.getRealPath("/");
-            File file = new File(deploymentDirectoryPath + "/arquivos/" + upload.getFileName());
+            String extension = upload.getFileName().substring(upload.getFileName().lastIndexOf("."));
+            String name = java.util.UUID.randomUUID().toString() + extension;
+            File file = new File(deploymentDirectoryPath + "/arquivos/" + name);
             is = upload.getInputstream();
             try (OutputStream os = new FileOutputStream(file)) {
                 byte buf[] = new byte[1024];
@@ -243,7 +245,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
             Arquivo arquivo = new Arquivo();
             arquivo.setNome(upload.getFileName());
-            arquivo.setUri(upload.getFileName());
+            arquivo.setUri(name);
             arquivo.setResponsavel(getUsuarioCorrente());
             
             Rastrear(arquivo);

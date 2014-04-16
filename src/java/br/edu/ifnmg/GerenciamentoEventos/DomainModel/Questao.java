@@ -53,6 +53,11 @@ public class Questao implements Serializable, Entidade {
     @Lob
     @Column(name = "enunciado")
     private String enunciado;
+
+    @Lob
+    @Column(name = "opcoes")
+    private String opcoes;
+
     @Column(name = "minimo")
     private int minimo;
     @Column(name = "maximo")
@@ -130,6 +135,18 @@ public class Questao implements Serializable, Entidade {
 
     public void setSecao(QuestionarioSecao secao) {
         this.secao = secao;
+    }
+
+    public String getOpcoes() {
+        return opcoes;
+    }
+
+    public void setOpcoes(String opcoes) {
+        this.opcoes = opcoes;
+    }
+    
+    public String[] getOpcoesLista() {
+        return opcoes.split(";");
     }
 
     @Override

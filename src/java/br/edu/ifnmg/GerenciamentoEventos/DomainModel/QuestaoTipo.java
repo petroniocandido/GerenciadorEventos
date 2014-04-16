@@ -14,6 +14,7 @@ public enum QuestaoTipo {
     TextoMultiLinha,
     Inteiro,
     Real,
-    Constante,
-    Data    
+    Opcoes,
+    Data,
+    Arquivo
 }

@@ -39,30 +39,21 @@ public class ListaPresencaEventoController
     @EJB
     InscricaoRepositorio daoInscricao;
             
-    Evento evento;
+    
         
     @Override
     protected Map<String, Object> carregaParametros() {
-        return new HashMap<>();
+        return getParametrosComuns();
     }
 
     @Override
     public List<Inscricao> getDados() {
         Inscricao i = new Inscricao();
-        i.setEvento(evento);
+        i.setEvento(getEvento());
         
         List<Inscricao> tmp = daoInscricao.Buscar(i);
         
         return tmp;
     }
-
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
-    }
-
     
 }
