@@ -39,7 +39,7 @@ public class AutenticacaoPhaseListener implements PhaseListener {
 
             if (usuario == null) {
                 try {
-                    ec.redirect("/login.xhtml");
+                    ec.redirect( ec.getApplicationContextPath() + "/login.xhtml");
                 } catch (IOException ex) {
                     Logger.getLogger(AutenticacaoPhaseListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -48,7 +48,7 @@ public class AutenticacaoPhaseListener implements PhaseListener {
                 Permissao p = permissaoDAO.Abrir(tmp);
                 if (!usuario.getPerfil().contains(p)) {
                     try {
-                        ec.redirect(usuario.getPerfil().getHome().getUri());
+                        ec.redirect(ec.getApplicationContextPath() + "/" + usuario.getPerfil().getHome().getUri());
                     } catch (IOException ex) {
                         Logger.getLogger(AutenticacaoPhaseListener.class.getName()).log(Level.SEVERE, null, ex);
                     }

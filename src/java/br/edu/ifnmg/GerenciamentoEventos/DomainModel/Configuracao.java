@@ -34,7 +34,7 @@ import javax.persistence.Version;
 public class Configuracao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Override

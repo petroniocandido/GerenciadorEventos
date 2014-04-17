@@ -28,12 +28,12 @@
                         </p:column>
                     </p:row>
                 </c:if>
-                
+
             </p:panelGrid>
             <c:if test="#{not empty publicoController.evento}">
-                    <h:graphicImage value="/arquivos/#{publicoController.evento.banner.uri}" />
-                    <h1 style="text-align: center">Inscrições</h1>
-                </c:if>
+                <h:graphicImage value="/arquivos/#{publicoController.evento.banner.uri}" />
+                <h1 style="text-align: center">Inscrições</h1>
+            </c:if>
             <p:menubar>
                 <p:menuitem value="Dados Pessoais"  url="editarDadosPessoais.xhtml" />
                 <p:menuitem value="Inscrição"  url="inscricao.xhtml" />
@@ -43,6 +43,10 @@
             <p:growl showDetail="true" sticky="true"  life="60" />
             <ui:insert name="content">Content</ui:insert>
         </h:form>
+
+        <div id="bottom" style="float: bottom">
+            Copyright 2013 - Gerenciamento de Eventos - TADS IFNMG Januária
+        </div>
     </h:body>
 
 </html>

@@ -43,7 +43,7 @@ import javax.persistence.Version;
 public class Inscricao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

@@ -62,11 +62,11 @@ public class AgendaController
     }
 
     private ScheduleEvent add(Evento e) {
-        return new DefaultScheduleEvent(e.getNome(), e.getInicio(), e.getTermino(), true);
+        return new DefaultScheduleEvent(e.getNome(), e.getInicio(), e.getTermino());
     }
 
     private ScheduleEvent addInscricao(Evento e) {
-        return new DefaultScheduleEvent("Inscrição " + e.getNome(), e.getInicioInscricao(), e.getInicioInscricao(), true);
+        return new DefaultScheduleEvent("Inscrição " + e.getNome(), e.getInicioInscricao(), e.getTerminoInscricao());
     }
 
     private ScheduleEvent add(Atividade a) {
@@ -74,7 +74,7 @@ public class AgendaController
     }
 
     private ScheduleEvent addInscricao(Atividade a) {
-        return new DefaultScheduleEvent("Inscrição " + a.getNome(), a.getInicioInscricao(), a.getInicioInscricao());
+        return new DefaultScheduleEvent("Inscrição " + a.getNome(), a.getInicioInscricao(), a.getTerminoInscricao());
     }
 
     public ScheduleModel getEventModel() {
