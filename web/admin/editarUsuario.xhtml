@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -14,20 +14,20 @@
                 <p:panel>
 
                     <f:facet name="header">
-                        Editar dados gerais de usuário
+                        Editar dados gerais de usuÃ¡rio
                     </f:facet>
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Nome: " />
                                 <p:inputText value="#{usuarioController.entidade.nome}" 
-                                             required="true" requiredMessage="O campo nome é obrigatório" />
+                                             required="true" requiredMessage="O campo nome Ã© obrigatÃ³rio" />
                                 <h:outputText value="CPF: " />
                                 <p:inputMask value="#{usuarioController.entidade.cpf}" mask="999.999.999-99" 
-                                             required="true" requiredMessage="O campo cpf é obrigatório" />
+                                             required="true" requiredMessage="O campo cpf Ã© obrigatÃ³rio" />
                                 <h:outputText value="E-Mail: " />
                                 <p:inputText value="#{usuarioController.entidade.email}" 
-                                             required="true" requiredMessage="O campo e-mail é obrigatório" />
+                                             required="true" requiredMessage="O campo e-mail Ã© obrigatÃ³rio" />
                                 <h:outputText value="Telefone: " />
                                 <p:inputMask value="#{usuarioController.entidade.telefone}" 
                                              mask="(99) 9999-9999" />

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+           <ui:composition template="./PublicTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    
+                    <f:facet name="header">
+                        Editar dados pessoais
+                    </f:facet>
+                <ui:include src="../comum/camposPessoa.xhtml">
+                    <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
+                    <ui:param name="senha" value="#{autenticacaoController.senha}"  />
+                    <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
+                </ui:include>
+
+                <p:commandButton id="btnNovo" value="Salvar"   onclick="msgCadastro.show()" />
+
+                <p:confirmDialog id="confirmaSalvar" message="Deseja realmente atualizar os dados?"  
+                                 header="Confirmação" severity="alert" widgetVar="msgCadastro">  
+                    <p:commandButton id="simSalvar" ajax="false" value="Sim" action="#{autenticacaoController.salvar()}"  />  
+                    <p:commandButton id="naoSalvar" value="Não" onclick="msgCadastro.hide()"  />
+                </p:confirmDialog> 
+                </p:panel>
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

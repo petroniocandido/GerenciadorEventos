@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -19,12 +20,13 @@
                     <p:tabView>
                         <p:tab title="Detalhes">
                             <p:panelGrid columns="2">
+                                
                                 <p:outputLabel value="Atividade:" />
                                 <p:outputLabel value="#{publicoController.atividade.nome}" />
                                 <p:outputLabel value="Tipo" />
                                 <p:outputLabel value="#{publicoController.atividade.tipo}" />
                                 <p:outputLabel value="Descrição" />
-                                <p:outputLabel value="#{publicoController.atividade.descricao}" />
+                                <h:outputText value="#{publicoController.atividade.descricao}" escape="false" />
                                 <p:outputLabel value="Inscrições:" />
                                 <c:choose>
                                     <c:when test="#{publicoController.atividade.necessitaInscricao}">

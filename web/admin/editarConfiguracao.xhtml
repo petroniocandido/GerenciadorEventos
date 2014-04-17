@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -14,12 +14,12 @@
                 <p:panel>
 
                     <f:facet name="header">
-                        Editar configuração
+                        Editar configuraÃ§Ã£o
                     </f:facet>
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <h:outputText value="Usuário: " />
+                                <h:outputText value="UsuÃ¡rio: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{configuracaoController.entidade.usuario}"
                                                 completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
@@ -29,12 +29,10 @@
 
                                 <h:outputText value="Chave: " />
                                 <p:inputText value="#{configuracaoController.entidade.chave}" 
-                                             required="true" requiredMessage="O campo chave é obrigatório" />
+                                             required="true" requiredMessage="O campo chave Ã© obrigatÃ³rio" />
                                 <h:outputText value="Valor: " />
                                 <p:inputText value="#{configuracaoController.entidade.valor}" 
-                                             required="true" requiredMessage="O campo valor é obrigatório" />
-                                <h:outputText value="Telefone: " />
-
+                                             required="true" requiredMessage="O campo valor Ã© obrigatÃ³rio" />
                             </h:panelGrid> 
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">

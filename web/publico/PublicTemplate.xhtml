@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -15,22 +16,28 @@
 
     <h:body>
         <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
-            <p:panelGrid> 
-                <p:row>
-                    <p:column>
-                        <img src="../resources/imagens/logo-ifnmg.png" width="200" height="100" />
-                    </p:column>
-                    <p:column style="width: 100%" >
-                        <h1 style="text-align: center">Gestão de Eventos - IFNMG</h1>
-                        <h:outputText style="float: right" value="Usuário: #{autenticacaoController.usuarioCorrente.nome}" />
-                    </p:column>
-                </p:row>
-
+            <p:panelGrid>
+                <c:if test="#{empty publicoController.evento}">
+                    <p:row>
+                        <p:column>
+                            <img src="../resources/imagens/logo-ifnmg.png" width="200" height="100" />
+                        </p:column>
+                        <p:column style="width: 100%" >
+                            <h1 style="text-align: center">Gestão de Eventos - IFNMG</h1>
+                            <h:outputText style="float: right" value="Usuário: #{autenticacaoController.usuarioCorrente.nome}" />
+                        </p:column>
+                    </p:row>
+                </c:if>
+                
             </p:panelGrid>
+            <c:if test="#{not empty publicoController.evento}">
+                    <h:graphicImage value="/arquivos/#{publicoController.evento.banner.uri}" />
+                    <h1 style="text-align: center">Inscrições</h1>
+                </c:if>
             <p:menubar>
-                <p:menuitem value="Dados Pessoais"  url="index.xhtml" />
+                <p:menuitem value="Dados Pessoais"  url="editarDadosPessoais.xhtml" />
                 <p:menuitem value="Inscrição"  url="inscricao.xhtml" />
-                <p:menuitem value="Site do Evento"  url="index.xhtml" />
+                <p:menuitem rendered="#{not empty publicoController.evento}" value="Site do Evento"  url="#{publicoController.evento.site}"  />
                 <p:menuitem ajax="false" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
             <p:growl showDetail="true" sticky="true"  life="60" />

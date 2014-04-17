@@ -6,10 +6,12 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum;
 
 
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
 import java.io.IOException;
@@ -28,6 +30,10 @@ import javax.servlet.http.HttpSession;
  * @author petronio
  */
 public abstract class ControllerBase {
+    
+    
+    @EJB
+    ConfiguracaoRepositorio confDAO;
 
     @EJB
     private PermissaoRepositorio permissaoDAO;
@@ -101,6 +107,30 @@ public abstract class ControllerBase {
             FacesContext.getCurrentInstance().getExternalContext().redirect( url);
         } catch (IOException ex) {
             Logger.getLogger(ControllerBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    public void setConfiguracao(String chave, String valor) {
+        confDAO.Set(chave, valor);
+        AppendLog("Alterando configuração global" + chave + " = " + valor);
+    }
+
+    public void setConfiguracao(Pessoa usr, String chave, String valor) {
+        confDAO.Set(usr, chave, valor);
+        AppendLog("Alterando configuração de usuário " + chave + " = " + valor);
+    }
+
+    public String getConfiguracao(String chave) {
+        Configuracao c = confDAO.Abrir(chave);
+        if (c == null) {
+            c = confDAO.Abrir(getUsuarioCorrente(), chave);
+        }
+
+        if (c != null) {
+            return c.getValor();
+        } else {
+            return null;
         }
     }
 }

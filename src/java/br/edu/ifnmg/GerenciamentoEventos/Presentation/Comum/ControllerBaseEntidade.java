@@ -32,8 +32,6 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
     protected Long id;
 
-    @EJB
-    ConfiguracaoRepositorio confDAO;
 
     @EJB
     ArquivoRepositorio arqDAO;
@@ -202,37 +200,13 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
         }
     }
 
-    public void setConfiguracao(String chave, String valor) {
-        confDAO.Set(chave, valor);
-        AppendLog("Alterando configuração global" + chave + " = " + valor);
-    }
-
-    public void setConfiguracao(Pessoa usr, String chave, String valor) {
-        confDAO.Set(usr, chave, valor);
-        AppendLog("Alterando configuração de usuário " + chave + " = " + valor);
-    }
-
-    public String getConfiguracao(String chave) {
-        Configuracao c = confDAO.Abrir(chave);
-        if (c == null) {
-            c = confDAO.Abrir(getUsuarioCorrente(), chave);
-        }
-
-        if (c != null) {
-            return c.getValor();
-        } else {
-            return null;
-        }
-    }
 
     public Arquivo criaArquivo(UploadedFile upload) {
         InputStream is;
         try {
-            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-            String deploymentDirectoryPath = ctx.getRealPath("/");
             String extension = upload.getFileName().substring(upload.getFileName().lastIndexOf("."));
             String name = java.util.UUID.randomUUID().toString() + extension;
-            File file = new File("/home/petronio/arquivos/" + name);
+            File file = new File(getConfiguracao("DIRETORIO_ARQUIVOS") + name);
             is = upload.getInputstream();
             try (OutputStream os = new FileOutputStream(file)) {
                 byte buf[] = new byte[1024];

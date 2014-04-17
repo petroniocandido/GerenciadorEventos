@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Listagem de Configurações
+                        Listagem de ConfiguraÃ§Ãµes
                     </f:facet>
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
@@ -27,13 +27,13 @@
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
-                    <!-- Início da Tabela -->
+                    
                     <p:dataTable value="#{configuracaoController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{configuracaoController.onRowSelect}" />
-                        <p:column headerText="Usuario" sortBy="#{item.usuario}"  >
+                        <p:column headerText="UsuÃ¡rio" sortBy="#{item.usuario}"  >
                             #{item.usuario} 
                         </p:column>
                         <p:column headerText="Chave" sortBy="#{item.chave}"  >

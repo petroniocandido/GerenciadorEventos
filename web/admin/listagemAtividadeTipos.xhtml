@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -20,7 +20,7 @@
                             <p:panelGrid columns="2">
                                 <h:outputText value="Nome: " />
                                 <p:inputText id="txtNome" size="50" value="#{atividadeTipoController.filtro.nome}"/> 
-                                <h:outputText value="Público: " />
+                                <h:outputText value="PÃºblico: " />
                                 <p:selectBooleanCheckbox value="#{atividadeTipoController.filtro.publico}" />
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
@@ -29,14 +29,14 @@
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
-                    <!-- Início da Tabela -->
+                    <!-- Inï¿½cio da Tabela -->
                     <p:dataTable value="#{atividadeTipoController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{atividadeTipoController.onRowSelect}" />
                         <!-- Coluna Codigo -->
-                        <p:column headerText="Cód." sortBy="#{item.id}"   >
+                        <p:column headerText="CÃ³d." sortBy="#{item.id}"   >
                             <p:outputLabel value="#{item.id}" />
                         </p:column>
                         <!-- Coluna Nome -->

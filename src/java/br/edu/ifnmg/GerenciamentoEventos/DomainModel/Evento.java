@@ -49,6 +49,8 @@ public class Evento implements Entidade, Serializable {
     @Lob
     private String descricao;
     
+    private String site;
+    
     private boolean necessitaInscricao;
     
     private int numeroVagas;
@@ -287,6 +289,14 @@ public class Evento implements Entidade, Serializable {
 
     public void setQuestionario(Questionario questionario) {
         this.questionario = questionario;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
     }
     
     

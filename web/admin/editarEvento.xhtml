@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -31,6 +31,8 @@
                                 </h:selectOneMenu>
                                 <h:outputText value="Descrição: " />
                                 <p:editor id="editor" value="#{eventoController.entidade.descricao}" width="600"/> 
+                                <h:outputText value="Site do Evento: " />
+                                <p:inputText value="#{eventoController.entidade.site}" size="100"/>
                                 <p:commandButton value="Tornar Padrão Global" action="#{eventoController.configurarEventoGlobal}" style="background-color: red" />
                                 <p:commandButton value="Tornar Padrão do Usuário" action="#{eventoController.configurarEventoUsuario()}" style="background-color: red" />
                             </h:panelGrid>
@@ -79,7 +81,7 @@
                         </p:tab>
                         <p:tab id="tabArquivos" title="Arquivos">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <c:if test="#{eventoController.entidade.logo ne  null}">
+                                <c:if test="#{not empty eventoController.entidade.logo ne  null}">
                                     <h:outputText value="Logomarca: " />
                                     <h:graphicImage value="/arquivos/#{eventoController.entidade.logo.uri}" />
                                 </c:if>

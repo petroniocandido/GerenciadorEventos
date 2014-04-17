@@ -15,6 +15,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
@@ -62,7 +63,7 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
     QuestionarioRespostaRepositorio respostaDAO;
-
+    
     Evento evento;
 
     Atividade atividade;
@@ -143,10 +144,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
 
-    public Evento getEvento() throws IOException {
-        if (evento == null) {
-           Redirect("selecionaEvento.xhtml");
-        }
+    public Evento getEvento() {
         return evento;
     }
 
@@ -260,6 +258,11 @@ public class PublicoController extends ControllerBase implements Serializable {
         inscricaoItem = inscricao.getItem(atividade);
         processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
         inscricao = inscricaoDAO.Refresh(inscricao);
+    }
+    
+    public String getBanner() {
+        String tmp = getConfiguracao("DIRETORIO_ARQUIVOS") + evento.getBanner().getUri();
+        return tmp;
     }
 
 }
