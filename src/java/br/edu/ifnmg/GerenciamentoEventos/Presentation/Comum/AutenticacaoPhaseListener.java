@@ -43,7 +43,7 @@ public class AutenticacaoPhaseListener implements PhaseListener {
                 } catch (IOException ex) {
                     Logger.getLogger(AutenticacaoPhaseListener.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } /*else if(viewid.contains("/admin/")) {
+            } else if(viewid.contains("/admin/")) {
                 String tmp = viewid.substring(1);
                 Permissao p = permissaoDAO.Abrir(tmp);
                 if (!usuario.getPerfil().contains(p)) {
@@ -53,7 +53,7 @@ public class AutenticacaoPhaseListener implements PhaseListener {
                         Logger.getLogger(AutenticacaoPhaseListener.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-            }*/
+            }
         }
     }
 
