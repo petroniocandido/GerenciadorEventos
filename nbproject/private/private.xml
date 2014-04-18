@@ -3,14 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/web/admin/Implantacao.xhtml</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Presentation/Comum/AutenticacaoPhaseListener.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DataAccess/DAOGenerico.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Presentation/ImplantacaoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/web/admin/editarUsuario.xhtml</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Presentation/LancamentoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Presentation/PessoaController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/conf/persistence.xml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/web/publico/editarDadosPessoais.xhtml</file>
         </group>
     </open-files>
 </project-private>

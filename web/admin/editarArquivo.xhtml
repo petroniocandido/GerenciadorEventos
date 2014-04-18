@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -22,13 +22,19 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Nome: " />
                                     <p:inputText value="#{arquivoController.entidade.nome}" 
-                                             required="true" requiredMessage="O campo nome � obrigat�rio" />
+                                             required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="URI: " />
-                                <p:editor value="#{arquivoController.entidade.uri}" maxlength="600" />
-                                
+                                <p:inputText value="#{arquivoController.entidade.uri}" maxlength="600" />
+                                <p:fileUpload fileUploadListener="#{arquivoController.arquivoFileUpload}"  mode="advanced"             
+                                              auto="true" sizeLimit="1000000" 
+                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                              invalidFileMessage="Tipo de arquivo não permitido!"
+                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                              label="Escolher arquivo!"
+                                              multiple="false" /> 
                             </h:panelGrid> 
                         </p:tab>
-                        <p:tab title="Preview">
+                        <p:tab rendered="#{arquivoController.entidade.id gt 0}" title="Preview">
                             <h:graphicImage value="/arquivos/#{arquivoController.entidade.uri}" />
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">

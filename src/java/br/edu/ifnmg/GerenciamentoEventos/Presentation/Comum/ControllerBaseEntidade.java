@@ -5,21 +5,15 @@
 package br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
-import javax.servlet.ServletContext;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -31,7 +25,6 @@ import org.primefaces.model.UploadedFile;
 public abstract class ControllerBaseEntidade<T extends Entidade> extends ControllerBase {
 
     protected Long id;
-
 
     @EJB
     ArquivoRepositorio arqDAO;
@@ -161,7 +154,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
             MensagemErro("Falha", "Item não removido! Consulte o log.");
         }
     }
-    
+
     protected void Refresh() {
         entidade = repositorio.Refresh(entidade);
     }
@@ -200,38 +193,16 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
         }
     }
 
-
     public Arquivo criaArquivo(UploadedFile upload) {
-        InputStream is;
         try {
-            String extension = upload.getFileName().substring(upload.getFileName().lastIndexOf("."));
-            String name = java.util.UUID.randomUUID().toString() + extension;
-            File file = new File(getConfiguracao("DIRETORIO_ARQUIVOS") + name);
-            is = upload.getInputstream();
-            try (OutputStream os = new FileOutputStream(file)) {
-                byte buf[] = new byte[1024];
-                int len;
-                while ((len = is.read(buf)) > 0) {
-                    os.write(buf, 0, len);
-                }
-            }
-            is.close();
-
-            Arquivo arquivo = new Arquivo();
-            arquivo.setNome(upload.getFileName());
-            arquivo.setUri(name);
-            arquivo.setResponsavel(getUsuarioCorrente());
+            Arquivo arquivo = arqDAO.Salvar(upload.getInputstream(), upload.getFileName(), getConfiguracao("DIRETORIO_ARQUIVOS"), getUsuarioCorrente());
             
-            Rastrear(arquivo);
-
             return arquivo;
-
         } catch (IOException ex) {
-            System.out.println(ex.getStackTrace());
+            Logger.getLogger(ControllerBaseEntidade.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        return null;
+
     }
-    
-    
 
 }

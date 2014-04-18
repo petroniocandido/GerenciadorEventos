@@ -16,6 +16,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -68,7 +69,14 @@ public class ArquivoController
 
     @Override
     public String apagar() {
-        ApagarEntidade();
+        if (dao.Apagar(entidade, getConfiguracao("DIRETORIO_ARQUIVOS"))) {
+
+            Mensagem("Sucesso", "Registro removido com sucesso!");
+            AppendLog("Apagou a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")");
+        } else {
+            MensagemErro("Falha", "Registro não foi removido! Consulte o Log ou o administrador do sistema!");
+            AppendLog("Falha ao remover a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")" + ": " + repositorio.getErro().getMessage());
+        }
         filtrar();
         return "listagemArquivos.xtml";
     }
@@ -105,6 +113,18 @@ public class ArquivoController
 
     public void setListagem(List<Arquivo> listagem) {
         this.listagem = listagem;
+    }
+    
+    public void arquivoFileUpload(FileUploadEvent event) {  
+        entidade = criaArquivo(event.getFile());
+        if(dao.Salvar(entidade)){
+            Mensagem("Sucesso", "Arquivo anexado com êxito!");
+            
+        } else {
+            Mensagem("Falha", "Falha ao anexar o arquivo!");
+            
+        }
+        
     }
 
     

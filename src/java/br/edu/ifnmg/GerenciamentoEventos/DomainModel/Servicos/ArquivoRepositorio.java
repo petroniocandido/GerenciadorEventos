@@ -7,7 +7,8 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import java.io.InputStream;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +17,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface ArquivoRepositorio extends Repositorio<Arquivo> {
+    public Arquivo Salvar(InputStream is, String nome, String pastaBase, Pessoa criador);
+    public boolean Apagar(Arquivo a, String pastaBase);
     public Arquivo Abrir(String uri);
 }
