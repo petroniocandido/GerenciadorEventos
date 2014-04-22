@@ -14,10 +14,10 @@
                     <h:selectBooleanCheckbox id="valor-#{q.id}" />
                 </c:if>
                 <c:if test="#{q.tipo == 'TextoLinha'}">
-                    <p:inputText id="valor-#{q.id}" size="50" />
+                    <p:inputText id="valor-#{q.id}" size="150" />
                 </c:if>
                 <c:if test="#{q.tipo == 'TextoMultiLinha'}">
-                    <p:inputTextarea  id="valor-#{q.id}" rows="5" cols="35" />
+                    <p:inputTextarea  id="valor-#{q.id}" rows="7" cols="150"  />
                 </c:if>
                 <c:if test="#{q.tipo == 'Inteiro'}">
                     <p:spinner  id="valor-#{q.id}" min="1">
@@ -25,38 +25,38 @@
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Real'}">
-                    <p:spinner  id="valor#{q.id}" min="1">
+                    <p:spinner  id="valor-#{q.id}" min="1">
                         <f:convertNumber type="number" integerOnly="false" />
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Data'}">
-                    <p:calendar pattern="dd/MM/yyyy HH:mm" />
+                    <p:calendar id="valor-#{q.id}" pattern="dd/MM/yyyy HH:mm" />
                 </c:if>
                 <c:if test="#{q.tipo == 'Opcoes'}">
-                    <p:selectOneMenu >
+                    <p:selectOneMenu id="valor-#{q.id}" >
                         <f:selectItems value="#{q.opcoesLista}" />
                     </p:selectOneMenu>
                 </c:if>
                 <c:if test="#{q.tipo == 'Arquivo'}">
-                    <p:fileUpload fileUploadListener="#{respostaController.arquivoFileUpload}" mode="advanced"             
-                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
-                                              invalidFileMessage="Tipo de arquivo não permitido!"
-                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
-                                              label="Escolher arquivo!"
-                                              multiple="false"/> 
+                    <p:fileUpload id="#{inscricaotipo}-arquivo-#{q.id}" fileUploadListener="#{controller.arquivoFileUpload}" mode="advanced"             
+                                  auto="true" sizeLimit="100000" 
+                                  fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                  invalidFileMessage="Tipo de arquivo não permitido!"
+                                  invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                  label="Escolher arquivo!"
+                                  multiple="false" />
                 </c:if>
             </c:if>
             <c:if test="#{inscricao.resposta != null and inscricao.resposta.RespostaDeQuestao(q) != null}">
                 <c:if test="#{q.tipo == 'SimNao'}">
                     <h:selectBooleanCheckbox id="valor-#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).booleano}" />
                 </c:if>
-                
+
                 <c:if test="#{q.tipo == 'TextoLinha'}">
-                    <p:inputText  id="valor-#{q.id}" size="50" value="#{inscricao.resposta.RespostaDeQuestao(q).valor}"/>
+                    <p:inputText  id="valor-#{q.id}" size="150" value="#{inscricao.resposta.RespostaDeQuestao(q).valor}"/>
                 </c:if>
                 <c:if test="#{q.tipo == 'TextoMultiLinha'}">
-                    <p:inputTextarea  id="valor-#{q.id}" rows="5" cols="35" value="#{inscricao.resposta.RespostaDeQuestao(q).valor}"/>
+                    <p:inputTextarea  id="valor-#{q.id}" rows="7" cols="150" value="#{inscricao.resposta.RespostaDeQuestao(q).valor}"/>
                 </c:if>
                 <c:if test="#{q.tipo == 'Inteiro'}">
                     <p:spinner  id="valor-#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).inteiro}"  min="1">
@@ -64,26 +64,29 @@
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Real'}">
-                    <p:spinner  id="valor#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).longo}"  min="1">
+                    <p:spinner  id="valor-#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).longo}"  min="1">
                         <f:convertNumber type="number" integerOnly="false" />
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Data'}">
-                    <p:calendar value="#{inscricao.resposta.RespostaDeQuestao(q).data}"  pattern="dd/MM/yyyy HH:mm" />
+                    <p:calendar id="valor-#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).data}"  pattern="dd/MM/yyyy HH:mm" />
                 </c:if>
                 <c:if test="#{q.tipo == 'Opcoes'}">
-                    <p:selectOneMenu value="#{inscricao.resposta.RespostaDeQuestao(q).valor}">
+                    <p:selectOneMenu id="valor-#{q.id}" editable="false" maxlength="150" 
+                                     value="#{inscricao.resposta.RespostaDeQuestao(q).valor}">
                         <f:selectItems value="#{q.opcoesLista}" />
                     </p:selectOneMenu>
                 </c:if>
                 <c:if test="#{q.tipo == 'Arquivo'}">
-                    <p:fileUpload fileUploadListener="#{respostaController.arquivoFileUpload}" mode="advanced"             
-                                              auto="true" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
-                                              invalidFileMessage="Tipo de arquivo não permitido!"
-                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
-                                              label="Escolher arquivo!"
-                                              multiple="false"/> 
+                    <h:link value="#{inscricao.resposta.RespostaDeQuestao(q).arquivo.nome}" outcome="/arquivos/#{inscricao.resposta.RespostaDeQuestao(q).arquivo.uri}" />
+                    <p:fileUpload id="#{inscricaotipo}-arquivo-#{q.id}" fileUploadListener="#{controller.arquivoFileUpload}" mode="advanced"             
+                                  auto="true" sizeLimit="100000" 
+                                  fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                  invalidFileMessage="Tipo de arquivo não permitido!"
+                                  invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                  uploadLabel="Enviar" cancelLabel="Cancelar"
+                                  label="Escolher arquivo!"
+                                  multiple="false" />
                 </c:if>
             </c:if>              
         </h:panelGrid>

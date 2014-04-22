@@ -14,8 +14,11 @@
                         <c:forEach items="#{sec.filhos}" var="subsec">
                             <p:tab title="#{subsec.nome}"> 
                                 <ui:include src="../comum/questoes.xhtml">
+                                    <ui:param name="questionario" value="#{questionario}"  />
+                                    <ui:param name="controller" value="#{controller}"  />
                                     <ui:param name="questoes" value="#{subsec.questoes}"  />
                                     <ui:param name="inscricao" value="#{inscricao}"  />
+                                    <ui:param name="inscricaotipo" value="#{inscricaotipo}"  />
                                 </ui:include>
                             </p:tab>
                         </c:forEach>
@@ -23,8 +26,11 @@
                 </c:if>
                 <c:if test="#{sec.questoes.size() gt 0}">
                     <ui:include src="../comum/questoes.xhtml">
+                        <ui:param name="questionario" value="#{questionario}"  />
+                        <ui:param name="controller" value="#{controller}"  />
                         <ui:param name="questoes" value="#{sec.questoes}"  />
                         <ui:param name="inscricao" value="#{inscricao}"  />
+                        <ui:param name="inscricaotipo" value="#{inscricaotipo}"  />
                     </ui:include>
                 </c:if>
             </p:tab>

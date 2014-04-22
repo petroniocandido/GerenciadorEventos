@@ -17,7 +17,7 @@
     <h:body>
         <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
             <p:panelGrid>
-                <c:if test="#{empty publicoController.evento}">
+                <c:if test="#{empty publicoController.evento or empty publicoController.evento.banner}">
                     <p:row>
                         <p:column>
                             <img src="../resources/imagens/logo-ifnmg.png" width="200" height="100" />
@@ -38,6 +38,7 @@
                 <p:menuitem value="Dados Pessoais"  url="editarDadosPessoais.xhtml" />
                 <p:menuitem value="Inscrição"  url="inscricao.xhtml" />
                 <p:menuitem rendered="#{not empty publicoController.evento}" value="Site do Evento"  url="#{publicoController.evento.site}"  />
+                <p:menuitem rendered="#{autenticacaoController.autorizacao('admin')}" value="Área Administrativa" url="../admin/index.xhtml" />
                 <p:menuitem ajax="false" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
             <p:growl showDetail="true" sticky="true"  life="60" />

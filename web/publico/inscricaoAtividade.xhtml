@@ -57,8 +57,10 @@
                                 <p:tab title="Dados da Inscrição">
                                     <p:tabView>
                                         <ui:include src="../comum/questionario.xhtml">
+                                            <ui:param name="controller" value="#{publicoController}"  />
                                             <ui:param name="questionario" value="#{publicoController.atividade.questionario}"  />
                                             <ui:param name="inscricao" value="#{publicoController.inscricaoItem}"  />
+                                            <ui:param name="inscricaotipo" value="item"  />
                                         </ui:include>
                                     </p:tabView>
                                     <p:commandButton value="Salvar" action="#{publicoController.processaQuestionarioAtividade}" />
@@ -73,8 +75,10 @@
                         <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
                         <p:tabView>
                             <ui:include src="../comum/questionario.xhtml">
+                                <ui:param name="controller" value="#{publicoController}"  />
                                 <ui:param name="questionario" value="#{publicoController.atividade.questionario}"  />
                                 <ui:param name="inscricao" value="#{publicoController.inscricaoItem}"  />
+                                <ui:param name="inscricaotipo" value="item"  />
                             </ui:include>
                         </p:tabView>
                     </c:if>

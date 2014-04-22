@@ -5,6 +5,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
@@ -12,10 +13,11 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
+
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
@@ -29,11 +31,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -51,7 +57,7 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
     InscricaoRepositorio inscricaoDAO;
-    
+
     @EJB
     InscricaoService inscricaoservice;
 
@@ -63,7 +69,10 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
     QuestionarioRespostaRepositorio respostaDAO;
-    
+
+    @EJB
+    ArquivoRepositorio arqDAO;
+
     Evento evento;
 
     Atividade atividade;
@@ -71,6 +80,10 @@ public class PublicoController extends ControllerBase implements Serializable {
     Inscricao inscricao;
 
     InscricaoItem inscricaoItem;
+
+    Questao questao;
+
+    Questionario questionario;
 
     /**
      * Creates a new instance of PublicoController
@@ -143,7 +156,6 @@ public class PublicoController extends ControllerBase implements Serializable {
         }
     }
 
-
     public Evento getEvento() {
         return evento;
     }
@@ -170,22 +182,21 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     public void inscreverEvento() throws IOException {
         inscricao = inscricaoservice.inscrever(evento, getUsuarioCorrente());
-        
-        if(inscricao != null){
+
+        if (inscricao != null) {
             processaQuestionarioEvento();
         }
     }
 
     public String cancelarInscricaoEvento() {
         inscricao = inscricaoDAO.Refresh(inscricao);
-        if(inscricaoservice.cancelar(inscricao)) {
+        if (inscricaoservice.cancelar(inscricao)) {
             inscricao = null;
             return "selecionaEvento.xhtml";
-        }
-        else {
+        } else {
             return "";
         }
-        
+
     }
 
     public InscricaoItem getInscricaoItem() {
@@ -200,17 +211,16 @@ public class PublicoController extends ControllerBase implements Serializable {
     public String cancelarInscricaoAtividade() {
         inscricao = inscricaoDAO.Refresh(inscricao);
         inscricaoservice.cancelar(inscricaoItem);
-            inscricaoItem = null;
-            return "inscricaoAtividade.xhtml";
+        inscricaoItem = null;
+        return "inscricaoAtividade.xhtml";
     }
-
 
     public void processaQuestionario(Inscricao i, Questionario qr) {
 
         i = inscricaoDAO.Refresh(i);
-        
+
         QuestionarioResposta resposta = i.getResposta();
-        
+
         if (resposta == null) {
             resposta = new QuestionarioResposta();
             resposta.setPessoa(getUsuarioCorrente());
@@ -223,13 +233,24 @@ public class PublicoController extends ControllerBase implements Serializable {
         Map<String, String> req = ec.getRequestParameterMap();
         for (String key : req.keySet()) {
             if (key.contains("valor-")) {
+
                 String idQuestao = key.substring(key.lastIndexOf("-") + 1);
-                String valor = req.get(key);
+
+                if (idQuestao.contains("_focus")) {
+                    continue;
+                }
+
+                if (idQuestao.contains("_input")) {
+                    idQuestao = idQuestao.replace("_input", "");
+                }
+
                 Long id = Long.parseLong(idQuestao);
                 Questao q = questionarioDAO.AbrirQuestao(id);
                 QuestaoResposta r = resposta.RespostaDeQuestao(q);
-                if(r == null)
+                String valor = req.get(key);
+                if (r == null) {
                     r = new QuestaoResposta();
+                }
                 r.setQuestao(q);
                 r.setValor(valor);
                 Rastrear(r);
@@ -239,30 +260,78 @@ public class PublicoController extends ControllerBase implements Serializable {
 
         Rastrear(resposta);
         respostaDAO.Salvar(resposta);
-        
+
         i.setResposta(resposta);
-        
+
         Rastrear(i);
         inscricaoDAO.Salvar(i);
-        
-        
-        
+
     }
-    
+
     public void processaQuestionarioEvento() {
         processaQuestionario(inscricao, inscricao.getEvento().getQuestionario());
         inscricao = inscricaoDAO.Refresh(inscricao);
     }
-    
+
     public void processaQuestionarioAtividade() {
         inscricaoItem = inscricao.getItem(atividade);
         processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
         inscricao = inscricaoDAO.Refresh(inscricao);
     }
-    
-    public String getBanner() {
-        String tmp = getConfiguracao("DIRETORIO_ARQUIVOS") + evento.getBanner().getUri();
-        return tmp;
+
+    public void arquivoFileUpload(FileUploadEvent evt) {
+        try {
+
+            inscricao = inscricaoDAO.Refresh(inscricao);
+
+            String key = evt.getComponent().getClientId();
+
+            boolean item = key.contains("item-");
+            
+            Inscricao i = item ? getInscricaoItem(): inscricao;
+            
+            if(i == null){
+                if(item)
+                    inscreverAtividade();
+                else 
+                    inscreverEvento();
+                
+                i = item ? inscricaoItem: inscricao;
+            }
+
+            QuestionarioResposta resposta = i.getResposta();
+
+            if (resposta == null) {
+                resposta = new QuestionarioResposta();
+                resposta.setPessoa(getUsuarioCorrente());
+                resposta.setQuestionario(questionario);
+            }
+
+            Arquivo arq = arqDAO.Salvar(evt.getFile().getInputstream(), evt.getFile().getFileName(),
+                    getConfiguracao("DIRETORIO_ARQUIVOS"), getUsuarioCorrente());
+
+            String idQuestao = key.substring(key.lastIndexOf("-") + 1);
+            Long id = Long.parseLong(idQuestao);
+            Questao q = questionarioDAO.AbrirQuestao(id);
+            QuestaoResposta r = resposta.RespostaDeQuestao(q);
+            
+            if(r == null){
+                r = new QuestaoResposta();
+                r.setQuestao(q);
+            }
+
+            r.setArquivo(arq);
+            resposta.add(r);
+            Rastrear(resposta);
+            respostaDAO.Salvar(resposta);
+            i.setResposta(resposta);
+            Rastrear(i);
+            inscricaoDAO.Salvar(i);
+
+        } catch (IOException ex) {
+            Logger.getLogger(PublicoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
 }

@@ -14,6 +14,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -31,6 +32,15 @@ public class InscricaoService {
     InscricaoRepositorio inscricaoDAO;
     
     public Inscricao inscrever(Evento e, Pessoa p){
+        
+        Inscricao tmp = new Inscricao();
+        tmp.setPessoa(p);
+        tmp.setEvento(e);
+        
+        List<Inscricao> list = inscricaoDAO.Buscar(tmp);
+        if(list.size() > 0)
+            return list.get(0);
+        
         if(!e.isPeriodoInscricaoAberto())
             return null;
         
@@ -55,6 +65,15 @@ public class InscricaoService {
     }
     
     public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p){
+        
+        InscricaoItem tmp = new InscricaoItem();
+        tmp.setAtividade(e);
+        tmp.setPessoa(p);
+        tmp.setInscricao(i);
+        
+        List<InscricaoItem> list = inscricaoDAO.Buscar(tmp);
+        if(list.size() > 0)
+            return list.get(0);
         
         if(!e.isPeriodoInscricaoAberto())
             return null;
