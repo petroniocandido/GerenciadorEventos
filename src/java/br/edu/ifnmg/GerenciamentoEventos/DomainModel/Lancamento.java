@@ -68,6 +68,12 @@ public class Lancamento implements Entidade, Serializable {
     @Enumerated(EnumType.STRING)
     private LancamentoStatus status;
     
+    @Enumerated(EnumType.ORDINAL)
+    private LancamentoTipo tipo;
+    
+    @ManyToOne
+    private LancamentoCategoria categoria;
+    
     @OneToMany(mappedBy = "lancamento")
     private List<Inscricao> inscricoes;
 
@@ -77,6 +83,7 @@ public class Lancamento implements Entidade, Serializable {
         valorDescontos = new BigDecimal("0.00");
         valorTotal = new BigDecimal("0.00");
         status= LancamentoStatus.Aberto;
+        tipo = LancamentoTipo.Credito;
         inscricoes = new ArrayList<>();
     }
     
@@ -240,6 +247,22 @@ public class Lancamento implements Entidade, Serializable {
 
     public void setInscricoes(List<Inscricao> inscricoes) {
         this.inscricoes = inscricoes;
+    }
+
+    public LancamentoTipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(LancamentoTipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public LancamentoCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(LancamentoCategoria categoria) {
+        this.categoria = categoria;
     }
     
     

@@ -248,9 +248,9 @@ public class PublicoController extends ControllerBase implements Serializable {
                 Questao q = questionarioDAO.AbrirQuestao(id);
                 QuestaoResposta r = resposta.RespostaDeQuestao(q);
                 String valor = req.get(key);
-                if (r == null) {
-                    r = new QuestaoResposta();
-                }
+                
+                if (r == null) r = new QuestaoResposta();
+                
                 r.setQuestao(q);
                 r.setValor(valor);
                 Rastrear(r);

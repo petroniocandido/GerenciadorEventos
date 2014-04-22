@@ -8,7 +8,9 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;
@@ -43,6 +45,8 @@ public class LancamentoController
     LancamentoRepositorio dao;
     
     LancamentoStatus status[];
+    
+    LancamentoTipo tipos[];
     
     Inscricao inscricao;
     
@@ -166,5 +170,18 @@ public class LancamentoController
                 return "white";
         }
     }
+    
+    public List<LancamentoCategoria> getCategorias() {
+        return dao.BuscarCategorias(null);
+    }
+
+    public LancamentoTipo[] getTipos() {
+        if(tipos == null)
+            tipos = LancamentoTipo.values();
+        
+        return tipos;
+    }
+    
+    
     
 }

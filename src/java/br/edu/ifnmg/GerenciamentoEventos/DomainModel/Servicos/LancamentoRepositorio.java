@@ -7,6 +7,8 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoCategoria;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,5 +17,8 @@ import javax.ejb.Local;
  */
 @Local
 public interface LancamentoRepositorio extends Repositorio<Lancamento> {
-    
+     public LancamentoCategoria AbrirCategoria(Long id);
+     public boolean SalvarCategoria(LancamentoCategoria obj);
+     public boolean ApagarCategoria(LancamentoCategoria obj);
+     public List<LancamentoCategoria> BuscarCategorias(LancamentoCategoria filtro);
 }

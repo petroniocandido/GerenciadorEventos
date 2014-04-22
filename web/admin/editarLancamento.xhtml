@@ -23,9 +23,17 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Situação: " />
                                 <h:outputText value="#{lancamentoController.entidade.status}" />
+                                <h:outputText value="Tipo: " />
+                                <p:selectOneMenu value="#{lancamentoController.entidade.tipo}">
+                                    <f:selectItems value="#{lancamentoController.tipos}" />
+                                </p:selectOneMenu>
+                                <h:outputText value="Categoria: " />
+                                <p:selectOneMenu value="#{lancamentoController.entidade.categoria}" converter="#{lancamentoCategoriaConverter}">
+                                    <f:selectItems value="#{lancamentoController.categorias}" />
+                                </p:selectOneMenu>
                                 <h:outputText value="Cliente: " />
                                 <p:autoComplete id="txtPessoa" converter="#{usuarioConverter}" size="100" value="#{lancamentoController.entidade.cliente}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item"
+                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item" itemLabel="#{item.nome}" itemValue="#{item}"
                                                 required="required" disabled="#{not lancamentoController.editavel}">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
