@@ -33,7 +33,7 @@ public class AutenticacaoPhaseListener implements PhaseListener {
         FacesContext fc = event.getFacesContext();
         ExternalContext ec = fc.getExternalContext();
         String viewid = fc.getViewRoot().getViewId();
-        if (!viewid.contains("login.xhtml")) {
+        if (!viewid.contains("login.xhtml") && !viewid.contains("cadastrar.xhtml") ) {
             HttpSession session = (HttpSession) ec.getSession(true);
             Pessoa usuario = (Pessoa) session.getAttribute("usuarioAutenticado");
 

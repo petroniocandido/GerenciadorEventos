@@ -99,8 +99,12 @@ public class AutenticacaoController
         if (senha.equals(senhaconferencia)) {
             usuario.setSenha(hash.getMD5(senha));
             usuario.setPerfil(perfilDAO.getPadrao());
-            dao.Salvar(usuario);
-            AppendLog("Cadastro do usuário "+usuario.getEmail());
+            if(dao.Salvar(usuario))
+                AppendLog("Cadastro do usuário "+usuario.getEmail());
+            else
+                AppendLog("Erro ao cadastrar usuário: " + dao.getErro().toString());
+        } else {
+            MensagemErro("Senhas", "Senhas não conferem!");
         }
     }
 

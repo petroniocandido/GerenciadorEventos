@@ -2,24 +2,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
-
         <ui:composition template="./TemplateExterno.xhtml">
-
             <ui:define name="content">
-                <ui:include src="./comum/camposPessoa.xhtml">
-                    <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
-                    <ui:param name="senha" value="#{autenticacaoController.senha}"  />
-                    <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
-                </ui:include>
+                <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="1">
 
-                <p:commandButton id="btnNovo" value="Cadastrar"  action="#{autenticacaoController.salvar()}" oncomplete="msgCadastro.show()" />
-
+                    <f:facet name="header">
+                        Dados do Usuário
+                    </f:facet>
+                    <ui:include src="./comum/camposPessoa.xhtml">
+                        <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
+                        <ui:param name="senha" value="#{autenticacaoController.senha}"  />
+                        <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
+                    </ui:include>
+                    <f:facet name="footer">
+                        <p:commandButton value="Cadastrar" action="#{autenticacaoController.salvar()}" 
+                                         onsuccess="msgCadastro.show()"/>
+                    </f:facet>
+                </p:panelGrid>
                 <p:confirmDialog id="confirmaSalvar" message="Cadastro realizado com sucesso! Retorne à  página inicial e efetue o login."  
                                  header="Confirmação" severity="alert" widgetVar="msgCadastro">  
-                    <p:commandButton ajax="false" id="simSalvar" value="Login"  />  
+                    <p:commandButton ajax="false" id="simSalvar" value="Login" action="login.xhtml"  />  
                 </p:confirmDialog> 
 
             </ui:define>

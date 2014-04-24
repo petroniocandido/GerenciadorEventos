@@ -11,23 +11,23 @@
         <ui:composition template="./TemplateExterno.xhtml">
 
             <ui:define name="content">
-                
+
                 <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="2">
-                <f:facet name="header">
-                    Autenticação
-                </f:facet>
+                    <f:facet name="header">
+                        Autenticação
+                    </f:facet>
 
-                <h:outputText value="Login: " />
-                <p:inputText id="txtEmail" value="#{autenticacaoController.login}" />
-                <h:outputText value="Senha: " />
-                <p:password id="txtSenha" value="#{autenticacaoController.senha}" />
+                    <h:outputText value="Login: " />
+                    <p:inputText id="txtEmail" value="#{autenticacaoController.login}" />
+                    <h:outputText value="Senha: " />
+                    <p:password id="txtSenha" value="#{autenticacaoController.senha}" />
 
-                <f:facet name="footer">
-                    <p:commandButton style="float: left" value="Entrar" action="#{autenticacaoController.validar()}" />
-                    <p:commandButton style="float: right" ajax="false" value="Cadastrar" action="#{autenticacaoController.novo()}" />
-                </f:facet>
+                    <f:facet name="footer">
+                        <p:commandButton style="float: left" value="Entrar" action="#{autenticacaoController.validar()}" />
+                        <p:commandButton style="float: right" ajax="false" value="Cadastrar" action="#{autenticacaoController.novo()}" />
+                    </f:facet>
 
-            </p:panelGrid>
+                </p:panelGrid>
 
             </ui:define>
 

@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-   
+
     <h:head>
         <meta http-equiv="Content-Type" content="text/html;" />
         <h:outputStylesheet name="/css/default.css"/>
@@ -18,18 +18,15 @@
             <img  src="./resources/imagens/logo-ifnmg.png" width="200" height="80" />
             <h1 >Gerenciamento de Eventos - TADS IFNMG Januária</h1>
         </div>
-        <h:form>
-            
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR" >
             <p:growl showDetail="true" sticky="true"  life="60" />
 
             <div id="content" class="center_content">
                 <ui:insert name="content">Content</ui:insert>
             </div>
-
-            <div id="bottom" style="float: bottom">
-                Copyright 2013 - Gerenciamento de Eventos - TADS IFNMG Januária
-            </div>
         </h:form>
+        <div id="bottom" style="float: bottom">
+            Copyright 2013 - Gerenciamento de Eventos - TADS IFNMG Januária
+        </div>
     </h:body>
-
 </html>

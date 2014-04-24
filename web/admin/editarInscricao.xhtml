@@ -80,7 +80,10 @@
                                                     <p:column > 
                                                         <f:facet name="header"> 
                                                             <h:outputText value="Resposta"/> 
-                                                        </f:facet> 
+                                                        </f:facet>
+                                                        <c:if test="#{item.questao.tipo eq 'Arquivo'}">
+                                                            <a href="../arquivos/#{item.arquivo.uri}" target="_blank">#{item.arquivo.nome}</a>
+                                                        </c:if>
                                                         #{item.valor}
                                                     </p:column>                            
                                                 </p:dataTable>

@@ -78,7 +78,7 @@
                     </p:selectOneMenu>
                 </c:if>
                 <c:if test="#{q.tipo == 'Arquivo'}">
-                    <h:link value="#{inscricao.resposta.RespostaDeQuestao(q).arquivo.nome}" outcome="/arquivos/#{inscricao.resposta.RespostaDeQuestao(q).arquivo.uri}" />
+                    <a href="../arquivos/#{inscricao.resposta.RespostaDeQuestao(q).arquivo.uri}" target="_blank">#{inscricao.resposta.RespostaDeQuestao(q).arquivo.nome}</a>
                     <p:fileUpload id="#{inscricaotipo}-arquivo-#{q.id}" fileUploadListener="#{controller.arquivoFileUpload}" mode="advanced"             
                                   auto="true" sizeLimit="100000" 
                                   fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"

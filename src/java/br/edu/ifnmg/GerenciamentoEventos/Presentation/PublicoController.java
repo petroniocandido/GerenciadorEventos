@@ -225,6 +225,8 @@ public class PublicoController extends ControllerBase implements Serializable {
             resposta = new QuestionarioResposta();
             resposta.setPessoa(getUsuarioCorrente());
             resposta.setQuestionario(qr);
+        } else {
+            resposta = respostaDAO.Refresh(resposta);
         }
 
         FacesContext fc = FacesContext.getCurrentInstance();
@@ -269,14 +271,15 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public void processaQuestionarioEvento() {
-        processaQuestionario(inscricao, inscricao.getEvento().getQuestionario());
         inscricao = inscricaoDAO.Refresh(inscricao);
+        processaQuestionario(inscricao, inscricao.getEvento().getQuestionario());        
     }
 
     public void processaQuestionarioAtividade() {
+        inscricao = inscricaoDAO.Refresh(inscricao);
         inscricaoItem = inscricao.getItem(atividade);
         processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
-        inscricao = inscricaoDAO.Refresh(inscricao);
+        
     }
 
     public void arquivoFileUpload(FileUploadEvent evt) {
@@ -305,6 +308,8 @@ public class PublicoController extends ControllerBase implements Serializable {
                 resposta = new QuestionarioResposta();
                 resposta.setPessoa(getUsuarioCorrente());
                 resposta.setQuestionario(questionario);
+            } else {
+                resposta = respostaDAO.Refresh(resposta);
             }
 
             Arquivo arq = arqDAO.Salvar(evt.getFile().getInputstream(), evt.getFile().getFileName(),
