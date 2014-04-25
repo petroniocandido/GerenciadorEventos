@@ -122,11 +122,10 @@ public abstract class ControllerBase {
     }
 
     public String getConfiguracao(String chave) {
-        Configuracao c = confDAO.Abrir(chave);
+        Configuracao c = confDAO.Abrir(getUsuarioCorrente(), chave);
         if (c == null) {
-            c = confDAO.Abrir(getUsuarioCorrente(), chave);
+            c = confDAO.Abrir(chave);
         }
-
         if (c != null) {
             return c.getValor();
         } else {
