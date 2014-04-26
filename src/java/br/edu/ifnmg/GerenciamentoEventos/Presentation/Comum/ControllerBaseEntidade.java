@@ -78,7 +78,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     }
 
     protected void SalvarEntidade() {
-        Rastrear(entidade);
+    Rastrear(entidade);
 
         // salva o objeto no BD
         if (repositorio.Salvar(entidade)) {

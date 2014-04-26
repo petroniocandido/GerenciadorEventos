@@ -265,10 +265,9 @@ public class ImplantacaoController implements Serializable {
         }
     }
 
-    
     public void migrarDados() {
         for(Pessoa p : pessoaDAO.Buscar(null)){
-            p.setPerfil(null);
+            p.setSenha(hash.getMD5("123"));
             pessoaDAO.Salvar(p);
         }
     }
