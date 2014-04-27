@@ -6,15 +6,17 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +36,10 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 public abstract class ControllerBaseRelatorio<T extends Entidade> extends ControllerBase {
 
+    @EJB
+    EventoRepositorio daoEvento;
+
+    
     private String relatorio;
     private String arquivoSaida;
 
@@ -96,4 +102,11 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
     public void setEvento(Evento evento) {
         this.evento = evento;
     }
+    
+    @PostConstruct
+    public void checaEventoPadrao() {
+        String evt = getConfiguracao("EVENTO_PADRAO");
+        evento = daoEvento.Abrir(Long.parseLong(evt));
+    }
+
 }

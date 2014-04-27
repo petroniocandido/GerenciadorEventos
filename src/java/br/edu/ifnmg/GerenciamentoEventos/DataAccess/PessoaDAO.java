@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
@@ -16,31 +15,33 @@ import javax.ejb.Stateless;
  * @author petronio
  */
 @Stateless
-public class PessoaDAO 
-    extends DAOGenerico<Pessoa> 
-    implements PessoaRepositorio {
+public class PessoaDAO
+        extends DAOGenerico<Pessoa>
+        implements PessoaRepositorio {
 
-    public PessoaDAO(){
+    public PessoaDAO() {
         super(Pessoa.class);
     }
-    
+
     @Override
     public List<Pessoa> Buscar(Pessoa filtro) {
-        return IgualA("id", filtro.getId())
-                .Like("nome", filtro.getNome())
-                .Like("cpf", filtro.getCpf())
-                .Like("email", filtro.getEmail())
-                .Buscar();
+        if (filtro != null) {
+            IgualA("id", filtro.getId())
+                    .Like("nome", filtro.getNome())
+                    .Like("cpf", filtro.getCpf())
+                    .Like("email", filtro.getEmail());
+        }
+        return Buscar();
     }
 
     @Override
     public Pessoa Abrir(String login) {
-       return IgualA("email", login).Abrir();
+        return IgualA("email", login).Abrir();
     }
 
     @Override
     public Pessoa AbrirPorCPF(String cpf) {
         return IgualA("cpf", cpf).Abrir();
     }
-    
+
 }

@@ -40,8 +40,6 @@ public class ListaPresencaController
     
     @EJB
     InscricaoRepositorio daoInscricao;
-            
-    Evento evento;
     
     Atividade atividade;
 
@@ -56,14 +54,6 @@ public class ListaPresencaController
         InscricaoItem i = new InscricaoItem();
         i.setAtividade(atividade);
         return daoInscricao.Buscar(i);
-    }
-
-    public Evento getEvento() {
-        return evento;
-    }
-
-    public void setEvento(Evento evento) {
-        this.evento = evento;
     }
 
     public Atividade getAtividade() {
