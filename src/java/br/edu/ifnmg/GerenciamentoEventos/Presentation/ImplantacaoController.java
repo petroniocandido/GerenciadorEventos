@@ -246,19 +246,7 @@ public class ImplantacaoController implements Serializable {
                 Mensagem("Usuário teste criado.");
             }
 
-            List<Configuracao> configuracoes = new LinkedList<>();
-
-            configuracoes.add(new Configuracao("SMTPServidor", "127.0.0.1"));
-            configuracoes.add(new Configuracao("SMTPPorta", ""));
-            configuracoes.add(new Configuracao("SMTPUsuario", ""));
-            configuracoes.add(new Configuracao("SMTPSenha", "127.0.0.1"));
-            configuracoes.add(new Configuracao("SMTPSsl", ""));
-
-            if (Salvar(configuracoes, configuracaoDAO, usuarioSystem)) {
-                Mensagem(configuracaoDAO.getErro().getMessage());
-            } else {
-                Mensagem("Configurações padrão criadas.");
-            }
+            
 
         } catch (Exception ex) {
             Mensagem(ex.getMessage());
@@ -271,6 +259,27 @@ public class ImplantacaoController implements Serializable {
             p.setPerfil(null);
             pessoaDAO.Salvar(p);
         }
+    }
+    
+    
+    public void configuracoes() {
+        Pessoa usuarioSystem = pessoaDAO.Abrir("system@ifnmg.edu.br");
+        
+        List<Configuracao> configuracoes = new LinkedList<>();
+
+            configuracoes.add(new Configuracao("", "/home/petronio/arquivos"));
+            configuracoes.add(new Configuracao("SMTP_SERVIDOR", "smtp.gmail.com"));
+            configuracoes.add(new Configuracao("SMTP_PORTA", "587"));
+            configuracoes.add(new Configuracao("SMTP_USUARIO", ""));
+            configuracoes.add(new Configuracao("SMTP_SENHA", ""));
+            configuracoes.add(new Configuracao("SMTP_TLS", "true"));
+            configuracoes.add(new Configuracao("SMTP_AUTENTICACAO", "true"));
+
+            if (Salvar(configuracoes, configuracaoDAO, usuarioSystem)) {
+                Mensagem(configuracaoDAO.getErro().getMessage());
+            } else {
+                Mensagem("Configurações padrão criadas.");
+            }
     }
     
 }
