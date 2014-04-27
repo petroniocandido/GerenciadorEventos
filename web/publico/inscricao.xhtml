@@ -67,9 +67,12 @@
                             <c:forEach items="#{publicoController.atividadesTipos}" var="atividadeTipo">
                                 <c:if test="#{not empty publicoController.getAtividades(atividadeTipo)}">  
                                     <p:tab title="#{atividadeTipo.nome}">
-                                        <p:panelGrid columns="3">
+                                        <p:panelGrid columns="4">
                                             <c:forEach items="#{publicoController.getAtividades(atividadeTipo)}" var="atividade">
                                                 <p:outputLabel value="#{atividade.nome}" />
+                                                <p:outputLabel value="#{atividade.inicio} - #{atividade.termino}">
+                                                    <f:convertDateTime dateStyle="dd/MM hh:mm" locale="pt-BR" />
+                                                </p:outputLabel>
                                                 <c:choose>
                                                     <c:when test="#{atividade.necessitaInscricao}">
                                                         <c:choose>
