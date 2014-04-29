@@ -22,7 +22,8 @@
                     </p:column>
                     <p:column style="width: 100%" >
                         <h1 style="text-align: center">Gestão de Eventos - IFNMG</h1>
-                        <h:outputText style="float: right" value="Usuário: #{autenticacaoController.usuarioCorrente.nome}"  />
+                        <h:outputLabel style="float: right" value="Usuário: #{autenticacaoController.usuarioCorrente.nome}" />
+                        <p:commandLink style="float: right" value="Editar" action="editarDadosPessoais.xhtml" />
                     </p:column>
                 </p:row>
 
@@ -58,7 +59,7 @@
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLogs.xhtml')}" value="Logs" url="listagemLogs.xhtml"  />
                 </p:submenu>
 
-                <p:menuitem ajax="false" value="Sair" action="#{autenticacaoController.logout()}"  />
+                <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
             <p:growl showDetail="true" sticky="true"  life="60" />
             <ui:insert name="content">Content</ui:insert>
