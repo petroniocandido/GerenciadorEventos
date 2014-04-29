@@ -311,7 +311,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     @Override
     public boolean Salvar(T obj) {
         try {
-            if(obj.getId() != null && obj.getId() > 0)
+            if(manager.contains(obj))
                obj =manager.merge(obj);
             else
                manager.persist(obj);

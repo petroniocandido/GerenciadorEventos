@@ -274,8 +274,8 @@ public class ImplantacaoController implements Serializable {
             configuracoes.add(new Configuracao("SMTP_SENHA", ""));
             configuracoes.add(new Configuracao("SMTP_TLS", "true"));
             configuracoes.add(new Configuracao("SMTP_AUTENTICACAO", "true"));
-            configuracoes.add(new Configuracao("EMAIL_CONFIRMACAO", ""));
-            configuracoes.add(new Configuracao("EMAIL_RECUPERARSENHA", ""));
+            configuracoes.add(new Configuracao("EMAIL_CONFIRMACAO", "Para confirmar o se cadastro clique no link abaixo: ###LINK###"));
+            configuracoes.add(new Configuracao("EMAIL_RECUPERARSENHA", "Nova senha para acesso ao site fe inscrições: ###SENHA###"));
 
             if (Salvar(configuracoes, configuracaoDAO, usuarioSystem)) {
                 Mensagem(configuracaoDAO.getErro().getMessage());

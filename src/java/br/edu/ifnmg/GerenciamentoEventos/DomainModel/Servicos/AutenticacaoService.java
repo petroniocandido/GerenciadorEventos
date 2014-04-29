@@ -6,6 +6,7 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import javax.ejb.Local;
 
 /**
@@ -13,7 +14,9 @@ import javax.ejb.Local;
  * @author petronio
  */
 @Local
-public interface MailService {
-    
-    public boolean enviar(String destinatario, String assunto, String corpo);
+public interface AutenticacaoService {
+    public boolean login(String email, String senha);
+    public boolean logout();
+    public boolean redefinirSenha(String email);
+    public Pessoa getUsuarioCorrente();
 }

@@ -11,6 +11,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
@@ -23,7 +24,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -41,16 +41,11 @@ public abstract class ControllerBase {
     @EJB
     private LogRepositorio logDAO;
     
-    private Pessoa usuarioLogado;
-
+    @EJB
+    protected AutenticacaoService autentitacao;
+    
     public Pessoa getUsuarioCorrente() {
-        if (usuarioLogado == null) {
-            HttpSession session;
-            FacesContext ctx = FacesContext.getCurrentInstance();
-            session = (HttpSession) ctx.getExternalContext().getSession(false);
-            usuarioLogado = (Pessoa) session.getAttribute("usuarioAutenticado");
-        }
-        return usuarioLogado;
+        return autentitacao.getUsuarioCorrente();
     }
 
     protected void Mensagem(Severity severity, String titulo, String msg) {
@@ -72,11 +67,11 @@ public abstract class ControllerBase {
     protected void Rastrear(Entidade obj) {
         if (obj.getId() == null || obj.getId() == 0L) {
             obj.setDataCriacao(new Date());
-            obj.setCriador(getUsuarioCorrente());
+            obj.setCriador(autentitacao.getUsuarioCorrente());
         }
 
         obj.setDataUltimaAlteracao(new Date());
-        obj.setUltimoAlterador(getUsuarioCorrente());
+        obj.setUltimoAlterador(autentitacao.getUsuarioCorrente());
     }
 
     protected void AppendLog(String desc) {
@@ -91,7 +86,7 @@ public abstract class ControllerBase {
             
             Log log = new Log();
             log.setDescricao(desc);
-            log.setUsuario(getUsuarioCorrente());
+            log.setUsuario(autentitacao.getUsuarioCorrente());
             log.setPermissao(p);
             log.setMaquina(ip);
 
@@ -124,7 +119,7 @@ public abstract class ControllerBase {
     public String getConfiguracao(String chave) {
         Configuracao c = confDAO.Abrir(chave);
         if (c == null) {
-            c = confDAO.Abrir(getUsuarioCorrente(), chave);
+            c = confDAO.Abrir(autentitacao.getUsuarioCorrente(), chave);
         }
 
         if (c != null) {
