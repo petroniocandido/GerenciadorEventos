@@ -65,10 +65,12 @@ public class AtividadeController
 
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
-        if (evt != null) {
+        if (evt != null && padrao == null) {
             padrao = evtDAO.Abrir(Long.parseLong(evt));
-            getEntidade().setEvento(padrao);
-            getFiltro().setEvento(padrao);
+            if(getEntidade().getEvento() == null)
+                getEntidade().setEvento(padrao);
+            if(getFiltro().getEvento() == null)
+                getFiltro().setEvento(padrao);
         }
     }
 

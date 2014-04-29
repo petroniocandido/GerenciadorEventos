@@ -6,7 +6,6 @@
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
@@ -23,18 +22,18 @@ public class HashServiceImpl implements HashService {
     @Override
     public String getMD5(String msg) {
         try {
-            byte[] bytesOfMessage = msg.getBytes("ASCII");
-            
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] thedigest = md.digest(bytesOfMessage);
-            String decoded = new String(thedigest, "ASCII"); 
-            return decoded;
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(HashServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            md.update(msg.getBytes());
+            byte[] digest = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b & 0xff));
+            }
+            return sb.toString();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(HashServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return null;
     }
 

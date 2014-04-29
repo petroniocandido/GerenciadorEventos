@@ -42,8 +42,6 @@ public class ListaPresencaEventoController
     @EJB
     InscricaoRepositorio daoInscricao;
             
-    
-        
     @Override
     protected Map<String, Object> carregaParametros() {
         try {
@@ -63,5 +61,4 @@ public class ListaPresencaEventoController
         
         return tmp;
     }
-    
 }

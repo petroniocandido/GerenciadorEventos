@@ -22,8 +22,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.Version;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -176,13 +174,13 @@ public class Pessoa implements Entidade, Serializable {
         return nome + " [" + getEmail()+ "]";
     }
     
-        @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
     
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
     
     @Temporal(TemporalType.TIMESTAMP)
@@ -240,6 +238,4 @@ public class Pessoa implements Entidade, Serializable {
     public void setVersao(Long versao) {
         this.versao = versao;
     }
-
-
 }
