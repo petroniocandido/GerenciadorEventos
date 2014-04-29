@@ -49,14 +49,11 @@ public class AutenticacaoController
     Pessoa usuario;
 
     public void validar() {
-        usuario = dao.Abrir(login);
-
         if (autenticacao.login(login, senha)) {
-            Mensagem("Falha", "Login ou senha não correspondem");
-            //return "login.xhtml";
-        } else {
            AppendLog("Login");
-           Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());           
+           Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());                       
+        } else {
+           Mensagem("Falha", "Login ou senha não correspondem");           
         }
 
     }
@@ -123,11 +120,10 @@ public class AutenticacaoController
     }
 
     public boolean autorizacao(String url) {
-        return autorizacao.possuiPermissao(url, usuario);
+        return autorizacao.possuiPermissao(url, autenticacao.getUsuarioCorrente());
     }
 
     public void novasenha() {
-        autenticacao.redefinirSenha(login);
-        Mensagem("", "");
+        autenticacao.redefinirSenha(login);        
     }    
 }

@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ import javax.persistence.Version;
  */
 @Cacheable
 @Entity
-@Table(name="configuracoes", uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario","chave"})})
+@Table(name="configuracoes")
 public class Configuracao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -89,26 +90,30 @@ public class Configuracao implements Entidade, Serializable {
     public void setUsuario(Pessoa usuario) {
         this.usuario = usuario;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.chave);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Configuracao)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Configuracao other = (Configuracao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Configuracao other = (Configuracao) obj;
+        if (!Objects.equals(this.chave, other.chave)) {
             return false;
         }
         return true;
     }
+    
+    
 
     @Override
     public String toString() {

@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+        <ui:composition template="./TemplateExterno.xhtml">
+            <ui:define name="content">
+                <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="1">
+
+                    <f:facet name="header">
+                        Redefinir senha
+                    </f:facet>
+                    <p:outputLabel value="E-mail: " />
+                    <p:inputText value="#{autenticacaoController.login}"  />
+                        
+                    <f:facet name="footer">
+                        <p:commandButton value="Enviar nova senha" action="#{autenticacaoController.novasenha()}" 
+                                         onsuccess="msgCadastro.show()"/>
+                    </f:facet>
+                </p:panelGrid>
+                <p:confirmDialog id="confirmaSalvar" message="Uma nova senha de acesso foi enviada para o e-mail cadastrado!"  
+                                 header="Confirmação" severity="alert" widgetVar="msgCadastro">  
+                    <p:commandButton ajax="false" id="simSalvar" value="Voltar para a tela de login" action="login.xhtml"  />  
+                </p:confirmDialog> 
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

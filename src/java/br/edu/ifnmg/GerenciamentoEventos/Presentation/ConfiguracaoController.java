@@ -56,7 +56,19 @@ public class ConfiguracaoController
     @Override
     public void salvar() {
 
-        SalvarEntidade();
+        Rastrear(entidade);
+
+        // salva o objeto no BD
+        if (dao.Set(entidade.getUsuario(), entidade.getChave(), entidade.getValor())) {
+
+            setId(entidade.getId());
+
+            Mensagem("Sucesso", "Registro salvo com sucesso!");
+            AppendLog("Editou a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")");
+        } else {
+            MensagemErro("Falha", "Registro não foi salvo! Consulte o Log ou o administrador do sistema!");
+            AppendLog("Falha ao editar a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")" + ": " + repositorio.getErro().getMessage());
+        }
 
         // atualiza a listagem
         filtrar();

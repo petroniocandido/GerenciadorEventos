@@ -13,6 +13,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import java.util.Enumeration;
+import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.faces.context.FacesContext;
@@ -78,11 +79,17 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
             return false;
         } else {
             String msg = configuracao.Abrir("EMAIL_RECUPERARSENHA").getValor();
-            String tmpsenha = "";
+            String senhaantiga = usuario.getSenha();
+            String tmpsenha = gerarSenha();
             usuario.setSenha(hash.getMD5(tmpsenha));
-            email = email.replace("###SENHA###", tmpsenha);
-            mail.enviar(usuario.getEmail(), "Nova Senha", email);
-            return true;
+            msg = msg.replace("###SENHA###", tmpsenha);
+            if(mail.enviar(usuario.getEmail(), "Nova Senha", msg)){
+                dao.Salvar(usuario);
+                return true;
+            } else {
+                usuario.setSenha(senhaantiga);
+                return false;
+            }
         }        
     }
 
@@ -95,6 +102,17 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
             usuario = (Pessoa) session.getAttribute("usuarioAutenticado");
         }
         return usuario;
+    }
+    
+    private String gerarSenha() {
+        String alfabeto = "abcdefghijklmnopqrstuvxz0123456789!@#$%&*()-+;.:ABCDEFGHIJKLMNOPQRSTUVXZ";
+        Random rnd = new Random();
+        StringBuilder tmp = new StringBuilder();
+        while(tmp.length() < 8){
+           tmp.append( alfabeto.charAt(rnd.nextInt(alfabeto.length())) );
+        }
+        
+        return tmp.toString();
     }
     
 }

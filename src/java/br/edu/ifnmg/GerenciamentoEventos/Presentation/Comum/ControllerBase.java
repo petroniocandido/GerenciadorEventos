@@ -117,13 +117,9 @@ public abstract class ControllerBase {
     }
 
     public String getConfiguracao(String chave) {
-        Configuracao c = confDAO.Abrir(getUsuarioCorrente(), chave);
+        Configuracao c = confDAO.Abrir(autentitacao.getUsuarioCorrente(), chave);
         if (c == null) {
-<<<<<<< HEAD
-            c = confDAO.Abrir(autentitacao.getUsuarioCorrente(), chave);
-=======
             c = confDAO.Abrir(chave);
->>>>>>> master
         }
         if (c != null) {
             return c.getValor();
