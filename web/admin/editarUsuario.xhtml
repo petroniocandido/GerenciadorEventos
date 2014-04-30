@@ -36,7 +36,7 @@
 
                             </h:panelGrid> 
                         </p:tab>
-                        <p:tab id="tabSenha" title="Senha">
+                        <p:tab rendered="#{autenticacaoController.autorizacao('admin/tabSenha')}" id="tabSenha" title="Senha">
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Senha: " />
                                 <p:password value="#{usuarioController.senha1}" />
@@ -44,7 +44,7 @@
                                 <p:password value="#{usuarioController.senha2}" />
                             </h:panelGrid>
                         </p:tab>
-                        <p:tab id="tabPerfil" title="Perfil">  
+                        <p:tab rendered="#{autenticacaoController.autorizacao('admin/tabPerfil')}" id="tabPerfil" title="Perfil">  
                             <p:autoComplete converter="#{perfilConverter}" value="#{usuarioController.entidade.perfil}"
                                             completeMethod="#{perfilController.autoCompletePerfil}" var="item"
                                             itemLabel="#{item.nome}" itemValue="#{item}">

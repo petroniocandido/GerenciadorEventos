@@ -17,13 +17,14 @@
                         Autenticação
                     </f:facet>
 
-                    <h:outputText value="Login: " />
+                    <h:outputText value="E-mail: " />
                     <p:inputText id="txtEmail" value="#{autenticacaoController.login}" />
                     <h:outputText value="Senha: " />
                     <p:password id="txtSenha" value="#{autenticacaoController.senha}" />
 
                     <f:facet name="footer">
                         <p:commandButton style="float: left" value="Entrar" action="#{autenticacaoController.validar()}" />
+                        <p:commandButton style="float: right" ajax="false" value="Esqueci a senha" action="novasenha.xhtml" />
                         <p:commandButton style="float: right" ajax="false" value="Cadastrar" action="#{autenticacaoController.novo()}" />
                     </f:facet>
 
