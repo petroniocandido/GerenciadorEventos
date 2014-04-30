@@ -5,7 +5,8 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
 import java.util.*;
 import javax.annotation.PostConstruct;
@@ -18,7 +19,10 @@ import javax.ejb.Stateless;
 public class MailServiceImpl implements MailService {
 
     @EJB
-    ConfiguracaoRepositorio configuracao;
+    ConfiguracaoService configuracao;
+    
+    @EJB
+    LogService log;
 
     private String servidor;
 
@@ -41,14 +45,14 @@ public class MailServiceImpl implements MailService {
 
     @PostConstruct
     public void init() {
-        this.servidor = configuracao.Abrir("SMTP_SERVIDOR").getValor();
-        this.porta = configuracao.Abrir("SMTP_PORTA").getValor();
-        this.usuario = configuracao.Abrir("SMTP_USUARIO").getValor();
-        this.senha = configuracao.Abrir("SMTP_SENHA").getValor();
-        this.autenticacao = configuracao.Abrir("SMTP_AUTENTICACAO").getValor();
-        this.tls = configuracao.Abrir("SMTP_TLS").getValor();
-        this.proxyServidor = configuracao.Abrir("PROXY_SERVIDOR").getValor();
-        this.proxyPorta = configuracao.Abrir("PROXY_PORTA").getValor();
+        this.servidor = configuracao.get("SMTP_SERVIDOR");
+        this.porta = configuracao.get("SMTP_PORTA");
+        this.usuario = configuracao.get("SMTP_USUARIO");
+        this.senha = configuracao.get("SMTP_SENHA");
+        this.autenticacao = configuracao.get("SMTP_AUTENTICACAO");
+        this.tls = configuracao.get("SMTP_TLS");
+        this.proxyServidor = configuracao.get("PROXY_SERVIDOR");
+        this.proxyPorta = configuracao.get("PROXY_PORTA");
 
     }
 
@@ -101,6 +105,7 @@ public class MailServiceImpl implements MailService {
             Transport.send(message);
             return true;
         } catch (MessagingException mex) {
+            log.Append("Falha ao enviar e-mail para: " + destinatario + ". " + mex.getMessage());
             return false;
         }
     }
