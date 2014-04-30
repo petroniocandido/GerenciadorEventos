@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/conf/persistence.xml</file>
+
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Infraestrutura/AutenticacaoServiceImpl.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciamentoEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Infraestrutura/MailServiceImpl.java</file>
         </group>
     </open-files>
 </project-private>

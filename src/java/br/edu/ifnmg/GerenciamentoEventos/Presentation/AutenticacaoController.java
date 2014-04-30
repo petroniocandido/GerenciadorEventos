@@ -6,6 +6,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutorizacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
@@ -13,10 +14,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import java.util.Enumeration;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -32,7 +30,9 @@ public class AutenticacaoController
      * Creates a new instance of AutenticacaoController
      */
     public AutenticacaoController() {
+        
     }
+    
     @EJB
     PessoaRepositorio dao;
     @EJB
@@ -41,50 +41,27 @@ public class AutenticacaoController
     PerfilRepositorio perfilDAO;
     @EJB
     AutorizacaoService autorizacao;
+    @EJB
+    AutenticacaoService autenticacao;
 
     private String login, senha, senhaconferencia;
     Pessoa usuario;
 
     public void validar() {
-        usuario = dao.Abrir(login);
-
-        if (usuario == null) {
-            Mensagem("Falha", "Login ou senha não correspondem");
-            //return "login.xhtml";
+        if (autenticacao.login(login, senha)) {
+           AppendLog("Login");
+           Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());                       
         } else {
-            if (hash.getMD5(senha).equals(usuario.getSenha())) {
-
-                HttpSession session;
-
-                FacesContext ctx = FacesContext.getCurrentInstance();
-                session = (HttpSession) ctx.getExternalContext().getSession(false);
-                session.setAttribute("usuarioAutenticado", usuario);
-
-                AppendLog("Login");
-                Redirect(usuario.getPerfil().getHome().getUri());
-            } else {
-                Mensagem("Falha", "Login ou senha não correspondem");
-                //return "login.xhtml";
-            }
+           Mensagem("Falha", "Login ou senha não correspondem");           
         }
 
     }
 
     public String logout() {
-        
+
         AppendLog("Logout");
-        
-        HttpSession session;
 
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        session = (HttpSession) ctx.getExternalContext().getSession(false);
-        session.setAttribute("usuarioAutenticado", null);
-
-        Enumeration<String> vals = session.getAttributeNames();
-
-        while (vals.hasMoreElements()) {
-            session.removeAttribute(vals.nextElement());
-        }
+        autenticacao.logout();
 
         return "login.xhtml";
 
@@ -99,10 +76,11 @@ public class AutenticacaoController
         if (senha.equals(senhaconferencia)) {
             usuario.setSenha(hash.getMD5(senha));
             usuario.setPerfil(perfilDAO.getPadrao());
-            if(dao.Salvar(usuario))
-                AppendLog("Cadastro do usuário "+usuario.getEmail());
-            else
+            if (dao.Salvar(usuario)) {
+                AppendLog("Cadastro do usuário " + usuario.getEmail());
+            } else {
                 AppendLog("Erro ao cadastrar usuário: " + dao.getErro().toString());
+            }
         } else {
             MensagemErro("Senhas", "Senhas não conferem!");
         }
@@ -139,9 +117,12 @@ public class AutenticacaoController
     public void setUsuario(Pessoa usuario) {
         this.usuario = usuario;
     }
-    
-    public boolean autorizacao(String url){
-        return autorizacao.possuiPermissao(url, usuario);
+
+    public boolean autorizacao(String url) {
+        return autorizacao.possuiPermissao(url);
     }
-    
+
+    public void novasenha() {
+        autenticacao.redefinirSenha(login);        
+    }    
 }

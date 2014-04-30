@@ -8,12 +8,10 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogService;
 import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
@@ -22,35 +20,24 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author petronio
  */
 public abstract class ControllerBase {
-    
+        
+    @EJB
+    ConfiguracaoService configuracao;
     
     @EJB
-    ConfiguracaoRepositorio confDAO;
-
-    @EJB
-    private PermissaoRepositorio permissaoDAO;
+    AutenticacaoService autentitacao;
     
     @EJB
-    private LogRepositorio logDAO;
+    LogService log;
     
-    private Pessoa usuarioLogado;
-
     public Pessoa getUsuarioCorrente() {
-        if (usuarioLogado == null) {
-            HttpSession session;
-            FacesContext ctx = FacesContext.getCurrentInstance();
-            session = (HttpSession) ctx.getExternalContext().getSession(false);
-            usuarioLogado = (Pessoa) session.getAttribute("usuarioAutenticado");
-        }
-        return usuarioLogado;
+        return autentitacao.getUsuarioCorrente();
     }
 
     protected void Mensagem(Severity severity, String titulo, String msg) {
@@ -72,34 +59,15 @@ public abstract class ControllerBase {
     protected void Rastrear(Entidade obj) {
         if (obj.getId() == null || obj.getId() == 0L) {
             obj.setDataCriacao(new Date());
-            obj.setCriador(getUsuarioCorrente());
+            obj.setCriador(autentitacao.getUsuarioCorrente());
         }
 
         obj.setDataUltimaAlteracao(new Date());
-        obj.setUltimoAlterador(getUsuarioCorrente());
+        obj.setUltimoAlterador(autentitacao.getUsuarioCorrente());
     }
 
     protected void AppendLog(String desc) {
-        try {
-            HttpServletRequest httpServletRequest = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            String ip = httpServletRequest.getRemoteHost();
-            String page = FacesContext.getCurrentInstance().getViewRoot().getViewId();
-            
-            page = page.substring(1, page.length());
-            
-            Permissao p = permissaoDAO.Abrir(page);
-            
-            Log log = new Log();
-            log.setDescricao(desc);
-            log.setUsuario(getUsuarioCorrente());
-            log.setPermissao(p);
-            log.setMaquina(ip);
-
-            logDAO.Salvar(log);
-            
-        } catch(Exception ex){
-        } finally {
-        }
+        log.Append(desc);
     }
     
     protected void Redirect(String url){
@@ -109,27 +77,18 @@ public abstract class ControllerBase {
             Logger.getLogger(ControllerBase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+   
     public void setConfiguracao(String chave, String valor) {
-        confDAO.Set(chave, valor);
+        configuracao.set(chave, valor);
         AppendLog("Alterando configuração global" + chave + " = " + valor);
     }
 
     public void setConfiguracao(Pessoa usr, String chave, String valor) {
-        confDAO.Set(usr, chave, valor);
+        configuracao.setLocal(chave, valor);
         AppendLog("Alterando configuração de usuário " + chave + " = " + valor);
     }
 
     public String getConfiguracao(String chave) {
-        Configuracao c = confDAO.Abrir(getUsuarioCorrente(), chave);
-        if (c == null) {
-            c = confDAO.Abrir(chave);
-        }
-        if (c != null) {
-            return c.getValor();
-        } else {
-            return null;
-        }
+        return configuracao.get(chave);
     }
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Servicos;
+package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import java.security.MessageDigest;

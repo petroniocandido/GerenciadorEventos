@@ -7,7 +7,6 @@ package br.edu.ifnmg.GerenciamentoEventos.Presentation;
 
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.ControllerBaseEntidade;
 import javax.inject.Named;

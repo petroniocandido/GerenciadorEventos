@@ -246,19 +246,7 @@ public class ImplantacaoController implements Serializable {
                 Mensagem("Usuário teste criado.");
             }
 
-            List<Configuracao> configuracoes = new LinkedList<>();
-
-            configuracoes.add(new Configuracao("SMTPServidor", "127.0.0.1"));
-            configuracoes.add(new Configuracao("SMTPPorta", ""));
-            configuracoes.add(new Configuracao("SMTPUsuario", ""));
-            configuracoes.add(new Configuracao("SMTPSenha", "127.0.0.1"));
-            configuracoes.add(new Configuracao("SMTPSsl", ""));
-
-            if (Salvar(configuracoes, configuracaoDAO, usuarioSystem)) {
-                Mensagem(configuracaoDAO.getErro().getMessage());
-            } else {
-                Mensagem("Configurações padrão criadas.");
-            }
+            
 
         } catch (Exception ex) {
             Mensagem(ex.getMessage());
@@ -266,10 +254,35 @@ public class ImplantacaoController implements Serializable {
     }
 
     public void migrarDados() {
-        for(Pessoa p : pessoaDAO.Buscar(null)){
+        /*for(Pessoa p : pessoaDAO.Buscar(null)){
             p.setSenha(hash.getMD5("123"));
             pessoaDAO.Salvar(p);
         }
+        */        
+        configuracoes();
+    }
+    
+    
+    public void configuracoes() {
+        Pessoa usuarioSystem = pessoaDAO.Abrir("system@ifnmg.edu.br");
+        
+        List<Configuracao> configuracoes = new LinkedList<>();
+
+            configuracoes.add(new Configuracao("DIRETORIO_ARQUIVOS", "/home/petronio/arquivos"));
+            configuracoes.add(new Configuracao("SMTP_SERVIDOR", "smtp.gmail.com"));
+            configuracoes.add(new Configuracao("SMTP_PORTA", "587"));
+            configuracoes.add(new Configuracao("SMTP_USUARIO", ""));
+            configuracoes.add(new Configuracao("SMTP_SENHA", ""));
+            configuracoes.add(new Configuracao("SMTP_TLS", "true"));
+            configuracoes.add(new Configuracao("SMTP_AUTENTICACAO", "true"));
+            configuracoes.add(new Configuracao("EMAIL_CONFIRMACAO", "Para confirmar o se cadastro clique no link abaixo: ###LINK###"));
+            configuracoes.add(new Configuracao("EMAIL_RECUPERARSENHA", "Nova senha para acesso ao site fe inscrições: ###SENHA###"));
+
+            if (Salvar(configuracoes, configuracaoDAO, usuarioSystem)) {
+                Mensagem("Configurações padrão criadas.");
+            } else {
+                Mensagem(configuracaoDAO.getErro().getMessage());
+            }
     }
     
 }
