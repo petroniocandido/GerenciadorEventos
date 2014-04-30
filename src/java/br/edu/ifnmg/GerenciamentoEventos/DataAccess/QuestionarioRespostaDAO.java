@@ -11,13 +11,14 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless(name = "QuestionarioRespostaRepositorio")
+@Singleton
 public class QuestionarioRespostaDAO
         extends DAOGenerico<QuestionarioResposta>
         implements QuestionarioRespostaRepositorio {

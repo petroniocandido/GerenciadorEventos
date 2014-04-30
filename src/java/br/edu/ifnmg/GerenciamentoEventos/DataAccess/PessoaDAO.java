@@ -8,13 +8,14 @@ package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class PessoaDAO
         extends DAOGenerico<Pessoa>
         implements PessoaRepositorio {

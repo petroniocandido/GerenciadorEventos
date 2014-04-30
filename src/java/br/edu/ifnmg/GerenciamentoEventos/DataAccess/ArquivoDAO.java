@@ -15,13 +15,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class ArquivoDAO 
     extends DAOGenerico<Arquivo> 
     implements ArquivoRepositorio {

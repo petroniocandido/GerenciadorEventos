@@ -10,13 +10,14 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositor
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class InscricaoDAO 
     extends DAOGenerico<Inscricao> 
     implements InscricaoRepositorio {

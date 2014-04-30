@@ -11,13 +11,14 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class QuestionarioDAO
         extends DAOGenerico<Questionario>
         implements QuestionarioRepositorio {

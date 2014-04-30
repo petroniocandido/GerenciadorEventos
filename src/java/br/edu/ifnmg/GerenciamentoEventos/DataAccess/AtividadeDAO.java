@@ -11,6 +11,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.PostActivate;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
@@ -18,7 +19,7 @@ import javax.persistence.EntityManager;
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class AtividadeDAO 
     extends DAOGenerico<Atividade> 
     implements AtividadeRepositorio {
