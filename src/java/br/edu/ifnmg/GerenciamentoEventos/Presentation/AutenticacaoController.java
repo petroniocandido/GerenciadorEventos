@@ -9,7 +9,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutorizacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
@@ -120,7 +119,7 @@ public class AutenticacaoController
     }
 
     public boolean autorizacao(String url) {
-        return autorizacao.possuiPermissao(url, autenticacao.getUsuarioCorrente());
+        return autorizacao.possuiPermissao(url);
     }
 
     public void novasenha() {
