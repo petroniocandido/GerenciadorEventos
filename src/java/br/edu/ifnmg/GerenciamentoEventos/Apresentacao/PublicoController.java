@@ -206,6 +206,9 @@ public class PublicoController extends ControllerBase implements Serializable {
     public void inscreverAtividade() throws IOException {
         inscricao = inscricaoDAO.Refresh(inscricao);
         inscricaoItem = inscricaoservice.inscrever(inscricao, atividade, getUsuarioCorrente());
+        if (inscricaoItem != null) {
+            processaQuestionarioAtividade();
+        }
     }
 
     public String cancelarInscricaoAtividade() {
