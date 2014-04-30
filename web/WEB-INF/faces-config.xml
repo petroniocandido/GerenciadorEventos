@@ -4,13 +4,13 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <lifecycle>
-        <phase-listener>br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.AutenticacaoPhaseListener</phase-listener>
+        <phase-listener>br.edu.ifnmg.GerenciamentoEventos.Aplicacao.AutenticacaoPhaseListener</phase-listener>
     </lifecycle>
     <render-kit>
     <renderer>
         <component-family>org.primefaces.component</component-family>
         <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
-        <renderer-class>br.edu.ifnmg.GerenciamentoEventos.Presentation.Comum.FileUploadRenderer</renderer-class>
+        <renderer-class>br.edu.ifnmg.GerenciamentoEventos.Aplicacao.FileUploadRenderer</renderer-class>
     </renderer>
 </render-kit>
 </faces-config>

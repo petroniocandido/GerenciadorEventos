@@ -8,8 +8,6 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
-import java.util.HashMap;
-import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Named;
@@ -23,16 +21,19 @@ import javax.inject.Named;
 public class AutorizacaoService {
     
     @EJB
+    AutenticacaoService autenticacao;
+    
+    @EJB
     PermissaoRepositorio permissaoDAO;
     
-    public boolean possuiPermissao(Permissao pf, Pessoa p){
-        return p.getPerfil().getPermissoes().contains(pf);            
+    public boolean possuiPermissao(Permissao pf){
+        return autenticacao.getUsuarioCorrente().getPerfil().getPermissoes().contains(pf);            
     }
     
-    public boolean possuiPermissao(String url, Pessoa p){
+    public boolean possuiPermissao(String url){
         Permissao pf;
         pf = permissaoDAO.Abrir(url);
-        boolean acesso = p.getPerfil().getPermissoes().contains(pf);
+        boolean acesso = autenticacao.getUsuarioCorrente().getPerfil().getPermissoes().contains(pf);
         return acesso;
     }
     
