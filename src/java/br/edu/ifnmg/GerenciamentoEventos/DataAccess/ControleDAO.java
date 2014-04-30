@@ -9,13 +9,14 @@ package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ControleRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class ControleDAO 
     extends DAOGenerico<Controle> 
     implements ControleRepositorio {

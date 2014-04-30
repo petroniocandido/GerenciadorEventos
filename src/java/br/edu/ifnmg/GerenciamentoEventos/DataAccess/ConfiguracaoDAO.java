@@ -10,13 +10,14 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class ConfiguracaoDAO extends DAOGenerico<Configuracao> implements ConfiguracaoRepositorio {
 
     public ConfiguracaoDAO() {

@@ -9,6 +9,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoReposito
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
@@ -16,7 +17,7 @@ import javax.persistence.EntityManager;
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class LancamentoDAO
         extends DAOGenerico<Lancamento>
         implements LancamentoRepositorio {

@@ -9,13 +9,14 @@ package br.edu.ifnmg.GerenciamentoEventos.DataAccess;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Singleton
 public class RecursoDAO 
     extends DAOGenerico<Recurso> 
     implements RecursoRepositorio {
