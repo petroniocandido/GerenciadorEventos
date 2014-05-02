@@ -8,9 +8,11 @@ package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 
 /**
  *
@@ -39,5 +41,16 @@ public class EventoDAO
         }
         return super.Salvar(e);
     }
-    
+
+    @Override
+    public List<Evento> BuscarEventosDoUsuario(Pessoa obj) {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        
+        return MaiorOuIgualA("termino", cal.getTime())
+                .DiferenteDe("status", Status.Cancelado)
+                .DiferenteDe("status", Status.Concluido)
+                .Buscar();
+    }
 }
