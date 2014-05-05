@@ -7,45 +7,40 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import static br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem_.atividade;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 
 /**
  *
  * @author petronio
  */
-@Named(value = "listaPresencaController")
+@Named(value = "comprovanteInscricaoController")
 @SessionScoped
-public class ListaPresencaController
+public class ComprovanteInscricaoController
         extends ControllerBaseRelatorio<InscricaoItem>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public ListaPresencaController() {
-        setArquivoSaida("ListaPresencaAtividade");
-        setRelatorio("Relatorios/ListaPresencaAtividade.jrxml");
+    public ComprovanteInscricaoController() {
+        setArquivoSaida("ComprovanteInscricao");
+        setRelatorio("Relatorios/ComprovanteMatricula.jrxml");
     }
     
-    @EJB
-    InscricaoRepositorio daoInscricao;
-    
-    Atividade atividade;
+    Inscricao inscricao;
 
     
              
@@ -62,21 +57,20 @@ public class ListaPresencaController
         }
     }
 
-
     @Override
     public List<InscricaoItem> getDados() {
-        InscricaoItem i = new InscricaoItem();
-        i.setAtividade(atividade);
-        return daoInscricao.Buscar(i);
+        List<InscricaoItem> tmp = inscricao.getItens();
+        return tmp;
     }
 
-    public Atividade getAtividade() {
-        return atividade;
+    public Inscricao getInscricao() {
+        return inscricao;
     }
 
-    public void setAtividade(Atividade atividade) {
-        this.atividade = atividade;
+    public void setInscricao(Inscricao inscricao) {
+        this.inscricao = inscricao;
     }
     
     
+
 }

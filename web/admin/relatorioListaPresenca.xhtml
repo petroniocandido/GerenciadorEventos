@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Relatório de Lista de Presença
+                        Relatório de Lista de Presença de Atividade
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Atividade: " />
@@ -25,7 +25,7 @@
                             <p:column headerText="Tipo">#{item.tipo}</p:column>
                         </p:autoComplete>
                     </p:panelGrid>
-                    <p:commandButton value="Gerar Relatório" action="#{listaPresencaController.executaRelatorioPDF}" />
+                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{listaPresencaController.executaRelatorioPDF}" />
                 </p:panel>
             </ui:define>
 
