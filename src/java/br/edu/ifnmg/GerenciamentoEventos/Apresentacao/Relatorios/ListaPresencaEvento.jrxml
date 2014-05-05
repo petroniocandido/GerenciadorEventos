@@ -4,9 +4,13 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
 	<field name="pessoa.nome" class="java.lang.String"/>
 	<field name="pessoa.cpf" class="java.lang.String"/>
 	<field name="evento.nome" class="java.lang.String"/>
+	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -14,7 +18,7 @@
 		<band height="8" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="143" splitType="Stretch">
+		<band height="164" splitType="Stretch">
 			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
 				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="98" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
 				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
@@ -26,6 +30,20 @@
 				</textElement>
 				<text><![CDATA[Lista de Presença]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="185" y="138" width="63" height="26" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dia:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="250" y="138" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -71,10 +89,41 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="22" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="20">
+			<elementGroup>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="380" y="0" width="53" height="20" uuid="199a52e3-7fb6-4c14-9f77-443fb2c99011"/>
+					<textElement verticalAlignment="Top">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[Página]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="441" y="0" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="487" y="0" width="29" height="20" uuid="74b451be-99d2-43bf-84bd-74e8e1cfcaee"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[de]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement positionType="FixRelativeToBottom" x="516" y="0" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+		</band>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>
