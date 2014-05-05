@@ -20,7 +20,7 @@ public class MailServiceImpl implements MailService {
 
     @EJB
     ConfiguracaoService configuracao;
-    
+
     @EJB
     LogService log;
 
@@ -35,9 +35,9 @@ public class MailServiceImpl implements MailService {
     private String usuario;
 
     private String senha;
-    
+
     private String proxyServidor;
-    
+
     private String proxyPorta;
 
     public MailServiceImpl() {
@@ -68,20 +68,23 @@ public class MailServiceImpl implements MailService {
         properties.put("mail.smtp.port", porta);
         properties.put("mail.smtp.auth", autenticacao);
         properties.put("mail.smtp.starttls.enable", tls);
-        properties.put("http.proxyPort",proxyPorta);
-        properties.put("http.proxyHost",proxyServidor);
-        properties.setProperty("proxySet","true");
-        properties.setProperty("socksProxyHost",proxyServidor);
-        properties.setProperty("socksProxyPort",proxyPorta);
+
+        if (!proxyServidor.isEmpty()) {
+            properties.put("http.proxyPort", proxyPorta);
+            properties.put("http.proxyHost", proxyServidor);
+            properties.setProperty("proxySet", "true");
+            properties.setProperty("socksProxyHost", proxyServidor);
+            properties.setProperty("socksProxyPort", proxyPorta);
+        }
 
         // Get the default Session object.
         Session session = Session.getInstance(properties,
-		  new javax.mail.Authenticator() {
-                        @Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(usuario, senha);
-			}
-		  });
+                new javax.mail.Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(usuario, senha);
+                    }
+                });
 
         try {
             // Create a default MimeMessage object.
