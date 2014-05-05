@@ -32,8 +32,6 @@ public class AgendaController
 
     private ScheduleModel eventModel;
 
-    private ScheduleEvent event = new DefaultScheduleEvent();
-
     /**
      * Creates a new instance of FuncionarioBean
      */
@@ -81,20 +79,16 @@ public class AgendaController
         if (eventModel == null) {
             checaEventoPadrao();
             eventModel = new DefaultScheduleModel();
-            if (padrao != null) {
-                eventModel.addEvent(add(padrao));
-                if (padrao.isNecessitaInscricao()) {
-                    eventModel.addEvent(addInscricao(padrao));
+            for (Evento evt : dao.BuscarEventosDoUsuario(getUsuarioCorrente())) {
+                eventModel.addEvent(add(evt));
+                if (evt.isNecessitaInscricao()) {
+                    eventModel.addEvent(addInscricao(evt));
                 }
-
-                Atividade filtro = new Atividade();
-                filtro.setEvento(padrao);
-                List<Atividade> atividades = daoA.Buscar(filtro);
-                for (Atividade atividade : atividades) {
-                    eventModel.addEvent(add(atividade));
-                    if (atividade.isNecessitaInscricao()) {
-                        eventModel.addEvent(addInscricao(atividade));
-                    }
+            }
+            for (Atividade atividade : daoA.BuscarAtividadesDoUsuario(getUsuarioCorrente())) {
+                eventModel.addEvent(add(atividade));
+                if (atividade.isNecessitaInscricao()) {
+                    eventModel.addEvent(addInscricao(atividade));
                 }
             }
         }

@@ -7,6 +7,8 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,5 +17,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface EventoRepositorio extends Repositorio<Evento> {
-    
+    public List<Evento> BuscarEventosDoUsuario(Pessoa obj);
 }

@@ -7,7 +7,6 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.inject.Named;

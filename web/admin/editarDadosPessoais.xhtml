@@ -7,27 +7,29 @@
 
     <body>
 
-           <ui:composition template="./AdminTemplate.xhtml">
+        <ui:composition template="./AdminTemplate.xhtml">
             <ui:define name="content">
                 <p:panel>
-                    
+
                     <f:facet name="header">
-                        Editar dados pessoais
+                        Editar dados pessoais do usuário
                     </f:facet>
-                <ui:include src="../comum/camposPessoa.xhtml">
-                    <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
-                    <ui:param name="senha" value="#{autenticacaoController.senha}"  />
-                    <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
-                </ui:include>
+                    <ui:include src="../comum/camposPessoa.xhtml">
+                        <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
+                        <ui:param name="senha" value="#{autenticacaoController.senha}"  />
+                        <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
+                    </ui:include>
+                    <f:facet name="footer">
+                        <p:commandButton id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();" />
+                        <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
+                                         header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                            <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{autenticacaoController.salvar}" />  
+                            <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
+                        </p:confirmDialog>
+                    </f:facet>
 
-                <p:commandButton id="btnNovo" value="Salvar"   onclick="msgCadastro.show()" />
+                </p:panel>    
 
-                <p:confirmDialog id="confirmaSalvar" message="Deseja realmente atualizar os dados?"  
-                                 header="Confirmação" severity="alert" widgetVar="msgCadastro">  
-                    <p:commandButton id="simSalvar" value="Sim" action="#{autenticacaoController.salvar()}"  />  
-                    <p:commandButton id="naoSalvar" value="Não" onclick="msgCadastro.hide()"  />
-                </p:confirmDialog> 
-                </p:panel>
 
             </ui:define>
 

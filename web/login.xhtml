@@ -11,7 +11,8 @@
         <ui:composition template="./TemplateExterno.xhtml">
 
             <ui:define name="content">
-
+                <p:messages id="global" />
+                
                 <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="2">
                     <f:facet name="header">
                         Autenticação
@@ -23,7 +24,7 @@
                     <p:password id="txtSenha" value="#{autenticacaoController.senha}" />
 
                     <f:facet name="footer">
-                        <p:commandButton style="float: left" value="Entrar" action="#{autenticacaoController.validar()}" />
+                        <p:commandButton style="float: left"  ajax="false" value="Entrar" action="#{autenticacaoController.validar()}" />
                         <p:commandButton style="float: right" ajax="false" value="Esqueci a senha" action="novasenha.xhtml" />
                         <p:commandButton style="float: right" ajax="false" value="Cadastrar" action="#{autenticacaoController.novo()}" />
                     </f:facet>

@@ -8,6 +8,9 @@ package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.PostActivate;
@@ -84,6 +87,19 @@ public class AtividadeDAO
         return daoTipo
                 .Like("nome", obj.getNome())
                 .IgualA("publico", obj.getPublico())
+                .Buscar();
+    }
+
+    @Override
+    public List<Atividade> BuscarAtividadesDoUsuario(Pessoa obj) {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(new Date());
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        
+        return MaiorOuIgualA("termino", cal.getTime())
+                .DiferenteDe("status", Status.Cancelado)
+                .DiferenteDe("status", Status.Concluido)
+                .Join("responsaveis", "r").IgualA("r.id", obj.getId())
                 .Buscar();
     }
 }
