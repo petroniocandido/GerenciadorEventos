@@ -135,6 +135,7 @@ public class InscricaoService {
         i.setDataCriacao(new Date());
         i.setDataInscricao(new Date());
         i.setCategoria(c);
+        i.setOrdem(c == InscricaoCategoria.Normal ? ctl.getQuantidadeGeral() : ctl.getQuantidadeListaEspera());
         if(inscricaoDAO.Salvar(i)){  
             if(i.getCategoria() == InscricaoCategoria.Normal)
                 ctl.setQuantidadeGeral(ctl.getQuantidadeGeral() + 1);
@@ -157,11 +158,12 @@ public class InscricaoService {
         it.setDataCriacao(new Date());
         it.setDataInscricao(new Date());
         it.setCategoria(c);
+        it.setOrdem(c == InscricaoCategoria.Normal ? ctl.getQuantidadeGeral() : ctl.getQuantidadeListaEspera());
         i.add(it);
         i.setDataUltimaAlteracao(new Date());
         i.setUltimoAlterador(p);
         if(inscricaoDAO.Salvar(i)){  
-            if(i.getCategoria() == InscricaoCategoria.Normal)
+            if(c == InscricaoCategoria.Normal)
                 ctl.setQuantidadeGeral(ctl.getQuantidadeGeral() + 1);
             else 
                 ctl.setQuantidadeListaEspera(ctl.getQuantidadeListaEspera() + 1);

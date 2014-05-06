@@ -1,29 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD JasperReport//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <background>
-        <band/>
-    </background>
-    <title>
-        <band height="79"/>
-    </title>
-    <pageHeader>
-        <band height="35"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="61"/>
-    </columnHeader>
-    <detail>
-        <band height="125"/>
-    </detail>
-    <columnFooter>
-        <band height="45"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54"/>
-    </pageFooter>
-    <summary>
-        <band height="42"/>
-    </summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
+	<field name="pessoa.nome" class="java.lang.String"/>
+	<field name="pessoa.cpf" class="java.lang.String"/>
+	<field name="evento.nome" class="java.lang.String"/>
+	<field name="atividade.nome" class="java.lang.String"/>
+	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="180" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="98" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="4" y="105" width="181" height="33" uuid="01fa99e0-44c4-4322-bd40-6f57c7b0201f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Lista de Presença -]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="146" width="63" height="26" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dia:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="245" y="146" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="105" width="370" height="33" uuid="9d2c5890-1e80-4667-a2a9-dc9e89c13bc3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{atividade.nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="4" y="4" width="244" height="20" uuid="d5f4ae4f-5c54-430f-9074-289631d24378"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Participante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="254" y="4" width="100" height="20" uuid="3aca9c1b-a667-4670-8999-3610ce8a1c7a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="4" width="201" height="20" uuid="2c8dbac9-cb9a-4fde-b1e0-9c2207491a2c"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Assinatura]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="3" y="0" width="251" height="20" uuid="06dd83bb-c06f-4306-b9bd-0cb111afd6bb"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{pessoa.nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="254" y="0" width="100" height="20" uuid="1fbc73f9-832b-4720-a03b-06a25c3c4ff2"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{pessoa.cpf}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="354" y="19" width="201" height="1" uuid="39e0d790-41af-4852-97ef-1317248c9f1b"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20">
+			<elementGroup>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="380" y="0" width="53" height="20" uuid="199a52e3-7fb6-4c14-9f77-443fb2c99011"/>
+					<textElement verticalAlignment="Top">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[Página]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="441" y="0" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="487" y="0" width="29" height="20" uuid="74b451be-99d2-43bf-84bd-74e8e1cfcaee"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[de]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement positionType="FixRelativeToBottom" x="516" y="0" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
 </jasperReport>

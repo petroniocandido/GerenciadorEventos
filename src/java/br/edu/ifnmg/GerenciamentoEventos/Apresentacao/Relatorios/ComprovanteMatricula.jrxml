@@ -1,29 +1,452 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE jasperReport PUBLIC "-//JasperReports//DTD JasperReport//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-
-<jasperReport name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <background>
-        <band/>
-    </background>
-    <title>
-        <band height="79"/>
-    </title>
-    <pageHeader>
-        <band height="35"/>
-    </pageHeader>
-    <columnHeader>
-        <band height="61"/>
-    </columnHeader>
-    <detail>
-        <band height="125"/>
-    </detail>
-    <columnFooter>
-        <band height="45"/>
-    </columnFooter>
-    <pageFooter>
-        <band height="54"/>
-    </pageFooter>
-    <summary>
-        <band height="42"/>
-    </summary>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
+	<field name="inscricao.pessoa.nome" class="java.lang.String"/>
+	<field name="inscricao.pessoa.cpf" class="java.lang.String"/>
+	<field name="inscricao.evento.nome" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="atividade.nome" class="java.lang.String"/>
+	<field name="atividade.inicio" class="java.util.Date"/>
+	<field name="atividade.termino" class="java.util.Date"/>
+	<field name="atividade.local" class="java.lang.Object"/>
+	<field name="categoria" class="java.lang.Object"/>
+	<field name="ordem" class="java.lang.Integer"/>
+	<field name="inscricao.evento.inicio" class="java.util.Date"/>
+	<field name="inscricao.evento.termino" class="java.util.Date"/>
+	<field name="inscricao.evento.local" class="java.lang.Object"/>
+	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="141" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="98" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="4" y="99" width="551" height="33" uuid="01fa99e0-44c4-4322-bd40-6f57c7b0201f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Comprovante de Inscrição]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement x="1" y="2" width="67" height="20" uuid="52f6b3ee-1ee1-4753-ad55-e742e4030e53"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="69" y="2" width="332" height="20" uuid="538a9285-d22a-49ae-b8c0-968710857416"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inscricao.pessoa.nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="402" y="23" width="51" height="20" uuid="a2911df7-81a5-475f-8e5d-18affa4faef1"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Insc.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="454" y="23" width="100" height="20" uuid="72323598-44b2-4004-a887-1505d0b2b5da"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="402" y="2" width="51" height="20" uuid="a21d848c-4022-45fa-85a7-61c02a9924d3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="454" y="2" width="100" height="20" uuid="42b14487-62f3-428f-9995-79d0758d8046"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{inscricao.pessoa.cpf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="23" width="67" height="20" uuid="2bc3d075-fd96-41e1-a249-80e505b5ab68"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="69" y="23" width="332" height="20" uuid="b7a03244-bf1a-48fb-9c37-f1bc9c603575"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="44" width="68" height="20" uuid="9de88146-cd89-4677-a937-dc3442d18051"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Início]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yy hh:mm">
+				<reportElement x="68" y="44" width="100" height="20" uuid="99b32c31-0eed-4d2f-9b7c-746040d64fd7"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.inicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="167" y="44" width="63" height="20" uuid="e6dc1518-2e3f-467b-a174-267bfeae18a5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Término]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yy hh:mm">
+				<reportElement x="231" y="44" width="100" height="20" uuid="9afaaae0-24e2-4c39-a99b-915c0d07ffcd"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.termino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="332" y="44" width="69" height="20" uuid="a4df8767-37f3-4ecc-ac37-bd48d8e9d8d8"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Local]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="402" y="44" width="152" height="20" uuid="2d5918a7-d25d-4207-b2a4-7eb492b94d1a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{inscricao.evento.local}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="74" width="551" height="33" uuid="5c67d36e-0dd2-47d4-ac27-a0d0568df68d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atividades]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="87" splitType="Stretch">
+			<textField>
+				<reportElement x="68" y="1" width="486" height="20" uuid="eeca44a9-c71f-412e-8b38-a90a131ec883"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{atividade.nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="1" width="67" height="20" uuid="bae23051-fa06-47fb-a512-db4f24222c07"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atividade]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yy hh:mm">
+				<reportElement x="68" y="21" width="92" height="20" uuid="c0d5a212-a594-4862-b998-d930cdf647dc"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{atividade.inicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="21" width="67" height="20" uuid="05a5cc0c-190a-4676-93a8-e4c3af9b3667"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Início]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yy hh:mm">
+				<reportElement x="230" y="21" width="100" height="20" uuid="fb0a5d37-eb8d-47f0-91a4-ff7cbac91cd7"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{atividade.termino}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="21" width="68" height="20" uuid="fc737efb-91c9-4ae3-995c-cf29855121a5"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Término]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="371" y="21" width="183" height="20" uuid="6ce462f0-bd83-474c-b543-c009e4dfa1ec"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{atividade.local}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="331" y="21" width="39" height="20" uuid="40dee46e-a997-493b-b647-169b65084afd"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Local]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="68" y="41" width="92" height="20" uuid="ecf9c39f-40de-484d-b78b-87158ea245d0"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{categoria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="41" width="67" height="20" uuid="d8dca6c2-3eb1-4780-8a53-3303a57e1100"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Categoria]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="230" y="41" width="100" height="20" uuid="71281598-9891-40f4-bbdd-5f483550aa19"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ordem}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="161" y="41" width="68" height="20" uuid="a3119a8b-c092-4ff5-8bf6-84b2aedeaecb"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ordem]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="22" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23">
+			<elementGroup>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="441" y="0" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement positionType="FixRelativeToBottom" x="516" y="0" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<staticText>
+				<reportElement x="399" y="0" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="488" y="0" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Impressão:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="153" y="0" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
 </jasperReport>
