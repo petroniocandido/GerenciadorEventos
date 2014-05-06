@@ -72,6 +72,8 @@ public class Inscricao implements Entidade, Serializable {
     
     private boolean compareceu;
     
+    private int ordem;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
     
@@ -254,6 +256,16 @@ public class Inscricao implements Entidade, Serializable {
     public void setTipo(InscricaoTipo tipo) {
         this.tipo = tipo;
     }
+
+    public int getOrdem() {
+        return ordem;
+    }
+
+    public void setOrdem(int ordem) {
+        this.ordem = ordem;
+    }
+    
+    
     
     @Override
     public int hashCode() {

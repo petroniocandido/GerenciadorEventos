@@ -30,9 +30,9 @@ public class AutenticacaoController
      * Creates a new instance of AutenticacaoController
      */
     public AutenticacaoController() {
-        
+
     }
-    
+
     @EJB
     PessoaRepositorio dao;
     @EJB
@@ -49,10 +49,11 @@ public class AutenticacaoController
 
     public void validar() {
         if (autenticacao.login(login, senha)) {
-           AppendLog("Login");
-           Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());                       
+            usuario = autenticacao.getUsuarioCorrente();
+            AppendLog("Login");
+            Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());
         } else {
-           Mensagem("Falha", "Login ou senha não correspondem");           
+            Mensagem("Falha", "Login ou senha não correspondem");
         }
 
     }
@@ -72,7 +73,7 @@ public class AutenticacaoController
         return "cadastrar.xhtml";
     }
 
-    public void salvar() {
+    public void cadastrar() {
         if (senha.equals(senhaconferencia)) {
             usuario.setSenha(hash.getMD5(senha));
             usuario.setPerfil(perfilDAO.getPadrao());
@@ -83,6 +84,22 @@ public class AutenticacaoController
             }
         } else {
             MensagemErro("Senhas", "Senhas não conferem!");
+        }
+    }
+
+    public void salvar() {
+        if (senha != null && !senha.isEmpty()) {
+            if (senha.equals(senhaconferencia)) {
+                usuario.setSenha(hash.getMD5(senha));
+            } else {
+                MensagemErro("Senhas", "Senhas não conferem!");
+                return;
+            }
+        }
+        if (dao.Salvar(usuario)) {
+            AppendLog("Cadastro do usuário " + usuario.getEmail());
+        } else {
+            AppendLog("Erro ao cadastrar usuário: " + dao.getErro().toString());
         }
     }
 
@@ -123,6 +140,6 @@ public class AutenticacaoController
     }
 
     public void novasenha() {
-        autenticacao.redefinirSenha(login);        
-    }    
+        autenticacao.redefinirSenha(login);
+    }
 }
