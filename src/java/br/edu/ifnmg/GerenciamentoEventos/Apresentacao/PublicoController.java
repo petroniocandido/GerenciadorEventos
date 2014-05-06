@@ -162,6 +162,9 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     public void setEvento(Evento evento) {
         this.evento = evento;
+        this.atividades = null;
+        this.atividade = null;
+        this.inscricao = null;
     }
 
     public Atividade getAtividade() {
