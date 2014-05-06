@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -26,6 +26,11 @@
                                 </p:autoComplete>
                                 <h:outputText value="Nome: " />
                                 <p:inputText id="txtNome" size="50" value="#{atividadeController.filtro.nome}"/> 
+                                <h:outputText value="Situação: " />
+                                <p:selectOneMenu value="#{atividadeController.filtro.status}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                                    <f:selectItems value="#{atividadeController.status}" />
+                                </p:selectOneMenu>
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{atividadeController}"  />
