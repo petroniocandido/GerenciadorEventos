@@ -47,7 +47,7 @@
 			</textField>
 			<textField>
 				<reportElement x="185" y="105" width="370" height="33" uuid="9d2c5890-1e80-4667-a2a9-dc9e89c13bc3"/>
-				<textElement verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{atividade.nome}]]></textFieldExpression>
@@ -100,14 +100,28 @@
 		<band height="22" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="23">
+		<band height="20">
 			<elementGroup>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="380" y="0" width="53" height="20" uuid="199a52e3-7fb6-4c14-9f77-443fb2c99011"/>
+					<textElement verticalAlignment="Top">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[Página]]></textFieldExpression>
+				</textField>
 				<textField>
 					<reportElement positionType="FixRelativeToBottom" x="441" y="0" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement positionType="FixRelativeToBottom" x="487" y="0" width="29" height="20" uuid="74b451be-99d2-43bf-84bd-74e8e1cfcaee"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[de]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
 					<reportElement positionType="FixRelativeToBottom" x="516" y="0" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
@@ -117,14 +131,6 @@
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 			</elementGroup>
-			<staticText>
-				<reportElement x="399" y="0" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
-				<text><![CDATA[Página]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="488" y="0" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
-				<text><![CDATA[de]]></text>
-			</staticText>
 		</band>
 	</pageFooter>
 	<summary>
