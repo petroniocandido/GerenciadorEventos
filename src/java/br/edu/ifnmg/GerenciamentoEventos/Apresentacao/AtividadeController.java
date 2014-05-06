@@ -38,6 +38,7 @@ public class AtividadeController
         id = 0L;
         setEntidade(new Atividade());
         setFiltro(new Atividade());
+        getFiltro().setStatus(null);
         alocacao = new Alocacao();
         responsavel = new Pessoa();
 
@@ -117,6 +118,7 @@ public class AtividadeController
     public void limpar() {
         checaEventoPadrao();
         setEntidade(new Atividade());
+        getFiltro().setStatus(null);
     }
 
     @Override
