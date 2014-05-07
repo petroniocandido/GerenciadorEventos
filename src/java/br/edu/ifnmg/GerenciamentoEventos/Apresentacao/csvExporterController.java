@@ -4,10 +4,13 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.CSVExporter;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.InscricaoItemRespostaCSVExporter;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.InscricaoRespostaCSVExporter;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
@@ -38,7 +41,7 @@ public class csvExporterController
      * Creates a new instance of FuncionarioBean
      */
     public csvExporterController() {
-
+        
     }
 
     @EJB
@@ -80,7 +83,7 @@ public class csvExporterController
     public void exportaAtividade() {
         ServletOutputStream servletOutputStream = null;
         InscricaoItem tmp = new InscricaoItem();
-        InscricaoRespostaCSVExporter csv = new InscricaoRespostaCSVExporter();
+        CSVExporter csv = new InscricaoItemRespostaCSVExporter();
         tmp.setAtividade(atividade);
         List<InscricaoItem> dados = daoI.Buscar(tmp);
         try {
@@ -100,5 +103,30 @@ public class csvExporterController
             }
         }
     }
+    
+    public void exportaEvento() {
+        ServletOutputStream servletOutputStream = null;
+        Inscricao tmp = new Inscricao();
+        CSVExporter csv = new InscricaoRespostaCSVExporter();
+        tmp.setEvento(padrao);
+        List<Inscricao> dados = daoI.Buscar(tmp);
+        try {
+            String arq = padrao.getNome().replace(" ", "");
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + arq + ".csv");
+            servletOutputStream = httpServletResponse.getOutputStream();
+            servletOutputStream.print(csv.gerarCSV(dados));
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (IOException ex) {
+            Logger.getLogger(csvExporterController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                servletOutputStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(csvExporterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
 
 }
