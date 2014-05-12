@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Relatório de Lista de Presença de Atividade
+                    </f:facet>
+                    <p:panelGrid columns="2">
+                        <h:outputText value="Evento: " />
+                        <p:autoComplete converter="#{eventoConverter}" value="#{csvExporterController.evento}"
+                                        completeMethod="#{eventoController.autoCompleteEvento}" var="item"
+                                        itemLabel="#{item.nome}" itemValue="#{item}">
+                            #{item.nome}
+                        </p:autoComplete>
+                    </p:panelGrid>
+                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{csvExporterController.exportaEvento}" />
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
