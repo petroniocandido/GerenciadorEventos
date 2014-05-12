@@ -56,7 +56,7 @@
 
                             </p:panelGrid>
                         </p:tab>
-                        <c:if test="#{not empty publicoController.inscricao}">
+                        <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
                             <c:if test="#{not empty publicoController.evento.questionario}">
                                 <p:tab title="Dados da Inscrição">
                                     <p:tabView>
