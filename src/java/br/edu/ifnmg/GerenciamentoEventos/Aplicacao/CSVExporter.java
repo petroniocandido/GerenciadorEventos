@@ -7,7 +7,6 @@
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import java.util.Collection;
-import java.util.Dictionary;
 import java.util.Iterator;
 
 /**
@@ -15,13 +14,8 @@ import java.util.Iterator;
  * @author petronio
  */
 public abstract class CSVExporter<T> {    
-    protected abstract StringBuilder gerarLinha(T obj);
-    
-    protected Dictionary<String, Integer> gerarCabecalho(String csv) {
-        String colunas[] = csv.split(";");
-        
-        
-    }
+    protected abstract StringBuilder gerarLinha(T obj);    
+    protected abstract StringBuilder gerarCabecalho(T obj);
     
     public String gerarCSV(Collection<T> colecao){
         StringBuilder sb = new StringBuilder();
