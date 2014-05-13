@@ -6,18 +6,19 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
 
 /**
  *
  * @author petronio
  */
-public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
+public class InscricaoItemRespostaCSVExporter extends CSVExporter<InscricaoItem>{
 
     @Override
-    protected StringBuilder gerarCabecalho(Inscricao obj) {
+    protected StringBuilder gerarCabecalho(InscricaoItem obj) {
         StringBuilder sb = new StringBuilder();
         for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes())
@@ -27,7 +28,7 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
     }
 
     @Override
-    protected StringBuilder gerarLinha(Inscricao obj) {
+    protected StringBuilder gerarLinha(InscricaoItem obj) {
         StringBuilder sb = new StringBuilder();
         for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes())
