@@ -26,6 +26,12 @@
                                 <c:choose>
                                     <c:when test="#{publicoController.evento.necessitaInscricao}">
                                         <c:choose>
+                                            <c:when test="#{publicoController.evento.antesInscricaoAberto}">
+                                                <p:outputLabel value="O período de inscrições iniciará no dia:" />
+                                                <p:outputLabel value="#{publicoController.evento.inicioInscricao}" style="background-color: greenyellow">
+                                                    <f:convertDateTime dateStyle="dd/MM/yy hh:mm" />
+                                                </p:outputLabel>
+                                            </c:when>
                                             <c:when test="#{publicoController.evento.inscricaoAberto}">
                                                 <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
                                                 <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
@@ -56,7 +62,7 @@
 
                             </p:panelGrid>
                         </p:tab>
-                        <c:if test="#{not empty publicoController.inscricao}">
+                        <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
                             <c:if test="#{not empty publicoController.evento.questionario}">
                                 <p:tab title="Dados da Inscrição">
                                     <p:tabView>

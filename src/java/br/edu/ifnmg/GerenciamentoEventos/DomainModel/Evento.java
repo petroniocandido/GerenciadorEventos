@@ -124,6 +124,13 @@ public class Evento implements Entidade, Serializable {
                 getControle().getQuantidadeListaEspera()< (getNumeroVagas()*0.1);
     }
     
+    public boolean isAntesInscricaoAberto() {
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicioInscricao) < 0;
+    }
+    
     public boolean isInscricaoAberto() {
         return isPeriodoInscricaoAberto() && (isVagasAberto() || isListaEsperaAberto());
     }
