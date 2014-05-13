@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,15 +17,22 @@ import java.util.List;
  */
 public abstract class CSVImporter<T> {
     
-    protected Dictionary<String,Integer> cabecalho;
+    protected HashMap<String,Integer> cabecalho;
     
-    protected abstract Dictionary<String,Integer> gerarCabecalho(String csv);
+    private void gerarCabecalho(String csv){
+        cabecalho = new HashMap<>();
+        String colunas[] = csv.split(";");
+        for(int index = 0; index < colunas.length; index++){
+            cabecalho.put(colunas[index], index);
+        }        
+    }
+    
     protected abstract T gerarObjeto(String linha);
     
     public List<T> importarCSV(String csv){
         String linhas[] = csv.split("\n");
         
-        cabecalho = gerarCabecalho(linhas[0]);
+        gerarCabecalho(linhas[0]);
         
         List<T> lista = new ArrayList<>();
         
