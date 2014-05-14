@@ -87,6 +87,7 @@ public class AtividadeDAO
         return daoTipo
                 .Like("nome", obj.getNome())
                 .IgualA("publico", obj.getPublico())
+                .Ordenar("nome", "ASC")
                 .Buscar();
     }
 

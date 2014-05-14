@@ -39,6 +39,19 @@
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>
                                 </p:autoComplete>
+                                <h:outputText value="Evento: " />
+                                <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.entidade.evento}"
+                                                completeMethod="#{eventoController.autoCompleteEvento}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <h:outputText value="Atividade: " />
+                                <p:autoComplete converter="#{atividadeConverter}" value="#{lancamentoController.entidade.atividade}"
+                                                completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    <p:column headerText="Evento">#{item.evento}</p:column>
+                                    <p:column headerText="Atividade">#{item.nome}</p:column>
+                                </p:autoComplete>
                                 <h:outputText value="Histórico: " />
                                 <p:inputTextarea value="#{lancamentoController.entidade.descricao}" 
                                                  required="required" rows="4" cols="100" 

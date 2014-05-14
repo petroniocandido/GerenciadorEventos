@@ -7,16 +7,20 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -42,7 +46,7 @@ public class Pessoa implements Entidade, Serializable {
     @Column(nullable = false, length = 300)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 11)
+    @Column(nullable = false, length = 11)
     private String cpf;
 
     @Column(nullable = false, unique = true, length = 300)
@@ -59,7 +63,13 @@ public class Pessoa implements Entidade, Serializable {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Perfil perfil;
-
+    
+    @Enumerated(EnumType.STRING)
+    protected PessoaTipo tipo;
+    
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "pessoa",orphanRemoval = true)
+    @JoinTable(name = "inscricoes")
+    private List<Inscricao> inscricoes;
     
     @Override
     public Long getId() {
@@ -148,6 +158,24 @@ public class Pessoa implements Entidade, Serializable {
     public void setDataNascimento(Date dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+    public PessoaTipo getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(PessoaTipo tipo) {
+        this.tipo = tipo;
+    }
+
+    public List<Inscricao> getInscricoes() {
+        return inscricoes;
+    }
+
+    public void setInscricoes(List<Inscricao> inscricoes) {
+        this.inscricoes = inscricoes;
+    }
+    
+    
 
     @Override
     public int hashCode() {

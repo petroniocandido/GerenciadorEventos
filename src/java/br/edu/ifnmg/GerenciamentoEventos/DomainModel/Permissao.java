@@ -17,12 +17,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import org.eclipse.persistence.annotations.CacheIndex;
 
 /**
  *
@@ -31,6 +31,7 @@ import javax.persistence.Version;
 @Cacheable
 @Entity
 @Table(name="permissoes", indexes = {@Index(columnList = "uri", unique = true)})
+@CacheIndex(columnNames = {"uri"})
 public class Permissao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
   
@@ -39,6 +40,7 @@ public class Permissao implements Entidade, Serializable {
     private Long id;
     
     private String nome;
+    
     
     @Column(nullable = false, unique = true)
     private String uri;

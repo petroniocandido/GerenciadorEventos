@@ -29,12 +29,10 @@
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Tipo: " />
-                                <p:autoComplete converter="#{atividadeTipoConverter}" value="#{atividadeController.entidade.tipo}"
-                                                completeMethod="#{atividadeTipoController.autoCompleteAtividadeTipo}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}"
-                                                required="true" requiredMessage="A campo Tipo é de preenchimento obrigatório!">
-                                    #{item.nome}
-                                </p:autoComplete>
+                                <h:selectOneMenu converter="#{atividadeTipoConverter}" value="#{atividadeController.entidade.tipo}"
+                                            required="true" requiredMessage="A campo Tipo é de preenchimento obrigatório!">
+                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{atividadeController.entidade.status}" 
                                             required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">

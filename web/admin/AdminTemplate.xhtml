@@ -22,7 +22,7 @@
                     </p:column>
                     <p:column style="width: 100%" >
                         <h1 style="text-align: center">Gestão de Eventos - IFNMG</h1>
-                        <h:outputLabel style="float: right" value="Usuário: #{autenticacaoController.usuarioCorrente.nome}" />
+                        <h:outputLabel style="float: right" value="#{autenticacaoController.usuarioCorrente.nome}" />
                         <p:commandLink style="float: right" ajax="false" value="Editar" action="editarDadosPessoais.xhtml" />
                     </p:column>
                 </p:row>
@@ -51,6 +51,8 @@
                     <p:submenu label="Exporta CSV">
                         <p:menuitem  value="Respostas de questionário de evento" url="relatorioExportaCSVEvento.xhtml"  />
                         <p:menuitem  value="Respostas de questionário de atividade" url="relatorioExportaCSVAtividade.xhtml"  />
+                        <p:menuitem  value="Dados das pessoas por evento" url="relatorioExportaCSVPessoasEvento.xhtml"  />
+                        <p:menuitem  value="Dados das pessoas por atividade" url="relatorioExportaCSVPessoasAtividade.xhtml"  />
                     </p:submenu>
                 </p:submenu>                
                 <p:menuitem   value="Área Pública" url="../publico/selecionaEvento.xhtml" />

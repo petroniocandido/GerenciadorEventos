@@ -5,6 +5,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
@@ -153,6 +154,14 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
                     + ": " + repositorio.getErro().getMessage());
             MensagemErro("Falha", "Item não removido! Consulte o log.");
         }
+    }
+    
+    public List<T> getListagemGeral() {
+        limpar();
+        
+        filtrar();
+        
+        return listagem;
     }
 
     protected void Refresh() {

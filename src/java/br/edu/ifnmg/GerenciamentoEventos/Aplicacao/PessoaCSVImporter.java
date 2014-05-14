@@ -7,8 +7,10 @@
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PessoaTipo;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class PessoaCSVImporter extends CSVImporter<Pessoa> {
 
-    DateFormat df = DateFormat.getDateInstance();
+    DateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm");
     
     @Override
     protected Pessoa gerarObjeto(String linha) {
@@ -29,10 +31,11 @@ public class PessoaCSVImporter extends CSVImporter<Pessoa> {
         obj.setEmail(colunas[cabecalho.get("email")]);
         obj.setTelefone(colunas[cabecalho.get("telefone")]);
         try {
-            obj.setDataNascimento(df.parse(colunas[cabecalho.get("datanascimento")]));
+            obj.setDataNascimento(df.parse(colunas[cabecalho.get("dataNascimento")]));
         } catch (ParseException ex) {
             Logger.getLogger(PessoaCSVImporter.class.getName()).log(Level.SEVERE, null, ex);
         }
+        obj.setTipo(PessoaTipo.valueOf(colunas[cabecalho.get("tipo")]));
         
         return obj;
     }
