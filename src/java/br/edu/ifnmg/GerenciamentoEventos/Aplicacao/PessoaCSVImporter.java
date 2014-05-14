@@ -30,13 +30,18 @@ public class PessoaCSVImporter extends CSVImporter<Pessoa> {
         obj.setCpf(colunas[cabecalho.get("cpf")]);
         obj.setEmail(colunas[cabecalho.get("email")]);
         obj.setTelefone(colunas[cabecalho.get("telefone")]);
+        
         try {
             obj.setDataNascimento(df.parse(colunas[cabecalho.get("dataNascimento")]));
         } catch (ParseException ex) {
             Logger.getLogger(PessoaCSVImporter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        obj.setTipo(PessoaTipo.valueOf(colunas[cabecalho.get("tipo")]));
         
+        try {
+            obj.setTipo(PessoaTipo.valueOf(colunas[cabecalho.get("tipo")]));
+        } catch (Exception ex) {
+            Logger.getLogger(PessoaCSVImporter.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return obj;
     }
     
