@@ -5,6 +5,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ValidadorCPF;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutorizacaoService;
@@ -15,6 +16,10 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -141,5 +146,14 @@ public class AutenticacaoController
 
     public void novasenha() {
         autenticacao.redefinirSenha(login);
+    }
+
+    public void validaCPF(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        if (!ValidadorCPF.validaCPF(value.toString())) {
+            FacesMessage msg
+                    = new FacesMessage("CPF Inválido!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
     }
 }
