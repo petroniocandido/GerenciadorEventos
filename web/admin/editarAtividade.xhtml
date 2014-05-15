@@ -30,12 +30,12 @@
                                 </p:autoComplete>
                                 <h:outputText value="Tipo: " />
                                 <h:selectOneMenu converter="#{atividadeTipoConverter}" value="#{atividadeController.entidade.tipo}"
-                                            required="true" requiredMessage="A campo Tipo é de preenchimento obrigatório!">
+                                                 required="true" requiredMessage="A campo Tipo é de preenchimento obrigatório!">
                                     <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{atividadeController.entidade.status}" 
-                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
                                     <f:selectItems value="#{atividadeController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Nome: " />
@@ -121,8 +121,8 @@
                                     <p:column headerText="Recurso"  >
                                         #{item.nome}                            
                                     </p:column>
-                                    <p:column headerText="Capacidade"  >
-                                        #{item.capacidade}                            
+                                    <p:column headerText="Contato"  >
+                                        #{item.contato}                            
                                     </p:column>
                                 </p:autoComplete>
                                 <h:outputText value="Responsável: " />
@@ -139,18 +139,16 @@
                                 <p:column headerText="Recurso"  >
                                     #{item.recurso}                            
                                 </p:column>
+                                <p:column headerText="Contato" >
+                                    #{item.recurso.contato}                            
+                                </p:column>
                                 <p:column headerText="Responsável" >
                                     #{item.responsavel}                            
                                 </p:column>
-                                <p:column headerText="Início" >
-                                    <p:outputLabel value="#{item.inicio}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
-                                    </p:outputLabel>
-                                </p:column>
-                                <p:column headerText="Término" >
-                                    <p:outputLabel value="#{item.termino}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
-                                    </p:outputLabel>
+                                <p:column headerText="Status" >
+                                    <h:selectOneMenu value="#{item.status}"  >
+                                        <f:selectItems value="#{recursoController.status}" />
+                                    </h:selectOneMenu>
                                 </p:column>
                                 <p:column >
                                     <p:commandButton value="Editar" >

@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -49,7 +51,14 @@ public class Alocacao implements Entidade, Serializable, Comparable<Alocacao> {
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date termino;
+    
+    @Enumerated(EnumType.STRING)
+    AlocacaoStatus status;
 
+    public Alocacao(){
+        status = AlocacaoStatus.Pendente;
+    }
+    
     @Override
     public Long getId() {
         return id;
@@ -107,9 +116,15 @@ public class Alocacao implements Entidade, Serializable, Comparable<Alocacao> {
     public void setTermino(Date termino) {
         this.termino = termino;
     }
-    
-    
 
+    public AlocacaoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AlocacaoStatus status) {
+        this.status = status;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
