@@ -115,7 +115,7 @@ public class Pessoa implements Entidade, Serializable {
     public String getTelefone() {
         if (telefoneFormatado == null) {
             if (telefone != null && telefone.length() == 10) {
-                telefoneFormatado = "(" + telefone.substring(0, 2) + ") " + telefone.substring(3, 6) + "-" + telefone.substring(6, 10);
+                telefoneFormatado = "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 6) + "-" + telefone.substring(6, 10);
             }
         }
         return telefoneFormatado;
