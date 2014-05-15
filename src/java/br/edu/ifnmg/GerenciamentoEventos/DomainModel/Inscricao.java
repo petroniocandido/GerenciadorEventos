@@ -24,6 +24,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -68,6 +69,12 @@ public class Inscricao implements Entidade, Serializable {
     @Enumerated(EnumType.STRING)
     protected InscricaoCategoria categoria;
     
+    @Enumerated(EnumType.STRING)
+    protected InscricaoStatus status;
+    
+    @Lob
+    private String observacoes;
+    
     private boolean pago;
     
     private boolean compareceu;
@@ -89,7 +96,8 @@ public class Inscricao implements Entidade, Serializable {
         itens = new ArrayList<>();
         tipo = InscricaoTipo.Inscricao;
         dataInscricao = new Date();
-        categoria = InscricaoCategoria.Normal;        
+        categoria = InscricaoCategoria.Normal; 
+        status = InscricaoStatus.Criada;
     }
     
     public void add(InscricaoItem item){
@@ -138,6 +146,8 @@ public class Inscricao implements Entidade, Serializable {
     public Lancamento criarLancamento(Pessoa p) {
         Lancamento l = new Lancamento();
         l.add(this);
+        l.setEvento(evento);
+        l.setTipo(LancamentoTipo.Credito);
         String tmp = "";
         for(InscricaoItem i : getItens()){
             tmp += i.getAtividade().getNome() + ",";
@@ -264,6 +274,22 @@ public class Inscricao implements Entidade, Serializable {
     public void setOrdem(int ordem) {
         this.ordem = ordem;
     }
+
+    public InscricaoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(InscricaoStatus status) {
+        this.status = status;
+    }
+
+    public String getObservacoes() {
+        return observacoes;
+    }
+
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
     
     
     
@@ -289,7 +315,7 @@ public class Inscricao implements Entidade, Serializable {
 
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao[ id=" + id + " ]";
+        return id.toString();
     }
     
     @ManyToOne(fetch = FetchType.LAZY)

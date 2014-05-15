@@ -10,6 +10,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.RecursoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -40,6 +41,8 @@ public class RecursoController
     RecursoRepositorio dao;
     
     RecursoTipo[] tipos;
+    
+    AlocacaoStatus status[];
         
     @PostConstruct
     public void init() {
@@ -121,6 +124,13 @@ public class RecursoController
         }
         return tipos;
     }
+
+    public AlocacaoStatus[] getStatus() {
+        if(status == null)
+            status = AlocacaoStatus.values();
+        return status;
+    }
+    
     
     
 }

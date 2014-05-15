@@ -11,9 +11,9 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoServic
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoService;
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 
-@Stateful
+@Stateless
 public class ConfiguracaoServiceImpl implements ConfiguracaoService {
 
     @EJB

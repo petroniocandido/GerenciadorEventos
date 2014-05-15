@@ -22,6 +22,11 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Inscrição: " />
                                 <h:outputText value="#{inscricaoController.entidade.id}" />
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{inscricaoController.entidade.status}" 
+                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                    <f:selectItems value="#{inscricaoController.status}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Evento: " />
                                 <p:autoComplete converter="#{eventoConverter}" value="#{inscricaoController.entidade.evento}"
                                                 completeMethod="#{eventoController.autoCompleteEvento}" var="item"
@@ -98,6 +103,10 @@
                                 </c:forEach>
                             </p:accordionPanel>
                             
+                        </p:tab>
+                        
+                        <p:tab id="tabObservacoes" title="Observações">
+                            <p:inputTextarea value="#{inscricaoController.entidade.observacoes}" cols="150" rows="20" />
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{inscricaoController}"  />

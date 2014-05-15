@@ -112,10 +112,11 @@ public class ImplantacaoController implements Serializable {
     }
     
     public void zerarSenhas() {
-        for(Pessoa p : pessoaDAO.Buscar(null)){
+/*        for(Pessoa p : pessoaDAO.Buscar(null)){
             p.setSenha(hash.getMD5("123"));
             pessoaDAO.Salvar(p);
         }
+        */
     }
     
     

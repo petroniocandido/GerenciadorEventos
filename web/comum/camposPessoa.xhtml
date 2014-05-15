@@ -11,7 +11,8 @@
                      required="true" requiredMessage="O campo nome é obrigatório" />
         <h:outputText value="CPF: " />
         <p:inputMask id="txtCpf" value="#{pessoa.cpf}" mask="999.999.999-99" 
-                     required="true" requiredMessage="O campo cpf é obrigatório" />
+                     required="true" requiredMessage="O campo cpf é obrigatório" 
+                     validator="#{autenticacaoController.validaCPF}" validatorMessage="CPF Inválido!"/>
         <h:outputText value="E-Mail: " />
         <p:inputText id="txtEmail" value="#{pessoa.email}" 
                      required="true" requiredMessage="O campo e-mail é obrigatório" />

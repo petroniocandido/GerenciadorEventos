@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Respostas de questionário de evento
+                        Exportar dados das pessoas por CSV
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
@@ -23,7 +23,7 @@
                             #{item.nome}
                         </p:autoComplete>
                     </p:panelGrid>
-                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{csvExporterController.exportaEvento}" />
+                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{csvExporterController.exportaPessoasEvento()}" />
                 </p:panel>
             </ui:define>
 
