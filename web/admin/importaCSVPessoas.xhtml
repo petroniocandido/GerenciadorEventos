@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Importa dados de pessoas
+                    </f:facet>
+                    <h:outputText value="Arquivo CSV: " />
+                    <p:fileUpload value="#{csvImporterController.arquivo}" mode="simple"             
+                                              auto="true" sizeLimit="10000000" allowTypes="/(\.|\/)(csv)$/"
+                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
+                                              invalidFileMessage="Tipo de arquivo não permitido!"
+                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
+                                              label="Escolher arquivo!"
+                                              multiple="false"/> 
+                    
+                    <p:commandButton value="Importar" ajax="false" action="#{csvImporterController.processaArquivo}" />
+
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -13,6 +13,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -51,6 +52,8 @@ public class InscricaoController
     
     @Inject
     LancamentoController lancamentoCtl;
+    
+    private InscricaoStatus status[];
     
     InscricaoItem item;
     
@@ -175,6 +178,14 @@ public class InscricaoController
     public void setLancamentoCtl(LancamentoController lancamentoCtl) {
         this.lancamentoCtl = lancamentoCtl;
     }
+
+    public InscricaoStatus[] getStatus() {
+        if(status == null)
+            status = InscricaoStatus.values();
+        return status;
+    }
+    
+    
     
     
 }

@@ -14,7 +14,14 @@
                 <p:panel>
                     <f:facet name="header">
                         Relatório de Lista de Presença de Atividade
-                    </f:facet>
+                    </f:facet><h:outputText value="Atividade: " />
+                        <p:autoComplete converter="#{atividadeConverter}" value="#{csvExporterController.atividade}"
+                                        completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
+                                        itemLabel="#{item.nome}" itemValue="#{item}">
+                            <p:column headerText="Evento">#{item.evento}</p:column>
+                            <p:column headerText="Atividade">#{item.nome}</p:column>
+                            <p:column headerText="Tipo">#{item.tipo}</p:column>
+                        </p:autoComplete>
                     <p:panelGrid columns="2">
                         <h:outputText value="Atividade: " />
                         <p:autoComplete converter="#{atividadeConverter}" value="#{csvExporterController.atividade}"

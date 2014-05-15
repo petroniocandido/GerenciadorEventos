@@ -21,6 +21,8 @@ public class PermissaoDAO
     extends DAOGenerico<Permissao> 
     implements PermissaoRepositorio {
 
+    
+    
     public PermissaoDAO(){
         super(Permissao.class);
     }

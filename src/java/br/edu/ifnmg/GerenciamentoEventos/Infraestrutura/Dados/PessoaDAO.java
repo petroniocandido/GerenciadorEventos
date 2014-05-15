@@ -32,6 +32,17 @@ public class PessoaDAO
                     .Like("cpf", filtro.getCpf())
                     .Like("email", filtro.getEmail());
         }
+        Ordenar("nome", "ASC");
+        return Buscar();
+    }
+    
+    public List<Pessoa> Buscar(Evento e){
+        Join("inscricoes", "i").IgualA("i.evento", e).Ordenar("nome", "ASC");
+        return Buscar();
+    }
+    
+    public List<Pessoa> Buscar(Atividade a){
+        Join("inscricoes", "i").Join("i.itens", "it").IgualA("it.atividade", a).Ordenar("nome", "ASC");
         return Buscar();
     }
 

@@ -12,11 +12,12 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
 import javax.ejb.EJB;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
-@Stateful
+@Stateless
 public class LogServiceImpl implements LogService {
 
     @EJB

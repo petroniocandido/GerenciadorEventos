@@ -13,9 +13,9 @@ import java.util.Iterator;
  *
  * @author petronio
  */
-public abstract class CSVExporter<T> {
+public abstract class CSVExporter<T> {    
+    protected abstract StringBuilder gerarLinha(T obj);    
     protected abstract StringBuilder gerarCabecalho(T obj);
-    protected abstract StringBuilder gerarLinha(T obj);
     
     public String gerarCSV(Collection<T> colecao){
         StringBuilder sb = new StringBuilder();

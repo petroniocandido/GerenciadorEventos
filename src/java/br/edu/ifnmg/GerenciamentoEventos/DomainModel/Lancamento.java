@@ -45,6 +45,12 @@ public class Lancamento implements Entidade, Serializable {
     private Date baixa;
     
     @ManyToOne
+    private Evento evento;
+    
+    @ManyToOne
+    private Atividade atividade;
+    
+    @ManyToOne
     private Pessoa usuarioBaixa;
     
     @ManyToOne
@@ -263,6 +269,22 @@ public class Lancamento implements Entidade, Serializable {
 
     public void setCategoria(LancamentoCategoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public Atividade getAtividade() {
+        return atividade;
+    }
+
+    public void setAtividade(Atividade atividade) {
+        this.atividade = atividade;
     }
     
     
