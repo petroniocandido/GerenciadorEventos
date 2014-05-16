@@ -7,15 +7,12 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -69,27 +66,34 @@ public class InscricaoItem extends Inscricao implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.inscricao);
+        hash = 83 * hash + Objects.hashCode(this.atividade);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof InscricaoItem)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        InscricaoItem other = (InscricaoItem) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final InscricaoItem other = (InscricaoItem) obj;
+        if (!Objects.equals(this.inscricao, other.inscricao)) {
+            return false;
+        }
+        if (!Objects.equals(this.atividade, other.atividade)) {
             return false;
         }
         return true;
     }
 
+    
     @Override
     public String toString() {
-        return "br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao[ id=" + id + " ]";
+        return id + "";
     }
     
 }

@@ -65,15 +65,20 @@ public class InscricaoService {
     }
     
     public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p){
+    
+        InscricaoItem tmp = i.getItem(e);
         
-        InscricaoItem tmp = new InscricaoItem();
+        if(tmp != null)
+            return tmp;
+        
+        tmp = new InscricaoItem();
         tmp.setAtividade(e);
         tmp.setPessoa(p);
         tmp.setInscricao(i);
         
         List<InscricaoItem> list = inscricaoDAO.Buscar(tmp);
         if(list.size() > 0)
-            return list.get(0);
+            return list.get(list.size() - 1);
         
         if(!e.isPeriodoInscricaoAberto())
             return null;
@@ -158,9 +163,10 @@ public class InscricaoService {
         it.setDataInscricao(new Date());
         it.setCategoria(c);
         it.setOrdem(c == InscricaoCategoria.Normal ? ctl.getQuantidadeGeral() : ctl.getQuantidadeListaEspera());
+        i.add(it);
         i.setDataUltimaAlteracao(new Date());
         i.setUltimoAlterador(p);
-        if(inscricaoDAO.Salvar(it)){  
+        if(inscricaoDAO.Salvar(i)){  
             if(c == InscricaoCategoria.Normal)
                 ctl.setQuantidadeGeral(ctl.getQuantidadeGeral() + 1);
             else 

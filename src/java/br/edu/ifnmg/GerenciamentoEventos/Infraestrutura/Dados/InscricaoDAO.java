@@ -43,6 +43,7 @@ public class InscricaoDAO
                 .Buscar();
     }
     
+    @Override
     public List<InscricaoItem> Buscar(InscricaoItem filtro) {
         return itemDAO.IgualA("id", filtro.getId())
                 .IgualA("pessoa", filtro.getPessoa())

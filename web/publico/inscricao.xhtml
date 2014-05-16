@@ -38,14 +38,26 @@
                                                 <p:outputLabel value="Valor Inscrição:" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao > 0}" value="#{publicoController.evento.valorInscricao}" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />
-                                                <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{empty publicoController.inscricao}"  value="Inscrever" onclick="msgSalvar.show()" />
-                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
+                                                <c:if test="#{empty publicoController.inscricao}">
+                                                    <p:outputLabel value="" />
+                                                    <p:commandButton value="Inscrever" onclick="msgSalvar.show()" />
+                                                </c:if>
+                                                <c:if test="#{not empty publicoController.inscricao}">
+                                                    <h:outputText value="Inscrição: " />
+                                                    <h:outputText value="#{publicoController.inscricao.id}" />
+                                                    <p:outputLabel value="" />
+                                                    <p:commandButton value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
+                                                </c:if>
+
                                             </c:when>                                        
                                             <c:otherwise>
                                                 <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
-                                                <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();" />
+                                                <c:if test="#{not empty publicoController.inscricao}">
+                                                    <h:outputText value="Inscrição: " />
+                                                    <h:outputText value="#{publicoController.inscricao.id}" />
+                                                    <p:outputLabel value="" />
+                                                    <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();" />
+                                                </c:if>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
@@ -92,7 +104,7 @@
                                                     <p:column>#{atividade.nome}</p:column>
                                                     <p:column>
                                                         <p:outputLabel value="#{atividade.inicio}" >
-                                                        <f:convertDateTime pattern="dd/MM hh:mm" locale="pt-BR" />
+                                                            <f:convertDateTime pattern="dd/MM hh:mm" locale="pt-BR" />
                                                         </p:outputLabel>
                                                     </p:column>
                                                     <p:column>
