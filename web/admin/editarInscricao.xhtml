@@ -24,7 +24,7 @@
                                 <h:outputText value="#{inscricaoController.entidade.id}" />
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{inscricaoController.entidade.status}" 
-                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
                                     <f:selectItems value="#{inscricaoController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Evento: " />
@@ -61,14 +61,24 @@
                                 <c:forEach rendered="#{respostaController.editing}" items="#{inscricaoController.entidade.itens}" var="insc">
                                     <p:tab title="#{insc.atividade.nome}">
                                         <h:panelGrid columns="2" cellpadding="3">
+                                            <h:outputText value="Inscrição: " />
+                                            <h:outputText value="#{insc.id}" />
                                             <h:outputText value="Data inscrição: " />
-                                            <h:outputText value="#{insc.dataInscricao}" />
+                                            <h:outputText value="#{insc.dataInscricao}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy hh:m" />
+                                            </h:outputText>
                                             <h:outputText value="Pago?: " />
                                             <p:selectBooleanCheckbox value="#{insc.pago}" />
                                             <h:outputText value="Compareceu?: " />
                                             <p:selectBooleanCheckbox value="#{insc.compareceu}" />
+                                            <h:outputText value="Situação: " />
+                                            <h:selectOneMenu value="#{insc.status}" 
+                                                             required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                <f:selectItems value="#{inscricaoController.status}" />
+                                            </h:selectOneMenu>
 
                                             <c:if test="#{insc.resposta ne null}">
+                                                <h:outputText value="Respostas: " />
                                                 <p:dataTable value="#{insc.resposta.respostas}" var="item">                                                
                                                     <p:column sortBy="#{item.questao.secao.ordem}"> 
                                                         <f:facet name="header"> 
@@ -102,16 +112,16 @@
                                     </p:tab>
                                 </c:forEach>
                             </p:accordionPanel>
-                            
+
                         </p:tab>
-                        
+
                         <p:tab id="tabObservacoes" title="Observações">
                             <p:inputTextarea value="#{inscricaoController.entidade.observacoes}" cols="150" rows="20" />
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{inscricaoController}"  />
                         </ui:include>
-                        
+
                     </p:tabView>
                     <p:commandButton rendered="#{empty inscricaoController.entidade.lancamento}" value="Gerar Pagamento" action="#{inscricaoController.gerarLancamento()}" />
                     <ui:include src="./comum/botoesEntidade.xhtml">

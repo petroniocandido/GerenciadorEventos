@@ -60,7 +60,8 @@ public class PessoaController
     @Override
     public void salvar() {
 
-        if (senha1.length() != 0) {
+        
+        if (senha1 != null && senha1.length() != 0) {
 
             if (senha1.equals(senha2)) {
                 entidade.setSenha(hash.getMD5(senha1));

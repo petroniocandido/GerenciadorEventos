@@ -64,6 +64,7 @@ public abstract class ValidadorCPF extends Object {
     }  
   
     public static boolean validaCPF(String cpf) {  
+        cpf = cpf.replace(".", "").replace("-", "");
         if (cpf.length() != 11)  
             return false;  
   

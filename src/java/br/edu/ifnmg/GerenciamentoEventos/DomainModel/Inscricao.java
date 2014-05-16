@@ -81,7 +81,7 @@ public class Inscricao implements Entidade, Serializable {
     
     private int ordem;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inscricao")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
     
     @ManyToOne
@@ -100,18 +100,21 @@ public class Inscricao implements Entidade, Serializable {
         status = InscricaoStatus.Criada;
     }
     
-    public void add(InscricaoItem item){
+    public boolean add(InscricaoItem item){
         item.setInscricao(this);
         if(!itens.contains(item)){
-            itens.add(item);
-        }
+            return itens.add(item);
+        } else
+            return false;
     }
     
-    public void remove(InscricaoItem item){
+    public boolean remove(InscricaoItem item){
         if(itens.contains(item)){
             itens.remove(item);
             item.setInscricao(null);            
-        }
+            return true;
+        } else
+            return false;
     }
     
     public void add(Arquivo arquivo){
