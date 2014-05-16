@@ -113,8 +113,7 @@ public class InscricaoService {
     }
     
      public boolean cancelar(InscricaoItem i){
-        i.getInscricao().remove(i);
-        if(inscricaoDAO.Salvar(i.getInscricao())){
+        if(inscricaoDAO.Apagar(i)){
             Controle c = controleDAO.Abrir(i.getAtividade());
             if(i.getCategoria() == InscricaoCategoria.Normal)
                 c.setQuantidadeGeral(c.getQuantidadeGeral() - 1);
@@ -159,10 +158,9 @@ public class InscricaoService {
         it.setDataInscricao(new Date());
         it.setCategoria(c);
         it.setOrdem(c == InscricaoCategoria.Normal ? ctl.getQuantidadeGeral() : ctl.getQuantidadeListaEspera());
-        i.add(it);
         i.setDataUltimaAlteracao(new Date());
         i.setUltimoAlterador(p);
-        if(inscricaoDAO.Salvar(i)){  
+        if(inscricaoDAO.Salvar(it)){  
             if(c == InscricaoCategoria.Normal)
                 ctl.setQuantidadeGeral(ctl.getQuantidadeGeral() + 1);
             else 

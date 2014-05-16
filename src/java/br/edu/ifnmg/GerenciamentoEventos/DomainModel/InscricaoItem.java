@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,18 +31,13 @@ public class InscricaoItem extends Inscricao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Inscricao inscricao;
     
     @ManyToOne
     private Atividade atividade;
     
-    @ManyToMany
-    @JoinTable(name = "inscricoescoletivas")
-    private List<Pessoa> pessoas;
-    
     public InscricaoItem(){
-        pessoas = new ArrayList<>();                
         tipo = InscricaoTipo.InscricaoItem;
     }
     
@@ -69,14 +65,6 @@ public class InscricaoItem extends Inscricao implements Serializable {
 
     public void setInscricao(Inscricao inscricao) {
         this.inscricao = inscricao;
-    }
-
-    public List<Pessoa> getPessoas() {
-        return pessoas;
-    }
-
-    public void setPessoas(List<Pessoa> pessoas) {
-        this.pessoas = pessoas;
     }
 
     @Override

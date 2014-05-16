@@ -81,7 +81,7 @@ public class Inscricao implements Entidade, Serializable {
     
     private int ordem;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "inscricao")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
     
     @ManyToOne

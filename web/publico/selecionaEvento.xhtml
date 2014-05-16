@@ -19,8 +19,7 @@
                     </f:facet>
                     <p:panelGrid columns="1">
                         <c:forEach items="#{publicoController.eventos}" var="evento">
-                            <p:commandButton ajax="false" value="#{evento.nome}" action="#{publicoController.selecionaEvento}"
-                                             >
+                            <p:commandButton ajax="false" value="#{evento.nome}" action="inscricao.xhtml">
                                 <f:setPropertyActionListener target="#{publicoController.evento}" value="#{evento}" />
                             </p:commandButton>
                         </c:forEach>

@@ -15,7 +15,7 @@
 
                 <p:panel>
                     <f:facet name="header">
-                        Inscricção na atividade
+                        Inscrição na atividade
                     </f:facet>
                     <p:tabView>
                         <p:tab title="Detalhes">
@@ -37,7 +37,7 @@
                                                 <p:outputLabel value="Valor Inscrição:" />
                                                 <p:outputLabel value="#{publicoController.atividade.valorInscricao}" />
                                                 <p:outputLabel value="" />
-                                                <p:commandButton rendered="#{empty publicoController.inscricaoItem}" value="Inscrever" onclick="msgSalvar.show()" />
+                                                <p:commandButton rendered="#{not empty publicoController.inscricao and empty publicoController.inscricaoItem}" value="Inscrever" onclick="msgSalvar.show()" />
                                                 <p:commandButton rendered="#{not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" onclick="msgCancelar.show()" />
                                             </c:when>                                        
                                             <c:otherwise>
@@ -68,7 +68,7 @@
                             </c:if> 
 
                     </p:tabView>
-                    <p:commandButton value="Voltar" action="#{publicoController.selecionaEvento}" />
+                    <p:commandButton value="Voltar" action="inscricao.xhtml" />
                     <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricaoItem}" message="Deseja se inscrever no evento?"  
                                  header="Confirmação" severity="alert" widgetVar="msgSalvar">  
                     <c:if test="#{not empty publicoController.atividade.questionario}">

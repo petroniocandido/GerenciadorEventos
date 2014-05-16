@@ -70,4 +70,18 @@ public class InscricaoDAO
         return super.Apagar(i);
     }
     
+    @Override
+    public boolean Salvar(InscricaoItem i){
+        Inscricao tmp = i.getInscricao();
+        tmp.add(i);
+        return Salvar(tmp);
+    }
+    
+    @Override
+    public boolean Apagar(InscricaoItem i){
+        Inscricao tmp = i.getInscricao();
+        tmp.remove(i);
+        return Salvar(tmp);
+    }
+    
 }

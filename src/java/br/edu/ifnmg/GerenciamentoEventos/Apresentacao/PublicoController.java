@@ -124,7 +124,7 @@ public class PublicoController extends ControllerBase implements Serializable {
             AtividadeTipo tipo = new AtividadeTipo();
             tipo.setPublico(true);
             filtro.setTipo(tipo);
-            filtro.setEvento(getEvento());
+            filtro.setEvento(evento);
             atividades = atividadeDAO.Buscar(filtro);
             return atividades;
 
@@ -143,10 +143,10 @@ public class PublicoController extends ControllerBase implements Serializable {
         return tmp;
     }
 
-    public Inscricao getInscricao() throws IOException {
+    public Inscricao getInscricao() {
         if (inscricao == null) {
-            if (getEvento() != null) {
-                inscricao = inscricaoDAO.Abrir(getEvento(), getUsuarioCorrente());
+            if (evento != null) {
+                inscricao = inscricaoDAO.Abrir(evento, getUsuarioCorrente());
                 return inscricao;
             } else {
                 return null;
@@ -175,19 +175,11 @@ public class PublicoController extends ControllerBase implements Serializable {
         this.atividade = atividade;
     }
 
-    public String selecionaEvento() {
-        return "inscricao.xhtml";
-    }
-
-    public String selecionaAtividade() {
-        return "inscricaoAtividade.xhtml";
-    }
-
     public void inscreverEvento() throws IOException {
         inscricao = inscricaoservice.inscrever(evento, getUsuarioCorrente());
 
         if (inscricao != null) {
-            processaQuestionarioEvento();
+            processaQuestionarioEvento(inscricao);
         }
     }
 
@@ -203,28 +195,36 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public InscricaoItem getInscricaoItem() {
-        return inscricao.getItem(atividade);
+        if (inscricao != null) {
+            return inscricao.getItem(atividade);
+        } else {
+            return null;
+        }
     }
 
     public void inscreverAtividade() throws IOException {
         inscricao = inscricaoDAO.Refresh(inscricao);
         inscricaoItem = inscricaoservice.inscrever(inscricao, atividade, getUsuarioCorrente());
         if (inscricaoItem != null) {
-            processaQuestionarioAtividade();
+            processaQuestionarioAtividade(inscricao, inscricaoItem);
         }
     }
 
     public String cancelarInscricaoAtividade() {
         inscricao = inscricaoDAO.Refresh(inscricao);
-        inscricaoservice.cancelar(inscricaoItem);
-        inscricaoItem = null;
-        return "inscricaoAtividade.xhtml";
+        if (inscricaoservice.cancelar(getInscricaoItem())) {
+            inscricaoItem = null;
+            return "inscricao.xhtml";
+        } else {
+            Mensagem("ERRO", "Falha ao cancelar a inscrição! Entre em contato com o administrador!");
+            AppendLog("Falha ao cancelar a inscrição");
+            return "";
+        }
     }
 
     public void processaQuestionario(Inscricao i, Questionario qr) {
 
-        i = inscricaoDAO.Refresh(i);
-
+        //i = inscricaoDAO.Refresh(i);
         QuestionarioResposta resposta = i.getResposta();
 
         if (resposta == null) {
@@ -256,9 +256,11 @@ public class PublicoController extends ControllerBase implements Serializable {
                 Questao q = questionarioDAO.AbrirQuestao(id);
                 QuestaoResposta r = resposta.RespostaDeQuestao(q);
                 String valor = req.get(key);
-                
-                if (r == null) r = new QuestaoResposta();
-                
+
+                if (r == null) {
+                    r = new QuestaoResposta();
+                }
+
                 r.setQuestao(q);
                 r.setValor(valor);
                 Rastrear(r);
@@ -276,16 +278,20 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     }
 
+    public void processaQuestionarioEvento(Inscricao i) {
+        processaQuestionario(i, i.getEvento().getQuestionario());
+    }
+
     public void processaQuestionarioEvento() {
-        inscricao = inscricaoDAO.Refresh(inscricao);
-        processaQuestionario(inscricao, inscricao.getEvento().getQuestionario());        
+        processaQuestionario(getInscricao(), getInscricao().getEvento().getQuestionario());
+    }
+
+    public void processaQuestionarioAtividade(Inscricao i, InscricaoItem it) {
+        processaQuestionario(it, it.getAtividade().getQuestionario());
     }
 
     public void processaQuestionarioAtividade() {
-        inscricao = inscricaoDAO.Refresh(inscricao);
-        inscricaoItem = inscricao.getItem(atividade);
         processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
-        
     }
 
     public void arquivoFileUpload(FileUploadEvent evt) {
@@ -296,16 +302,17 @@ public class PublicoController extends ControllerBase implements Serializable {
             String key = evt.getComponent().getClientId();
 
             boolean item = key.contains("item-");
-            
-            Inscricao i = item ? getInscricaoItem(): inscricao;
-            
-            if(i == null){
-                if(item)
+
+            Inscricao i = item ? getInscricaoItem() : inscricao;
+
+            if (i == null) {
+                if (item) {
                     inscreverAtividade();
-                else 
+                } else {
                     inscreverEvento();
-                
-                i = item ? inscricaoItem: inscricao;
+                }
+
+                i = item ? inscricaoItem : inscricao;
             }
 
             QuestionarioResposta resposta = i.getResposta();
@@ -325,8 +332,8 @@ public class PublicoController extends ControllerBase implements Serializable {
             Long id = Long.parseLong(idQuestao);
             Questao q = questionarioDAO.AbrirQuestao(id);
             QuestaoResposta r = resposta.RespostaDeQuestao(q);
-            
-            if(r == null){
+
+            if (r == null) {
                 r = new QuestaoResposta();
                 r.setQuestao(q);
             }

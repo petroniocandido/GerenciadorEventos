@@ -63,7 +63,7 @@
                             </p:panelGrid>
                         </p:tab>
                         <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
-                            <c:if test="#{not empty publicoController.evento.questionario}">
+                            <c:if test="#{not empty publicoController.evento.questionario and not empty publicoController.inscricao}">
                                 <p:tab title="Dados da Inscrição">
                                     <p:tabView>
                                         <ui:include src="../comum/questionario.xhtml">
@@ -118,7 +118,7 @@
                                                         </c:choose>
                                                     </p:column>
                                                     <p:column>
-                                                        <p:commandButton value="Detalhes..." action="#{publicoController.selecionaAtividade}">
+                                                        <p:commandButton value="Detalhes..." action="inscricaoAtividade.xhtml">
                                                             <f:setPropertyActionListener target="#{publicoController.atividade}" value="#{atividade}" />
                                                         </p:commandButton>
                                                     </p:column>
