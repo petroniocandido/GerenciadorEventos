@@ -58,7 +58,7 @@ public class AutenticacaoController
             AppendLog("Login");
             Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());
         } else {
-            Mensagem("Falha", "Login ou senha não correspondem");
+            MensagemErro("Falha", "Login ou senha não correspondem");
         }
 
     }
@@ -145,7 +145,12 @@ public class AutenticacaoController
     }
 
     public void novasenha() {
-        autenticacao.redefinirSenha(login);
+        if(autenticacao.redefinirSenha(login)){
+            Mensagem("Sucesso!", "Foi enviado para o seu e-mail uma nova senha!");
+        } else {
+            MensagemErro("Falha!", "Houve um problema ao enviar o e-mail com a nova senha! "
+                    + "Consulte o administrador do sistema ou tente novamente em alguns instantes.");
+        }
     }
 
     public void validaCPF(FacesContext context, UIComponent component, Object value) throws ValidatorException {

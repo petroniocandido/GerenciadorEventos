@@ -17,7 +17,7 @@
                     <p:inputText value="#{autenticacaoController.login}"  />
                         
                     <f:facet name="footer">
-                        <p:commandButton value="Enviar nova senha" action="#{autenticacaoController.novasenha()}" 
+                        <p:commandButton value="Enviar nova senha" ajax="false" action="#{autenticacaoController.novasenha()}" 
                                          onsuccess="msgCadastro.show()"/>
                     </f:facet>
                 </p:panelGrid>

@@ -45,6 +45,34 @@
                                 <p:selectBooleanCheckbox value="#{inscricaoController.entidade.pago}" />
                                 <h:outputText value="Compareceu?: " />
                                 <p:selectBooleanCheckbox value="#{inscricaoController.entidade.compareceu}" />
+
+                                <c:if test="#{inscricaoController.entidade.resposta ne null}">
+                                    <h:outputText value="Respostas: " />
+                                    <p:dataTable value="#{inscricaoController.entidade.resposta.respostas}" var="item">                                                
+                                        <p:column sortBy="#{item.questao.secao.ordem}"> 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Seção"/> 
+                                            </f:facet> 
+                                            #{item.questao.secao.nome}
+                                        </p:column>
+                                        <p:column sortBy="#{item.questao.ordem}"> 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Questão"/> 
+                                            </f:facet> 
+                                            #{item.questao.enunciado}
+                                        </p:column>                                     
+                                        <p:column > 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Resposta"/> 
+                                            </f:facet>
+                                            <c:if test="#{item.questao.tipo eq 'Arquivo'}">
+                                                <a href="../arquivos/#{item.arquivo.uri}" target="_blank">#{item.arquivo.nome}</a>
+                                            </c:if>
+                                            #{item.valor}
+                                        </p:column>                            
+                                    </p:dataTable>
+                                </c:if>
+
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab rendered="#{inscricaoController.entidade.id gt 0}" title="Itens">
