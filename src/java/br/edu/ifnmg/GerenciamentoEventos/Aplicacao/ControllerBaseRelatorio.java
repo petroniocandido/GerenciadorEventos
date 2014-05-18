@@ -63,10 +63,11 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
         InputStream reportStream = null;
         try {
             reportStream = getClass().getResourceAsStream(relatorio);
-            JasperReport report = JasperCompileManager.compileReport(reportStream);
+            //JasperReport report = JasperCompileManager.compileReport(reportStream);
 
             JRDataSource ds = new JRBeanCollectionDataSource(getDados(), true);
-            JasperPrint jasperPrint = JasperFillManager.fillReport(report, carregaParametros(), ds);
+            //JasperPrint jasperPrint = JasperFillManager.fillReport(report, carregaParametros(), ds);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, carregaParametros(), ds);
 
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + getArquivoSaida() + ".pdf");

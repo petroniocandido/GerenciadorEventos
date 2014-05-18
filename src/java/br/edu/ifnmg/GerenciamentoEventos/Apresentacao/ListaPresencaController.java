@@ -39,7 +39,7 @@ public class ListaPresencaController
      */
     public ListaPresencaController() {
         setArquivoSaida("ListaPresencaAtividade");
-        setRelatorio("Relatorios/ListaPresencaAtividade.jrxml");
+        setRelatorio("Relatorios/ListaPresencaAtividade.jasper");
     }
     
     @EJB

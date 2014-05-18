@@ -15,17 +15,14 @@
                     </f:facet>
                     <p:outputLabel value="E-mail: " />
                     <p:inputText value="#{autenticacaoController.login}"  />
-                        
+
                     <f:facet name="footer">
                         <p:commandButton value="Enviar nova senha" ajax="false" action="#{autenticacaoController.novasenha()}" 
-                                         onsuccess="msgCadastro.show()"/>
+                                         />
+                        <p:commandButton value="Voltar para o login" action="login.xhtml" />
                     </f:facet>
                 </p:panelGrid>
-                <p:confirmDialog id="confirmaSalvar" message="Uma nova senha de acesso foi enviada para o e-mail cadastrado!"  
-                                 header="Confirmação" severity="alert" widgetVar="msgCadastro">  
-                    <p:commandButton ajax="false" id="simSalvar" value="Voltar para a tela de login" action="login.xhtml"  />  
-                </p:confirmDialog> 
-
+                 
             </ui:define>
 
         </ui:composition>

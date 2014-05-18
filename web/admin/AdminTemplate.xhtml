@@ -14,7 +14,7 @@
 
     <h:body>
 
-        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >            
             <p:panelGrid> 
                 <p:row>
                     <p:column>
@@ -26,7 +26,6 @@
                         <p:commandLink style="float: right" ajax="false" value="Editar" action="editarDadosPessoais.xhtml" />
                     </p:column>
                 </p:row>
-
             </p:panelGrid>
             <p:menubar>
                 <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/index.xhtml')}" value="Home"  url="index.xhtml" />
@@ -69,8 +68,15 @@
 
                 <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
-            <p:growl showDetail="true" sticky="true"  life="60" />
+            <p:growl showDetail="true" id="messages" sticky="true"  life="60" />
+            <p:idleMonitor timeout="300000">
+                <p:ajax event="idle" listener="#{autenticacaoController.idleListener()}" oncomplete="msgIdle.show();" update="messages" />
+            </p:idleMonitor>
             <ui:insert name="content">Content</ui:insert>
+            <p:confirmDialog id="confirmaSalvar" message="Sua sessão ficou ociosa por mais de 5 minutos e você foi desconectado automaticamente. Por favor efetue login novamente."  
+                             header="Aviso" severity="alert" widgetVar="msgIdle">  
+                <p:commandButton ajax="false" id="simSalvar" value="Login" action="login.xhtml"  />  
+            </p:confirmDialog>
         </h:form>
 
         <div id="bottom" style="float: bottom">

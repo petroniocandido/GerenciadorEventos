@@ -65,12 +65,21 @@
                                         <p:outputLabel value="Não é necessário se inscrever para participar desse evento!" style="background-color: greenyellow" />
                                     </c:otherwise>
                                 </c:choose>
-                                <c:if test="#{not empty publicoController.inscricao}">
+                                <c:when test="#{not empty publicoController.inscricao}">
                                     <p:outputLabel value="" />
-                                    <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoController.executaRelatorioPDF()}">
-                                        <f:setPropertyActionListener target="#{comprovanteInscricaoController.inscricao}" value="#{publicoController.inscricao}" />
-                                    </p:commandButton>
-                                </c:if>
+                                    <c:choose>
+                                        <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
+                                            <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoController.executaRelatorioPDF()}">
+                                                <f:setPropertyActionListener target="#{comprovanteInscricaoController.inscricao}" value="#{publicoController.inscricao}" />
+                                            </p:commandButton>   
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoEventoController.executaRelatorioPDF()}">
+                                                <f:setPropertyActionListener target="#{comprovanteInscricaoEventoController.inscricao}" value="#{publicoController.inscricao}" />
+                                            </p:commandButton>   
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when>
 
                             </p:panelGrid>
                         </p:tab>
