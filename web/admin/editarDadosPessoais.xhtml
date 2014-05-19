@@ -21,10 +21,10 @@
                     </ui:include>
                     <f:facet name="footer">
                         <p:commandButton id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();" />
-                        <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
+                        <p:confirmDialog message="Deseja realmente salvar as alterações?"  
                                          header="Confirmação" severity="alert" widgetVar="msgSalvar">  
-                            <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{autenticacaoController.salvar}" />  
-                            <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
+                            <p:commandButton ajax="false" value="SIM" action="#{autenticacaoController.salvar}" />  
+                            <p:commandButton value="NÃO" onclick="msgSalvar.hide();" type="button" />   
                         </p:confirmDialog>
                     </f:facet>
 

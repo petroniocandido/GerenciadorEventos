@@ -73,9 +73,9 @@
                 <p:ajax event="idle" listener="#{autenticacaoController.idleListener()}" oncomplete="msgIdle.show();" update="messages" />
             </p:idleMonitor>
             <ui:insert name="content">Content</ui:insert>
-            <p:confirmDialog id="confirmaSalvar" message="Sua sessão ficou ociosa por mais de 5 minutos e você foi desconectado automaticamente. Por favor efetue login novamente."  
+            <p:confirmDialog message="Sua sessão ficou ociosa por mais de 5 minutos e você foi desconectado automaticamente. Por favor efetue login novamente."  
                              header="Aviso" severity="alert" widgetVar="msgIdle">  
-                <p:commandButton ajax="false" id="simSalvar" value="Login" action="login.xhtml"  />  
+                <p:commandButton ajax="false" value="Login" action="login.xhtml"  />  
             </p:confirmDialog>
         </h:form>
 
