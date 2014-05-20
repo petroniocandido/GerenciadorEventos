@@ -57,10 +57,12 @@ public class ListaPresencaEventoController
 
     @Override
     public List<Inscricao> getDados() {
-        Inscricao i = new Inscricao();
-        i.setEvento(getEvento());
-        
-        List<Inscricao> tmp = daoInscricao.Buscar(i);
+                
+        List<Inscricao> tmp = daoInscricao
+                .IgualA("evento", getEvento())
+                .Join("pessoa", "p")
+                .Ordenar("p.nome", "ASC")
+                .Buscar();
         
         return tmp;
     }

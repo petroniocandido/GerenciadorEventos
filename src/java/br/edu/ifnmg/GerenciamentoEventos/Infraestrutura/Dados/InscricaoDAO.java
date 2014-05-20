@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -83,6 +84,11 @@ public class InscricaoDAO
         Inscricao tmp = i.getInscricao();
         tmp.remove(i);
         return Salvar(tmp);
+    }
+
+    @Override
+    public Repositorio<InscricaoItem> getRepositorioItem() {
+        return itemDAO;
     }
     
 }

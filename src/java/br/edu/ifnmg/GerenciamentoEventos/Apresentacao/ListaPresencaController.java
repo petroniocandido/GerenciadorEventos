@@ -67,7 +67,11 @@ public class ListaPresencaController
     public List<InscricaoItem> getDados() {
         InscricaoItem i = new InscricaoItem();
         i.setAtividade(atividade);
-        return daoInscricao.Buscar(i);
+        return daoInscricao.getRepositorioItem()
+                .IgualA("atividade", atividade)
+                .Join("pessoa", "p")
+                .Ordenar("p.nome", "ASC")
+                .Buscar();
     }
 
     public Atividade getAtividade() {

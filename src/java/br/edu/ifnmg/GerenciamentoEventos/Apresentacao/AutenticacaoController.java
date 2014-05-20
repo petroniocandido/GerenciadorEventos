@@ -171,4 +171,6 @@ public class AutenticacaoController
             throw new ValidatorException(msg);
         }
     }
+
+   
 }

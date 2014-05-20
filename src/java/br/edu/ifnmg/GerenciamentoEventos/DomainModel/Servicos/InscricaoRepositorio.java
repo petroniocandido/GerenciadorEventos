@@ -23,4 +23,5 @@ public interface InscricaoRepositorio extends Repositorio<Inscricao> {
     public List<InscricaoItem> Buscar(InscricaoItem filtro);
     public boolean Salvar(InscricaoItem i);
     public boolean Apagar(InscricaoItem i);
+    public Repositorio<InscricaoItem> getRepositorioItem();
 }

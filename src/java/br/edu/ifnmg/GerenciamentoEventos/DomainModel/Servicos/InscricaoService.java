@@ -158,6 +158,7 @@ public class InscricaoService {
         it.setAtividade(e);
         it.setInscricao(i);
         it.setEvento(i.getEvento());
+        it.setPessoa(p);
         it.setCriador(p);
         it.setDataCriacao(new Date());
         it.setDataInscricao(new Date());
