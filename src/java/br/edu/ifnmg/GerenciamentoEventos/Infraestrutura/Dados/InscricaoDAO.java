@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -43,6 +44,7 @@ public class InscricaoDAO
                 .Buscar();
     }
     
+    @Override
     public List<InscricaoItem> Buscar(InscricaoItem filtro) {
         return itemDAO.IgualA("id", filtro.getId())
                 .IgualA("pessoa", filtro.getPessoa())
@@ -68,6 +70,25 @@ public class InscricaoDAO
         for(Arquivo a : i.getArquivos())
             i.remove(a);*/
         return super.Apagar(i);
+    }
+    
+    @Override
+    public boolean Salvar(InscricaoItem i){
+        Inscricao tmp = i.getInscricao();
+        tmp.add(i);
+        return Salvar(tmp);
+    }
+    
+    @Override
+    public boolean Apagar(InscricaoItem i){
+        Inscricao tmp = i.getInscricao();
+        tmp.remove(i);
+        return Salvar(tmp);
+    }
+
+    @Override
+    public Repositorio<InscricaoItem> getRepositorioItem() {
+        return itemDAO;
     }
     
 }

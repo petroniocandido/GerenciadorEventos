@@ -61,37 +61,44 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
          manager.setFlushMode(FlushModeType.COMMIT);
      }
     
-    protected DAOGenerico<T> Join(String campo, String alias) {
+    @Override
+    public Repositorio<T> Join(String campo, String alias) {
         join.put(campo, alias);
         return this;
     }
      
-    protected DAOGenerico<T> IgualA(String campo, Object valor) {
+    @Override
+    public Repositorio<T> IgualA(String campo, Object valor) {
         addOp(campo,"=",valor);
         return this;
     }
-
-    protected DAOGenerico<T> DiferenteDe(String campo, Object valor) {
+ 
+    @Override
+    public Repositorio<T> DiferenteDe(String campo, Object valor) {
         addOp(campo,"<>",valor);
         return this;
     }
-
-    protected DAOGenerico<T> MaiorQue(String campo, Object valor) {
+ 
+    @Override
+    public Repositorio<T> MaiorQue(String campo, Object valor) {
         addOp(campo,">",valor);
         return this;
     }
-
-    protected DAOGenerico<T> MaiorOuIgualA(String campo, Object valor) {
+ 
+    @Override
+    public Repositorio<T> MaiorOuIgualA(String campo, Object valor) {
         addOp(campo,">=",valor);
         return this;
     }
-
-    protected DAOGenerico<T> MenorQue(String campo, Object valor) {
+ 
+    @Override
+    public Repositorio<T> MenorQue(String campo, Object valor) {
         addOp(campo,"<",valor);
         return this;
     }
-
-    protected DAOGenerico<T> MenorOuIgualA(String campo, Object valor) {
+ 
+    @Override
+    public Repositorio<T> MenorOuIgualA(String campo, Object valor) {
         addOp(campo,"<=",valor);
         return this;
     }
@@ -111,34 +118,37 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     private void addSpecialOp(String campo, String op){
         addSpecialOp(where, campo, op);
     }
-
-    protected DAOGenerico<T> Like(String campo, String valor) {
+ 
+    @Override
+    public Repositorio<T> Like(String campo, String valor) {
         if(valor == null || valor.toString().length() == 0)
             return this;
         addSpecialOp(campo,"like '%"+valor+"%'");
         return this;
     }
-    
-    
-    protected DAOGenerico<T> ENulo(String campo) {
+     
+    @Override
+    public Repositorio<T> ENulo(String campo) {
         addSpecialOp(campo, "is null");
         return this;
     }
-
-    
-    protected DAOGenerico<T> NaoENulo(String campo) {
+ 
+    @Override
+    public Repositorio<T> NaoENulo(String campo) {
         addSpecialOp(campo, "is null");
         return this;
     }
-    
-    protected DAOGenerico<T> Ordenar(String campo, String sentido) {
+     
+    @Override
+    public Repositorio<T> Ordenar(String campo, String sentido) {
         if(order.length() > 0)
             order.append(",");
         order.append("o.").append(campo).append(" ").append(sentido);
         return this;
     }
-
-    protected DAOGenerico<T> Setar(String campo, Object valor) {
+ 
+    @Override
+    public Repositorio<T> Setar(String campo, Object valor) {
         int key = params.size();
 
         if(update.length() > 0) {
@@ -151,8 +161,9 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         
         return this;
     }
-
-    protected boolean Atualiza() {
+ 
+    @Override
+    public boolean Atualiza() {
         try {
             StringBuilder sql = new StringBuilder("update ").append(tipo.getSimpleName()).append(" o set ").append(update.toString());
 
@@ -182,8 +193,9 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
             update = new StringBuilder();
         }
     }
-
-    protected boolean Apaga() {
+ 
+    @Override
+    public boolean Apaga() {
         try {
             StringBuilder sql = new StringBuilder("delete from ").append(tipo.getSimpleName()).append(" o ");
 
@@ -256,8 +268,9 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
             order = new StringBuilder();
         }
     }
-    
-    protected T Abrir() {
+     
+    @Override
+    public T Abrir() {
         try {
             return (T)processQuery().getSingleResult();
         }
@@ -266,7 +279,8 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
             return null;
         }
     }
-    
+     
+    @Override
     public List<T> Buscar() {
         try {
             return processQuery().getResultList();

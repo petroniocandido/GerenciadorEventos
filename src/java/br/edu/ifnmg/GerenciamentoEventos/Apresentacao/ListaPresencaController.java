@@ -39,7 +39,7 @@ public class ListaPresencaController
      */
     public ListaPresencaController() {
         setArquivoSaida("ListaPresencaAtividade");
-        setRelatorio("Relatorios/ListaPresencaAtividade.jrxml");
+        setRelatorio("Relatorios/ListaPresencaAtividade.jasper");
     }
     
     @EJB
@@ -67,7 +67,11 @@ public class ListaPresencaController
     public List<InscricaoItem> getDados() {
         InscricaoItem i = new InscricaoItem();
         i.setAtividade(atividade);
-        return daoInscricao.Buscar(i);
+        return daoInscricao.getRepositorioItem()
+                .IgualA("atividade", atividade)
+                .Join("pessoa", "p")
+                .Ordenar("p.nome", "ASC")
+                .Buscar();
     }
 
     public Atividade getAtividade() {

@@ -27,9 +27,12 @@ public class PessoaCSVImporter extends CSVImporter<Pessoa> {
         String colunas[] = linha.split(";");
         Pessoa obj = new Pessoa();
         obj.setNome(colunas[cabecalho.get("nome")]);
-        obj.setCpf(colunas[cabecalho.get("cpf")]);
-        obj.setEmail(colunas[cabecalho.get("email")]);
-        obj.setTelefone(colunas[cabecalho.get("telefone")]);
+        if(cabecalho.containsKey("cpf"))
+            obj.setCpf(colunas[cabecalho.get("cpf")]);
+        if(cabecalho.containsKey("email"))
+            obj.setEmail(colunas[cabecalho.get("email")]);
+        if(cabecalho.containsKey("telefone"))
+            obj.setTelefone(colunas[cabecalho.get("telefone")]);
         
         try {
             obj.setDataNascimento(df.parse(colunas[cabecalho.get("dataNascimento")]));

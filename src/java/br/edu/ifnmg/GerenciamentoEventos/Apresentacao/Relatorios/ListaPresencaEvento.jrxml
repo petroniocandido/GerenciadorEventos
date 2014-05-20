@@ -117,6 +117,20 @@
 				<reportElement x="488" y="0" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
 				<text><![CDATA[de]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Impressão:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="153" y="0" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 	<summary>

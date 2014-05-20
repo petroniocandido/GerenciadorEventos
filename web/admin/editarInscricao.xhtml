@@ -24,7 +24,7 @@
                                 <h:outputText value="#{inscricaoController.entidade.id}" />
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{inscricaoController.entidade.status}" 
-                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
                                     <f:selectItems value="#{inscricaoController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Evento: " />
@@ -45,6 +45,34 @@
                                 <p:selectBooleanCheckbox value="#{inscricaoController.entidade.pago}" />
                                 <h:outputText value="Compareceu?: " />
                                 <p:selectBooleanCheckbox value="#{inscricaoController.entidade.compareceu}" />
+
+                                <c:if test="#{inscricaoController.entidade.resposta ne null}">
+                                    <h:outputText value="Respostas: " />
+                                    <p:dataTable value="#{inscricaoController.entidade.resposta.respostas}" var="item">                                                
+                                        <p:column sortBy="#{item.questao.secao.ordem}"> 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Seção"/> 
+                                            </f:facet> 
+                                            #{item.questao.secao.nome}
+                                        </p:column>
+                                        <p:column sortBy="#{item.questao.ordem}"> 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Questão"/> 
+                                            </f:facet> 
+                                            #{item.questao.enunciado}
+                                        </p:column>                                     
+                                        <p:column > 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Resposta"/> 
+                                            </f:facet>
+                                            <c:if test="#{item.questao.tipo eq 'Arquivo'}">
+                                                <a href="../arquivos/#{item.arquivo.uri}" target="_blank">#{item.arquivo.nome}</a>
+                                            </c:if>
+                                            #{item.valor}
+                                        </p:column>                            
+                                    </p:dataTable>
+                                </c:if>
+
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab rendered="#{inscricaoController.entidade.id gt 0}" title="Itens">
@@ -61,14 +89,24 @@
                                 <c:forEach rendered="#{respostaController.editing}" items="#{inscricaoController.entidade.itens}" var="insc">
                                     <p:tab title="#{insc.atividade.nome}">
                                         <h:panelGrid columns="2" cellpadding="3">
+                                            <h:outputText value="Inscrição: " />
+                                            <h:outputText value="#{insc.id}" />
                                             <h:outputText value="Data inscrição: " />
-                                            <h:outputText value="#{insc.dataInscricao}" />
+                                            <h:outputText value="#{insc.dataInscricao}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy hh:m" />
+                                            </h:outputText>
                                             <h:outputText value="Pago?: " />
                                             <p:selectBooleanCheckbox value="#{insc.pago}" />
                                             <h:outputText value="Compareceu?: " />
                                             <p:selectBooleanCheckbox value="#{insc.compareceu}" />
+                                            <h:outputText value="Situação: " />
+                                            <h:selectOneMenu value="#{insc.status}" 
+                                                             required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                <f:selectItems value="#{inscricaoController.status}" />
+                                            </h:selectOneMenu>
 
                                             <c:if test="#{insc.resposta ne null}">
+                                                <h:outputText value="Respostas: " />
                                                 <p:dataTable value="#{insc.resposta.respostas}" var="item">                                                
                                                     <p:column sortBy="#{item.questao.secao.ordem}"> 
                                                         <f:facet name="header"> 
@@ -102,16 +140,16 @@
                                     </p:tab>
                                 </c:forEach>
                             </p:accordionPanel>
-                            
+
                         </p:tab>
-                        
+
                         <p:tab id="tabObservacoes" title="Observações">
                             <p:inputTextarea value="#{inscricaoController.entidade.observacoes}" cols="150" rows="20" />
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{inscricaoController}"  />
                         </ui:include>
-                        
+
                     </p:tabView>
                     <p:commandButton rendered="#{empty inscricaoController.entidade.lancamento}" value="Gerar Pagamento" action="#{inscricaoController.gerarLancamento()}" />
                     <ui:include src="./comum/botoesEntidade.xhtml">

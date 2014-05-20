@@ -21,4 +21,7 @@ import javax.ejb.Local;
 public interface InscricaoRepositorio extends Repositorio<Inscricao> {
     public Inscricao Abrir(Evento evt, Pessoa p);
     public List<InscricaoItem> Buscar(InscricaoItem filtro);
+    public boolean Salvar(InscricaoItem i);
+    public boolean Apagar(InscricaoItem i);
+    public Repositorio<InscricaoItem> getRepositorioItem();
 }

@@ -65,15 +65,20 @@ public class InscricaoService {
     }
     
     public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p){
+    
+        InscricaoItem tmp = i.getItem(e);
         
-        InscricaoItem tmp = new InscricaoItem();
+        if(tmp != null)
+            return tmp;
+        
+        tmp = new InscricaoItem();
         tmp.setAtividade(e);
         tmp.setPessoa(p);
         tmp.setInscricao(i);
         
         List<InscricaoItem> list = inscricaoDAO.Buscar(tmp);
         if(list.size() > 0)
-            return list.get(0);
+            return list.get(list.size() - 1);
         
         if(!e.isPeriodoInscricaoAberto())
             return null;
@@ -113,8 +118,7 @@ public class InscricaoService {
     }
     
      public boolean cancelar(InscricaoItem i){
-        i.getInscricao().remove(i);
-        if(inscricaoDAO.Salvar(i.getInscricao())){
+        if(inscricaoDAO.Apagar(i)){
             Controle c = controleDAO.Abrir(i.getAtividade());
             if(i.getCategoria() == InscricaoCategoria.Normal)
                 c.setQuantidadeGeral(c.getQuantidadeGeral() - 1);
@@ -154,6 +158,7 @@ public class InscricaoService {
         it.setAtividade(e);
         it.setInscricao(i);
         it.setEvento(i.getEvento());
+        it.setPessoa(p);
         it.setCriador(p);
         it.setDataCriacao(new Date());
         it.setDataInscricao(new Date());

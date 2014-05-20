@@ -12,9 +12,12 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutorizacaoService
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
@@ -58,18 +61,21 @@ public class AutenticacaoController
             AppendLog("Login");
             Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());
         } else {
-            Mensagem("Falha", "Login ou senha não correspondem");
+            MensagemErro("Falha", "Login ou senha não correspondem");
         }
 
     }
 
-    public String logout() {
+    public void logout() throws IOException {
 
         AppendLog("Logout");
 
         autenticacao.logout();
-
-        return "login.xhtml";
+        FacesContext.getCurrentInstance().getExternalContext()
+                .invalidateSession();
+        FacesContext.getCurrentInstance().getExternalContext()
+                .redirect("../login.xhtml");
+        
 
     }
 
@@ -145,7 +151,16 @@ public class AutenticacaoController
     }
 
     public void novasenha() {
-        autenticacao.redefinirSenha(login);
+        if (autenticacao.redefinirSenha(login)) {
+            Mensagem("Sucesso!", "Foi enviado para o seu e-mail uma nova senha! ");
+        } else {
+            MensagemErro("Falha!", "Houve um problema ao enviar o e-mail com a nova senha! "
+                    + "Consulte o administrador do sistema ou tente novamente em alguns instantes.");
+        }
+    }
+
+    public void idleListener() {
+        autenticacao.logout();        
     }
 
     public void validaCPF(FacesContext context, UIComponent component, Object value) throws ValidatorException {
@@ -156,4 +171,6 @@ public class AutenticacaoController
             throw new ValidatorException(msg);
         }
     }
+
+   
 }
