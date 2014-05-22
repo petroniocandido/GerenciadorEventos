@@ -68,10 +68,7 @@ public class Atividade implements Entidade, Serializable {
     
     @Column(nullable = true)
     private boolean necessitaInscricao;
-    
-    @Column(nullable = true)
-    private boolean inscricaoColetiva;
-    
+        
     @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal valorInscricao;
     
@@ -147,6 +144,8 @@ public class Atividade implements Entidade, Serializable {
     }
 
     public boolean isPeriodoInscricaoAberto() {
+        if(!necessitaInscricao)
+            return false;
         if(status == Status.Cancelado && status == Status.Concluido)
             return false;
         Date hoje = new Date();
@@ -169,7 +168,7 @@ public class Atividade implements Entidade, Serializable {
     }
     
     public boolean isInscricaoAberto() {
-        return isPeriodoInscricaoAberto() && (isVagasAberto() || isListaEsperaAberto());
+        return  necessitaInscricao && isPeriodoInscricaoAberto() && (isVagasAberto() || isListaEsperaAberto());
     }
     
     public void add(Pessoa responsavel){
@@ -263,14 +262,6 @@ public class Atividade implements Entidade, Serializable {
 
     public void setNecessitaInscricao(boolean necessitaInscricao) {
         this.necessitaInscricao = necessitaInscricao;
-    }
-
-    public boolean isInscricaoColetiva() {
-        return inscricaoColetiva;
-    }
-
-    public void setInscricaoColetiva(boolean inscricaoColetiva) {
-        this.inscricaoColetiva = inscricaoColetiva;
     }
 
     public BigDecimal getValorInscricao() {

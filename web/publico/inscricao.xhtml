@@ -36,7 +36,7 @@
                                                 <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
                                                 <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
                                                 <p:outputLabel value="Valor Inscrição:" />
-                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao > 0}" value="#{publicoController.evento.valorInscricao}" />
+                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao gt 0}" value="#{publicoController.evento.valorInscricao}" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />
 
                                                 <c:if test="#{not empty publicoController.inscricao}">
@@ -61,7 +61,7 @@
                             </p:panelGrid>
                             <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />
                             <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
-                            <c:when test="#{not empty publicoController.inscricao}">
+                            <c:if test="#{not empty publicoController.inscricao}">
                                 <c:choose>
                                     <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
                                         <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoController.executaRelatorioPDF()}">
@@ -74,7 +74,7 @@
                                         </p:commandButton>   
                                     </c:otherwise>
                                 </c:choose>
-                            </c:when>
+                            </c:if>
                         </p:tab>
                         <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
                             <c:if test="#{not empty publicoController.evento.questionario and not empty publicoController.inscricao}">

@@ -35,26 +35,11 @@
                                                 <p:outputLabel rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
                                                 <p:outputLabel rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
                                                 <p:outputLabel value="Valor Inscrição:" />
-                                                <p:outputLabel value="#{publicoController.atividade.valorInscricao}" />
-                                                <c:if test="#{not empty publicoController.inscricao and empty publicoController.inscricaoItem}">
-                                                    <p:outputLabel value="" />
-                                                    <p:commandButton value="Inscrever" onclick="msgSalvar.show()" />
-                                                </c:if>
-                                                <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem}">
-                                                    <h:outputText value="Inscrição: " />
-                                                    <h:outputText value="#{publicoController.inscricaoItem.id}" />
-                                                    <p:outputLabel value="" />
-                                                    <p:commandButton value="Cancelar Inscrição" onclick="msgCancelar.show()" />
-                                                </c:if>
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao > 0}" value="#{publicoController.atividade.valorInscricao}" />
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao eq 0 or empty publicoController.atividade.valorInscricao}" value="Inscrição Gratuita." />
                                             </c:when>                                        
                                             <c:otherwise>
                                                 <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
-                                                <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem}">
-                                                    <h:outputText value="Inscrição: " />
-                                                    <h:outputText value="#{publicoController.inscricaoItem.id}" />
-                                                    <p:outputLabel value="" />
-                                                    <p:commandButton value="Cancelar Inscrição" onclick="msgCancelar.show()" />
-                                                </c:if>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
@@ -62,7 +47,14 @@
                                         <p:outputLabel value="Não é necessário se inscrever para participar desse evento!" style="background-color: greenyellow" />
                                     </c:otherwise>
                                 </c:choose>
+                                <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem}">
+                                    <h:outputText value="Nº Inscrição: " />
+                                    <h:outputText value="#{publicoController.inscricaoItem.id}" />
+                                </c:if>
+
                             </p:panelGrid>
+                            <p:commandButton rendered="#{publicoController.atividade.inscricaoAberto and not empty publicoController.inscricao and empty publicoController.inscricaoItem}" value="Inscrever" onclick="msgSalvar.show()" />
+                            <p:commandButton rendered="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" onclick="msgCancelar.show()" />
                         </p:tab>
                         <c:if test="#{not empty publicoController.atividade.questionario and not empty publicoController.inscricaoItem}">
                             <p:tab title="Dados da Inscrição">
