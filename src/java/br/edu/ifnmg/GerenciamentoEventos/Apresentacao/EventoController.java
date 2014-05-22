@@ -12,11 +12,10 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -40,7 +39,15 @@ public class EventoController
     @EJB
     EventoRepositorio dao;
     
-    
+    UploadedFile arquivo;
+
+    public UploadedFile getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(UploadedFile arquivo) {
+        this.arquivo = arquivo;
+    }
         
     @PostConstruct
     public void init() {
@@ -99,9 +106,9 @@ public class EventoController
         Mensagem("Sucesso", "Configuração do usuário alterada com êxito!");
     }
     
-    public void logoFileUpload(FileUploadEvent event) {  
+    public void logoFileUpload() {  
         entidade = dao.Refresh(entidade);
-        entidade.setLogo(criaArquivo(event.getFile()));
+        entidade.setLogo(criaArquivo(arquivo));
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
@@ -112,9 +119,9 @@ public class EventoController
         
     }
     
-    public void bannerFileUpload(FileUploadEvent event) {  
+    public void bannerFileUpload() {  
         entidade = dao.Refresh(entidade);
-        entidade.setBanner(criaArquivo(event.getFile()));
+        entidade.setBanner(criaArquivo(arquivo));
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             AppendLog("Anexou o arquivo " + entidade.getBanner()+ " ao evento " + entidade);

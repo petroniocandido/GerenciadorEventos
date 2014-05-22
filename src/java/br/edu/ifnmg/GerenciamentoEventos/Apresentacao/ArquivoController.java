@@ -11,11 +11,10 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -39,6 +38,16 @@ public class ArquivoController
     
     @EJB
     ArquivoRepositorio dao;
+    
+    UploadedFile arquivo;
+
+    public UploadedFile getArquivo() {
+        return arquivo;
+    }
+
+    public void setArquivo(UploadedFile arquivo) {
+        this.arquivo = arquivo;
+    }
     
     
     @PostConstruct
@@ -95,8 +104,8 @@ public class ArquivoController
 
     
     
-    public void arquivoFileUpload(FileUploadEvent event) {  
-        entidade = criaArquivo(event.getFile());
+    public void arquivoFileUpload() {  
+        entidade = criaArquivo(arquivo);
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             
