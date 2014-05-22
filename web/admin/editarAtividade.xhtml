@@ -23,7 +23,7 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Evento: " />
                                 <p:autoComplete converter="#{eventoConverter}" value="#{atividadeController.entidade.evento}"
-                                                completeMethod="#{eventoController.autoCompleteEvento}" var="item"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}"
                                                 required="true" requiredMessage="A campo Evento é de preenchimento obrigatório!">
                                     #{item.nome}
@@ -72,7 +72,8 @@
                                 <h:outputText value="Término do período de inscrições: " />
                                 <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Formulário de Inscrição: " />
-                                <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  
+                                <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50" id="customPojo3" 
+                                                completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
                                                 var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  
                                     <p:column>  
                                         #{p.titulo}  
@@ -84,7 +85,7 @@
                             <h:panelGrid columns="3" cellpadding="3"> 
                                 <h:outputText value="Responsável: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{atividadeController.responsavel}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
@@ -116,7 +117,7 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Recurso: " />
                                 <p:autoComplete converter="#{recursoConverter}" value="#{atividadeController.alocacao.recurso}"
-                                                completeMethod="#{recursoController.autoCompleteRecurso}" var="item"
+                                                completeMethod="#{recursoConverter.autoCompleteRecurso}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     <p:column headerText="Recurso"  >
                                         #{item.nome}                            
@@ -127,7 +128,7 @@
                                 </p:autoComplete>
                                 <h:outputText value="Responsável: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{atividadeController.alocacao.responsavel}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
@@ -147,7 +148,7 @@
                                 </p:column>
                                 <p:column headerText="Status" >
                                     <h:selectOneMenu value="#{item.status}"  >
-                                        <f:selectItems value="#{recursoController.status}" />
+                                        <f:selectItems value="#{atividadeController.statusAlocacao}" />
                                     </h:selectOneMenu>
                                 </p:column>
                                 <p:column >

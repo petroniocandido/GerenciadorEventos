@@ -25,6 +25,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -39,6 +41,10 @@ import javax.persistence.Version;
 @Cacheable
 @Entity
 @Table(name = "atividades")
+@NamedQueries({
+    @NamedQuery(name = "atividades.porTipoEvento", query = "SELECT a FROM Atividade a where a.tipo = :tipo and a.evento = :evento order by a.inicio, a.termino"),
+    @NamedQuery(name = "atividades.ativasUsuario", query = "SELECT a FROM Atividade a join a.responsaveis r where r.id = :idUsuario and a.termino <= :termino and a.status <> :cancelado and a.status <> :concluido")
+    })
 public class Atividade implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id

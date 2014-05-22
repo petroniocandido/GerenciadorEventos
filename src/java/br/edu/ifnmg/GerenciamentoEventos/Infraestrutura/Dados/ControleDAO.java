@@ -11,6 +11,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.ejb.Stateless;
+import javax.persistence.LockModeType;
 
 /**
  *
@@ -42,6 +43,11 @@ public class ControleDAO
     @Override
     public Controle Abrir(Atividade a) {
         return IgualA("atividade", a).Abrir();
+    }
+    
+    public boolean Alterar(Controle obj){
+        getManager().lock(obj, LockModeType.WRITE);
+        return Salvar(obj);
     }
 
 }

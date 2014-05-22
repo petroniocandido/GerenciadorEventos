@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author petronio
  */
 @Named(value = "csvExporterController")
-@SessionScoped
+@RequestScoped
 public class csvExporterController
         extends ControllerBase
         implements Serializable {

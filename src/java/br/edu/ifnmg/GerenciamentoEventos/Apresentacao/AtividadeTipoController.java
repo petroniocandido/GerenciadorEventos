@@ -44,16 +44,8 @@ public class AtividadeTipoController
         setRepositorio(dao);
     }
 
-    public List<AtividadeTipo> autoCompleteAtividadeTipo(String query) {
-        AtividadeTipo i = new AtividadeTipo();
-        i.setNome(query);
-        return dao.BuscarTipo(i);
-    }
+   
 
-    @Override
-    public void filtrar() {
-        listagem = dao.BuscarTipo(filtro);
-    }
 
     @Override
     public void salvar() {
@@ -104,21 +96,11 @@ public class AtividadeTipoController
         return "editarAtividadeTipo.xhtml";
     }
 
-    @Override
-    public List<AtividadeTipo> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<AtividadeTipo> listagem) {
-        this.listagem = listagem;
-    }
+    
     
     @Override
     public GenericDataModel getDataModel(){
-        AtividadeTipoDataModel dm = new AtividadeTipoDataModel(getListagem(),null);
+        AtividadeTipoDataModel dm = new AtividadeTipoDataModel(dao.BuscarTipo(filtro),null);
         dm.setAtividadeRepositorio(dao);
         return dm;
     }

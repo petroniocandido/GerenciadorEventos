@@ -10,11 +10,12 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoService;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 @Stateless
-public class ConfiguracaoServiceImpl implements ConfiguracaoService {
+public class ConfiguracaoServiceImpl implements ConfiguracaoService, Serializable {
 
     @EJB
     AutenticacaoService autenticacao;

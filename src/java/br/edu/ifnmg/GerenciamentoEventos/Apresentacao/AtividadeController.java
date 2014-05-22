@@ -7,16 +7,15 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -52,8 +51,6 @@ public class AtividadeController
     @EJB
     EventoRepositorio evtDAO;
 
-    Status[] status;
-
     Pessoa responsavel;
 
     Alocacao alocacao;
@@ -75,16 +72,10 @@ public class AtividadeController
         }
     }
 
-    public List<Atividade> autoCompleteAtividade(String query) {
-        Atividade i = new Atividade();
-        i.setNome(query);
-        return dao.Buscar(i);
-    }
 
     @Override
     public void filtrar() {
         checaEventoPadrao();
-        listagem = dao.Buscar(filtro);
     }
 
     @Override
@@ -127,23 +118,8 @@ public class AtividadeController
         return "editarAtividade.xhtml";
     }
 
-    @Override
-    public List<Atividade> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Atividade> listagem) {
-        this.listagem = listagem;
-    }
-
     public Status[] getStatus() {
-        if (status == null) {
-            status = Status.values();
-        }
-        return status;
+        return Status.values();
     }
 
     public Pessoa getResponsavel() {
@@ -238,6 +214,10 @@ public class AtividadeController
         
         return "white";
 
+    }
+    
+    public AlocacaoStatus[] getStatusAlocacao() {
+        return AlocacaoStatus.values();
     }
 
 }

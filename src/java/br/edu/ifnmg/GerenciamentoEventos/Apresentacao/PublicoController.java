@@ -92,55 +92,19 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     }
 
-    List<Evento> eventos;
-
     public List<Evento> getEventos() {
-        if (eventos == null) {
-            Evento filtro = new Evento();
-            filtro.setStatus(Status.EmExecucao);
-            eventos = eventoDAO.Buscar(filtro);
-        }
-        return eventos;
+        Evento filtro = new Evento();
+        filtro.setStatus(Status.EmExecucao);
+        return eventoDAO.Buscar(filtro);
     }
 
-    List<AtividadeTipo> tipos = new ArrayList<>();
-
-    public List<AtividadeTipo> getAtividadesTipos() throws IOException {
-        if (tipos.isEmpty()) {
-            for (Atividade a : getAtividades()) {
-                if (!tipos.contains(a.getTipo())) {
-                    tipos.add(a.getTipo());
-                }
-            }
-        }
-        return tipos;
+   public List<AtividadeTipo> getAtividadesTipos() {
+        return atividadeDAO.BuscarAtividadesTiposPorEvento(evento);
     }
 
-    List<Atividade> atividades;
-
-    public List<Atividade> getAtividades() throws IOException {
-        if (atividades == null) {
-            Atividade filtro = new Atividade();
-            AtividadeTipo tipo = new AtividadeTipo();
-            tipo.setPublico(true);
-            filtro.setTipo(tipo);
-            filtro.setEvento(evento);
-            atividades = atividadeDAO.Buscar(filtro);
-            return atividades;
-
-        } else {
-            return atividades;
-        }
-    }
 
     public List<Atividade> getAtividades(AtividadeTipo t) throws IOException {
-        List<Atividade> tmp = new ArrayList<>();
-        for (Atividade a : getAtividades()) {
-            if (a.getTipo().equals(t)) {
-                tmp.add(a);
-            }
-        }
-        return tmp;
+       return atividadeDAO.BuscarAtividadesPorEventoETipo(evento, t);
     }
 
     public Inscricao getInscricao() {
@@ -162,7 +126,6 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     public void setEvento(Evento evento) {
         this.evento = evento;
-        this.atividades = null;
         this.atividade = null;
         this.inscricao = null;
     }

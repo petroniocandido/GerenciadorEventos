@@ -46,16 +46,7 @@ public class ArquivoController
         setRepositorio(dao);        
     }
 
-    public List<Arquivo> autoCompleteArquivo(String query) {
-        Arquivo i = new Arquivo();
-        i.setNome(query);
-        return dao.Buscar(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
+  
 
     @Override
     public void salvar() {
@@ -102,17 +93,7 @@ public class ArquivoController
         return "editarArquivo.xhtml";
     }
 
-    @Override
-    public List<Arquivo> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Arquivo> listagem) {
-        this.listagem = listagem;
-    }
+    
     
     public void arquivoFileUpload(FileUploadEvent event) {  
         entidade = criaArquivo(event.getFile());

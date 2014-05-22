@@ -7,18 +7,17 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
+import java.io.Serializable;
 import java.util.HashMap;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.inject.Named;
 
 /**
  *
  * @author petronio
  */
-@Named(value = "autorizacaoService")
 @Stateless
-public class AutorizacaoService {
+public class AutorizacaoService implements Serializable {
     
     @EJB
     AutenticacaoService autenticacao;

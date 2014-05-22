@@ -48,17 +48,7 @@ public class PerfilController
         setRepositorio(dao);
     }
 
-    public List<Perfil> autoCompletePerfil(String query) {
-        Perfil i = new Perfil();
-        i.setNome(query);
-        return dao.Buscar(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
-
+   
     @Override
     public void salvar() {
         
@@ -98,20 +88,7 @@ public class PerfilController
         return "editarPerfil.xhtml";
     }
 
-   
-
-    @Override
-    public List<Perfil> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Perfil> listagem) {
-        this.listagem = listagem;
-    }
-    
+       
     public void valueChangeListener(ValueChangeEvent evt){
         entidade = dao.Refresh(entidade);
         if((boolean)evt.getNewValue())

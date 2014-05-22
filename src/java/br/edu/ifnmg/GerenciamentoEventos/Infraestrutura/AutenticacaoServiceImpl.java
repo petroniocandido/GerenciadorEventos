@@ -12,15 +12,17 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoReposi
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
+import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 @Stateless
-public class AutenticacaoServiceImpl implements AutenticacaoService {
+public class AutenticacaoServiceImpl implements AutenticacaoService, Serializable {
 
     @EJB
     PessoaRepositorio dao;

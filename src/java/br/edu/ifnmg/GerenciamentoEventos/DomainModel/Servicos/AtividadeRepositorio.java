@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import java.util.List;
 import javax.ejb.Local;
@@ -23,4 +24,6 @@ public interface AtividadeRepositorio extends Repositorio<Atividade> {
     public AtividadeTipo AbrirTipo(Long id);
     public List<AtividadeTipo> BuscarTipo(AtividadeTipo obj);
     public List<Atividade> BuscarAtividadesDoUsuario(Pessoa obj);
+    public List<Atividade> BuscarAtividadesPorEventoETipo(Evento e, AtividadeTipo t);
+    public List<AtividadeTipo> BuscarAtividadesTiposPorEvento(Evento e);
 }

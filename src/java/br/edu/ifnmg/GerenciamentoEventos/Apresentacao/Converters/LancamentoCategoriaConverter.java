@@ -7,25 +7,30 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Converters;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "lancamentoCategoriaConverter")
-@RequestScoped
+@Singleton
 public class LancamentoCategoriaConverter implements Converter, Serializable {
 
     @EJB
     private LancamentoRepositorio repositorio;
 
-    
+     public List<LancamentoCategoria> autoCompleteLancamentoCategoria(String query) {
+        LancamentoCategoria i = new LancamentoCategoria();
+        i.setNome(query);
+        return repositorio.BuscarCategorias(i);
+    }
 
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {

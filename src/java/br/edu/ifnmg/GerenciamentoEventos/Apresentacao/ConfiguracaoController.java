@@ -49,11 +49,6 @@ public class ConfiguracaoController
     }
 
     @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
-
-    @Override
     public void salvar() {
 
         Rastrear(entidade);
@@ -104,15 +99,5 @@ public class ConfiguracaoController
         return "editarConfiguracao.xhtml";
     }
 
-    @Override
-    public List<Configuracao> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Configuracao> listagem) {
-        this.listagem = listagem;
-    }    
+   
 }

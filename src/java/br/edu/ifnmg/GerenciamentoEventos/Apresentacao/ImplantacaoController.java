@@ -25,6 +25,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
@@ -46,7 +47,7 @@ public class ImplantacaoController implements Serializable {
     @EJB
     ConfiguracaoRepositorio configuracaoDAO;
 
-    @EJB
+    @Inject
     HashService hash;
 
     /**

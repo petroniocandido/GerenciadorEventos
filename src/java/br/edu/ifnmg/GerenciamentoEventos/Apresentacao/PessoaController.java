@@ -14,6 +14,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 
 /**
  *
@@ -36,7 +37,7 @@ public class PessoaController
 
     @EJB
     PessoaRepositorio dao;
-    @EJB
+    @Inject
     HashService hash;
 
     String senha1, senha2;
@@ -46,16 +47,6 @@ public class PessoaController
         setRepositorio(dao);
     }
 
-    public List<Pessoa> autoCompletePessoa(String query) {
-        Pessoa i = new Pessoa();
-        i.setNome(query);
-        return dao.Buscar(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
 
     @Override
     public void salvar() {
@@ -107,17 +98,6 @@ public class PessoaController
         return "editarUsuario.xhtml";
     }
 
-    @Override
-    public List<Pessoa> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Pessoa> listagem) {
-        this.listagem = listagem;
-    }
 
     public String getSenha1() {
         return senha1;

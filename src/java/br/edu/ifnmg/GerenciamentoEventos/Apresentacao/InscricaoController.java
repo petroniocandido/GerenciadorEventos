@@ -53,8 +53,6 @@ public class InscricaoController
     @Inject
     LancamentoController lancamentoCtl;
     
-    private InscricaoStatus status[];
-    
     InscricaoItem item;
     
     @PostConstruct
@@ -74,17 +72,12 @@ public class InscricaoController
         }
     }
 
-    public List<Inscricao> autoCompleteInscricao(String query) {
-        Inscricao i = new Inscricao();
-        Long id2 = Long.parseLong(query);
-        i.setId(id2);
-        return dao.Buscar(i);
-    }
+   
 
     @Override
     public void filtrar() {
         checaEventoPadrao();
-        listagem = dao.Buscar(filtro);
+        
     }
 
     @Override
@@ -126,17 +119,6 @@ public class InscricaoController
         return "editarInscricao.xhtml";
     }
 
-    @Override
-    public List<Inscricao> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Inscricao> listagem) {
-        this.listagem = listagem;
-    } 
 
     public InscricaoItem getItem() {
         return item;
@@ -180,9 +162,7 @@ public class InscricaoController
     }
 
     public InscricaoStatus[] getStatus() {
-        if(status == null)
-            status = InscricaoStatus.values();
-        return status;
+        return InscricaoStatus.values();
     }
     
     

@@ -10,21 +10,22 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericConverter;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.ConverterException;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "questionarioSecaoConverter")
-@RequestScoped
+@Singleton
 public class QuestionarioSecaoConverter  extends GenericConverter<Questionario, QuestionarioRepositorio>
         implements Serializable {
 
@@ -64,4 +65,12 @@ public class QuestionarioSecaoConverter  extends GenericConverter<Questionario, 
             return String.valueOf(((QuestionarioSecao) value).getId());  
         }
     }
+    
+     public List<QuestionarioSecao> autoCompleteQuestionarioSecao(String query) {
+        QuestionarioSecao i = new QuestionarioSecao();
+        i.setNome(query);
+        return dao.Buscar(i);
+    }
+     
+     
 }

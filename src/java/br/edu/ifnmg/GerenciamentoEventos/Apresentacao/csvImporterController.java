@@ -16,8 +16,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import org.primefaces.event.FileUploadEvent;
+import javax.enterprise.context.RequestScoped;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -25,7 +24,7 @@ import org.primefaces.model.UploadedFile;
  * @author petronio
  */
 @Named(value = "csvImporterController")
-@SessionScoped
+@RequestScoped
 public class csvImporterController
         extends ControllerBase
         implements Serializable {

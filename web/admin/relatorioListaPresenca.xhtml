@@ -18,7 +18,7 @@
                     <p:panelGrid columns="2">
                         <h:outputText value="Atividade: " />
                         <p:autoComplete converter="#{atividadeConverter}" value="#{listaPresencaController.atividade}"
-                                        completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
+                                        completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
                                         itemLabel="#{item.nome}" itemValue="#{item}">
                             <p:column headerText="Evento">#{item.evento}</p:column>
                             <p:column headerText="Atividade">#{item.nome}</p:column>

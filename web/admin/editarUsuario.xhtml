@@ -46,7 +46,7 @@
                         </p:tab>
                         <p:tab rendered="#{autenticacaoController.autorizacao('admin/tabPerfil')}" id="tabPerfil" title="Perfil">  
                             <p:autoComplete converter="#{perfilConverter}" value="#{usuarioController.entidade.perfil}"
-                                            completeMethod="#{perfilController.autoCompletePerfil}" var="item"
+                                            completeMethod="#{perfilConverter.autoCompletePerfil}" var="item"
                                             itemLabel="#{item.nome}" itemValue="#{item}">
                                 <p:column headerText="Nome">#{item.nome}</p:column>
                             </p:autoComplete>

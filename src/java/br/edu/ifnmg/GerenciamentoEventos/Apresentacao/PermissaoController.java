@@ -45,17 +45,7 @@ public class PermissaoController
         setRepositorio(dao);
     }
 
-    public List<Permissao> autoCompletePermissao(String query) {
-        Permissao i = new Permissao();
-        i.setUri(query);
-        return dao.Buscar(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
-
+   
     @Override
     public void salvar() {
         
@@ -95,25 +85,9 @@ public class PermissaoController
         return "editarPermissao.xhtml";
     }
 
-   
-
     @Override
-    public List<Permissao> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-    
-    List<Permissao> todos;
     public List<Permissao> getListagemGeral() {
-        if (todos == null) {
-            todos = dao.Buscar(new Permissao());
-        }
-        return todos;
+        return dao.Buscar(new Permissao());
     }
 
-    public void setListagem(List<Permissao> listagem) {
-        this.listagem = listagem;
-    }
 }

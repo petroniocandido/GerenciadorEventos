@@ -8,21 +8,27 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericConverter;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "arquivoConverter")
-@RequestScoped
+@Singleton
 public class ArquivoConverter
         extends GenericConverter<Arquivo, ArquivoRepositorio>
         implements Serializable {
+    
+      public List<Arquivo> autoCompleteArquivo(String query) {
+        Arquivo i = new Arquivo();
+        i.setNome(query);
+        return dao.Buscar(i);
+    }
 
     @EJB
     ArquivoRepositorio dao;

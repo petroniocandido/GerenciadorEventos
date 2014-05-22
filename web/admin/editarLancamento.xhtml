@@ -33,7 +33,7 @@
                                 </p:selectOneMenu>
                                 <h:outputText value="Cliente: " />
                                 <p:autoComplete id="txtPessoa" converter="#{usuarioConverter}" size="100" value="#{lancamentoController.entidade.cliente}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item" itemLabel="#{item.nome}" itemValue="#{item}"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item" itemLabel="#{item.nome}" itemValue="#{item}"
                                                 required="required" disabled="#{not lancamentoController.editavel}">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
@@ -41,13 +41,13 @@
                                 </p:autoComplete>
                                 <h:outputText value="Evento: " />
                                 <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.entidade.evento}"
-                                                completeMethod="#{eventoController.autoCompleteEvento}" var="item"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Atividade: " />
                                 <p:autoComplete converter="#{atividadeConverter}" value="#{lancamentoController.entidade.atividade}"
-                                                completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
+                                                completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     <p:column headerText="Evento">#{item.evento}</p:column>
                                     <p:column headerText="Atividade">#{item.nome}</p:column>
@@ -99,7 +99,7 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Inscrição: " />
                                 <p:autoComplete converter="#{inscricaoConverter}" value="#{lancamentoController.inscricao}"
-                                                completeMethod="#{inscricaoController.autoCompleteInscricao}" 
+                                                completeMethod="#{inscricaoConverter.autoCompleteInscricao}" 
                                                 var="item" itemValue="#{item}" itemLabel="#{item.id}"
                                                 disabled="#{not lancamentoController.editavel}">
                                     <p:column headerText="Inscrição">#{item.id}</p:column>

@@ -18,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +34,9 @@ import org.eclipse.persistence.annotations.CacheIndex;
 @Entity
 @Table(name="permissoes", indexes = {@Index(columnList = "uri", unique = true)})
 @CacheIndex(columnNames = {"uri"})
+@NamedQueries({
+    @NamedQuery(name = "permissoes.url", query = "SELECT DISTINCT a FROM Permissao a where a.uri = :url")
+    })
 public class Permissao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
   

@@ -18,7 +18,7 @@
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
                         <p:autoComplete converter="#{eventoConverter}" value="#{csvExporterController.padrao}"
-                                        completeMethod="#{eventoController.autoCompleteEvento}" var="item"
+                                        completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
                                         itemLabel="#{item.nome}" itemValue="#{item}">
                             #{item.nome}
                         </p:autoComplete>

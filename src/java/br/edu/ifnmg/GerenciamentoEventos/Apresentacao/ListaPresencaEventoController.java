@@ -19,14 +19,14 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "listaPresencaEventoController")
-@SessionScoped
+@RequestScoped
 public class ListaPresencaEventoController
         extends ControllerBaseRelatorio<Inscricao>
         implements Serializable {

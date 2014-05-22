@@ -17,6 +17,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface ControleRepositorio extends Repositorio<Controle> {
+    public boolean Alterar(Controle obj);
     public Controle Abrir(Evento e);
     public Controle Abrir(Atividade a);
 }

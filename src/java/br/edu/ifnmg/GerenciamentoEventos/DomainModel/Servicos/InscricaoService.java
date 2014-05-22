@@ -110,8 +110,7 @@ public class InscricaoService {
                 c.setQuantidadeGeral(c.getQuantidadeGeral() - 1);
             else 
                 c.setQuantidadeListaEspera(c.getQuantidadeListaEspera()- 1);
-            controleDAO.Salvar(c);
-            return true;
+            return controleDAO.Alterar(c);
         } else {
             return false;
         }
@@ -124,8 +123,7 @@ public class InscricaoService {
                 c.setQuantidadeGeral(c.getQuantidadeGeral() - 1);
             else 
                 c.setQuantidadeListaEspera(c.getQuantidadeListaEspera()- 1);
-            controleDAO.Salvar(c);
-            return true;
+            return controleDAO.Alterar(c);
         } else {
             return false;
         }
@@ -146,8 +144,9 @@ public class InscricaoService {
             else 
                 ctl.setQuantidadeListaEspera(ctl.getQuantidadeListaEspera() + 1);
             
-            controleDAO.Salvar(ctl);
-            return i;
+            if(controleDAO.Alterar(ctl))
+                return i;
+            else return null;
         }
         else
             return null;
@@ -173,8 +172,9 @@ public class InscricaoService {
             else 
                 ctl.setQuantidadeListaEspera(ctl.getQuantidadeListaEspera() + 1);
             
-            controleDAO.Salvar(ctl);
-            return it;
+            if(controleDAO.Alterar(ctl))
+                return it;
+            else return null;
         }
         else
             return null;

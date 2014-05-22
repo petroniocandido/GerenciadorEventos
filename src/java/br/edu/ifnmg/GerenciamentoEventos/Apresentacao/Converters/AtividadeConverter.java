@@ -8,18 +8,18 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericConverter;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "atividadeConverter")
-@RequestScoped
+@Singleton
 public class AtividadeConverter
         extends GenericConverter<Atividade, AtividadeRepositorio>
         implements Serializable {
@@ -31,4 +31,11 @@ public class AtividadeConverter
     public void init() {
         setRepositorio(dao);
     }
+    
+    public List<Atividade> autoCompleteAtividade(String query) {
+        Atividade i = new Atividade();
+        i.setNome(query);
+        return dao.Buscar(i);
+    }
+
 }

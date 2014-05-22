@@ -49,11 +49,6 @@ public class RespostaController
    }
     
     @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
-
-    @Override
     public void salvar() {
 
         SalvarEntidade();
@@ -134,14 +129,6 @@ public class RespostaController
         this.questao = questao;
     }
 
-        
-    @Override
-    public List<QuestionarioResposta> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
     
     public void arquivoFileUpload(FileUploadEvent event) {  
         entidade = dao.Refresh(entidade);

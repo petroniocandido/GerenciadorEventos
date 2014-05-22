@@ -7,14 +7,12 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.RequestScoped;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -22,7 +20,7 @@ import org.primefaces.event.SelectEvent;
  * @author petronio
  */
 @Named(value = "logController")
-@SessionScoped
+@RequestScoped
 public class LogController
         extends ControllerBaseEntidade<Log>
         implements Serializable {
@@ -46,7 +44,7 @@ public class LogController
 
     @Override
     public void filtrar() {
-        listagem = dao.Buscar(filtro);
+        
     }
 
     @Override
@@ -97,13 +95,7 @@ public class LogController
 
     @Override
     public List<Log> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
+        return dao.Buscar(filtro);
     }
 
-    public void setListagem(List<Log> listagem) {
-        this.listagem = listagem;
-    }
 }

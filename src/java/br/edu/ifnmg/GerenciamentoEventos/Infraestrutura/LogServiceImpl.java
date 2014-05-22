@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 @Stateless

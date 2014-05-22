@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,6 +32,9 @@ import javax.persistence.Version;
 @Cacheable
 @Entity
 @Table(name = "atividadestipos")
+@NamedQueries({
+    @NamedQuery(name = "atividadestipos.publicasPorEvento", query = "SELECT DISTINCT a FROM AtividadeTipo a join a.atividades at where a.publico = true and at.evento = :evento order by a.nome ASC ")
+    })
 public class AtividadeTipo implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,6 +49,9 @@ public class AtividadeTipo implements Entidade, Serializable {
     
     @Column(nullable = false)
     private Boolean publico;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "tipo")
+    private List<Atividade> atividades;
 
     @Override
     public Long getId() {
@@ -76,6 +86,15 @@ public class AtividadeTipo implements Entidade, Serializable {
     public void setPublico(Boolean publico) {
         this.publico = publico;
    }
+
+    public List<Atividade> getAtividades() {
+        return atividades;
+    }
+
+    public void setAtividades(List<Atividade> atividades) {
+        this.atividades = atividades;
+    }
+       
     
     @Override
     public int hashCode() {

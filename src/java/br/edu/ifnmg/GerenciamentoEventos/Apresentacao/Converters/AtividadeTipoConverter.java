@@ -7,25 +7,30 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Converters;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "atividadeTipoConverter")
-@RequestScoped
+@Singleton
 public class AtividadeTipoConverter implements Converter, Serializable {
 
     @EJB
     private AtividadeRepositorio repositorio;
 
+     public List<AtividadeTipo> autoCompleteAtividadeTipo(String query) {
+        AtividadeTipo i = new AtividadeTipo();
+        i.setNome(query);
+        return repositorio.BuscarTipo(i);
+    }
     
 
     @Override

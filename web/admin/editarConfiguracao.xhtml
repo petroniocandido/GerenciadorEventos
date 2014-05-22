@@ -21,7 +21,7 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Usuário: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{configuracaoController.entidade.usuario}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item">
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>

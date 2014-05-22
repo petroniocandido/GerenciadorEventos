@@ -40,7 +40,9 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
     public abstract void limpar();
 
-    public abstract void filtrar();
+     public void filtrar() {
+        
+    }
 
     public abstract void salvar();
 
@@ -52,10 +54,11 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
     public abstract String novo();
 
-    public abstract List<T> getListagem();
+    public List<T> getListagem(){
+        return repositorio.Buscar(filtro);
+    }
 
     protected T entidade, filtro;
-    protected List<T> listagem;
     protected Repositorio<T> repositorio;
 
     public T getEntidade() {
@@ -159,9 +162,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     public List<T> getListagemGeral() {
         limpar();
         
-        filtrar();
-        
-        return listagem;
+        return getListagem();
     }
 
     protected void Refresh() {

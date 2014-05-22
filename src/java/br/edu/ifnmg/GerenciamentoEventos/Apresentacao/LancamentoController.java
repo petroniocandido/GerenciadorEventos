@@ -44,10 +44,6 @@ public class LancamentoController
     @EJB
     LancamentoRepositorio dao;
     
-    LancamentoStatus status[];
-    
-    LancamentoTipo tipos[];
-    
     Inscricao inscricao;
     
     @PostConstruct
@@ -55,10 +51,6 @@ public class LancamentoController
         setRepositorio(dao);        
     }
 
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
 
     @Override
     public void salvar() {
@@ -98,23 +90,9 @@ public class LancamentoController
         return "editarLancamento.xhtml";
     }
 
-    @Override
-    public List<Lancamento> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Lancamento> listagem) {
-        this.listagem = listagem;
-    }
 
     public LancamentoStatus[] getStatus() {
-        if(status == null){
-            status = LancamentoStatus.values();
-        }
-        return status;
+        return LancamentoStatus.values();
     }
 
     public Inscricao getInscricao() {
@@ -176,10 +154,7 @@ public class LancamentoController
     }
 
     public LancamentoTipo[] getTipos() {
-        if(tipos == null)
-            tipos = LancamentoTipo.values();
-        
-        return tipos;
+        return LancamentoTipo.values();
     }
     
     

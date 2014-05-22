@@ -6,7 +6,6 @@ package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
@@ -20,6 +19,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 /**
  *
@@ -30,10 +30,10 @@ public abstract class ControllerBase {
     @EJB
     ConfiguracaoService configuracao;
     
-    @EJB
+    @Inject
     AutenticacaoService autentitacao;
     
-    @EJB
+    @Inject
     LogService log;
     
     public Pessoa getUsuarioCorrente() {

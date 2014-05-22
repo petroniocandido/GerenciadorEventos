@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
@@ -25,7 +25,7 @@ import org.primefaces.model.ScheduleModel;
  * @author petronio
  */
 @Named(value = "agendaController")
-@SessionScoped
+@RequestScoped
 public class AgendaController
         extends ControllerBaseEntidade<Evento>
         implements Serializable {
@@ -95,10 +95,6 @@ public class AgendaController
         return eventModel;
     }
 
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
 
     @Override
     public void salvar() {
@@ -130,16 +126,5 @@ public class AgendaController
         return "";
     }
 
-    @Override
-    public List<Evento> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Evento> listagem) {
-        this.listagem = listagem;
-    }
 
 }

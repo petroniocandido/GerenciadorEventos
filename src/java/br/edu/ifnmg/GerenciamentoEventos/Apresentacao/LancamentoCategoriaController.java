@@ -44,17 +44,7 @@ public class LancamentoCategoriaController
         setRepositorio(dao);
     }
 
-    public List<LancamentoCategoria> autoCompleteLancamentoCategoria(String query) {
-        LancamentoCategoria i = new LancamentoCategoria();
-        i.setNome(query);
-        return dao.BuscarCategorias(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.BuscarCategorias(filtro);
-    }
-
+   
     @Override
     public void salvar() {
         Rastrear(entidade);
@@ -104,21 +94,10 @@ public class LancamentoCategoriaController
         return "editarLancamentoCategoria.xhtml";
     }
 
-    @Override
-    public List<LancamentoCategoria> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<LancamentoCategoria> listagem) {
-        this.listagem = listagem;
-    }
     
     @Override
     public GenericDataModel getDataModel(){
-        LancamentoCategoriaDataModel dm = new LancamentoCategoriaDataModel(getListagem(),null);
+        LancamentoCategoriaDataModel dm = new LancamentoCategoriaDataModel(dao.BuscarCategorias(filtro),null);
         dm.setLancamentoRepositorio(dao);
         return dm;
     }

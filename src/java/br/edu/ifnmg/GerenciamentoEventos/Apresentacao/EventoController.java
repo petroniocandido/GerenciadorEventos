@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -46,16 +47,7 @@ public class EventoController
         setRepositorio(dao);
     }
 
-    public List<Evento> autoCompleteEvento(String query) {
-        Evento i = new Evento();
-        i.setNome(query);
-        return dao.Buscar(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
+   
 
     @Override
     public void salvar() {
@@ -96,17 +88,6 @@ public class EventoController
         return "editarEvento.xhtml";
     }
 
-    @Override
-    public List<Evento> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Evento> listagem) {
-        this.listagem = listagem;
-    }
     
     public void configurarEventoGlobal() {
         setConfiguracao("EVENTO_PADRAO", entidade.getId().toString());
@@ -142,5 +123,9 @@ public class EventoController
             AppendLog("Erro ao anexar o arquivo " + entidade.getBanner()+ " ao evento " + entidade + ":" + dao.getErro());
         }
     }  
+    
+     public Status[] getStatus() {
+        return Status.values();
+    }
     
 }

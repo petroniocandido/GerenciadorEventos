@@ -10,10 +10,10 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
 import java.util.*;
 import javax.annotation.PostConstruct;
-import javax.mail.*;
-import javax.mail.internet.*;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.mail.*;
+import javax.mail.internet.*;
 
 @Stateless
 public class MailServiceImpl implements MailService {

@@ -29,14 +29,14 @@
                                 </h:selectOneMenu>
                                 <h:outputText value="Evento: " />
                                 <p:autoComplete converter="#{eventoConverter}" value="#{inscricaoController.entidade.evento}"
-                                                completeMethod="#{eventoController.autoCompleteEvento}" var="item"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}"
                                                 required="true" requiredMessage="A campo Evento é de preenchimento obrigatório!">
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Participante: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{inscricaoController.entidade.pessoa}"
-                                                completeMethod="#{usuarioController.autoCompletePessoa}" var="item"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}"
                                                 required="true" requiredMessage="A campo Participante é de preenchimento obrigatório!">
                                     #{item.nome}
@@ -79,14 +79,14 @@
                             <h:panelGrid columns="3" cellpadding="3"> 
                                 <h:outputText value="Atividade: " />
                                 <p:autoComplete id="txtAtividade" converter="#{atividadeConverter}" value="#{inscricaoController.item.atividade}"
-                                                completeMethod="#{atividadeController.autoCompleteAtividade}" var="item"
+                                                completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome} - #{item.evento}
                                 </p:autoComplete>
                                 <p:commandButton id="btnAddItem" value="Adicionar" action="#{inscricaoController.addItem}" update="tblItens" />
                             </h:panelGrid>
                             <p:accordionPanel id="tblItens">
-                                <c:forEach rendered="#{respostaController.editing}" items="#{inscricaoController.entidade.itens}" var="insc">
+                                <c:forEach items="#{inscricaoController.entidade.itens}" var="insc">
                                     <p:tab title="#{insc.atividade.nome}">
                                         <h:panelGrid columns="2" cellpadding="3">
                                             <h:outputText value="Inscrição: " />

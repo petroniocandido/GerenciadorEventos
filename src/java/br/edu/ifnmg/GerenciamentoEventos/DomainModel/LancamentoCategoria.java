@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
+@Cacheable
 @Entity
 @Table(name = "lancamentoscategorias")
 public class LancamentoCategoria implements Entidade, Serializable {

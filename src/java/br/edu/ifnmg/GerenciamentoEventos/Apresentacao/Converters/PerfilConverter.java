@@ -8,18 +8,18 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericConverter;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "perfilConverter")
-@RequestScoped
+@Singleton
 public class PerfilConverter
         extends GenericConverter<Perfil, PerfilRepositorio>
         implements Serializable {
@@ -30,5 +30,11 @@ public class PerfilConverter
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+    }
+    
+     public List<Perfil> autoCompletePerfil(String query) {
+        Perfil i = new Perfil();
+        i.setNome(query);
+        return dao.Buscar(i);
     }
 }

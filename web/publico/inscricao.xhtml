@@ -38,15 +38,10 @@
                                                 <p:outputLabel value="Valor Inscrição:" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao > 0}" value="#{publicoController.evento.valorInscricao}" />
                                                 <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />
-                                                <c:if test="#{empty publicoController.inscricao}">
-                                                    <p:outputLabel value="" />
-                                                    <p:commandButton value="Inscrever" onclick="msgSalvar.show()" />
-                                                </c:if>
+
                                                 <c:if test="#{not empty publicoController.inscricao}">
                                                     <h:outputText value="Inscrição: " />
-                                                    <h:outputText value="#{publicoController.inscricao.id}" />
-                                                    <p:outputLabel value="" />
-                                                    <p:commandButton value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
+                                                    <h:outputText value="#{publicoController.inscricao.id}" />                                                    
                                                 </c:if>
 
                                             </c:when>                                        
@@ -55,8 +50,6 @@
                                                 <c:if test="#{not empty publicoController.inscricao}">
                                                     <h:outputText value="Inscrição: " />
                                                     <h:outputText value="#{publicoController.inscricao.id}" />
-                                                    <p:outputLabel value="" />
-                                                    <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();" />
                                                 </c:if>
                                             </c:otherwise>
                                         </c:choose>
@@ -64,24 +57,24 @@
                                     <c:otherwise>
                                         <p:outputLabel value="Não é necessário se inscrever para participar desse evento!" style="background-color: greenyellow" />
                                     </c:otherwise>
-                                </c:choose>
-                                <c:when test="#{not empty publicoController.inscricao}">
-                                    <p:outputLabel value="" />
-                                    <c:choose>
-                                        <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
-                                            <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoController.executaRelatorioPDF()}">
-                                                <f:setPropertyActionListener target="#{comprovanteInscricaoController.inscricao}" value="#{publicoController.inscricao}" />
-                                            </p:commandButton>   
-                                        </c:when>
-                                        <c:otherwise>
-                                            <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoEventoController.executaRelatorioPDF()}">
-                                                <f:setPropertyActionListener target="#{comprovanteInscricaoEventoController.inscricao}" value="#{publicoController.inscricao}" />
-                                            </p:commandButton>   
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:when>
-
+                                </c:choose>                                
                             </p:panelGrid>
+                            <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />
+                            <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
+                            <c:when test="#{not empty publicoController.inscricao}">
+                                <c:choose>
+                                    <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
+                                        <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoController.executaRelatorioPDF()}">
+                                            <f:setPropertyActionListener target="#{comprovanteInscricaoController.inscricao}" value="#{publicoController.inscricao}" />
+                                        </p:commandButton>   
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoEventoController.executaRelatorioPDF()}">
+                                            <f:setPropertyActionListener target="#{comprovanteInscricaoEventoController.inscricao}" value="#{publicoController.inscricao}" />
+                                        </p:commandButton>   
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
                         </p:tab>
                         <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
                             <c:if test="#{not empty publicoController.evento.questionario and not empty publicoController.inscricao}">

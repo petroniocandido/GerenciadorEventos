@@ -40,7 +40,6 @@ public class QuestionarioController
     @EJB
     QuestionarioRepositorio dao;
     QuestionarioSecao secao;
-    QuestaoTipo[] tipos;
     Questao questao;
 
     @PostConstruct
@@ -48,23 +47,7 @@ public class QuestionarioController
         setRepositorio(dao);
     }
 
-    public List<Questionario> autoCompleteQuestionario(String query) {
-        Questionario i = new Questionario();
-        i.setTitulo(query);
-        return dao.Buscar(i);
-    }
-
-    public List<QuestionarioSecao> autoCompleteQuestionarioSecao(String query) {
-        QuestionarioSecao i = new QuestionarioSecao();
-        i.setNome(query);
-        i.setQuestionario(entidade);
-        return dao.Buscar(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
-    }
+    
 
     @Override
     public void salvar() {
@@ -165,18 +148,8 @@ public class QuestionarioController
     }
 
     public QuestaoTipo[] getTipos() {
-        if (tipos == null) {
-            tipos = QuestaoTipo.values();
-        }
-        return tipos;
+        return QuestaoTipo.values();
     }
 
-    @Override
-    public List<Questionario> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
 
 }

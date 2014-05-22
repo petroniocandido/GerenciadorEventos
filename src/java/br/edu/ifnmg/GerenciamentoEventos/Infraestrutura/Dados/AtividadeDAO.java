@@ -13,10 +13,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.ejb.PostActivate;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -96,11 +95,39 @@ public class AtividadeDAO
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(new Date());
         cal.set(Calendar.DAY_OF_MONTH, 1);
-        
+        /*
         return MaiorOuIgualA("termino", cal.getTime())
                 .DiferenteDe("status", Status.Cancelado)
                 .DiferenteDe("status", Status.Concluido)
                 .Join("responsaveis", "r").IgualA("r.id", obj.getId())
                 .Buscar();
+        */
+        Query q = getManager()
+                .createNamedQuery("atividades.ativasUsuario")
+                .setParameter("idUsuario", obj.getId())
+                .setParameter("termino", cal.getTime())
+                .setParameter("cancelado", Status.Cancelado)
+                .setParameter("concluido", Status.Concluido)
+                .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<Atividade> BuscarAtividadesPorEventoETipo(Evento e, AtividadeTipo t) {
+        Query q = getManager()
+                .createNamedQuery("atividades.porTipoEvento")
+                .setParameter("evento", e)
+                .setParameter("tipo", t)
+                .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<AtividadeTipo> BuscarAtividadesTiposPorEvento(Evento e){
+        Query q = daoTipo.getManager()
+                .createNamedQuery("atividadestipos.publicasPorEvento")
+                .setParameter("evento", e)
+                .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
+        return q.getResultList();
     }
 }

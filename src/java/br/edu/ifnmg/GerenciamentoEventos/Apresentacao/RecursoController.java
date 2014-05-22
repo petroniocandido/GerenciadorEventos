@@ -40,31 +40,9 @@ public class RecursoController
     @EJB
     RecursoRepositorio dao;
     
-    RecursoTipo[] tipos;
-    
-    AlocacaoStatus status[];
-        
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-    }
-
-    public List<Recurso> autoCompleteRecurso(String query) {
-        Recurso i = new Recurso();
-        i.setNome(query);
-        return dao.Buscar(i);
-    }
-    
-    public List<Recurso> autoCompleteImoveis(String query) {
-        Recurso i = new Recurso();
-        i.setNome(query);
-        i.setTipo(RecursoTipo.Imovel);
-        return dao.Buscar(i);
-    }
-
-    @Override
-    public void filtrar() {
-        listagem = dao.Buscar(filtro);
     }
 
     @Override
@@ -106,31 +84,13 @@ public class RecursoController
         return "editarRecurso.xhtml";
     }
 
-    @Override
-    public List<Recurso> getListagem() {
-        if (listagem == null) {
-            filtrar();
-        }
-        return listagem;
-    }
-
-    public void setListagem(List<Recurso> listagem) {
-        this.listagem = listagem;
-    }
 
     public RecursoTipo[] getTipos() {
-        if(tipos == null){
-            tipos = RecursoTipo.values();
-        }
-        return tipos;
+        return RecursoTipo.values();
     }
 
     public AlocacaoStatus[] getStatus() {
-        if(status == null)
-            status = AlocacaoStatus.values();
-        return status;
+        return AlocacaoStatus.values();
     }
-    
-    
     
 }
