@@ -32,14 +32,17 @@
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Cadastros')}" label="Cadastros">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAtividadeTipos.xhtml')}" value="Tipos de Atividades" url="listagemAtividadeTipos.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentoCategorias.xhtml')}" value="Categorias de Lançamentos" url="listagemLancamentoCategorias.xhtml" />
-                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemRecursos.xhtml')}" value="Recursos" url="listagemRecursos.xhtml"   />
+                    <p:submenu label="Recursos">
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemRecursos.xhtml')}" value="Cadastro" url="listagemRecursos.xhtml"   />
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAlocacoes.xhtml')}" value="Alocações" url="listagemAlocacoes.xhtml"   />
+                    </p:submenu>
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemArquivos.xhtml')}" value="Arquivos" url="listagemArquivos.xhtml"   />
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Eventos')}" label="Eventos">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemEventos.xhtml')}" value="Eventos" url="listagemEventos.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAtividades.xhtml')}" value="Atividades"  url="listagemAtividades.xhtml"  />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemQuestionarios.xhtml')}" value="Questionários"  url="listagemQuestionarios.xhtml"  />
-                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições" url="listagemInscricoes.xhtml"  />
+                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições no Evento" url="listagemInscricoes.xhtml"  />                    
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Financeiro')}" label="Financeiro">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentos.xhtml')}"  value="Lançamentos" url="listagemLancamentos.xhtml" />                    
