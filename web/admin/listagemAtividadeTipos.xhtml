@@ -19,22 +19,21 @@
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
                                 <h:outputText value="Nome: " />
-                                <p:inputText id="txtNome" size="50" value="#{atividadeTipoController.filtro.nome}"/> 
+                                <p:inputText id="txtNome" size="50" value="#{atividadeController.filtroTipo.nome}"/> 
                                 <h:outputText value="Público: " />
-                                <p:selectBooleanCheckbox value="#{atividadeTipoController.filtro.publico}" />
+                                <p:selectBooleanCheckbox value="#{atividadeTipoController.filtroTipo.publico}" />
                             </p:panelGrid>
-                            <ui:include src="./comum/botoesListagem.xhtml">
-                                <ui:param name="controller" value="#{atividadeTipoController}"  />
-                                <ui:param name="campos" value="txtNome"  />
-                            </ui:include>
+                            <p:commandButton style="float: left" value="Limpar Filtros" action="#{atividadeController.limparTipo}" update="#{campos}" />
+                            <p:commandButton ajax="false"  style="float: left" value="Filtrar" action="#{atividadeController.filtrar}" />
+                            <p:commandButton ajax="false"  style="float: right" value="Novo" action="#{atividadeController.novoTipo()}" />
                         </p:tab>
                     </p:accordionPanel>
-                    <!-- In�cio da Tabela -->
-                    <p:dataTable value="#{atividadeTipoController.dataModel}" var="item" selectionMode="single"
+
+                    <p:dataTable value="#{atividadeController.dataModelTipo}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
-                        <p:ajax event="rowSelect" listener="#{atividadeTipoController.onRowSelect}" />
+                        <p:ajax event="rowSelect" listener="#{atividadeController.onRowSelectTipo}" />
                         <!-- Coluna Codigo -->
                         <p:column headerText="Cód." sortBy="#{item.id}"   >
                             <p:outputLabel value="#{item.id}" />
