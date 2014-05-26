@@ -143,7 +143,12 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     public Repositorio<T> Ordenar(String campo, String sentido) {
         if(order.length() > 0)
             order.append(",");
-        order.append("o.").append(campo).append(" ").append(sentido);
+        
+        if(!campo.contains("."))
+            order.append("o.");
+        
+        order.append(campo).append(" ").append(sentido);
+        
         return this;
     }
  
@@ -154,8 +159,10 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         if(update.length() > 0) {
             update.append(", ");
         }
-
-        update.append("o.").append(campo).append(" = ").append(" :p").append(Integer.toString(key));
+        if(!campo.contains("."))
+            update.append("o.");
+        
+        update.append(campo).append(" = ").append(" :p").append(Integer.toString(key));
         params.put(key, valor);
         
         
@@ -371,7 +378,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     
     public void setErro(Exception erro) {
         System.out.println(erro.getMessage());
-        System.out.println(erro.getStackTrace());
+        erro.printStackTrace();
         this.erro = erro;
     }
 
