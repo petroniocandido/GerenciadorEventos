@@ -22,6 +22,11 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Inscrição: " />
                                 <h:outputText value="#{inscricaoController.entidade.id}" />
+                                <h:outputText value="Categoria: " />
+                                <h:selectOneMenu value="#{inscricaoController.entidade.categoria}" 
+                                                 required="true" requiredMessage="A campo Categoria é de preenchimento obrigatório!">
+                                    <f:selectItems value="#{inscricaoController.categorias}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{inscricaoController.entidade.status}" 
                                                  required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
@@ -40,7 +45,11 @@
                                                 itemLabel="#{item.nome}" itemValue="#{item}"
                                                 required="true" requiredMessage="A campo Participante é de preenchimento obrigatório!">
                                     #{item.nome}
-                                </p:autoComplete>   
+                                </p:autoComplete>
+                                <h:outputText value="Ordem Insc.: " />
+                                <p:spinner value="#{inscricaoController.entidade.ordem}"  min="1">
+                                    <f:convertNumber type="number" integerOnly="true" />
+                                </p:spinner>
                                 <h:outputText value="Pago?: " />
                                 <p:selectBooleanCheckbox value="#{inscricaoController.entidade.pago}" />
                                 <h:outputText value="Compareceu?: " />

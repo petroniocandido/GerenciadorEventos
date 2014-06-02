@@ -41,6 +41,8 @@ public class InscricaoDAO
                 .IgualA("pessoa", filtro.getPessoa())
                 .IgualA("evento", filtro.getEvento())
                 .IgualA("tipo", filtro.getTipo())
+                .Ordenar("categoria", "ASC")
+                .Ordenar("ordem", "ASC")
                 .Buscar();
     }
     
@@ -51,6 +53,8 @@ public class InscricaoDAO
                 .IgualA("evento", filtro.getEvento())
                 .IgualA("atividade", filtro.getAtividade())
                 .IgualA("tipo", filtro.getTipo())
+                .Ordenar("categoria", "ASC")
+                .Ordenar("ordem", "ASC")
                 .Buscar();
     }
 

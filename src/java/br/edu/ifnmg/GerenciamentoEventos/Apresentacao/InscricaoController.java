@@ -13,10 +13,10 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -165,7 +165,9 @@ public class InscricaoController
         return InscricaoStatus.values();
     }
     
-    
+    public InscricaoCategoria[] getCategorias() {
+        return InscricaoCategoria.values();
+    }
     
     
 }
