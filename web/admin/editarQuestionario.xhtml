@@ -134,6 +134,11 @@
                                     #{item.ordem}
                                 </p:column>
                                 <p:column > 
+                                    <p:commandButton ajax="false"  icon="ui-icon-disk" action="#{questionarioController.editarQuestao}">
+                                        <f:setPropertyActionListener target="#{questionarioController.questao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column > 
                                     <p:commandButton ajax="false"  icon="ui-icon-trash" action="#{questionarioController.removeQuestao}">
                                         <f:setPropertyActionListener target="#{questionarioController.questao}" value="#{item}" />
                                     </p:commandButton>

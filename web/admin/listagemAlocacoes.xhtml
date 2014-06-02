@@ -61,26 +61,26 @@
 
                         <p:ajax event="rowSelect" listener="#{alocacaoController.onRowSelect}" />
                         <!-- Coluna Codigo -->
-                        <p:column headerText="Cód." sortBy="id"   >
+                        <p:column headerText="Cód." sortBy="#{item.id}"   >
                             #{item.id}
                         </p:column>
                         <!-- Coluna Nome -->
-                        <p:column headerText="Evento" sortBy="nome"  >
+                        <p:column headerText="Evento" sortBy="#{item.nome}"  >
                             #{item.evento}                            
                         </p:column>
-                        <p:column headerText="Atividade" sortBy="atividade"  >
+                        <p:column headerText="Atividade" sortBy="#{item.atividade}"  >
                             #{item.tipo}
                         </p:column>
-                        <p:column headerText="Recurso" sortBy="recurso"  >
+                        <p:column headerText="Recurso" sortBy="#{item.recurso}"  >
                             #{item.recurso}
                         </p:column>
-                        <p:column headerText="Início" sortBy="inicio"  >
+                        <p:column headerText="Início" sortBy="#{item.inicio}"  >
                             #{item.inicio}
                         </p:column>
-                        <p:column headerText="Término" sortBy="termino"  >
+                        <p:column headerText="Término" sortBy="#{item.termino}"  >
                             #{item.termino}
                         </p:column>
-                        <p:column headerText="Status" sortBy="status"  >
+                        <p:column headerText="Status" sortBy="#{item.status}"  >
                             #{item.status}
                         </p:column>
                     </p:dataTable>

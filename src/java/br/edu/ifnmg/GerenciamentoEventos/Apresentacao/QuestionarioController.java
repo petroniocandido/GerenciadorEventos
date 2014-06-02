@@ -121,6 +121,12 @@ public class QuestionarioController
         if(entidade != null)
             getQuestao().setOrdem(entidade.getQuestoes().size()+1);
     }
+    
+    public void editarQuestao() {
+        Refresh();
+        entidade.remove(questao);
+        dao.Salvar(entidade);        
+    }
 
     public void removeQuestao() {
         Refresh();

@@ -153,11 +153,16 @@ public class Questao implements Serializable, Entidade {
     public String toString() {
         return  id.toString() ;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() + enunciado.hashCode() : 0);
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.id);
+        hash = 23 * hash + Objects.hashCode(this.questionario);
+        hash = 23 * hash + Objects.hashCode(this.secao);
+        hash = 23 * hash + Objects.hashCode(this.tipo);
+        hash = 23 * hash + this.ordem;
+        hash = 23 * hash + Objects.hashCode(this.enunciado);
         return hash;
     }
 
@@ -182,13 +187,14 @@ public class Questao implements Serializable, Entidade {
         if (this.tipo != other.tipo) {
             return false;
         }
+        if (this.ordem != other.ordem) {
+            return false;
+        }
         if (!Objects.equals(this.enunciado, other.enunciado)) {
             return false;
         }
         return true;
     }
-
-    
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
