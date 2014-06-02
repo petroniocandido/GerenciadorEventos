@@ -8,13 +8,13 @@
     </h:head>
     <h:body>
         <h:form>
-            <p:messages id="mensagens"
+            <p:messages id="mensagens" />
             <p:panelGrid columns="3">
                 <p:outputLabel value="Nº Inscrição:" />
                 <p:inputText value="#{credenciamentoController.id}" />
-                <p:commandButton value="Buscar" action="#{credenciamentoController.buscar}" update="insc" />
+                <p:commandButton value="Buscar" ajax="false" action="#{credenciamentoController.buscar}" />
             </p:panelGrid>
-            <p:panelGrid id="insc" columns="3">
+            <p:panelGrid rendered="#{not empty credenciamentoController.inscricao}" id="insc" columns="2">
                 <p:outputLabel value="Inscrito:" />
                 <p:outputLabel value="#{credenciamentoController.inscricao.pessoa.nome}" />
                 <p:outputLabel value="Pago?:" />

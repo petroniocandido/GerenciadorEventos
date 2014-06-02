@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
@@ -22,50 +21,54 @@ import javax.persistence.Query;
  * @author petronio
  */
 @Singleton
-public class AtividadeDAO 
-    extends DAOGenerico<Atividade> 
-    implements AtividadeRepositorio {
-    
+public class AtividadeDAO
+        extends DAOGenerico<Atividade>
+        implements AtividadeRepositorio {
+
     DAOGenerico<AtividadeTipo> daoTipo;
-    
-    public AtividadeDAO(){
+
+    public AtividadeDAO() {
         super(Atividade.class);
         daoTipo = new DAOGenerico<>(AtividadeTipo.class);
-         
+
     }
-    
+
     @PostConstruct
     public void inicializar() {
         EntityManager tmp = getManager();
-        daoTipo.setManager(tmp);       
+        daoTipo.setManager(tmp);
     }
 
     @Override
     public List<Atividade> Buscar(Atividade filtro) {
-        IgualA("id", filtro.getId())
-                .Like("nome", filtro.getNome())
-                .IgualA("evento", filtro.getEvento())
-                .IgualA("inicio", filtro.getInicio())
-                .IgualA("local", filtro.getLocal())
-                .Like("descricao", filtro.getDescricao())
-                .IgualA("status", filtro.getStatus())
-                .IgualA("termino", filtro.getTermino());
-        if(filtro.getTipo() != null){
-            if(filtro.getTipo().getId() != null && filtro.getTipo().getId() > 0) IgualA("tipo", filtro.getTipo());
-            else Join("tipo", "t").IgualA("t.publico", filtro.getTipo().getPublico());
+        if (filtro != null) {
+            IgualA("id", filtro.getId())
+                    .Like("nome", filtro.getNome())
+                    .IgualA("evento", filtro.getEvento())
+                    .IgualA("inicio", filtro.getInicio())
+                    .IgualA("local", filtro.getLocal())
+                    .Like("descricao", filtro.getDescricao())
+                    .IgualA("status", filtro.getStatus())
+                    .IgualA("termino", filtro.getTermino());
+            if (filtro.getTipo() != null) {
+                if (filtro.getTipo().getId() != null && filtro.getTipo().getId() > 0) {
+                    IgualA("tipo", filtro.getTipo());
+                } else {
+                    Join("tipo", "t").IgualA("t.publico", filtro.getTipo().getPublico());
+                }
+            }
         }
-                
-        return   Buscar();
+        return Buscar();
     }
 
     @Override
     public boolean Salvar(Atividade obj) {
-        if(obj.getControle()== null){
+        if (obj.getControle() == null) {
             obj.setControle(new Controle(obj, 0, 0));
         }
         return super.Salvar(obj);
     }
-    
+
     @Override
     public boolean SalvarTipo(AtividadeTipo obj) {
         return daoTipo.Salvar(obj);
@@ -83,11 +86,14 @@ public class AtividadeDAO
 
     @Override
     public List<AtividadeTipo> BuscarTipo(AtividadeTipo obj) {
-        return daoTipo
+        
+        if(obj != null) {
+            daoTipo
                 .Like("nome", obj.getNome())
                 .IgualA("publico", obj.getPublico())
-                .Ordenar("nome", "ASC")
-                .Buscar();
+                .Ordenar("nome", "ASC");
+        }
+        return daoTipo.Buscar();
     }
 
     @Override
@@ -96,12 +102,12 @@ public class AtividadeDAO
         cal.setTime(new Date());
         cal.set(Calendar.DAY_OF_MONTH, 1);
         /*
-        return MaiorOuIgualA("termino", cal.getTime())
-                .DiferenteDe("status", Status.Cancelado)
-                .DiferenteDe("status", Status.Concluido)
-                .Join("responsaveis", "r").IgualA("r.id", obj.getId())
-                .Buscar();
-        */
+         return MaiorOuIgualA("termino", cal.getTime())
+         .DiferenteDe("status", Status.Cancelado)
+         .DiferenteDe("status", Status.Concluido)
+         .Join("responsaveis", "r").IgualA("r.id", obj.getId())
+         .Buscar();
+         */
         Query q = getManager()
                 .createNamedQuery("atividades.ativasUsuario")
                 .setParameter("idUsuario", obj.getId())
@@ -111,7 +117,7 @@ public class AtividadeDAO
                 .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
         return q.getResultList();
     }
-    
+
     @Override
     public List<Atividade> BuscarAtividadesPorEventoETipo(Evento e, AtividadeTipo t) {
         Query q = getManager()
@@ -121,9 +127,9 @@ public class AtividadeDAO
                 .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
         return q.getResultList();
     }
-    
+
     @Override
-    public List<AtividadeTipo> BuscarAtividadesTiposPorEvento(Evento e){
+    public List<AtividadeTipo> BuscarAtividadesTiposPorEvento(Evento e) {
         Query q = daoTipo.getManager()
                 .createNamedQuery("atividadestipos.publicasPorEvento")
                 .setParameter("evento", e)

@@ -19,6 +19,7 @@ import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -291,6 +292,10 @@ public class AtividadeController
         return "editarAtividadeTipo.xhtml";
     }
 
+    
+    public List<AtividadeTipo> getListagemTipos() {
+        return dao.BuscarTipo(null);
+    }
     
     public GenericDataModel getDataModelTipo(){
         AtividadeTipoDataModel dm = new AtividadeTipoDataModel(dao.BuscarTipo(filtroTipo),null);

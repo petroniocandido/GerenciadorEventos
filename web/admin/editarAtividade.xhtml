@@ -31,7 +31,7 @@
                                 <h:outputText value="Tipo: " />
                                 <h:selectOneMenu converter="#{atividadeTipoConverter}" value="#{atividadeController.entidade.tipo}"
                                                  required="true" requiredMessage="A campo Tipo é de preenchimento obrigatório!">
-                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                    <f:selectItems value="#{atividadeController.listagemTipos}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{atividadeController.entidade.status}" 
