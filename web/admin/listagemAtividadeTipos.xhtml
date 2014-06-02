@@ -21,7 +21,7 @@
                                 <h:outputText value="Nome: " />
                                 <p:inputText id="txtNome" size="50" value="#{atividadeController.filtroTipo.nome}"/> 
                                 <h:outputText value="Público: " />
-                                <p:selectBooleanCheckbox value="#{atividadeTipoController.filtroTipo.publico}" />
+                                <p:selectBooleanCheckbox value="#{atividadeController.filtroTipo.publico}" />
                             </p:panelGrid>
                             <p:commandButton style="float: left" value="Limpar Filtros" action="#{atividadeController.limparTipo}" update="#{campos}" />
                             <p:commandButton ajax="false"  style="float: left" value="Filtrar" action="#{atividadeController.filtrar}" />
