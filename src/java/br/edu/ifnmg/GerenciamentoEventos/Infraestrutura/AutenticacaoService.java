@@ -3,11 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
@@ -17,12 +15,17 @@ import java.util.Enumeration;
 import java.util.Random;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@Stateless
-public class AutenticacaoServiceImpl implements AutenticacaoService, Serializable {
+@Named
+@SessionScoped
+public class AutenticacaoService implements br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService, Serializable {
 
     @EJB
     PessoaRepositorio dao;
@@ -32,12 +35,12 @@ public class AutenticacaoServiceImpl implements AutenticacaoService, Serializabl
     MailService mail;
     @EJB
     ConfiguracaoRepositorio configuracao;
-    
+
     Pessoa usuario;
-    
+
     @Override
     public boolean login(String email, String senha) {
-         usuario = dao.Abrir(email);
+        usuario = dao.Abrir(email);
 
         if (usuario == null) {
             return false;
@@ -47,8 +50,14 @@ public class AutenticacaoServiceImpl implements AutenticacaoService, Serializabl
                 HttpSession session;
 
                 FacesContext ctx = FacesContext.getCurrentInstance();
-                session = (HttpSession) ctx.getExternalContext().getSession(false);
-                session.setAttribute("usuarioAutenticado", usuario);
+                /*session = (HttpSession) ctx.getExternalContext().getSession(false);
+                 session.setAttribute("usuarioAutenticado", usuario);
+                 */
+
+                Cookie ck = new Cookie("usuarioAutenticado", usuario.getId().toString());
+                ck.setMaxAge(-1);
+
+                ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(ck);
 
                 return true;
             } else {
@@ -71,6 +80,20 @@ public class AutenticacaoServiceImpl implements AutenticacaoService, Serializabl
             session.removeAttribute(vals.nextElement());
         }
         
+        session.invalidate();
+
+        HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
+        Cookie[] cookies = request.getCookies();
+
+        //foreach
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().trim().equalsIgnoreCase("usuarioAutenticado")) {
+                cookie.setMaxAge(0);
+                ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(cookie);
+                break;
+            }
+        }
+
         return true;
     }
 
@@ -85,36 +108,48 @@ public class AutenticacaoServiceImpl implements AutenticacaoService, Serializabl
             String tmpsenha = gerarSenha();
             usuario.setSenha(hash.getMD5(tmpsenha));
             msg = msg.replace("###SENHA###", tmpsenha);
-            if(mail.enviar(usuario.getEmail(), "Nova Senha", msg)){
+            if (mail.enviar(usuario.getEmail(), "Nova Senha", msg)) {
                 dao.Salvar(usuario);
                 return true;
             } else {
                 usuario.setSenha(senhaantiga);
                 return false;
             }
-        }        
+        }
     }
 
     @Override
     public Pessoa getUsuarioCorrente() {
         if (usuario == null) {
-            HttpSession session;
+            //HttpSession session;
             FacesContext ctx = FacesContext.getCurrentInstance();
-            session = (HttpSession) ctx.getExternalContext().getSession(false);
-            usuario = (Pessoa) session.getAttribute("usuarioAutenticado");
+            /*session = (HttpSession) ctx.getExternalContext().getSession(false);
+             usuario = (Pessoa) session.getAttribute("usuarioAutenticado");
+             */
+            HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
+            Cookie[] cookies = request.getCookies();
+
+            //foreach
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().trim().equalsIgnoreCase("usuarioAutenticado")) {
+                    String id = cookie.getValue();
+                    usuario = dao.Abrir(Long.parseLong(id));
+                    break;
+                }
+            }
         }
         return usuario;
     }
-    
+
     private String gerarSenha() {
         String alfabeto = "abcdefghijklmnopqrstuvxz0123456789!@#$%&*()-+;.:ABCDEFGHIJKLMNOPQRSTUVXZ";
         Random rnd = new Random();
         StringBuilder tmp = new StringBuilder();
-        while(tmp.length() < 8){
-           tmp.append( alfabeto.charAt(rnd.nextInt(alfabeto.length())) );
+        while (tmp.length() < 8) {
+            tmp.append(alfabeto.charAt(rnd.nextInt(alfabeto.length())));
         }
-        
+
         return tmp.toString();
     }
-    
+
 }

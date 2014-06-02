@@ -13,11 +13,12 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoServic
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 
 @Stateless
 public class ConfiguracaoServiceImpl implements ConfiguracaoService, Serializable {
 
-    @EJB
+    @Inject
     AutenticacaoService autenticacao;
     
     @EJB

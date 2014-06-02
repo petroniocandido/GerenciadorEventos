@@ -46,9 +46,9 @@ public class AutenticacaoController
     HashService hash;
     @EJB
     PerfilRepositorio perfilDAO;
-    @EJB
+    @Inject
     AutorizacaoService autorizacao;
-    @EJB
+    @Inject
     AutenticacaoService autenticacao;
 
     private String login, senha, senhaconferencia;

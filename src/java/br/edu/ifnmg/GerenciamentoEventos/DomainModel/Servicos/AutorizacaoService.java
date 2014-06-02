@@ -10,16 +10,19 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import java.io.Serializable;
 import java.util.HashMap;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
  * @author petronio
  */
-@Stateless
+@Named
+@SessionScoped
 public class AutorizacaoService implements Serializable {
     
-    @EJB
+    @Inject
     AutenticacaoService autenticacao;
     
     @EJB

@@ -4,19 +4,18 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutorizacaoService;
+import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.AutenticacaoService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
-import javax.servlet.http.HttpSession;
+import javax.inject.Inject;
 
 /**
  *
@@ -24,8 +23,11 @@ import javax.servlet.http.HttpSession;
  */
 public class AutenticacaoPhaseListener implements PhaseListener {
 
-    @EJB
-    PermissaoRepositorio permissaoDAO;
+    @Inject
+    AutorizacaoService autorizacao;
+    
+    @Inject
+    AutenticacaoService autenticacao;
 
     @Override
     public void afterPhase(PhaseEvent event) {
@@ -34,8 +36,8 @@ public class AutenticacaoPhaseListener implements PhaseListener {
         ExternalContext ec = fc.getExternalContext();
         String viewid = fc.getViewRoot().getViewId();
         if ((viewid.contains("/admin/") || viewid.contains("/publico/")) && !viewid.contains("Implantacao.xhtml") ) {
-            HttpSession session = (HttpSession) ec.getSession(true);
-            Pessoa usuario = (Pessoa) session.getAttribute("usuarioAutenticado");
+            
+            Pessoa usuario = autenticacao.getUsuarioCorrente();
 
             if (usuario == null) {
                 try {
@@ -45,8 +47,7 @@ public class AutenticacaoPhaseListener implements PhaseListener {
                 }
             } else if(viewid.contains("/admin/")) {
                 String tmp = viewid.substring(1);
-                Permissao p = permissaoDAO.Abrir(tmp);
-                if (!usuario.getPerfil().contains(p)) {
+                if (!autorizacao.possuiPermissao(tmp)) {
                     try {
                         ec.redirect(ec.getApplicationContextPath() + "/" + usuario.getPerfil().getHome().getUri());
                     } catch (IOException ex) {

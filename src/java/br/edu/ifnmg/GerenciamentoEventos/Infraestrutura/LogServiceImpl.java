@@ -27,7 +27,7 @@ public class LogServiceImpl implements LogService {
     @EJB
     private LogRepositorio logDAO;
     
-    @EJB
+    @Inject
     AutenticacaoService autentitacao;
 
     @Override
