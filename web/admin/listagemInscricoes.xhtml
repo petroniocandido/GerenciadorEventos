@@ -53,17 +53,20 @@
                         <p:column headerText="Inscrição" sortBy="id"  >
                             <p:outputLabel value="#{item.id}" />                            
                         </p:column>
-                        <p:column headerText="Ordem" sortBy="ordem"  >
-                            #{item.ordem}                            
+                        <p:column headerText="Ordem" sortBy="#{item.ordem}"  >
+                            #{item.ordem}
                         </p:column>
-                        <p:column headerText="Evento" sortBy="evento"  >
+                        <p:column headerText="Evento" sortBy="#{item.evento}"  >
                             #{item.evento}
                         </p:column>
-                        <p:column headerText="Participante" sortBy="pessoa"  >
+                        <p:column headerText="Participante" sortBy="#{item.pessoa}"  >
                             #{item.pessoa}                            
                         </p:column>
-                        <p:column headerText="Categoria" sortBy="categoria"  >
+                        <p:column headerText="Categoria" sortBy="#{item.categoria}"  >
                             #{item.categoria}                            
+                        </p:column>
+                        <p:column headerText="Status" sortBy="#{item.status}"  >
+                            #{item.status}                            
                         </p:column>
                     </p:dataTable>
                 </p:panel>

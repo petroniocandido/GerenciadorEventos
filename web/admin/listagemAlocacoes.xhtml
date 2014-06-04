@@ -60,16 +60,11 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{alocacaoController.onRowSelect}" />
-                        <!-- Coluna Codigo -->
-                        <p:column headerText="Cód." sortBy="#{item.id}"   >
-                            #{item.id}
-                        </p:column>
-                        <!-- Coluna Nome -->
                         <p:column headerText="Evento" sortBy="#{item.nome}"  >
                             #{item.evento}                            
                         </p:column>
                         <p:column headerText="Atividade" sortBy="#{item.atividade}"  >
-                            #{item.tipo}
+                            #{item.atividade}
                         </p:column>
                         <p:column headerText="Recurso" sortBy="#{item.recurso}"  >
                             #{item.recurso}
