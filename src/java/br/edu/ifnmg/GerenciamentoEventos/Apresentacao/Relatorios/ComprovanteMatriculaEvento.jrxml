@@ -14,7 +14,7 @@
 	<field name="evento.termino" class="java.util.Date"/>
 	<field name="evento.local" class="java.lang.Object"/>
 	<field name="status" class="java.lang.Object"/>
-	<field name="tipo" class="java.lang.Object"/>
+	<field name="categoria" class="java.lang.Object"/>
 	<field name="evento.valorInscricao" class="java.math.BigDecimal"/>
 	<field name="valorTotal" class="java.math.BigDecimal"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
@@ -280,7 +280,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[""+$F{tipo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[""+$F{categoria}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="167" y="63" width="62" height="21" uuid="34e33918-85e5-4992-8d98-1df17a0da3e0"/>
@@ -296,17 +296,18 @@
 				</textElement>
 				<text><![CDATA[Tipo Insc.]]></text>
 			</staticText>
-			<textField pattern="¤ #,##0.00">
-				<reportElement x="68" y="63" width="98" height="21" uuid="435a8a90-4e69-45ec-9996-306d5e3577be"/>
+			<textField>
+				<reportElement x="67" y="64" width="100" height="20" uuid="568a9921-37c9-4986-8c68-62af20d93dac"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[]]></textFieldExpression>
-				<patternExpression><![CDATA[$F{evento.valorInscricao}]]></patternExpression>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{evento.valorInscricao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -361,7 +362,7 @@
 				<text><![CDATA[VALOR TOTAL:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="157" y="16" width="100" height="20" uuid="17387a4c-e08d-45c3-8062-4da6b00e78a4"/>
+				<reportElement x="157" y="16" width="100" height="20" uuid="654e3354-5b43-4890-a4cd-6aa3423ba79c"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>

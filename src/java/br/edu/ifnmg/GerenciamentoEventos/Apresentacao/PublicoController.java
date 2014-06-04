@@ -99,12 +99,14 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
    public List<AtividadeTipo> getAtividadesTipos() {
-        return atividadeDAO.BuscarAtividadesTiposPorEvento(evento);
+       List<AtividadeTipo> tmp = atividadeDAO.BuscarAtividadesTiposPorEvento(evento);
+        return tmp;
     }
 
 
     public List<Atividade> getAtividades(AtividadeTipo t) throws IOException {
-       return atividadeDAO.BuscarAtividadesPorEventoETipo(evento, t);
+        List<Atividade> tmp = atividadeDAO.BuscarAtividadesPorEventoETipo(evento, t);
+       return tmp;
     }
 
     public Inscricao getInscricao() {

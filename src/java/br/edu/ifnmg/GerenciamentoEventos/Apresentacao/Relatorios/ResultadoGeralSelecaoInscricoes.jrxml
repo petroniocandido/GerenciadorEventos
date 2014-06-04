@@ -8,10 +8,10 @@
 	<field name="pessoa.nome" class="java.lang.String"/>
 	<field name="pessoa.cpf" class="java.lang.String"/>
 	<field name="evento.nome" class="java.lang.String"/>
-	<field name="id" class="java.lang.Integer"/>
+	<field name="id" class="java.lang.Long"/>
 	<field name="ordem" class="java.lang.Integer"/>
 	<field name="status" class="java.lang.Object"/>
-	<field name="tipo" class="java.lang.Object"/>
+	<field name="categoria" class="java.lang.Object"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
@@ -126,7 +126,7 @@
 			<textField>
 				<reportElement x="425" y="1" width="65" height="20" uuid="d694637f-e926-4a39-8af4-184fcebedd48"/>
 				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[""+$F{tipo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[""+$F{categoria}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
