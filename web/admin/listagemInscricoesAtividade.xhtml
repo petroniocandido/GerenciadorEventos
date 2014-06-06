@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagem de Inscrições por Evento
+                    </f:facet>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Evento: " />
+                                <p:autoComplete converter="#{eventoConverter}" value="#{inscricaoItemController.filtro.evento}"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <h:outputText value="Atividade: " />
+                                <p:autoComplete converter="#{atividadeConverter}" value="#{inscricaoItemController.filtro.pessoa}"
+                                                completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete> 
+                                <h:outputText value="Categoria: " />
+                                <h:selectOneMenu value="#{inscricaoItemController.filtro.categoria}">
+                                    <f:selectItems value="#{inscricaoController.categorias}" />
+                                </h:selectOneMenu>
+                            </p:panelGrid>
+                            <ui:include src="./comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{inscricaoItemController}"  />
+                                <ui:param name="campos" value=""  />
+                            </ui:include>
+                        </p:tab>
+                    </p:accordionPanel>
+                    <p:dataTable value="#{inscricaoItemController.dataModel}" var="item" selectionMode="single"
+                                 paginator="true" rows="30"  lazy="true" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+
+                        <p:ajax event="rowSelect" listener="#{inscricaoItemController.onRowSelect}" />
+                        <p:column headerText="Inscrição" sortBy="id"  >
+                            <p:outputLabel value="#{item.id}" />                            
+                        </p:column>
+                        <p:column headerText="Ordem" sortBy="#{item.ordem}"  >
+                            #{item.ordem}
+                        </p:column>
+                        <p:column headerText="Participante" sortBy="#{item.pessoa}"  >
+                            #{item.pessoa}                            
+                        </p:column>
+                        <p:column headerText="Categoria" sortBy="#{item.categoria}"  >
+                            #{item.categoria}                            
+                        </p:column>
+                        <p:column headerText="Status" sortBy="#{item.status}"  >
+                            #{item.status}                            
+                        </p:column>
+                        <p:column headerText="Pago?" sortBy="#{item.pago}"  >
+                            <p:selectBooleanCheckbox value="#{item.pago}" style="margin-left: 40%" disabled="true" />                        
+                        </p:column>
+                        <p:column headerText="Compareceu?" sortBy="#{item.compareceu}"  >
+                            <p:selectBooleanCheckbox  value="#{item.compareceu}" style="margin-left: 40%" disabled="true"  />
+                        </p:column>
+                        <p:column >
+                            <p:commandButton value="Check in" ajax="false" action="#{inscricaoItemController.checkIn(item)}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

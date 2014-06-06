@@ -4,77 +4,81 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AlocacaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  *
  * @author petronio
  */
-@Named(value = "alocacaoController")
+@Named(value = "inscricaoItemController")
 @SessionScoped
-public class AlocacaoController
-        extends ControllerBaseEntidade<Alocacao>
+public class InscricaoItemController
+        extends ControllerBaseEntidade<InscricaoItem>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public AlocacaoController() {
+    public InscricaoItemController() {
         id = 0L;
-        setEntidade(new Alocacao());
-        setFiltro(new Alocacao());
+        setEntidade(new InscricaoItem());
+        setFiltro(new InscricaoItem());
     }
-    
+
     Evento padrao;
-    
+
     @EJB
-    AlocacaoRepositorio dao;
-    
+    InscricaoRepositorio dao;
+
     @EJB
     EventoRepositorio evtDAO;
-    
+
+    @EJB
+    AtividadeRepositorio atiDAO;
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
         checaEventoPadrao();
     }
-    
+
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
         if (evt != null && padrao == null) {
             padrao = evtDAO.Abrir(Long.parseLong(evt));
-            if(getEntidade().getEvento() == null)
+            if (getEntidade().getEvento() == null) {
                 getEntidade().setEvento(padrao);
-            if(getFiltro().getEvento() == null)
+            }
+            if (getFiltro().getEvento() == null) {
                 getFiltro().setEvento(padrao);
+            }
         }
     }
-
-   
 
     @Override
     public void filtrar() {
         checaEventoPadrao();
-        
+
     }
 
     @Override
     public void salvar() {
-        
+
         SalvarEntidade();
-        
+
         // atualiza a listagem
         filtrar();
     }
@@ -83,56 +87,48 @@ public class AlocacaoController
     public String apagar() {
         ApagarEntidade();
         filtrar();
-        return "listagemAlocacoes.xtml";
+        return "listagemInscricoesAtividade.xtml";
     }
 
     @Override
     public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarAlocacao.xhtml";
+        setEntidade(dao.AbrirItem(id));
+        return "editarInscricaoAtividade.xhtml";
     }
 
     @Override
     public String cancelar() {
-        return "listagemAlocacoes.xhtml";
+        return "listagemInscricoesAtividade.xhtml";
     }
 
     @Override
     public void limpar() {
         checaEventoPadrao();
-        setEntidade(new Alocacao());
+        setEntidade(new InscricaoItem());
     }
 
     @Override
     public String novo() {
         limpar();
-        return "editarAlocacao.xhtml";
+        return "editarInscricaoAtividade.xhtml";
     }
-  
 
-    public AlocacaoStatus[] getStatus() {
-        return AlocacaoStatus.values();
+    public InscricaoStatus[] getStatus() {
+        return InscricaoStatus.values();
     }
-    
-    
-    public void concluir(Alocacao tmp){
-        tmp.setStatus(AlocacaoStatus.Concluido);
-        if(dao.Salvar(tmp)){
-            Mensagem("Confirmação", "Alocação concluída!");
+
+    public InscricaoCategoria[] getCategorias() {
+        return InscricaoCategoria.values();
+    }
+
+    public void checkIn(InscricaoItem itm) throws Exception {
+        itm.setCompareceu(!itm.isCompareceu());
+        if(dao.Salvar(itm)){
+            Mensagem("Confirmação", "Presença registrada com êxito!");
         } else {
-            AppendLog("Erro ao concluir alocação: " + dao.getErro().getMessage());
-            MensagemErro("Atenção", "Erro ao concluir alocação! Consulte o administrador do sistema!");
+            AppendLog("Erro ao registrar presença: " + dao.getErro().getMessage());
+            MensagemErro("Atenção", "Erro ao registrar presença! Consulte o administrador do sistema!");
         }
     }
-    
-    public void cancelar(Alocacao tmp){
-        tmp.setStatus(AlocacaoStatus.Cancelado);
-        if(dao.Salvar(tmp)){
-            Mensagem("Confirmação", "Alocação cancelada!");
-        } else {
-            AppendLog("Erro ao cancelar alocação: " + dao.getErro().getMessage());
-            MensagemErro("Atenção", "Erro ao cancelar alocação! Consulte o administrador do sistema!");
-        }
-    }
-    
+
 }

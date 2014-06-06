@@ -90,6 +90,9 @@ public class Evento implements Entidade, Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "evento")
+    private List<Atividade> atividades;
 
     public Evento() {
         recursos = new ArrayList<>();
@@ -101,6 +104,16 @@ public class Evento implements Entidade, Serializable {
         inicio = new Date();
         termino  = new Date();
     }   
+    
+    public void cancelar() {
+        for(Atividade a : atividades){
+            a.cancelar();
+        }
+        
+        for(Alocacao a : recursos){
+            a.setStatus(AlocacaoStatus.Cancelado);
+        }
+    }
     
     public boolean isPeriodoInscricaoAberto() {
         if(status == Status.Cancelado && status == Status.Concluido)
@@ -208,6 +221,18 @@ public class Evento implements Entidade, Serializable {
 
     public void setLocal(Recurso local) {
         this.local = local;
+        if(local != null){
+            Alocacao a = new Alocacao();
+            a.setEvento(this);
+            a.setRecurso(local);
+            a.setInicio(inicio);
+            a.setTermino(termino);
+            a.setResponsavel(criador);
+            if(recursos == null)
+                recursos = new ArrayList<>();
+            if(!recursos.contains(a))
+                recursos.add(a);
+        }
     }
 
     
@@ -271,6 +296,9 @@ public class Evento implements Entidade, Serializable {
     }
 
     public void setStatus(Status status) {
+        if(status == Status.Cancelado && this.status != null && this.status != Status.Cancelado)
+            cancelar();
+        
         this.status = status;
     }
 
@@ -304,6 +332,14 @@ public class Evento implements Entidade, Serializable {
 
     public void setSite(String site) {
         this.site = site;
+    }
+
+    public List<Atividade> getAtividades() {
+        return atividades;
+    }
+
+    public void setAtividades(List<Atividade> atividades) {
+        this.atividades = atividades;
     }
     
     

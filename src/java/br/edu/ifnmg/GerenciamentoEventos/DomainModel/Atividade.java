@@ -136,6 +136,12 @@ public class Atividade implements Entidade, Serializable {
         controle = new Controle(this, 0, 0);
     }
     
+    public void cancelar() {
+        for(Alocacao a : recursos){
+            a.setStatus(AlocacaoStatus.Cancelado);
+        }
+    }
+    
     public boolean isAtivo() {
         if(status == Status.Cancelado && status == Status.Concluido)
             return false;
@@ -320,6 +326,17 @@ public class Atividade implements Entidade, Serializable {
 
     public void setLocal(Recurso local) {
         this.local = local;
+        
+        if(local != null){
+            Alocacao a = new Alocacao();
+            a.setEvento(evento);
+            a.setAtividade(this);
+            a.setRecurso(local);
+            a.setInicio(inicio);
+            a.setTermino(termino);
+            a.setResponsavel(criador);
+            add(a);
+        }
     }
 
     public int getNumeroVagas() {
@@ -375,6 +392,9 @@ public class Atividade implements Entidade, Serializable {
     }
 
     public void setStatus(Status status) {
+        if(status == Status.Cancelado && this.status != null && this.status != Status.Cancelado)
+            cancelar();
+        
         this.status = status;
     }
 

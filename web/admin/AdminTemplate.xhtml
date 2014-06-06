@@ -42,7 +42,10 @@
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemEventos.xhtml')}" value="Eventos" url="listagemEventos.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAtividades.xhtml')}" value="Atividades"  url="listagemAtividades.xhtml"  />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemQuestionarios.xhtml')}" value="Formulários"  url="listagemQuestionarios.xhtml"  />
-                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições no Evento" url="listagemInscricoes.xhtml"  />                    
+                    <p:submenu label="Inscrições">
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições no Evento" url="listagemInscricoes.xhtml"  />
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoesAtividade.xhtml')}" value="Inscrições Por Atividade" url="listagemInscricoesAtividade.xhtml"  />
+                    </p:submenu>
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Financeiro')}" label="Financeiro">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentos.xhtml')}"  value="Lançamentos" url="listagemLancamentos.xhtml" />                    

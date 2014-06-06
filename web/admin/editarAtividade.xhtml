@@ -49,6 +49,13 @@
                                 <h:outputText value="Término: " />
                                 <p:calendar value="#{atividadeController.entidade.termino}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Término é de preenchimento obrigatório!" />
+                                <h:outputText value="Local: " />
+                                <p:autoComplete converter="#{recursoConverter}" value="#{atividadeController.entidade.local}"
+                                                completeMethod="#{recursoConverter.autoCompleteImoveis}" 
+                                                var="item" itemValue="#{item}" itemLabel="#{item.nome}">
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
+                                    <p:column headerText="Capacidade">#{item.capacidade}</p:column>
+                                </p:autoComplete>
 
                             </h:panelGrid> 
                         </p:tab>

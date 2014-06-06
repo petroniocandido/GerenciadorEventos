@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -58,6 +59,8 @@ public class Alocacao implements Entidade, Serializable, Comparable<Alocacao> {
     public Alocacao(){
         status = AlocacaoStatus.Pendente;
     }
+    
+    
     
     @Override
     public Long getId() {
@@ -124,26 +127,46 @@ public class Alocacao implements Entidade, Serializable, Comparable<Alocacao> {
     public void setStatus(AlocacaoStatus status) {
         this.status = status;
     }
-    
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.recurso);
+        hash = 19 * hash + Objects.hashCode(this.evento);
+        hash = 19 * hash + Objects.hashCode(this.atividade);
+        hash = 19 * hash + Objects.hashCode(this.inicio);
+        hash = 19 * hash + Objects.hashCode(this.termino);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Alocacao)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Alocacao other = (Alocacao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Alocacao other = (Alocacao) obj;
+        if (!Objects.equals(this.recurso, other.recurso)) {
+            return false;
+        }
+        if (!Objects.equals(this.evento, other.evento)) {
+            return false;
+        }
+        if (!Objects.equals(this.atividade, other.atividade)) {
+            return false;
+        }
+        if (!Objects.equals(this.inicio, other.inicio)) {
+            return false;
+        }
+        if (!Objects.equals(this.termino, other.termino)) {
             return false;
         }
         return true;
     }
+    
+   
 
     @Override
     public String toString() {

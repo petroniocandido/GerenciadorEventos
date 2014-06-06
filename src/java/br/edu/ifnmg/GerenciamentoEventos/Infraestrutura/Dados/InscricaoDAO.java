@@ -96,5 +96,10 @@ public class InscricaoDAO
     public Repositorio<InscricaoItem> getRepositorioItem() {
         return itemDAO;
     }
+
+    @Override
+    public InscricaoItem AbrirItem(Long id) {
+        return itemDAO.Abrir(id);
+    }
     
 }

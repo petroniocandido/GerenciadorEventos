@@ -100,6 +100,36 @@ public class Inscricao implements Entidade, Serializable {
         status = InscricaoStatus.Criada;
     }
     
+    public void cancelar(){
+        
+        for(InscricaoItem i : itens){
+            i.setStatus(InscricaoStatus.Cancelada);
+        }
+        
+        if(lancamento != null)
+            lancamento.cancelar(pessoa);
+    }
+    
+    public void recusar(){
+        
+        for(InscricaoItem i : itens){
+            i.setStatus(InscricaoStatus.Recusada);
+        }
+        
+        if(lancamento != null)
+            lancamento.cancelar(pessoa);
+    }
+    
+    public void pagar() {
+        for(InscricaoItem i : itens){
+            i.setPago(true);
+            if(i.getStatus() == InscricaoStatus.Criada)
+                i.setStatus(InscricaoStatus.Confirmada);
+        }
+        if(status == InscricaoStatus.Criada)
+            setStatus(InscricaoStatus.Confirmada);
+    }
+    
     public boolean add(InscricaoItem item){
         item.setInscricao(this);
         if(!itens.contains(item)){
@@ -158,6 +188,8 @@ public class Inscricao implements Entidade, Serializable {
         l.setCliente(this.getPessoa());
         l.setCriacao(new Date());
         l.setCriador(p);
+        l.setValorOriginal(getValorTotal());
+        l.setValorTotal(getValorTotal());
         
         l.setDescricao("Referente pagto inscrição " + id.toString() + " do evento " + this.getEvento().getNome() + " e das atividades " + tmp);
         setLancamento(l);
@@ -211,6 +243,8 @@ public class Inscricao implements Entidade, Serializable {
     }
 
     public void setPago(boolean pago) {
+        if(pago == true && this.pago == false)
+            pagar();
         this.pago = pago;
     }
 
@@ -283,6 +317,12 @@ public class Inscricao implements Entidade, Serializable {
     }
 
     public void setStatus(InscricaoStatus status) {
+        if(status == InscricaoStatus.Cancelada && this.status != null && this.status != InscricaoStatus.Cancelada)
+            cancelar();
+        
+        if(status == InscricaoStatus.Recusada && this.status != null && this.status != InscricaoStatus.Recusada)
+            recusar();
+        
         this.status = status;
     }
 
