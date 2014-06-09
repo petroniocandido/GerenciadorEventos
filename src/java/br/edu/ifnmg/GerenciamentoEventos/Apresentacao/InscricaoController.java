@@ -172,6 +172,12 @@ public class InscricaoController
         return InscricaoCategoria.values();
     }
     
+    public List<Pessoa> getPessoa() {
+        List<Pessoa> pessoas = new ArrayList<>();
+        pessoas.add(entidade.getPessoa());
+        return pessoas;
+    }
+    
     public List<Pessoa> getPessoas() {
         List<Pessoa> pessoas = new ArrayList<>();
         for(Inscricao i : getListagem())

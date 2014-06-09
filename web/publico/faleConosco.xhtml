@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./PublicTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Fale conosco!
+                    </f:facet>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Assunto:" /> 
+                        <p:inputText value="#{publicoController.assunto}" />
+                        <p:outputLabel value="Mensagem:" /> 
+                        <p:editor value="#{publicoController.mensagem}" />            
+                    </p:panelGrid>
+                    <p:commandButton value="Enviar" ajax="false" action="#{publicoController.enviarMensagem()}" onclick="start();" />
+                    
+                    <p:confirmDialog id="contador" message="Enviando e-mails"  
+                                     header="Aguarde" severity="alert" widgetVar="msgProgresso">  
+                        <p:progressBar id="progressBarClient" widgetVar="progresso" style="width:300px"/>
+                    </p:confirmDialog> 
+                    <script type="text/javascript">
+                        function start() {
+                            msgProgresso.show();
+
+                            window['progress'] = setInterval(function() {
+                                var pbClient = PF('progresso'),
+                                        oldValue = pbClient.getValue(),
+                                        newValue = oldValue + 10;
+
+                                pbClient.setValue(pbClient.getValue() + 10);
+
+                                if (newValue === 100) {
+                                    clearInterval(window['progress']);
+                                }
+
+
+                            }, 1000);
+                        }
+                    </script>
+                </p:panel>    
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
