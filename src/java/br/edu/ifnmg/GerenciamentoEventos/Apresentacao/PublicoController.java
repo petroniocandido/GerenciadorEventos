@@ -321,23 +321,41 @@ public class PublicoController extends ControllerBase implements Serializable {
     @Override
     public void enviarMensagem() {
        String tmp = getMensagem();
-       tmp = tmp + "\n" +getUsuarioCorrente().toString();
+       List<Pessoa> admin = new ArrayList<Pessoa>();
        
-       if(getEvento() != null){
-           tmp = tmp + "\n" + "Evento: " + getEvento().getNome();
-       }
+       tmp = tmp + "\n" +getUsuarioCorrente().toString();
        
        if(getAtividade() != null){
            tmp = tmp + "\n" + "Atividade: " + getAtividade().getNome();
+           admin.addAll(getAtividade().getResponsaveis());
        }
+       
+       if(getEvento() != null){
+           tmp = tmp + "\n" + "Evento: " + getEvento().getNome();
+           if(admin.isEmpty())
+               admin.addAll(getEvento().getResponsaveis());
+       }
+       
+       
        if(getInscricao() != null ){
            tmp = tmp + "\n" + "Inscrição: " + getInscricao().getId().toString();
        }
        setAssunto("[SGE]" + getAssunto());
        setMensagem(tmp);
-       List<Pessoa> admin = new ArrayList<Pessoa>();
-       admin.add(pessoaDAO.Abrir("petronio.candido@gmail.com"));
+       
+       if(admin.isEmpty()){
+           admin.add(pessoaDAO.Abrir("petronio.candido@gmail.com"));
+       }
+        setDestinatarios(admin);
        super.enviarMensagem();
+    }
+    
+    public List<Atividade> getAtividadesPublicas() {
+        return atividadeDAO.Join("tipo", "t")
+                .IgualA("t.publico", true)
+                .IgualA("evento", getEvento())
+                .Ordenar("nome", "ASC")
+                .Buscar();
     }
 
 }

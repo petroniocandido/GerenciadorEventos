@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -134,5 +135,29 @@ public class EventoController
      public Status[] getStatus() {
         return Status.values();
     }
+     
+     Pessoa responsavel;
+     
+     public void addResponsavel() {
+        entidade.add(responsavel);
+        SalvarAgregado(responsavel);
+        responsavel = new Pessoa();
+    }
+
+    public void removeResponsavel() {
+        entidade.remove(responsavel);
+        RemoverAgregado(responsavel);
+        responsavel = new Pessoa();
+    }
+
+    public Pessoa getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Pessoa responsavel) {
+        this.responsavel = responsavel;
+    }
+    
+    
     
 }

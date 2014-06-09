@@ -23,6 +23,7 @@
 	<field name="status" class="java.lang.Object"/>
 	<field name="categoria" class="java.lang.Object"/>
 	<field name="inscricao.valorTotal" class="java.math.BigDecimal"/>
+	<field name="inscricao.categoria" class="java.lang.Object"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
@@ -223,7 +224,7 @@
 				</textElement>
 				<text><![CDATA[Local]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="402" y="44" width="152" height="20" uuid="2d5918a7-d25d-4207-b2a4-7eb492b94d1a"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -306,7 +307,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[""+$F{inscricao.status}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="69" y="65" width="98" height="21" uuid="b06e0b11-7773-4e64-8bd6-d56fb03f0e9f"/>
 				<box>
 					<topPen lineWidth="1.0"/>
@@ -317,10 +318,6 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{inscricao.evento.valorInscricao}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="97" y="2" width="100" height="20" uuid="75b79b96-f380-44de-80d6-3659954974bf"/>
-				<text><![CDATA[atividade.valorInscricao]]></text>
-			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -405,7 +402,7 @@
 				</textElement>
 				<text><![CDATA[Término]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="371" y="21" width="183" height="20" uuid="6ce462f0-bd83-474c-b543-c009e4dfa1ec"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -484,31 +481,6 @@
 				<text><![CDATA[Ordem]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="331" y="41" width="63" height="20" uuid="87e820db-06a6-40a4-b9b0-eaeb0cd91e3a"/>
-				<box>
-					<pen lineWidth="1.0"/>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Tipo Insc.]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="395" y="41" width="160" height="20" uuid="a84522dd-a8af-42a0-8e26-1513ec772184"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[""+$F{categoria}]]></textFieldExpression>
-			</textField>
-			<staticText>
 				<reportElement x="0" y="61" width="67" height="21" uuid="cb8f68a3-f4d0-4958-b280-0129f211c1d3"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -523,7 +495,7 @@
 				<text><![CDATA[Valor Insc.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="161" y="61" width="69" height="21" uuid="17795b6c-16aa-4684-b18b-252919790559"/>
+				<reportElement x="331" y="41" width="69" height="21" uuid="17795b6c-16aa-4684-b18b-252919790559"/>
 				<box>
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -537,7 +509,7 @@
 				<text><![CDATA[Situação]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="231" y="61" width="100" height="21" uuid="b2eae460-00e5-4bae-92bb-c804e07d049b"/>
+				<reportElement x="401" y="41" width="153" height="21" uuid="b2eae460-00e5-4bae-92bb-c804e07d049b"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -547,7 +519,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[""+$F{status}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="68" y="62" width="92" height="20" uuid="1ec39283-fb0a-42a2-9095-90ac363b589f"/>
 				<box>
 					<topPen lineWidth="1.0"/>
@@ -567,14 +539,14 @@
 		<band height="52">
 			<elementGroup>
 				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="442" y="32" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
+					<reportElement positionType="FixRelativeToBottom" x="442" y="29" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
-					<reportElement positionType="FixRelativeToBottom" x="517" y="32" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
+					<reportElement positionType="FixRelativeToBottom" x="515" y="29" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
@@ -586,7 +558,7 @@
 				<text><![CDATA[Página]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="489" y="32" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
+				<reportElement x="487" y="27" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
 				<text><![CDATA[de]]></text>
 			</staticText>
 			<staticText>

@@ -15,6 +15,18 @@
                         Fale conosco!
                     </f:facet>
                     <p:panelGrid columns="2">
+                        <p:outputLabel value="Evento:" />
+                        <p:autoComplete converter="#{eventoConverter}" value="#{publicoController.evento}"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}"
+                                                required="true" requiredMessage="A campo Evento é de preenchimento obrigatório!">
+                                    #{item.nome}
+                                </p:autoComplete>
+                        <p:outputLabel value="Atividade:" />
+                        <p:selectOneMenu value="#{publicoController.atividade}">
+                            <f:selectItem noSelectionOption="true" />
+                            <f:selectItems value="#{publicoController.atividadesPublicas}" />
+                        </p:selectOneMenu>
                         <p:outputLabel value="Assunto:" /> 
                         <p:inputText value="#{publicoController.assunto}" />
                         <p:outputLabel value="Mensagem:" /> 
