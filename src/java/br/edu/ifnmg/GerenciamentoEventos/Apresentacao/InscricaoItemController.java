@@ -9,11 +9,15 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -129,6 +133,14 @@ public class InscricaoItemController
             AppendLog("Erro ao registrar presença: " + dao.getErro().getMessage());
             MensagemErro("Atenção", "Erro ao registrar presença! Consulte o administrador do sistema!");
         }
+    }
+    
+    public List<Pessoa> getPessoas() {
+        List<Pessoa> pessoas = new ArrayList<>();
+        for(Inscricao i : getListagem())
+            pessoas.add(i.getPessoa());
+        
+        return pessoas;
     }
 
 }

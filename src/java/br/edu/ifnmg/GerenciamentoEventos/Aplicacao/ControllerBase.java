@@ -136,7 +136,7 @@ public abstract class ControllerBase {
                 erros += p.getEmail() + ",";
             }
         }
-        Mensagem("Confirmação", sucesso +" e-mails enviados com sucesso!" + erro + "enviados com falha: " + erros);
+        Mensagem("Confirmação", sucesso +" e-mails enviados com sucesso!\n" + erro + " enviados com falha:\n " + erros);
     }
     
 }

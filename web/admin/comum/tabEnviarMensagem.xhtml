@@ -11,9 +11,9 @@
             <p:outputLabel value="Assunto:" /> 
             <p:inputText value="#{controller.assunto}" />
             <p:outputLabel value="Mensagem:" /> 
-            <p:editor value=" #{controller.mensagem}" />            
+            <p:editor value="#{controller.mensagem}" />            
         </p:panelGrid>
-        <p:commandButton value="Enviar" action="#{controller.enviarMensagem}">
+        <p:commandButton value="Enviar" ajax="false" action="#{controller.enviarMensagem()}">
             <f:setPropertyActionListener target="#{controller.destinatarios}" value="#{destinatarios}" />
         </p:commandButton>
     </p:tab>
