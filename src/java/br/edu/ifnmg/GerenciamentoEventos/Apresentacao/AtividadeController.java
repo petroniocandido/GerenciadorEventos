@@ -167,12 +167,14 @@ public class AtividadeController
     }
 
     public void addResponsavel() {
+        entidade = dao.Refresh(entidade);
         entidade.add(responsavel);
         SalvarAgregado(responsavel);
         responsavel = new Pessoa();
     }
 
     public void removeResponsavel() {
+        entidade = dao.Refresh(entidade);
         entidade.remove(responsavel);
         RemoverAgregado(responsavel);
         responsavel = new Pessoa();

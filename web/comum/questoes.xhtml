@@ -33,9 +33,9 @@
                     <p:calendar id="valor-#{q.id}" pattern="dd/MM/yyyy HH:mm" />
                 </c:if>
                 <c:if test="#{q.tipo == 'Opcoes'}">
-                    <p:selectOneMenu id="valor-#{q.id}" >
+                    <h:selectOneMenu id="valor-#{q.id}"  >
                         <f:selectItems value="#{q.opcoesLista}" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                 </c:if>
                 <c:if test="#{q.tipo == 'Arquivo'}">
                     <p:fileUpload id="#{inscricaotipo}-arquivo-#{q.id}" fileUploadListener="#{controller.arquivoFileUpload}" mode="advanced"             
