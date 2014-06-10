@@ -23,7 +23,7 @@
                                     #{item.nome}
                                 </p:autoComplete>
                         <p:outputLabel value="Atividade:" />
-                        <p:selectOneMenu value="#{publicoController.atividade}">
+                        <p:selectOneMenu value="#{publicoController.atividade}" converter="#{atividadeConverter}">
                             <f:selectItem noSelectionOption="true" />
                             <f:selectItems value="#{publicoController.atividadesPublicas}" />
                         </p:selectOneMenu>
