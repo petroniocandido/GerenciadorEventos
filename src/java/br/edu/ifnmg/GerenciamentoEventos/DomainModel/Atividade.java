@@ -136,6 +136,10 @@ public class Atividade implements Entidade, Serializable {
         controle = new Controle(this, 0, 0);
     }
     
+    public boolean podeEditar(Pessoa obj) {
+        return id == 0 ||  criador.equals(obj) || responsaveis.contains(obj);
+    }
+    
     public void cancelar() {
         for(Alocacao a : recursos){
             a.setStatus(AlocacaoStatus.Cancelado);

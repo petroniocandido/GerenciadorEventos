@@ -110,7 +110,11 @@ public class Evento implements Entidade, Serializable {
         necessitaInscricao = false;
         inicio = new Date();
         termino  = new Date();
-    }   
+    } 
+    
+    public boolean podeEditar(Pessoa obj) {
+        return id == 0 ||  criador.equals(obj) || responsaveis.contains(obj);
+    }
     
     public void cancelar() {
         for(Atividade a : atividades){

@@ -33,9 +33,7 @@ public class AtividadeConverter
     }
     
     public List<Atividade> autoCompleteAtividade(String query) {
-        Atividade i = new Atividade();
-        i.setNome(query);
-        return dao.Buscar(i);
+        return dao.Like("nome", query).Ordenar("nome", "ASC").Buscar();
     }
 
 }
