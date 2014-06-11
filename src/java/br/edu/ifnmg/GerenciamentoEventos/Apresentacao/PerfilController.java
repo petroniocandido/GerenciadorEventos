@@ -10,6 +10,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -39,6 +41,9 @@ public class PerfilController
     
     @EJB
     PerfilRepositorio dao;
+    
+    @EJB
+    PessoaRepositorio daoP;
     
     Permissao permissao;
    
@@ -105,5 +110,8 @@ public class PerfilController
         this.permissao = permissao;
     }
     
+    public List<Pessoa> getPessoas() {
+        return daoP.IgualA("perfil", entidade).Buscar();
+    }
     
 }

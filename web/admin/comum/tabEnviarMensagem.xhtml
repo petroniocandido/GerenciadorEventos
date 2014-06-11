@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <p:tab title="Enviar Mensagem">
+        <p:panelGrid columns="2">
+            <p:outputLabel value="Assunto:" /> 
+            <p:inputText value="#{controller.assunto}" />
+            <p:outputLabel value="Mensagem:" /> 
+            <p:editor value="#{controller.mensagem}" />            
+        </p:panelGrid>
+        <p:commandButton value="Enviar" ajax="false" action="#{controller.enviarMensagem()}" onclick="start();" >
+            <f:setPropertyActionListener target="#{controller.destinatarios}" value="#{destinatarios}" />
+        </p:commandButton>
+        <p:confirmDialog id="contador" message="Enviando e-mails"  
+                         header="Aguarde" severity="alert" widgetVar="msgProgresso">  
+            <p:progressBar id="progressBarClient" widgetVar="progresso" style="width:300px"/>
+        </p:confirmDialog> 
+        <script type="text/javascript">
+            function start() {
+                msgProgresso.show();
+
+                window['progress'] = setInterval(function() {
+                    var pbClient = PF('progresso'),
+                            oldValue = pbClient.getValue(),
+                            newValue = oldValue + 10;
+
+                    pbClient.setValue(pbClient.getValue() + 10);
+
+                    if (newValue === 100) {
+                        clearInterval(window['progress']);
+                    }
+
+
+                }, 1000);
+            }
+        </script>
+    </p:tab>
+</ui:composition>

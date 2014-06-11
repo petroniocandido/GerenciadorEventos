@@ -46,7 +46,9 @@
                         <p:ajax event="rowSelect" listener="#{logController.onRowSelect}" partialSubmit="true" oncomplete="dadosLog.show();"  />
                         <!-- Coluna Codigo -->
                         <p:column headerText="Data" sortBy="#{item.data}"   >
-                            <p:outputLabel value="#{item.dataEvento}" />
+                            <p:outputLabel value="#{item.dataEvento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy mm:ss" />
+                            </p:outputLabel>
                         </p:column>
                         <!-- Coluna Nome -->
                         <p:column headerText="Usuário" sortBy="#{item.usuario}"  >

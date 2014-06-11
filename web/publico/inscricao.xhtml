@@ -149,14 +149,16 @@
                                  header="Confirmação" severity="alert" widgetVar="msgSalvar">  
                     <c:if test="#{not empty publicoController.evento.questionario}">
                         <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
-                        <p:tabView>
-                            <ui:include src="../comum/questionario.xhtml">
-                                <ui:param name="controller" value="#{publicoController}"  />
-                                <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
-                                <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
-                                <ui:param name="inscricaotipo" value="normal"  />
-                            </ui:include>
-                        </p:tabView>
+                        <p:scrollPanel mode="native" style="width:600px;height:400px">
+                            <p:tabView>
+                                <ui:include src="../comum/questionario.xhtml">
+                                    <ui:param name="controller" value="#{publicoController}"  />
+                                    <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
+                                    <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
+                                    <ui:param name="inscricaotipo" value="normal"  />
+                                </ui:include>
+                            </p:tabView>
+                        </p:scrollPanel>
                     </c:if>
                     <p:commandButton ajax="false" value="Confirmar Inscrição" action="#{publicoController.inscreverEvento}" />  
                     <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   

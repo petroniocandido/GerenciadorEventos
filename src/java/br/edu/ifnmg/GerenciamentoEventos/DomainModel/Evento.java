@@ -21,7 +21,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -93,9 +95,14 @@ public class Evento implements Entidade, Serializable {
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Atividade> atividades;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "eventosresponsaveis")
+    private List<Pessoa> responsaveis;
 
     public Evento() {
         recursos = new ArrayList<>();
+        responsaveis = new ArrayList<>();
         numeroVagas = 0;
         controle = new Controle(this, 0, 0);
         status = Status.Pendente;
@@ -153,6 +160,15 @@ public class Evento implements Entidade, Serializable {
             return false;
         Date hoje = new Date();
         return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
+    }
+    
+    public void add(Pessoa responsavel){
+        if(!responsaveis.contains(responsavel))
+            responsaveis.add(responsavel);
+    }
+    public void remove(Pessoa responsavel){
+        if(responsaveis.contains(responsavel))
+            responsaveis.remove(responsavel);
     }
 
     @Override
@@ -342,7 +358,13 @@ public class Evento implements Entidade, Serializable {
         this.atividades = atividades;
     }
     
-    
+    public List<Pessoa> getResponsaveis() {
+        return responsaveis;
+    }
+
+    public void setResponsaveis(List<Pessoa> responsaveis) {
+        this.responsaveis = responsaveis;
+    }
 
     @Override
     public int hashCode() {

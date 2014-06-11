@@ -10,6 +10,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -113,6 +114,12 @@ public class PessoaController
 
     public void setSenha2(String senha2) {
         this.senha2 = senha2;
+    }
+    
+     public List<Pessoa> getPessoas() {
+         List<Pessoa> tmp = new ArrayList<>();
+         tmp.add(entidade);
+        return tmp;
     }
    
 }

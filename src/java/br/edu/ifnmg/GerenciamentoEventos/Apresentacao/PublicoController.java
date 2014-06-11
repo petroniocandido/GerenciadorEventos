@@ -26,6 +26,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioReposi
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -39,7 +40,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -315,6 +315,47 @@ public class PublicoController extends ControllerBase implements Serializable {
             Logger.getLogger(PublicoController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    
+    @Override
+    public void enviarMensagem() {
+       String tmp = getMensagem();
+       List<Pessoa> admin = new ArrayList<Pessoa>();
+       
+       tmp = tmp + "\n" +getUsuarioCorrente().toString();
+       
+       if(getAtividade() != null){
+           tmp = tmp + "\n" + "Atividade: " + getAtividade().getNome();
+           admin.addAll(getAtividade().getResponsaveis());
+       }
+       
+       if(getEvento() != null){
+           tmp = tmp + "\n" + "Evento: " + getEvento().getNome();
+           if(admin.isEmpty())
+               admin.addAll(getEvento().getResponsaveis());
+       }
+       
+       
+       if(getInscricao() != null ){
+           tmp = tmp + "\n" + "Inscrição: " + getInscricao().getId().toString();
+       }
+       setAssunto("[SGE]" + getAssunto());
+       setMensagem(tmp);
+       
+       if(admin.isEmpty()){
+           admin.add(pessoaDAO.Abrir("petronio.candido@gmail.com"));
+       }
+        setDestinatarios(admin);
+       super.enviarMensagem();
+    }
+    
+    public List<Atividade> getAtividadesPublicas() {
+        return atividadeDAO.Join("tipo", "t")
+                .IgualA("t.publico", true)
+                .IgualA("evento", getEvento())
+                .Ordenar("nome", "ASC")
+                .Buscar();
     }
 
 }

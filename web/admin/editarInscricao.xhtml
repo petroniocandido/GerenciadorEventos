@@ -155,6 +155,10 @@
                         <p:tab id="tabObservacoes" title="Observações">
                             <p:inputTextarea value="#{inscricaoController.entidade.observacoes}" cols="150" rows="20" />
                         </p:tab>
+                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
+                            <ui:param name="controller" value="#{inscricaoController}"  />
+                            <ui:param name="destinatarios" value="#{inscricaoController.pessoa}"  />
+                        </ui:include>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{inscricaoController}"  />
                         </ui:include>

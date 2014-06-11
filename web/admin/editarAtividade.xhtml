@@ -168,6 +168,10 @@
                                 </p:column>
                             </p:dataTable>
                         </p:tab>
+                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
+                            <ui:param name="controller" value="#{atividadeController}"  />
+                            <ui:param name="destinatarios" value="#{atividadeController.entidade.responsaveis}"  />
+                        </ui:include>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{atividadeController}"  />
                         </ui:include>

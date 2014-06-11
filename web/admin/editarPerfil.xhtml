@@ -43,6 +43,10 @@
                                 <f:selectItems value="#{permissaoController.listagemGeral}" /> 
                             </p:selectManyCheckbox>
                         </p:tab>
+                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
+                            <ui:param name="controller" value="#{perfilController}"  />
+                            <ui:param name="destinatarios" value="#{perfilController.pessoas}"  />
+                        </ui:include>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{perfilController}"  />
                         </ui:include>
