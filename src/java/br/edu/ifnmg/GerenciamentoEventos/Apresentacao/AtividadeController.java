@@ -48,7 +48,6 @@ public class AtividadeController
         responsavel = new Pessoa();
         tipo = new AtividadeTipo();
         filtroTipo = new AtividadeTipo();
-        checaEventoPadrao();
     }
 
     Evento padrao;
@@ -89,7 +88,7 @@ public class AtividadeController
 
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
-        if (evt != null && padrao == null) {
+        if (evt != null) {
             padrao = evtDAO.Abrir(Long.parseLong(evt));
             if (getEntidade().getEvento() == null) {
                 getEntidade().setEvento(padrao);
