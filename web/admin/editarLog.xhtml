@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Visualizar dados do log
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Data: " />
+                                <p:outputLabel value="#{logController.entidade.dataEvento}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss" />
+                                </p:outputLabel>
+                                <h:outputText value="Usuario: " />
+                                <p:outputLabel value="#{logController.entidade.usuario}" />
+                                <h:outputText value="Descrição: " />
+                                <p:outputLabel value="#{logController.entidade.descricao}" />
+                                <h:outputText value="Permissao: " />
+                                <p:outputLabel value="#{logController.entidade.permissao}" />
+                                <h:outputText value="Máquina: " />
+                                <p:outputLabel value="#{logController.entidade.maquina}" />
+                            </h:panelGrid> 
+                        </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{alocacaoController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{alocacaoController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

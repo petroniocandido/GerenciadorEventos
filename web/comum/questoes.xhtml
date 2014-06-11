@@ -72,10 +72,10 @@
                     <p:calendar id="valor-#{q.id}" value="#{inscricao.resposta.RespostaDeQuestao(q).data}"  pattern="dd/MM/yyyy HH:mm" />
                 </c:if>
                 <c:if test="#{q.tipo == 'Opcoes'}">
-                    <p:selectOneMenu id="valor-#{q.id}" editable="false" maxlength="150" 
+                    <h:selectOneMenu id="valor-#{q.id}" 
                                      value="#{inscricao.resposta.RespostaDeQuestao(q).valor}">
                         <f:selectItems value="#{q.opcoesLista}" />
-                    </p:selectOneMenu>
+                    </h:selectOneMenu>
                 </c:if>
                 <c:if test="#{q.tipo == 'Arquivo'}">
                     <a href="../arquivos/#{inscricao.resposta.RespostaDeQuestao(q).arquivo.uri}" target="_blank">#{inscricao.resposta.RespostaDeQuestao(q).arquivo.nome}</a>

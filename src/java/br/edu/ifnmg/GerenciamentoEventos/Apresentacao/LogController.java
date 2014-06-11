@@ -12,15 +12,15 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import org.primefaces.event.SelectEvent;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "logController")
-@RequestScoped
+@SessionScoped
 public class LogController
         extends ControllerBaseEntidade<Log>
         implements Serializable {
@@ -44,7 +44,6 @@ public class LogController
 
     @Override
     public void filtrar() {
-        
     }
 
     @Override
@@ -85,14 +84,8 @@ public class LogController
         limpar();
         return "editarLog.xhtml";
     }
-
+   
     
-    @Override
-    public void onRowSelect(SelectEvent event) {
-        Log obj = (Log) event.getObject();
-        setEntidade(obj);
-    }
-
     @Override
     public List<Log> getListagem() {
         return dao.Buscar(filtro);
