@@ -26,7 +26,10 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioReposi
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
+import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.SessaoService;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,10 +38,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -73,6 +77,9 @@ public class PublicoController extends ControllerBase implements Serializable {
     @EJB
     ArquivoRepositorio arqDAO;
 
+    @Inject
+    SessaoService sessao;
+
     Evento evento;
 
     Atividade atividade;
@@ -98,21 +105,26 @@ public class PublicoController extends ControllerBase implements Serializable {
         return eventoDAO.Buscar(filtro);
     }
 
-   public List<AtividadeTipo> getAtividadesTipos() {
-       List<AtividadeTipo> tmp = atividadeDAO.BuscarAtividadesTiposPorEvento(evento);
+    public List<AtividadeTipo> getAtividadesTipos() {
+        List<AtividadeTipo> tmp = atividadeDAO.BuscarAtividadesTiposPorEvento(getEvento());
         return tmp;
     }
 
-
     public List<Atividade> getAtividades(AtividadeTipo t) throws IOException {
-        List<Atividade> tmp = atividadeDAO.BuscarAtividadesPorEventoETipo(evento, t);
-       return tmp;
+        List<Atividade> tmp = atividadeDAO.BuscarAtividadesPorEventoETipo(getEvento(), t);
+        return tmp;
+    }
+
+    public void setInscricao(Inscricao i) {
+        inscricao = i;
+        setSessao("inscricao", i);
     }
 
     public Inscricao getInscricao() {
         if (inscricao == null) {
-            if (evento != null) {
-                inscricao = inscricaoDAO.Abrir(evento, getUsuarioCorrente());
+            inscricao = (Inscricao)getSessao("inscricao", inscricaoDAO);
+            if (inscricao == null && getEvento() != null) {
+                setInscricao(inscricaoDAO.Abrir(getEvento(), getUsuarioCorrente()));
                 return inscricao;
             } else {
                 return null;
@@ -123,25 +135,33 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public Evento getEvento() {
+        if (evento == null) {
+            evento = (Evento)getSessao("evento", eventoDAO);
+        }
         return evento;
     }
 
-    public void setEvento(Evento evento) {
-        this.evento = evento;
-        this.atividade = null;
-        this.inscricao = null;
+    public void setEvento(Evento e) {
+        this.evento = e;
+        setAtividade(null);
+        setInscricao(null);
+        setSessao("evento", e);
     }
 
     public Atividade getAtividade() {
+        if (atividade == null) {
+            atividade = (Atividade)getSessao("atividade", atividadeDAO);
+        }
         return atividade;
     }
 
-    public void setAtividade(Atividade atividade) {
-        this.atividade = atividade;
+    public void setAtividade(Atividade a) {
+        this.atividade = a;
+        setSessao("atividade", a);
     }
 
     public void inscreverEvento() throws IOException {
-        inscricao = inscricaoservice.inscrever(evento, getUsuarioCorrente());
+        setInscricao(inscricaoservice.inscrever(getEvento(), getUsuarioCorrente()));
 
         if (inscricao != null) {
             processaQuestionarioEvento(inscricao);
@@ -149,7 +169,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public String cancelarInscricaoEvento() {
-        inscricao = inscricaoDAO.Refresh(inscricao);
+        inscricao = inscricaoDAO.Refresh(getInscricao());
         if (inscricaoservice.cancelar(inscricao)) {
             inscricao = null;
             return "selecionaEvento.xhtml";
@@ -160,23 +180,23 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public InscricaoItem getInscricaoItem() {
-        if (inscricao != null) {
-            return inscricao.getItem(atividade);
+        if (getInscricao() != null) {
+            return inscricao.getItem(getAtividade());
         } else {
             return null;
         }
     }
 
     public void inscreverAtividade() throws IOException {
-        inscricao = inscricaoDAO.Refresh(inscricao);
-        inscricaoItem = inscricaoservice.inscrever(inscricao, atividade, getUsuarioCorrente());
+        inscricao = inscricaoDAO.Refresh(getInscricao());
+        inscricaoItem = inscricaoservice.inscrever(inscricao, getAtividade(), getUsuarioCorrente());
         if (inscricaoItem != null) {
             processaQuestionarioAtividade(inscricao, inscricaoItem);
         }
     }
 
     public String cancelarInscricaoAtividade() {
-        inscricao = inscricaoDAO.Refresh(inscricao);
+        inscricao = inscricaoDAO.Refresh(getInscricao());
         if (inscricaoservice.cancelar(getInscricaoItem())) {
             inscricaoItem = null;
             return "inscricao.xhtml";
@@ -262,13 +282,13 @@ public class PublicoController extends ControllerBase implements Serializable {
     public void arquivoFileUpload(FileUploadEvent evt) {
         try {
 
-            inscricao = inscricaoDAO.Refresh(inscricao);
+            inscricao = inscricaoDAO.Refresh(getInscricao());
 
             String key = evt.getComponent().getClientId();
 
             boolean item = key.contains("item-");
 
-            Inscricao i = item ? getInscricaoItem() : inscricao;
+            Inscricao i = item ? getInscricaoItem() : getInscricao();
 
             if (i == null) {
                 if (item) {
@@ -277,7 +297,7 @@ public class PublicoController extends ControllerBase implements Serializable {
                     inscreverEvento();
                 }
 
-                i = item ? inscricaoItem : inscricao;
+                i = item ? getInscricaoItem() : getInscricao();
             }
 
             QuestionarioResposta resposta = i.getResposta();
@@ -316,46 +336,61 @@ public class PublicoController extends ControllerBase implements Serializable {
         }
 
     }
-    
-    
+
     @Override
     public void enviarMensagem() {
-       String tmp = getMensagem();
-       List<Pessoa> admin = new ArrayList<Pessoa>();
-       
-       tmp = tmp + "\n" +getUsuarioCorrente().toString();
-       
-       if(getAtividade() != null){
-           tmp = tmp + "\n" + "Atividade: " + getAtividade().getNome();
-           admin.addAll(getAtividade().getResponsaveis());
-       }
-       
-       if(getEvento() != null){
-           tmp = tmp + "\n" + "Evento: " + getEvento().getNome();
-           if(admin.isEmpty())
-               admin.addAll(getEvento().getResponsaveis());
-       }
-       
-       
-       if(getInscricao() != null ){
-           tmp = tmp + "\n" + "Inscrição: " + getInscricao().getId().toString();
-       }
-       setAssunto("[SGE]" + getAssunto());
-       setMensagem(tmp);
-       
-       if(admin.isEmpty()){
-           admin.add(pessoaDAO.Abrir("petronio.candido@gmail.com"));
-       }
+        String tmp = getMensagem();
+        List<Pessoa> admin = new ArrayList<Pessoa>();
+
+        tmp = tmp + "\n" + getUsuarioCorrente().toString();
+
+        if (getAtividade() != null) {
+            tmp = tmp + "\n" + "Atividade: " + getAtividade().getNome();
+            admin.addAll(getAtividade().getResponsaveis());
+        }
+
+        if (getEvento() != null) {
+            tmp = tmp + "\n" + "Evento: " + getEvento().getNome();
+            if (admin.isEmpty()) {
+                admin.addAll(getEvento().getResponsaveis());
+            }
+        }
+
+        if (getInscricao() != null) {
+            tmp = tmp + "\n" + "Inscrição: " + getInscricao().getId().toString();
+        }
+        setAssunto("[SGE]" + getAssunto());
+        setMensagem(tmp);
+
+        if (admin.isEmpty()) {
+            admin.add(pessoaDAO.Abrir("petronio.candido@gmail.com"));
+        }
         setDestinatarios(admin);
-       super.enviarMensagem();
+        super.enviarMensagem();
     }
-    
+
     public List<Atividade> getAtividadesPublicas() {
         return atividadeDAO.Join("tipo", "t")
                 .IgualA("t.publico", true)
                 .IgualA("evento", getEvento())
                 .Ordenar("nome", "ASC")
                 .Buscar();
+    }
+
+    public void setSessao(String key, Entidade obj) {
+        if (obj != null) {
+            sessao.put(key, obj.getId().toString());
+        } else {
+            sessao.delete(key);
+        }
+    }
+
+    public Entidade getSessao(String key, Repositorio dao) {
+        String tmp = sessao.get(key);
+        if (tmp != null && !tmp.isEmpty()) {
+            return (Entidade) dao.Abrir(Long.parseLong(tmp));
+        }
+        return null;
     }
 
 }

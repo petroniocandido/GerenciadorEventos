@@ -14,13 +14,10 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Random;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Named
@@ -35,6 +32,8 @@ public class AutenticacaoService implements br.edu.ifnmg.GerenciamentoEventos.Do
     MailService mail;
     @EJB
     ConfiguracaoRepositorio configuracao;
+    @Inject
+    SessaoService sessao;
 
     Pessoa usuario;
 
@@ -47,17 +46,7 @@ public class AutenticacaoService implements br.edu.ifnmg.GerenciamentoEventos.Do
         } else {
             if (hash.getMD5(senha).equals(usuario.getSenha())) {
 
-                HttpSession session;
-
-                FacesContext ctx = FacesContext.getCurrentInstance();
-                /*session = (HttpSession) ctx.getExternalContext().getSession(false);
-                 session.setAttribute("usuarioAutenticado", usuario);
-                 */
-
-                Cookie ck = new Cookie("usuarioAutenticado", usuario.getId().toString());
-                ck.setMaxAge(-1);
-
-                ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(ck);
+                sessao.put("usuarioAutenticado", usuario.getId().toString());
 
                 return true;
             } else {
@@ -82,17 +71,9 @@ public class AutenticacaoService implements br.edu.ifnmg.GerenciamentoEventos.Do
         
         session.invalidate();
 
-        HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
-        Cookie[] cookies = request.getCookies();
-
-        //foreach
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().trim().equalsIgnoreCase("usuarioAutenticado")) {
-                cookie.setMaxAge(0);
-                ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(cookie);
-                break;
-            }
-        }
+        sessao.delete("usuarioAutenticado");
+        
+        sessao.limpar();
 
         return true;
     }
@@ -121,22 +102,8 @@ public class AutenticacaoService implements br.edu.ifnmg.GerenciamentoEventos.Do
     @Override
     public Pessoa getUsuarioCorrente() {
         if (usuario == null) {
-            //HttpSession session;
-            FacesContext ctx = FacesContext.getCurrentInstance();
-            /*session = (HttpSession) ctx.getExternalContext().getSession(false);
-             usuario = (Pessoa) session.getAttribute("usuarioAutenticado");
-             */
-            HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
-            Cookie[] cookies = request.getCookies();
-
-            //foreach
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().trim().equalsIgnoreCase("usuarioAutenticado")) {
-                    String id = cookie.getValue();
-                    usuario = dao.Abrir(Long.parseLong(id));
-                    break;
-                }
-            }
+           String id = sessao.get("usuarioAutenticado");
+           usuario = dao.Abrir(Long.parseLong(id));             
         }
         return usuario;
     }
@@ -151,5 +118,4 @@ public class AutenticacaoService implements br.edu.ifnmg.GerenciamentoEventos.Do
 
         return tmp.toString();
     }
-
 }
