@@ -3,7 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/login.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/PublicoController.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/comum/questionario.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/publico/inscricaoAtividade.xhtml</file>
         </group>
     </open-files>
 </project-private>

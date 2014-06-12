@@ -35,8 +35,11 @@
                                                 <p:outputLabel rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
                                                 <p:outputLabel rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
                                                 <p:outputLabel value="Valor Inscrição:" />
-                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao > 0}" value="#{publicoController.atividade.valorInscricao}" />
-                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao eq 0 or empty publicoController.atividade.valorInscricao}" value="Inscrição Gratuita." />
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao gt 0}" value="#{publicoController.atividade.valorInscricao}">
+                                                    <f:converter binding="#{moedaConverter}"  />
+                                                </p:outputLabel>
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao.unscaledValue() == 0 }" value="Inscrição Gratuita." />
+
                                             </c:when>                                        
                                             <c:otherwise>
                                                 <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
