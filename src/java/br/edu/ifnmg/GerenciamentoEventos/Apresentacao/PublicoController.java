@@ -122,7 +122,7 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     public Inscricao getInscricao() {
         if (inscricao == null) {
-            inscricao = (Inscricao)getSessao("inscricao", inscricaoDAO);
+            inscricao = (Inscricao) getSessao("inscricao", inscricaoDAO);
             if (inscricao == null && getEvento() != null) {
                 setInscricao(inscricaoDAO.Abrir(getEvento(), getUsuarioCorrente()));
                 return inscricao;
@@ -136,7 +136,7 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     public Evento getEvento() {
         if (evento == null) {
-            evento = (Evento)getSessao("evento", eventoDAO);
+            evento = (Evento) getSessao("evento", eventoDAO);
         }
         return evento;
     }
@@ -150,14 +150,15 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     public Atividade getAtividade() {
         if (atividade == null) {
-            atividade = (Atividade)getSessao("atividade", atividadeDAO);
+            atividade = (Atividade) getSessao("atividade", atividadeDAO);
         }
         return atividade;
     }
 
     public void setAtividade(Atividade a) {
         this.atividade = a;
-        setSessao("atividade", a);
+        setSessao("atividade", a);  
+        setInscricaoItem(null);
     }
 
     public void inscreverEvento() throws IOException {
@@ -179,26 +180,39 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     }
 
+    public void setInscricaoItem(InscricaoItem i) {
+        this.inscricaoItem = i;
+        setSessao("inscricaoItem", i);
+        checked = false;
+    }
+    
+    private boolean checked = false;
+    
     public InscricaoItem getInscricaoItem() {
-        if (getInscricao() != null) {
-            return inscricao.getItem(getAtividade());
-        } else {
-            return null;
+        if (inscricaoItem == null && !checked) {
+            inscricaoItem = (InscricaoItem)getSessao("inscricaoItem", inscricaoDAO);
+            if (inscricaoItem == null && getInscricao() != null) {
+                setInscricaoItem(inscricaoDAO.Abrir(getInscricao(), getAtividade()));
+            } else {
+                return null;
+            }
+            checked = true;
         }
+        return inscricaoItem;
     }
 
     public void inscreverAtividade() throws IOException {
         inscricao = inscricaoDAO.Refresh(getInscricao());
-        inscricaoItem = inscricaoservice.inscrever(inscricao, getAtividade(), getUsuarioCorrente());
+        setInscricaoItem( inscricaoservice.inscrever(inscricao, getAtividade(), getUsuarioCorrente()) );
         if (inscricaoItem != null) {
-            processaQuestionarioAtividade(inscricao, inscricaoItem);
+            processaQuestionarioAtividade();
         }
     }
 
     public String cancelarInscricaoAtividade() {
         inscricao = inscricaoDAO.Refresh(getInscricao());
         if (inscricaoservice.cancelar(getInscricaoItem())) {
-            inscricaoItem = null;
+            setInscricaoItem(null);
             return "inscricao.xhtml";
         } else {
             Mensagem("ERRO", "Falha ao cancelar a inscrição! Entre em contato com o administrador!");
@@ -213,9 +227,7 @@ public class PublicoController extends ControllerBase implements Serializable {
         QuestionarioResposta resposta = i.getResposta();
 
         if (resposta == null) {
-            resposta = new QuestionarioResposta();
-            resposta.setPessoa(getUsuarioCorrente());
-            resposta.setQuestionario(qr);
+            resposta = new QuestionarioResposta(getUsuarioCorrente(),qr);
         } else {
             resposta = respostaDAO.Refresh(resposta);
         }
@@ -271,9 +283,6 @@ public class PublicoController extends ControllerBase implements Serializable {
         processaQuestionario(getInscricao(), getInscricao().getEvento().getQuestionario());
     }
 
-    public void processaQuestionarioAtividade(Inscricao i, InscricaoItem it) {
-        processaQuestionario(it, it.getAtividade().getQuestionario());
-    }
 
     public void processaQuestionarioAtividade() {
         processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
@@ -392,5 +401,7 @@ public class PublicoController extends ControllerBase implements Serializable {
         }
         return null;
     }
+    
+   
 
 }
