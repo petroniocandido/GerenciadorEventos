@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -50,7 +50,7 @@ import org.primefaces.event.FileUploadEvent;
  * @author petronio
  */
 @Named(value = "publicoController")
-@SessionScoped
+@RequestScoped
 public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
