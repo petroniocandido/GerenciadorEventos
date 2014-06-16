@@ -24,18 +24,18 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
     @PersistenceContext(name = "GerenciamentoEventosPU")
     private EntityManager manager;
-    
+
     private final Class tipo;
     private Exception erro;
     private String logicalConnector = " and ";
     private StringBuilder where = new StringBuilder();
     private StringBuilder update = new StringBuilder();
     private StringBuilder order = new StringBuilder();
-    private HashMap<String,String> join = new HashMap<>();
-    private HashMap<Integer,Object> params = new HashMap<>();
-    
-     public DAOGenerico(Class t) {
-        tipo = t;     
+    private HashMap<String, String> join = new HashMap<>();
+    private HashMap<Integer, Object> params = new HashMap<>();
+
+    public DAOGenerico(Class t) {
+        tipo = t;
     }
 
     public EntityManager getManager() {
@@ -45,154 +45,153 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     public void setManager(EntityManager manager) {
         this.manager = manager;
     }
-     
-     
-    
+
     /**
-     * Cria um filtro para consulta de igualdade  
-     * @param campo Atributo da classe que se deseja filtrar 
+     * Cria um filtro para consulta de igualdade
+     *
+     * @param campo Atributo da classe que se deseja filtrar
      * @param valor Valor do filtro
      * @author petronio
-     * @return 
+     * @return
      */
-     
-     @PostConstruct
-     public void configure() {
-         manager.setFlushMode(FlushModeType.COMMIT);
-     }
-    
+    @PostConstruct
+    public void configure() {
+        manager.setFlushMode(FlushModeType.COMMIT);
+    }
+
     @Override
     public Repositorio<T> Join(String campo, String alias) {
         join.put(campo, alias);
         return this;
     }
-     
+
     @Override
     public Repositorio<T> IgualA(String campo, Object valor) {
-        addOp(campo,"=",valor);
+        addOp(campo, "=", valor);
         return this;
     }
- 
+
     @Override
     public Repositorio<T> DiferenteDe(String campo, Object valor) {
-        addOp(campo,"<>",valor);
+        addOp(campo, "<>", valor);
         return this;
     }
- 
+
     @Override
     public Repositorio<T> MaiorQue(String campo, Object valor) {
-        addOp(campo,">",valor);
+        addOp(campo, ">", valor);
         return this;
     }
- 
+
     @Override
     public Repositorio<T> MaiorOuIgualA(String campo, Object valor) {
-        addOp(campo,">=",valor);
+        addOp(campo, ">=", valor);
         return this;
     }
- 
+
     @Override
     public Repositorio<T> MenorQue(String campo, Object valor) {
-        addOp(campo,"<",valor);
+        addOp(campo, "<", valor);
         return this;
     }
- 
+
     @Override
     public Repositorio<T> MenorOuIgualA(String campo, Object valor) {
-        addOp(campo,"<=",valor);
+        addOp(campo, "<=", valor);
         return this;
     }
-    
-    private void addSpecialOp(StringBuilder where, String campo, String op){
-        if(where.length() > 0) {
+
+    private void addSpecialOp(StringBuilder where, String campo, String op) {
+        if (where.length() > 0) {
             where.append(logicalConnector);
         }
 
-        if(!campo.contains(".")) {
+        if (!campo.contains(".")) {
             where.append("o.");
         }
 
-        where.append(campo).append(" ").append(op);        
+        where.append(campo).append(" ").append(op);
     }
-    
-    private void addSpecialOp(String campo, String op){
+
+    private void addSpecialOp(String campo, String op) {
         addSpecialOp(where, campo, op);
     }
- 
+
     @Override
     public Repositorio<T> Like(String campo, String valor) {
-        if(valor == null || valor.toString().length() == 0)
+        if (valor == null || valor.toString().length() == 0) {
             return this;
-        addSpecialOp(campo,"like '%"+valor+"%'");
+        }
+        addSpecialOp(campo, "like '%" + valor + "%'");
         return this;
     }
-     
+
     @Override
     public Repositorio<T> ENulo(String campo) {
         addSpecialOp(campo, "is null");
         return this;
     }
- 
+
     @Override
     public Repositorio<T> NaoENulo(String campo) {
         addSpecialOp(campo, "is null");
         return this;
     }
-     
+
     @Override
     public Repositorio<T> Ordenar(String campo, String sentido) {
-        if(order.length() > 0)
+        if (order.length() > 0) {
             order.append(",");
-        
-        if(!campo.contains("."))
+        }
+
+        if (!campo.contains(".")) {
             order.append("o.");
-        
+        }
+
         order.append(campo).append(" ").append(sentido);
-        
+
         return this;
     }
- 
+
     @Override
     public Repositorio<T> Setar(String campo, Object valor) {
         int key = params.size();
 
-        if(update.length() > 0) {
+        if (update.length() > 0) {
             update.append(", ");
         }
-        if(!campo.contains("."))
+        if (!campo.contains(".")) {
             update.append("o.");
-        
+        }
+
         update.append(campo).append(" = ").append(" :p").append(Integer.toString(key));
         params.put(key, valor);
-        
-        
+
         return this;
     }
- 
+
     @Override
     public boolean Atualiza() {
         try {
             StringBuilder sql = new StringBuilder("update ").append(tipo.getSimpleName()).append(" o set ").append(update.toString());
 
-            if(where.length() > 0) {
+            if (where.length() > 0) {
                 sql.append(" where ").append(where.toString());
             }
-            
-            Query query = manager.createQuery(sql.toString(),tipo); 
 
-            for(Integer key : params.keySet()){
-                query.setParameter("p"+key.toString(), params.get(key));
+            Query query = manager.createQuery(sql.toString(), tipo);
+
+            for (Integer key : params.keySet()) {
+                query.setParameter("p" + key.toString(), params.get(key));
             }
 
             query.executeUpdate();
-            
+
             return true;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             setErro(ex);
             return false;
-        }
-        finally{
+        } finally {
             join.clear();
             params.clear();
             where = new StringBuilder();
@@ -200,123 +199,117 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
             update = new StringBuilder();
         }
     }
- 
+
     @Override
     public boolean Apaga() {
         try {
             StringBuilder sql = new StringBuilder("delete from ").append(tipo.getSimpleName()).append(" o ");
 
-            if(join.size() > 0){
-                for(String key : join.keySet()) {
+            if (join.size() > 0) {
+                for (String key : join.keySet()) {
                     sql.append(" join o.").append(key).append(" ").append(join.get(key));
                 }
             }
-            
-            if(where.length() > 0) {
+
+            if (where.length() > 0) {
                 sql.append(" where ").append(where.toString());
             }
 
-            Query query = manager.createQuery(sql.toString(),tipo); 
+            Query query = manager.createQuery(sql.toString(), tipo);
 
-            for(Integer key : params.keySet()){
-                query.setParameter("p"+key.toString(), params.get(key));
+            for (Integer key : params.keySet()) {
+                query.setParameter("p" + key.toString(), params.get(key));
             }
-            
+
             query.executeUpdate();
-            
+
             return true;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             setErro(ex);
             return false;
-        }
-        finally{
+        } finally {
             join.clear();
             params.clear();
             where = new StringBuilder();
             order = new StringBuilder();
         }
     }
-    
+
     private Query processQuery() {
         try {
             StringBuilder sql = new StringBuilder("select o from ").append(tipo.getSimpleName()).append(" o ");
 
-            if(join.size() > 0){
-                for(String key : join.keySet()) {
+            if (join.size() > 0) {
+                for (String key : join.keySet()) {
                     sql.append(" join o.").append(key).append(" ").append(join.get(key));
                 }
             }
-            if(where.length() > 0) {
+            if (where.length() > 0) {
                 sql.append(" where ").append(where.toString());
             }
-            if(order.length() > 0) {
+            if (order.length() > 0) {
                 sql.append(" order by ").append(order.toString());
             }
-            
+
             String tmp = sql.toString();
 
-            Query query = manager.createQuery(tmp,tipo); 
+            Query query = manager.createQuery(tmp, tipo);
 
-            for(Integer key : params.keySet()){
-                query.setParameter("p"+key.toString(), params.get(key));
+            for (Integer key : params.keySet()) {
+                query.setParameter("p" + key.toString(), params.get(key));
             }
 
             return query;
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             setErro(ex);
             return null;
-        }
-        finally{
+        } finally {
             join.clear();
             params.clear();
             where = new StringBuilder();
             order = new StringBuilder();
         }
     }
-     
+
     @Override
     public T Abrir() {
         try {
-            return (T)processQuery().getSingleResult();
-        }
-        catch(Exception ex){
+            return (T) processQuery().getSingleResult();
+        } catch (Exception ex) {
             setErro(ex);
             return null;
         }
     }
-     
+
     @Override
     public List<T> Buscar() {
         try {
             return processQuery().getResultList();
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             setErro(ex);
             return null;
         }
     }
-    
-    protected StringBuilder addOp(StringBuilder where, HashMap<Integer,Object> params, String field, String op,  Object value){
-        if(value == null ) {
+
+    protected StringBuilder addOp(StringBuilder where, HashMap<Integer, Object> params, String field, String op, Object value) {
+        if (value == null) {
             return where;
         }
-        if(value.toString().equals("")){
+        if (value.toString().equals("")) {
             return where;
         }
-        
-        if(value.toString().equals("0")){
+
+        if (value.toString().equals("0")) {
             return where;
         }
-        
+
         int key = params.size();
 
-        if(where.length() > 0) {
+        if (where.length() > 0) {
             where.append(logicalConnector);
         }
 
-        if(!field.contains(".")) {
+        if (!field.contains(".")) {
             where.append("o.");
         }
 
@@ -324,24 +317,25 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         params.put(key, value);
         return where;
     }
-    
-    private void addOp(String field, String op,  Object value){
+
+    private void addOp(String field, String op, Object value) {
         addOp(where, params, field, op, value);
     }
 
     @Override
     public boolean Salvar(T obj) {
         try {
-            if(manager.contains(obj) || ( obj.getId() != null && obj.getId() > 0))
-               obj =manager.merge(obj);
-            else
-               manager.persist(obj);
-            
-            manager.flush(); 
-            
+            if (manager.contains(obj) || (obj.getId() != null && obj.getId() > 0)) {
+                obj = manager.merge(obj);
+            } else {
+                manager.persist(obj);
+            }
+
+            manager.flush();
+
             return true;
         } catch (Exception ex) {
-            setErro(ex);            
+            setErro(ex);
             return false;
         }
     }
@@ -351,9 +345,9 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         try {
             // Persiste o objeto
             manager.remove(manager.merge(obj));
-            
-            manager.flush(); 
-            
+
+            manager.flush();
+
             return true;
         } catch (Exception ex) {
             setErro(ex);
@@ -363,7 +357,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
     @Override
     public T Abrir(Long id) {
-       try {
+        try {
 
             // Persiste o objeto
             T obj = (T) manager.find(tipo, id);
@@ -375,7 +369,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
             return null;
         }
     }
-    
+
     public void setErro(Exception erro) {
         System.out.println(erro.getMessage());
         erro.printStackTrace();
@@ -388,15 +382,17 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     }
 
     @Override
-    public  List<T> Buscar(T filtro) {
+    public List<T> Buscar(T filtro) {
         return Buscar();
     }
-    
+
     @Override
     public T Refresh(T obj) {
-        manager.flush();
-        //manager.refresh(obj);
-        obj = (T) manager.getReference(tipo, obj.getId());
+        if (obj.getId() != null && obj.getId() > 0) {
+            manager.flush();
+            //manager.refresh(obj);
+            obj = (T) manager.getReference(tipo, obj.getId());
+        }
         return obj;
     }
 }

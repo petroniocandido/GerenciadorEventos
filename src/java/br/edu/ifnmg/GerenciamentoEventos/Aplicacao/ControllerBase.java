@@ -11,8 +11,10 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -35,6 +37,13 @@ public abstract class ControllerBase {
     
     @Inject
     LogService log;
+    
+    @EJB
+    MailService mail;
+    
+    String assunto, mensagem;
+    
+    List<Pessoa> destinatarios;
     
     public Pessoa getUsuarioCorrente() {
         return autentitacao.getUsuarioCorrente();
@@ -91,4 +100,43 @@ public abstract class ControllerBase {
     public String getConfiguracao(String chave) {
         return configuracao.get(chave);
     }
+
+    public String getAssunto() {
+        return assunto;
+    }
+
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+    public List<Pessoa> getDestinatarios() {
+        return destinatarios;
+    }
+
+    public void setDestinatarios(List<Pessoa> destinatarios) {
+        this.destinatarios = destinatarios;
+    }
+    
+    public void enviarMensagem() {
+        int sucesso = 0, erro = 0;
+        String erros = "";
+        for(Pessoa p : destinatarios){
+            if(mail.enviar(p.getEmail(), assunto, mensagem)){
+                sucesso++;
+            } else {
+                erro++;
+                erros += p.getEmail() + ",";
+            }
+        }
+        Mensagem("Confirmação", sucesso +" e-mails enviados com sucesso!\n" + erro + " enviados com falha:\n " + erros);
+    }
+    
 }

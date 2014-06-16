@@ -21,7 +21,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -90,9 +92,17 @@ public class Evento implements Entidade, Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "evento")
+    private List<Atividade> atividades;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "eventosresponsaveis")
+    private List<Pessoa> responsaveis;
 
     public Evento() {
         recursos = new ArrayList<>();
+        responsaveis = new ArrayList<>();
         numeroVagas = 0;
         controle = new Controle(this, 0, 0);
         status = Status.Pendente;
@@ -100,7 +110,21 @@ public class Evento implements Entidade, Serializable {
         necessitaInscricao = false;
         inicio = new Date();
         termino  = new Date();
-    }   
+    } 
+    
+    public boolean podeEditar(Pessoa obj) {
+        return id == 0 ||  criador.equals(obj) || responsaveis.contains(obj);
+    }
+    
+    public void cancelar() {
+        for(Atividade a : atividades){
+            a.cancelar();
+        }
+        
+        for(Alocacao a : recursos){
+            a.setStatus(AlocacaoStatus.Cancelado);
+        }
+    }
     
     public boolean isPeriodoInscricaoAberto() {
         if(status == Status.Cancelado && status == Status.Concluido)
@@ -140,6 +164,15 @@ public class Evento implements Entidade, Serializable {
             return false;
         Date hoje = new Date();
         return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
+    }
+    
+    public void add(Pessoa responsavel){
+        if(!responsaveis.contains(responsavel))
+            responsaveis.add(responsavel);
+    }
+    public void remove(Pessoa responsavel){
+        if(responsaveis.contains(responsavel))
+            responsaveis.remove(responsavel);
     }
 
     @Override
@@ -208,6 +241,18 @@ public class Evento implements Entidade, Serializable {
 
     public void setLocal(Recurso local) {
         this.local = local;
+        if(local != null){
+            Alocacao a = new Alocacao();
+            a.setEvento(this);
+            a.setRecurso(local);
+            a.setInicio(inicio);
+            a.setTermino(termino);
+            a.setResponsavel(criador);
+            if(recursos == null)
+                recursos = new ArrayList<>();
+            if(!recursos.contains(a))
+                recursos.add(a);
+        }
     }
 
     
@@ -271,6 +316,9 @@ public class Evento implements Entidade, Serializable {
     }
 
     public void setStatus(Status status) {
+        if(status == Status.Cancelado && this.status != null && this.status != Status.Cancelado)
+            cancelar();
+        
         this.status = status;
     }
 
@@ -305,8 +353,22 @@ public class Evento implements Entidade, Serializable {
     public void setSite(String site) {
         this.site = site;
     }
+
+    public List<Atividade> getAtividades() {
+        return atividades;
+    }
+
+    public void setAtividades(List<Atividade> atividades) {
+        this.atividades = atividades;
+    }
     
-    
+    public List<Pessoa> getResponsaveis() {
+        return responsaveis;
+    }
+
+    public void setResponsaveis(List<Pessoa> responsaveis) {
+        this.responsaveis = responsaveis;
+    }
 
     @Override
     public int hashCode() {

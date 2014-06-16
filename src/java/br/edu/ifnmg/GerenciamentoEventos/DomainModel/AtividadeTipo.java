@@ -33,7 +33,7 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "atividadestipos")
 @NamedQueries({
-    @NamedQuery(name = "atividadestipos.publicasPorEvento", query = "SELECT DISTINCT a FROM AtividadeTipo a join a.atividades at where a.publico = true and at.evento = :evento order by a.nome ASC ")
+    @NamedQuery(name = "atividadestipos.publicasPorEvento", query = "SELECT DISTINCT a FROM AtividadeTipo a join a.atividades at where a.publico = true and at.evento = :evento and ( at.status = :pendente or at.status = :emexecucao ) order by a.nome ASC ")
     })
 public class AtividadeTipo implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;

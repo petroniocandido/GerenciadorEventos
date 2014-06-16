@@ -13,11 +13,17 @@
 	<field name="atividade.inicio" class="java.util.Date"/>
 	<field name="atividade.termino" class="java.util.Date"/>
 	<field name="atividade.local" class="java.lang.Object"/>
-	<field name="categoria" class="java.lang.Object"/>
 	<field name="ordem" class="java.lang.Integer"/>
 	<field name="inscricao.evento.inicio" class="java.util.Date"/>
 	<field name="inscricao.evento.termino" class="java.util.Date"/>
 	<field name="inscricao.evento.local" class="java.lang.Object"/>
+	<field name="inscricao.evento.valorInscricao" class="java.math.BigDecimal"/>
+	<field name="atividade.valorInscricao" class="java.math.BigDecimal"/>
+	<field name="inscricao.status" class="java.lang.Object"/>
+	<field name="status" class="java.lang.Object"/>
+	<field name="categoria" class="java.lang.Object"/>
+	<field name="inscricao.valorTotal" class="java.math.BigDecimal"/>
+	<field name="inscricao.categoria" class="java.lang.Object"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
@@ -43,7 +49,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="107" splitType="Stretch">
+		<band height="141" splitType="Stretch">
 			<staticText>
 				<reportElement x="1" y="2" width="67" height="20" uuid="52f6b3ee-1ee1-4753-ad55-e742e4030e53"/>
 				<box>
@@ -218,7 +224,7 @@
 				</textElement>
 				<text><![CDATA[Local]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="402" y="44" width="152" height="20" uuid="2d5918a7-d25d-4207-b2a4-7eb492b94d1a"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -231,16 +237,91 @@
 				<textFieldExpression><![CDATA[""+$F{inscricao.evento.local}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="4" y="74" width="551" height="33" uuid="5c67d36e-0dd2-47d4-ac27-a0d0568df68d"/>
+				<reportElement x="1" y="108" width="551" height="33" uuid="5c67d36e-0dd2-47d4-ac27-a0d0568df68d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Atividades]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="1" y="64" width="67" height="22" uuid="44969154-60d4-405c-bdf5-2fa581e7854e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Insc.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="231" y="65" width="100" height="21" uuid="de73a846-d4b9-4d6b-8b79-72dfccc023bf"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{inscricao.categoria}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="168" y="65" width="62" height="21" uuid="f18d3e8e-fdb6-421f-9823-3333fc495c94"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Insc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="332" y="65" width="69" height="21" uuid="34c688fe-9239-4124-b7eb-51fe4bf2c63e"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="402" y="65" width="153" height="21" uuid="88d38a1e-3314-42eb-9ebb-424025d6ad2f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{inscricao.status}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="69" y="65" width="98" height="21" uuid="b06e0b11-7773-4e64-8bd6-d56fb03f0e9f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.valorInscricao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="87" splitType="Stretch">
+		<band height="105" splitType="Stretch">
 			<textField>
 				<reportElement x="68" y="1" width="486" height="20" uuid="eeca44a9-c71f-412e-8b38-a90a131ec883"/>
 				<box>
@@ -321,7 +402,7 @@
 				</textElement>
 				<text><![CDATA[Término]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="371" y="21" width="183" height="20" uuid="6ce462f0-bd83-474c-b543-c009e4dfa1ec"/>
 				<box>
 					<pen lineWidth="1.0"/>
@@ -399,23 +480,73 @@
 				</textElement>
 				<text><![CDATA[Ordem]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="61" width="67" height="21" uuid="cb8f68a3-f4d0-4958-b280-0129f211c1d3"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Insc.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="331" y="41" width="69" height="21" uuid="17795b6c-16aa-4684-b18b-252919790559"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Situação]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="401" y="41" width="153" height="21" uuid="b2eae460-00e5-4bae-92bb-c804e07d049b"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[""+$F{status}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="68" y="62" width="92" height="20" uuid="1ec39283-fb0a-42a2-9095-90ac363b589f"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{atividade.valorInscricao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="22" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="23">
+		<band height="52">
 			<elementGroup>
 				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="441" y="0" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
+					<reportElement positionType="FixRelativeToBottom" x="442" y="29" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
-					<reportElement positionType="FixRelativeToBottom" x="516" y="0" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
+					<reportElement positionType="FixRelativeToBottom" x="515" y="29" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
@@ -423,26 +554,40 @@
 				</textField>
 			</elementGroup>
 			<staticText>
-				<reportElement x="399" y="0" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
+				<reportElement x="400" y="32" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
 				<text><![CDATA[Página]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="488" y="0" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
+				<reportElement x="487" y="27" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
 				<text><![CDATA[de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
+				<reportElement x="1" y="32" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data de Impressão:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="153" y="0" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
+				<reportElement x="154" y="32" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="0" width="153" height="20" uuid="22c74d86-3023-4f94-ba7b-c25bb76c277c"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="168" y="0" width="147" height="20" uuid="3817fe71-0cd5-4000-80ad-53957982b4cb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inscricao.valorTotal}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

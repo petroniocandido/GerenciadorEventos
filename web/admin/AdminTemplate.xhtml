@@ -42,7 +42,10 @@
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemEventos.xhtml')}" value="Eventos" url="listagemEventos.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAtividades.xhtml')}" value="Atividades"  url="listagemAtividades.xhtml"  />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemQuestionarios.xhtml')}" value="Formulários"  url="listagemQuestionarios.xhtml"  />
-                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições no Evento" url="listagemInscricoes.xhtml"  />                    
+                    <p:submenu label="Inscrições">
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições no Evento" url="listagemInscricoes.xhtml"  />
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoesAtividade.xhtml')}" value="Inscrições Por Atividade" url="listagemInscricoesAtividade.xhtml"  />
+                    </p:submenu>
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Financeiro')}" label="Financeiro">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentos.xhtml')}"  value="Lançamentos" url="listagemLancamentos.xhtml" />                    
@@ -50,7 +53,9 @@
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Relatórios')}" label="Relatórios">
                     <p:menuitem  value="Lista de Presença Geral do Evento" url="relatorioListaPresencaEvento.xhtml"  />
                     <p:menuitem  value="Lista de Presença de Atividade" url="relatorioListaPresenca.xhtml"  />
-                    <p:submenu label="Exporta CSV">
+                    <p:menuitem  value="Resultado Geral de Seleção de Inscrições" url="relatorioResultadoGeralSelecaoInscricoes.xhtml"  />
+                    <p:menuitem  value="Alocações" url="relatorioAlocacoesPorEvento.xhtml"  />
+                    <p:submenu label="Exportação CSV">
                         <p:menuitem  value="Respostas de questionário de evento" url="relatorioExportaCSVEvento.xhtml"  />
                         <p:menuitem  value="Respostas de questionário de atividade" url="relatorioExportaCSVAtividade.xhtml"  />
                         <p:menuitem  value="Dados das pessoas por evento" url="relatorioExportaCSVPessoasEvento.xhtml"  />

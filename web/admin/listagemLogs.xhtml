@@ -43,10 +43,12 @@
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
-                        <p:ajax event="rowSelect" listener="#{logController.onRowSelect}" partialSubmit="true" oncomplete="dadosLog.show();"  />
+                        <p:ajax event="rowSelect" listener="#{logController.onRowSelect}"   />
                         <!-- Coluna Codigo -->
                         <p:column headerText="Data" sortBy="#{item.data}"   >
-                            <p:outputLabel value="#{item.dataEvento}" />
+                            <p:outputLabel value="#{item.dataEvento}">
+                                <f:convertDateTime pattern="dd/MM hh:mm" />
+                            </p:outputLabel>
                         </p:column>
                         <!-- Coluna Nome -->
                         <p:column headerText="Usuário" sortBy="#{item.usuario}"  >

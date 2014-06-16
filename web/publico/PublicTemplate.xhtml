@@ -39,6 +39,7 @@
                 <p:menuitem value="Inscrição"  url="inscricao.xhtml" />
                 <p:menuitem rendered="#{not empty publicoController.evento}" value="Site do Evento"  url="#{publicoController.evento.site}"  />
                 <p:menuitem rendered="#{autenticacaoController.autorizacao('admin')}" value="Área Administrativa" url="../admin/index.xhtml" />
+                <p:menuitem value="Fale Conosco" url="faleConosco.xhtml" />
                 <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
             <p:growl showDetail="true" sticky="true"  life="60" />

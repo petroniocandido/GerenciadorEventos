@@ -36,8 +36,10 @@
                                                 <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
                                                 <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
                                                 <p:outputLabel value="Valor Inscrição:" />
-                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao gt 0}" value="#{publicoController.evento.valorInscricao}" />
-                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao eq 0}" value="Inscrição Gratuita." />
+                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao gt 0}" value="#{publicoController.evento.valorInscricao}">
+                                                    <f:converter binding="#{moedaConverter}"  />
+                                                </p:outputLabel>
+                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao.unscaledValue() == 0}" value="Inscrição Gratuita." />
 
                                                 <c:if test="#{not empty publicoController.inscricao}">
                                                     <h:outputText value="Inscrição: " />
@@ -149,14 +151,16 @@
                                  header="Confirmação" severity="alert" widgetVar="msgSalvar">  
                     <c:if test="#{not empty publicoController.evento.questionario}">
                         <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
-                        <p:tabView>
-                            <ui:include src="../comum/questionario.xhtml">
-                                <ui:param name="controller" value="#{publicoController}"  />
-                                <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
-                                <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
-                                <ui:param name="inscricaotipo" value="normal"  />
-                            </ui:include>
-                        </p:tabView>
+                        <p:scrollPanel mode="native" style="width:600px;height:400px">
+                            <p:tabView>
+                                <ui:include src="../comum/questionario.xhtml">
+                                    <ui:param name="controller" value="#{publicoController}"  />
+                                    <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
+                                    <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
+                                    <ui:param name="inscricaotipo" value="normal"  />
+                                </ui:include>
+                            </p:tabView>
+                        </p:scrollPanel>
                     </c:if>
                     <p:commandButton ajax="false" value="Confirmar Inscrição" action="#{publicoController.inscreverEvento}" />  
                     <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
@@ -169,6 +173,7 @@
                     <p:commandButton ajax="false" value="Confirmar Cancelamento" action="#{publicoController.cancelarInscricaoEvento}" />  
                     <p:commandButton value="Voltar" onclick="msgCancelar.hide();" type="button" />   
                 </p:confirmDialog>
+                <p:commandButton value="Selecionar outro evento" action="selecionaEvento.xhtml" />
             </ui:define>
         </ui:composition>
     </body>

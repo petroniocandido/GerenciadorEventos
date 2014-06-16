@@ -35,7 +35,7 @@
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Atividade: " />
-                                <p:autoComplete converter="#{atividadecaoConverter}" value="#{alocacaoController.entidade.atividade}"
+                                <p:autoComplete converter="#{atividadeConverter}" value="#{alocacaoController.entidade.atividade}"
                                                 completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     <p:column headerText="Evento">#{item.evento}</p:column>

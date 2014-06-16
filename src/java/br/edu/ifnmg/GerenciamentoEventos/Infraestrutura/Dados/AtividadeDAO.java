@@ -124,6 +124,8 @@ public class AtividadeDAO
                 .createNamedQuery("atividades.porTipoEvento")
                 .setParameter("evento", e)
                 .setParameter("tipo", t)
+                .setParameter("pendente", Status.Pendente)
+                .setParameter("emexecucao", Status.EmExecucao)
                 .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
         return q.getResultList();
     }
@@ -133,6 +135,8 @@ public class AtividadeDAO
         Query q = daoTipo.getManager()
                 .createNamedQuery("atividadestipos.publicasPorEvento")
                 .setParameter("evento", e)
+                .setParameter("pendente", Status.Pendente)
+                .setParameter("emexecucao", Status.EmExecucao)
                 .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
         return q.getResultList();
     }

@@ -42,7 +42,7 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "atividades")
 @NamedQueries({
-    @NamedQuery(name = "atividades.porTipoEvento", query = "SELECT a FROM Atividade a where a.tipo = :tipo and a.evento = :evento order by a.inicio, a.termino"),
+    @NamedQuery(name = "atividades.porTipoEvento", query = "SELECT a FROM Atividade a where a.tipo = :tipo and a.evento = :evento and (a.status = :pendente or a.status = :emexecucao) order by a.inicio, a.termino"),
     @NamedQuery(name = "atividades.ativasUsuario", query = "SELECT a FROM Atividade a join a.responsaveis r where r.id = :idUsuario and a.termino <= :termino and a.status <> :cancelado and a.status <> :concluido")
     })
 public class Atividade implements Entidade, Serializable {
@@ -134,6 +134,16 @@ public class Atividade implements Entidade, Serializable {
         valorExecutado = new BigDecimal("0.00");
         valorInscricao = new BigDecimal("0.00");        
         controle = new Controle(this, 0, 0);
+    }
+    
+    public boolean podeEditar(Pessoa obj) {
+        return id == 0 ||  criador.equals(obj) || responsaveis.contains(obj);
+    }
+    
+    public void cancelar() {
+        for(Alocacao a : recursos){
+            a.setStatus(AlocacaoStatus.Cancelado);
+        }
     }
     
     public boolean isAtivo() {
@@ -320,6 +330,17 @@ public class Atividade implements Entidade, Serializable {
 
     public void setLocal(Recurso local) {
         this.local = local;
+        
+        if(local != null){
+            Alocacao a = new Alocacao();
+            a.setEvento(evento);
+            a.setAtividade(this);
+            a.setRecurso(local);
+            a.setInicio(inicio);
+            a.setTermino(termino);
+            a.setResponsavel(criador);
+            add(a);
+        }
     }
 
     public int getNumeroVagas() {
@@ -375,6 +396,9 @@ public class Atividade implements Entidade, Serializable {
     }
 
     public void setStatus(Status status) {
+        if(status == Status.Cancelado && this.status != null && this.status != Status.Cancelado)
+            cancelar();
+        
         this.status = status;
     }
 

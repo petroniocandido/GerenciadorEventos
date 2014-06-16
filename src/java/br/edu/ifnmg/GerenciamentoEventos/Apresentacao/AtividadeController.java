@@ -48,7 +48,6 @@ public class AtividadeController
         responsavel = new Pessoa();
         tipo = new AtividadeTipo();
         filtroTipo = new AtividadeTipo();
-
     }
 
     Evento padrao;
@@ -62,7 +61,7 @@ public class AtividadeController
     Pessoa responsavel;
 
     Alocacao alocacao;
-    
+
     AtividadeTipo tipo, filtroTipo;
 
     public AtividadeTipo getTipo() {
@@ -80,8 +79,6 @@ public class AtividadeController
     public void setFiltroTipo(AtividadeTipo filtroTipo) {
         this.filtroTipo = filtroTipo;
     }
-    
-    
 
     @PostConstruct
     public void init() {
@@ -91,15 +88,16 @@ public class AtividadeController
 
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
-        if (evt != null && padrao == null) {
+        if (evt != null) {
             padrao = evtDAO.Abrir(Long.parseLong(evt));
-            if(getEntidade().getEvento() == null)
+            if (getEntidade().getEvento() == null) {
                 getEntidade().setEvento(padrao);
-            if(getFiltro().getEvento() == null)
+            }
+            if (getFiltro().getEvento() == null) {
                 getFiltro().setEvento(padrao);
+            }
         }
     }
-
 
     @Override
     public void filtrar() {
@@ -135,9 +133,9 @@ public class AtividadeController
 
     @Override
     public void limpar() {
-        checaEventoPadrao();
         setEntidade(new Atividade());
         getFiltro().setStatus(null);
+        checaEventoPadrao();
     }
 
     @Override
@@ -167,12 +165,14 @@ public class AtividadeController
     }
 
     public void addResponsavel() {
+        entidade = dao.Refresh(entidade);
         entidade.add(responsavel);
         SalvarAgregado(responsavel);
         responsavel = new Pessoa();
     }
 
     public void removeResponsavel() {
+        entidade = dao.Refresh(entidade);
         entidade.remove(responsavel);
         RemoverAgregado(responsavel);
         responsavel = new Pessoa();
@@ -200,7 +200,7 @@ public class AtividadeController
         }
 
         Date hoje = new Date();
-        
+
         if (a.getInicio().before(hoje)) {
             switch (a.getStatus()) {
                 case EmExecucao:
@@ -226,7 +226,7 @@ public class AtividadeController
                     return "green";
             }
         }
-        
+
         if (a.getTermino().before(hoje)) {
             switch (a.getStatus()) {
                 case EmExecucao:
@@ -239,15 +239,15 @@ public class AtividadeController
                     return "green";
             }
         }
-        
+
         return "white";
 
     }
-    
+
     public AlocacaoStatus[] getStatusAlocacao() {
         return AlocacaoStatus.values();
     }
-    
+
     public void salvarTipo() {
         Rastrear(entidade);
 
@@ -281,9 +281,8 @@ public class AtividadeController
         return "listagemAtividadeTipos.xhtml";
     }
 
-    
     public void limparTipo() {
-        
+
         setTipo(new AtividadeTipo());
     }
 
@@ -292,20 +291,19 @@ public class AtividadeController
         return "editarAtividadeTipo.xhtml";
     }
 
-    
     public List<AtividadeTipo> getListagemTipos() {
         return dao.BuscarTipo(null);
     }
-    
-    public GenericDataModel getDataModelTipo(){
-        AtividadeTipoDataModel dm = new AtividadeTipoDataModel(dao.BuscarTipo(filtroTipo),null);
+
+    public GenericDataModel getDataModelTipo() {
+        AtividadeTipoDataModel dm = new AtividadeTipoDataModel(dao.BuscarTipo(filtroTipo), null);
         dm.setAtividadeRepositorio(dao);
         return dm;
     }
-    
-     public void onRowSelectTipo(SelectEvent event) {
+
+    public void onRowSelectTipo(SelectEvent event) {
         try {
-            tipo = (AtividadeTipo) event.getObject();            
+            tipo = (AtividadeTipo) event.getObject();
             FacesContext.getCurrentInstance().getExternalContext().redirect(abrirTipo());
         } catch (IOException ex) {
 

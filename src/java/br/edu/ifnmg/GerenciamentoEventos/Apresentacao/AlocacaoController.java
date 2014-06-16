@@ -115,6 +115,24 @@ public class AlocacaoController
     }
     
     
+    public void concluir(Alocacao tmp){
+        tmp.setStatus(AlocacaoStatus.Concluido);
+        if(dao.Salvar(tmp)){
+            Mensagem("Confirmação", "Alocação concluída!");
+        } else {
+            AppendLog("Erro ao concluir alocação: " + dao.getErro().getMessage());
+            MensagemErro("Atenção", "Erro ao concluir alocação! Consulte o administrador do sistema!");
+        }
+    }
     
+    public void cancelar(Alocacao tmp){
+        tmp.setStatus(AlocacaoStatus.Cancelado);
+        if(dao.Salvar(tmp)){
+            Mensagem("Confirmação", "Alocação cancelada!");
+        } else {
+            AppendLog("Erro ao cancelar alocação: " + dao.getErro().getMessage());
+            MensagemErro("Atenção", "Erro ao cancelar alocação! Consulte o administrador do sistema!");
+        }
+    }
     
 }
