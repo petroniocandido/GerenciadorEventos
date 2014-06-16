@@ -58,6 +58,11 @@ public class InscricaoItemController
         setRepositorio(dao);
         checaEventoPadrao();
     }
+    
+    public List<InscricaoItem> getListagem(){
+        return dao.Buscar(filtro);
+    }
+
 
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");

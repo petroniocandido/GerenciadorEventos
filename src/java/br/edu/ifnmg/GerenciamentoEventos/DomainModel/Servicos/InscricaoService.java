@@ -66,15 +66,12 @@ public class InscricaoService {
     
     public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p){
     
-        InscricaoItem tmp = i.getItem(e);
+        InscricaoItem tmp = inscricaoDAO.Abrir(i, e);
         
         if(tmp != null)
             return tmp;
         
-        tmp = new InscricaoItem();
-        tmp.setAtividade(e);
-        tmp.setPessoa(p);
-        tmp.setInscricao(i);
+        tmp = new InscricaoItem(i, e);
         
         List<InscricaoItem> list = inscricaoDAO.Buscar(tmp);
         if(list.size() > 0)
@@ -153,11 +150,8 @@ public class InscricaoService {
     }
     
     private InscricaoItem criaInscricaoItem(Controle ctl, Inscricao i, Atividade e, Pessoa p, InscricaoCategoria c) {
-        InscricaoItem it = new InscricaoItem();
-        it.setAtividade(e);
-        it.setInscricao(i);
-        it.setEvento(i.getEvento());
-        it.setPessoa(p);
+        InscricaoItem it;
+        it = new InscricaoItem(i, e);
         it.setCriador(p);
         it.setDataCriacao(new Date());
         it.setDataInscricao(new Date());
@@ -166,7 +160,8 @@ public class InscricaoService {
         i.add(it);
         i.setDataUltimaAlteracao(new Date());
         i.setUltimoAlterador(p);
-        if(inscricaoDAO.Salvar(i)){  
+        
+        if(inscricaoDAO.Salvar(it)){  
             if(c == InscricaoCategoria.Normal)
                 ctl.setQuantidadeGeral(ctl.getQuantidadeGeral() + 1);
             else 

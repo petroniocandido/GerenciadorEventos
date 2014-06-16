@@ -25,7 +25,7 @@
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Atividade: " />
-                                <p:autoComplete converter="#{atividadeConverter}" value="#{inscricaoItemController.filtro.pessoa}"
+                                <p:autoComplete converter="#{atividadeConverter}" value="#{inscricaoItemController.filtro.atividade}"
                                                 completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
