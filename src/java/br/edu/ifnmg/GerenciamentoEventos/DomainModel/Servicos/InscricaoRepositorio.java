@@ -6,6 +6,7 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
@@ -20,6 +21,7 @@ import javax.ejb.Local;
 @Local
 public interface InscricaoRepositorio extends Repositorio<Inscricao> {
     public Inscricao Abrir(Evento evt, Pessoa p);
+    public InscricaoItem Abrir(Inscricao i, Atividade a);
     public InscricaoItem AbrirItem(Long id);
     public List<InscricaoItem> Buscar(InscricaoItem filtro);
     public boolean Salvar(InscricaoItem i);

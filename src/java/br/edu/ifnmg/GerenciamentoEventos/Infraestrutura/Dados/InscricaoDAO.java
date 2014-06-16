@@ -69,6 +69,14 @@ public class InscricaoDAO
     }
     
     @Override
+    public InscricaoItem Abrir(Inscricao i, Atividade a) {
+        return itemDAO.IgualA("inscricao", i)
+                .IgualA("atividade", a)
+                .IgualA("tipo", InscricaoTipo.InscricaoItem)
+                .Abrir();
+    }
+    
+    @Override
     public boolean Apagar(Inscricao i){
         /*for(InscricaoItem item : i.getItens()){
             i.remove(item);
@@ -80,9 +88,11 @@ public class InscricaoDAO
     
     @Override
     public boolean Salvar(InscricaoItem i){
-        Inscricao tmp = i.getInscricao();
+/*        Inscricao tmp = i.getInscricao();
         tmp.add(i);
         return Salvar(tmp);
+ */
+        return itemDAO.Salvar(i);
     }
     
     @Override

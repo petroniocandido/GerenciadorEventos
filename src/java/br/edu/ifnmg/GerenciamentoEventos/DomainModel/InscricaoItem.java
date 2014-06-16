@@ -35,7 +35,15 @@ public class InscricaoItem extends Inscricao implements Serializable {
     private Atividade atividade;
     
     public InscricaoItem(){
-        tipo = InscricaoTipo.InscricaoItem;
+         tipo = InscricaoTipo.InscricaoItem;
+    }
+    
+    public InscricaoItem(Inscricao i, Atividade a){
+        this.tipo = InscricaoTipo.InscricaoItem;
+        this.inscricao = i;
+        this.atividade = a;
+        setEvento(a.getEvento());
+        setPessoa(i.getPessoa());
     }
     
     @Override
@@ -93,6 +101,8 @@ public class InscricaoItem extends Inscricao implements Serializable {
     
     @Override
     public String toString() {
+        if(id == null)
+            return Integer.toString(hashCode());
         return id + "";
     }
     

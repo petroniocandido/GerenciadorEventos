@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -333,29 +334,34 @@ public class Inscricao implements Entidade, Serializable {
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
     }
-    
-    
-    
+
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.pessoa);
+        hash = 23 * hash + Objects.hashCode(this.evento);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Inscricao)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        Inscricao other = (Inscricao) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
+        final Inscricao other = (Inscricao) obj;
+        if (!Objects.equals(this.pessoa, other.pessoa)) {
+            return false;
+        }
+        if (!Objects.equals(this.evento, other.evento)) {
+            return false;
+        }
+    
         return true;
     }
-
+    
     @Override
     public String toString() {
         return id.toString();
