@@ -77,8 +77,6 @@ public class PublicoController extends ControllerBase implements Serializable {
     @EJB
     ArquivoRepositorio arqDAO;
 
-    @Inject
-    SessaoService sessao;
 
     Evento evento;
 
@@ -386,21 +384,7 @@ public class PublicoController extends ControllerBase implements Serializable {
                 .Buscar();
     }
 
-    public void setSessao(String key, Entidade obj) {
-        if (obj != null) {
-            sessao.put(key, obj.getId().toString());
-        } else {
-            sessao.delete(key);
-        }
-    }
-
-    public Entidade getSessao(String key, Repositorio dao) {
-        String tmp = sessao.get(key);
-        if (tmp != null && !tmp.isEmpty()) {
-            return (Entidade) dao.Abrir(Long.parseLong(tmp));
-        }
-        return null;
-    }
+    
     
    
 

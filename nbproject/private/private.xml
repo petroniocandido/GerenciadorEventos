@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/InscricaoItem.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/Inscricao.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/Servicos/InscricaoService.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/PublicoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/Atividade.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/Servicos/InscricaoRepositorio.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Aplicacao/ControllerBaseEntidade.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/RecursoController.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Aplicacao/ControllerBase.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/editarRecurso.xhtml</file>
         </group>
     </open-files>
 </project-private>

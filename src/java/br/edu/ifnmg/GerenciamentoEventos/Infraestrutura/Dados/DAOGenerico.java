@@ -45,6 +45,11 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     public void setManager(EntityManager manager) {
         this.manager = manager;
     }
+    
+    @Override
+    public Class getTipo(){
+        return tipo;
+    }
 
     /**
      * Cria um filtro para consulta de igualdade

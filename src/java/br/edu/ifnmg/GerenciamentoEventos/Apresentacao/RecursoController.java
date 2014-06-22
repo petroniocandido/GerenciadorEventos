@@ -13,17 +13,16 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "recursoController")
-@SessionScoped
+@RequestScoped
 public class RecursoController
         extends ControllerBaseEntidade<Recurso>
         implements Serializable {
@@ -32,9 +31,8 @@ public class RecursoController
      * Creates a new instance of FuncionarioBean
      */
     public RecursoController() {
-        id = 0L;
-        setEntidade(new Recurso());
-        setFiltro(new Recurso());
+        //id = 0L;
+        //setEntidade(new Recurso());        
     }
     
     @EJB
@@ -43,6 +41,29 @@ public class RecursoController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+        setFiltro(new Recurso());
+    }
+    
+    @Override
+    public Recurso getFiltro() {
+        if(getSessao("filtro_nome") != null){
+            filtro.setNome(getSessao("filtro_nome"));
+        }
+        if(getSessao("filtro_tipo") != null){
+            filtro.setTipo( RecursoTipo.valueOf( getSessao("filtro_tipo") ));
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(Recurso filtro) {
+        this.filtro = filtro;
+        if(filtro.getNome() != null){
+            setSessao("filtro_nome",filtro.getNome());
+        }
+        if(filtro.getTipo() != null){
+            setSessao("filtro_tipo",filtro.getTipo().name() );
+        }
     }
 
     @Override
