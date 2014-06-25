@@ -12,18 +12,24 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "alocacaoController")
-@SessionScoped
+@RequestScoped
 public class AlocacaoController
         extends ControllerBaseEntidade<Alocacao>
         implements Serializable {
@@ -32,9 +38,6 @@ public class AlocacaoController
      * Creates a new instance of FuncionarioBean
      */
     public AlocacaoController() {
-        id = 0L;
-        setEntidade(new Alocacao());
-        setFiltro(new Alocacao());
     }
     
     Evento padrao;
@@ -45,10 +48,51 @@ public class AlocacaoController
     @EJB
     EventoRepositorio evtDAO;
     
+    @EJB
+    PessoaRepositorio pessoaDAO;
+    
+    @EJB
+    RecursoRepositorio recursoDAO;
+    
     @PostConstruct
     public void init() {
-        setRepositorio(dao);
+        setRepositorio(dao);        
+        setFiltro(new Alocacao());
         checaEventoPadrao();
+    }
+    
+    @Override
+    public Alocacao getFiltro() {
+        if(getSessao("filtro_responsavel") != null){
+            filtro.setResponsavel(pessoaDAO.Abrir( Long.parseLong(getSessao("filtro_responsavel"))));
+        }
+        
+        if(getSessao("filtro_recurso") != null){
+            filtro.setRecurso(recursoDAO.Abrir( Long.parseLong(getSessao("filtro_recurso"))));
+        }
+        
+        if(getSessao("filtro_data") != null){
+            try {
+                filtro.setInicio(DateFormat.getInstance().parse(getSessao("filtro_data"))) ;
+            } catch (ParseException ex) {
+                Logger.getLogger(LogController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(Alocacao filtro) {
+        this.filtro = filtro;
+        if(filtro.getResponsavel() != null){
+            setSessao("filtro_responsavel",filtro.getResponsavel().getId().toString());
+        }
+        if(filtro.getRecurso() != null){
+            setSessao("filtro_recurso",filtro.getRecurso().getId().toString());
+        }
+        if(filtro.getInicio()!= null){
+            setSessao("filtro_data", DateFormat.getInstance().format(filtro.getInicio()) );
+        }
     }
     
     public void checaEventoPadrao() {
@@ -62,12 +106,9 @@ public class AlocacaoController
         }
     }
 
-   
-
     @Override
     public void filtrar() {
-        checaEventoPadrao();
-        
+        checaEventoPadrao();        
     }
 
     @Override
@@ -133,6 +174,5 @@ public class AlocacaoController
             AppendLog("Erro ao cancelar alocação: " + dao.getErro().getMessage());
             MensagemErro("Atenção", "Erro ao cancelar alocação! Consulte o administrador do sistema!");
         }
-    }
-    
+    }    
 }

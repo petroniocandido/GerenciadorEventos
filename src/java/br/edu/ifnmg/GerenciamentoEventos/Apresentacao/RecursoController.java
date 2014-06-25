@@ -31,8 +31,9 @@ public class RecursoController
      * Creates a new instance of FuncionarioBean
      */
     public RecursoController() {
-        //id = 0L;
-        //setEntidade(new Recurso());        
+        /**id = 0L;
+        setEntidade(new Recurso());        
+        */ 
     }
     
     @EJB

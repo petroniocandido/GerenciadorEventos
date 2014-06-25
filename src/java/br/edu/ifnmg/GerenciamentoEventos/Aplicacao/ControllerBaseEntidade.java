@@ -33,7 +33,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     public Long getId() {
         if(id == null || id == 0L){
             String tmp = getSessao("entidade");
-            id = Long.parseLong(tmp);
+            id = (tmp != null) ? Long.parseLong(tmp) : 0L;
         }
         return id;
     }
