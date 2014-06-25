@@ -11,9 +11,13 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -21,7 +25,7 @@ import org.primefaces.model.UploadedFile;
  * @author petronio
  */
 @Named(value = "arquivoController")
-@SessionScoped
+@RequestScoped
 public class ArquivoController
         extends ControllerBaseEntidade<Arquivo>
         implements Serializable {
@@ -30,9 +34,6 @@ public class ArquivoController
      * Creates a new instance of FuncionarioBean
      */
     public ArquivoController() {
-        id = 0L;
-        setEntidade(new Arquivo());
-        setFiltro(new Arquivo());
         
     }
     
@@ -49,10 +50,35 @@ public class ArquivoController
         this.arquivo = arquivo;
     }
     
+    @Override
+    public Arquivo getFiltro() {
+        if(getSessao("filtro_nome") != null){
+            filtro.setNome(getSessao("filtro_nome"));
+        }
+        
+        if(getSessao("filtro_uri") != null){
+            filtro.setUri(getSessao("filtro_uri"));
+        }
+        
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(Arquivo filtro) {
+        this.filtro = filtro;
+        if(filtro.getNome()!= null){
+            setSessao("filtro_nome",filtro.getNome());
+        }
+        if(filtro.getUri()!= null){
+            setSessao("filtro_uri",filtro.getUri());
+        }
+    }
+    
     
     @PostConstruct
     public void init() {
-        setRepositorio(dao);        
+        setRepositorio(dao);            
+        setFiltro(new Arquivo());
     }
 
   
@@ -68,13 +94,13 @@ public class ArquivoController
 
     @Override
     public String apagar() {
-        if (dao.Apagar(entidade, getConfiguracao("DIRETORIO_ARQUIVOS"))) {
+        if (dao.Apagar(getEntidade(), getConfiguracao("DIRETORIO_ARQUIVOS"))) {
 
             Mensagem("Sucesso", "Registro removido com sucesso!");
-            AppendLog("Apagou a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")");
+            AppendLog("Apagou a entidade " + getEntidade().getClass().getSimpleName() + " " + getEntidade().getId() + "(" + getEntidade().toString() + ")");
         } else {
             MensagemErro("Falha", "Registro não foi removido! Consulte o Log ou o administrador do sistema!");
-            AppendLog("Falha ao remover a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")" + ": " + repositorio.getErro().getMessage());
+            AppendLog("Falha ao remover a entidade " + getEntidade().getClass().getSimpleName() + " " + getEntidade().getId() + "(" + getEntidade().toString() + ")" + ": " + repositorio.getErro().getMessage());
         }
         filtrar();
         return "listagemArquivos.xtml";
@@ -101,11 +127,10 @@ public class ArquivoController
         limpar();
         return "editarArquivo.xhtml";
     }
-
-    
+   
     
     public void arquivoFileUpload() {  
-        entidade = criaArquivo(arquivo);
+        setEntidade(criaArquivo(arquivo));
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             
