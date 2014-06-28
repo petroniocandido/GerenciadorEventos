@@ -12,10 +12,11 @@
         <h:outputText value="CPF: " />
         <p:inputMask id="txtCpf" value="#{pessoa.cpf}" mask="999.999.999-99" 
                      required="true" requiredMessage="O campo cpf é obrigatório" 
-                     validator="#{autenticacaoController.validaCPF}" validatorMessage="CPF Inválido!"/>
+                     validator="#{autenticacaoController.validaCPF}" />
         <h:outputText value="E-Mail: " />
         <p:inputText id="txtEmail" value="#{pessoa.email}" 
-                     required="true" requiredMessage="O campo e-mail é obrigatório" />
+                     required="true" requiredMessage="O campo e-mail é obrigatório" 
+                     validator="#{autenticacaoController.validaEmail}"/>
         <h:outputText value="Telefone: " />
         <p:inputMask id="txtTelefone" value="#{pessoa.telefone}" 
                      mask="(99) 9999-9999" />
