@@ -4,12 +4,9 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -32,72 +29,33 @@ public class PermissaoController
      */
     public PermissaoController() {
     }
-    
+
     @EJB
     PermissaoRepositorio dao;
-   
-    
+
     @PostConstruct
     public void init() {
-        setRepositorio(dao);        
+        setRepositorio(dao);
         setFiltro(new Permissao());
+        setPaginaListagem("listarPermissoes.xtml");
+        setPaginaEdicao("editarPermissao.xhtml");
     }
-    
-      @Override
+
+    @Override
     public Permissao getFiltro() {
-        if(getSessao("filtro_uri") != null){
-            filtro.setUri(getSessao("filtro_uri"));
-        }
+        filtro.setUri(getSessao("filtro_uri"));
         return filtro;
     }
 
     @Override
     public void setFiltro(Permissao filtro) {
         this.filtro = filtro;
-        if(filtro.getUri()!= null){
-            setSessao("filtro_uri",filtro.getUri());
-        }
-        
-    }
-
-   
-    @Override
-    public void salvar() {
-        
-        SalvarEntidade();
-        
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listarPermissoes.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarPermissao.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemPermissoes.xhtml";
+        setSessao("filtro_uri", filtro.getUri());
     }
 
     @Override
     public void limpar() {
-        
         setEntidade(new Permissao());
-    }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarPermissao.xhtml";
     }
 
     @Override

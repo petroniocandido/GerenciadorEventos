@@ -10,16 +10,11 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -54,67 +49,30 @@ public class PerfilController
     public void init() {
         setRepositorio(dao);
         setFiltro(new Perfil());
+        setPaginaEdicao("editarPerfil.xhtml");
+        setPaginaListagem("listarPerfis.xtml");
     }
     
      @Override
     public Perfil getFiltro() {
-        if(getSessao("filtro_nome") != null){
-            filtro.setNome(getSessao("filtro_nome"));
-        }
+        filtro.setNome(getSessao("pflctrl_nome"));
         return filtro;
     }
 
     @Override
     public void setFiltro(Perfil filtro) {
         this.filtro = filtro;
-        if(filtro.getNome()!= null){
-            setSessao("filtro_nome",filtro.getNome());
-        }
+        setSessao("pflctrl_nome",filtro.getNome());
         
-    }
-
-    @Override
-    public void salvar() {
-        
-        SalvarEntidade();
-        
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listarPerfis.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarPerfil.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemPerfis.xhtml";
     }
 
     @Override
     public void limpar() {
-        
         setEntidade(new Perfil());
     }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarPerfil.xhtml";
-    }
-
        
     public void valueChangeListener(ValueChangeEvent evt){
-        entidade = dao.Refresh(entidade);
+        setEntidade(dao.Refresh(getEntidade()));
         if((boolean)evt.getNewValue())
             entidade.add(permissao);
         else

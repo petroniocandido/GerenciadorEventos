@@ -11,10 +11,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -52,13 +48,8 @@ public class ArquivoController
     
     @Override
     public Arquivo getFiltro() {
-        if(getSessao("filtro_nome") != null){
-            filtro.setNome(getSessao("filtro_nome"));
-        }
-        
-        if(getSessao("filtro_uri") != null){
-            filtro.setUri(getSessao("filtro_uri"));
-        }
+        filtro.setNome(getSessao("arqctrl_nome"));
+        filtro.setUri(getSessao("arqctrl_uri"));
         
         return filtro;
     }
@@ -66,12 +57,8 @@ public class ArquivoController
     @Override
     public void setFiltro(Arquivo filtro) {
         this.filtro = filtro;
-        if(filtro.getNome()!= null){
-            setSessao("filtro_nome",filtro.getNome());
-        }
-        if(filtro.getUri()!= null){
-            setSessao("filtro_uri",filtro.getUri());
-        }
+        setSessao("arqctrl_nome",filtro.getNome());
+        setSessao("arqctrl_uri",filtro.getUri());        
     }
     
     
@@ -79,17 +66,8 @@ public class ArquivoController
     public void init() {
         setRepositorio(dao);            
         setFiltro(new Arquivo());
-    }
-
-  
-
-    @Override
-    public void salvar() {
-        
-        SalvarEntidade();
-        
-        // atualiza a listagem
-        filtrar();
+        setPaginaEdicao("editarArquivo.xhtml");
+        setPaginaListagem("listagemArquivos.xhtml");
     }
 
     @Override
@@ -107,27 +85,10 @@ public class ArquivoController
     }
 
     @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarArquivo.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemArquivos.xhtml";
-    }
-
-    @Override
     public void limpar() {
         setEntidade(new Arquivo());
     }
 
-    @Override
-    public String novo() {
-        limpar();
-        return "editarArquivo.xhtml";
-    }
-   
     
     public void arquivoFileUpload() {  
         setEntidade(criaArquivo(arquivo));

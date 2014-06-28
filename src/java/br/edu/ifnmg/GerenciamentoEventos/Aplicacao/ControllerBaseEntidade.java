@@ -9,7 +9,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,21 +25,25 @@ import org.primefaces.model.UploadedFile;
 public abstract class ControllerBaseEntidade<T extends Entidade> extends ControllerBase {
 
     protected Long id;
-    
+
+    private String classe = "";
+    private String paginaEdicao;
+    private String paginaListagem;
+
     @EJB
     ArquivoRepositorio arqDAO;
 
     public Long getId() {
-        if(id == null || id == 0L){
-            String tmp = getSessao("entidade");
+        if (id == null || id == 0L) {
+            String tmp = getSessao(classe + "entidade");
             id = (tmp != null) ? Long.parseLong(tmp) : 0L;
         }
         return id;
     }
 
     public void setId(Long id) {
-        if(id != null || id != 0L){
-            setSessao("entidade", id.toString());
+        if (id != null || id != 0L) {
+            setSessao(classe + "entidade", id.toString());
         }
         this.id = id;
     }
@@ -48,20 +51,39 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     public abstract void limpar();
 
     public void filtrar() {
+        setFiltro(filtro);
     }
 
-    public abstract void salvar();
+    public void salvar() {
 
-    public abstract String apagar();
+        SalvarEntidade();
 
-    public abstract String abrir();
+        // atualiza a listagem
+        filtrar();
+    }
 
-    public abstract String cancelar();
+    public String apagar() {
+        ApagarEntidade();
+        filtrar();
+        return paginaListagem;
+    }
 
-    public abstract String novo();
+    public String abrir() {
+        setEntidade(repositorio.Abrir(getId()));
+        return paginaEdicao;
+    }
 
-    public List<T> getListagem(){
-        return repositorio.Buscar(filtro);
+    public String cancelar() {
+        return paginaListagem;
+    }
+
+    public String novo() {
+        limpar();
+        return paginaEdicao;
+    }
+
+    public List<T> getListagem() {
+        return repositorio.Buscar(getFiltro());
     }
 
     protected T entidade, filtro;
@@ -69,21 +91,21 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
     public T getEntidade() {
         if (entidade == null) {
-            entidade = (T) getSessao("entidade", repositorio);
+            entidade = (T) getSessaoNaoNula(classe + "entidade", repositorio);
         }
         return entidade;
     }
 
     public void setEntidade(T entidade) {
         this.entidade = entidade;
-        setSessao("entidade", entidade);
+        setSessao(classe + "entidade", entidade);
     }
 
     public void setRepositorio(Repositorio repo) {
         this.repositorio = repo;
+        classe = this.repositorio.getTipo().getSimpleName();
     }
 
-    
     public T getFiltro() {
         return filtro;
     }
@@ -169,10 +191,10 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
             MensagemErro("Falha", "Item não removido! Consulte o log.");
         }
     }
-    
+
     public List<T> getListagemGeral() {
         limpar();
-        
+
         return getListagem();
     }
 
@@ -217,7 +239,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     public Arquivo criaArquivo(UploadedFile upload) {
         try {
             Arquivo arquivo = arqDAO.Salvar(upload.getInputstream(), upload.getFileName(), getConfiguracao("DIRETORIO_ARQUIVOS"), getUsuarioCorrente());
-            
+
             return arquivo;
         } catch (IOException ex) {
             Logger.getLogger(ControllerBaseEntidade.class.getName()).log(Level.SEVERE, null, ex);
@@ -225,20 +247,35 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
         }
 
     }
-    
-    @Override
-    public Entidade getSessao(String key, Repositorio dao) {
+
+    public Entidade getSessaoNaoNula(String key, Repositorio dao) {
         try {
             Entidade tmp = super.getSessao(key, dao);
-            if (tmp == null)
-                return (Entidade)dao.getTipo().newInstance();
-            else
+            if (tmp == null) {
+                return (Entidade) dao.getTipo().newInstance();
+            } else {
                 return tmp;
+            }
         } catch (Exception ex) {
             return null;
-        } 
-        
-                
+        }
+
+    }
+
+    public String getPaginaEdicao() {
+        return paginaEdicao;
+    }
+
+    public void setPaginaEdicao(String paginaEdicao) {
+        this.paginaEdicao = paginaEdicao;
+    }
+
+    public String getPaginaListagem() {
+        return paginaListagem;
+    }
+
+    public void setPaginaListagem(String paginaListagem) {
+        this.paginaListagem = paginaListagem;
     }
 
 }

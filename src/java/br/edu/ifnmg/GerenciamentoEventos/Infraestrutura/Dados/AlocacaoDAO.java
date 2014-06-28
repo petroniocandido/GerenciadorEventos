@@ -26,7 +26,7 @@ public class AlocacaoDAO
     
     @Override
     public List<Alocacao> Buscar(Alocacao filtro) {
-       return MaiorOuIgualA("evento", filtro.getEvento())
+       return IgualA("evento", filtro.getEvento())
                 .IgualA("atividade", filtro.getAtividade())
                 .IgualA("recurso", filtro.getRecurso())    
                 .MaiorOuIgualA("inicio", filtro.getInicio())
