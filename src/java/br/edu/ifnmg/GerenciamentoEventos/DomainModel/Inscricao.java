@@ -131,6 +131,8 @@ public class Inscricao implements Entidade, Serializable {
             setStatus(InscricaoStatus.Confirmada);
     }
     
+    
+    
     public boolean add(InscricaoItem item){
         item.setInscricao(this);
         if(!itens.contains(item)){

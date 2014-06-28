@@ -26,6 +26,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioReposi
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
@@ -76,7 +77,6 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
     ArquivoRepositorio arqDAO;
-
 
     Evento evento;
 
@@ -155,7 +155,7 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     public void setAtividade(Atividade a) {
         this.atividade = a;
-        setSessao("atividade", a);  
+        setSessao("atividade", a);
         setInscricaoItem(null);
     }
 
@@ -165,6 +165,8 @@ public class PublicoController extends ControllerBase implements Serializable {
         if (inscricao != null) {
             processaQuestionarioEvento(inscricao);
         }
+        
+        Mensagem("Sucesso", "Inscrição realizada com sucesso!");
     }
 
     public String cancelarInscricaoEvento() {
@@ -183,12 +185,12 @@ public class PublicoController extends ControllerBase implements Serializable {
         setSessao("inscricaoItem", i);
         checked = false;
     }
-    
+
     private boolean checked = false;
-    
+
     public InscricaoItem getInscricaoItem() {
         if (inscricaoItem == null && !checked) {
-            inscricaoItem = (InscricaoItem)getSessao("inscricaoItem", inscricaoDAO);
+            inscricaoItem = (InscricaoItem) getSessao("inscricaoItem", inscricaoDAO);
             if (inscricaoItem == null && getInscricao() != null) {
                 setInscricaoItem(inscricaoDAO.Abrir(getInscricao(), getAtividade()));
             } else {
@@ -200,10 +202,16 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public void inscreverAtividade() throws IOException {
-        inscricao = inscricaoDAO.Refresh(getInscricao());
-        setInscricaoItem( inscricaoservice.inscrever(inscricao, getAtividade(), getUsuarioCorrente()) );
-        if (inscricaoItem != null) {
-            processaQuestionarioAtividade();
+        try {
+            inscricao = inscricaoDAO.Refresh(getInscricao());
+            setInscricaoItem(inscricaoservice.inscrever(inscricao, getAtividade(), getUsuarioCorrente()));
+            if (inscricaoItem != null) {
+                processaQuestionarioAtividade();
+            }
+            Mensagem("Sucesso", "Inscrição realizada com sucesso!");
+        } catch (ConflitoHorarioException ex) {
+            Atividade tmp = (Atividade) ex.getConflitante();
+            MensagemErro("Conflito de Horário", "Não foi possível realizar a inscrição nessa atividade pois há um conflito de horário com a atividade " + tmp.getNome() + " em que você já está inscrito!");
         }
     }
 
@@ -225,7 +233,7 @@ public class PublicoController extends ControllerBase implements Serializable {
         QuestionarioResposta resposta = i.getResposta();
 
         if (resposta == null) {
-            resposta = new QuestionarioResposta(getUsuarioCorrente(),qr);
+            resposta = new QuestionarioResposta(getUsuarioCorrente(), qr);
         } else {
             resposta = respostaDAO.Refresh(resposta);
         }
@@ -280,7 +288,6 @@ public class PublicoController extends ControllerBase implements Serializable {
     public void processaQuestionarioEvento() {
         processaQuestionario(getInscricao(), getInscricao().getEvento().getQuestionario());
     }
-
 
     public void processaQuestionarioAtividade() {
         processaQuestionario(getInscricaoItem(), getInscricaoItem().getAtividade().getQuestionario());
@@ -383,9 +390,5 @@ public class PublicoController extends ControllerBase implements Serializable {
                 .Ordenar("nome", "ASC")
                 .Buscar();
     }
-
-    
-    
-   
 
 }
