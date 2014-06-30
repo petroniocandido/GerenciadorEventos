@@ -63,7 +63,7 @@ public class InscricaoController
         setPaginaListagem("listagemInscricoes.xtml");
     }
     
-     @Override
+    @Override
     public Inscricao getFiltro() {
         if (filtro == null) {
             filtro = new Inscricao();

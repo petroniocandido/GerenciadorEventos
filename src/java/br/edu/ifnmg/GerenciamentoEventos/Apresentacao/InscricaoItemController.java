@@ -9,11 +9,13 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,6 +50,9 @@ public class InscricaoItemController
 
     @EJB
     AtividadeRepositorio atiDAO;
+    
+    @EJB
+    PessoaRepositorio pessoaDAO;
 
     @PostConstruct
     public void init() {
@@ -58,8 +63,41 @@ public class InscricaoItemController
     }
     
     @Override
+    public InscricaoItem getFiltro() {
+        if (filtro == null) {
+            filtro = new InscricaoItem();
+            filtro.setPessoa((Pessoa) getSessao("iictrl_pessoa", pessoaDAO));
+            filtro.setAtividade((Atividade) getSessao("iictrl_ativ", atiDAO));
+            filtro.setEvento((Evento) getSessao("iictrl_evento", evtDAO));
+            String tmp = getSessao("iictrl_cat");
+            filtro.setCategoria((tmp != null) ? InscricaoCategoria.valueOf(getSessao("iictrl_cat")) : null);
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(InscricaoItem filtro) {
+        this.filtro = filtro;
+        if (filtro != null) {
+            setSessao("iictrl_pessoa", filtro.getPessoa());
+            setSessao("iictrl_evento", filtro.getEvento());
+            setSessao("iictrl_ativ", filtro.getAtividade());
+            setSessao("iictrl_cat", filtro.getCategoria()!= null ? filtro.getCategoria().name() : null);
+        }
+    }
+    
+    @Override
     public List<InscricaoItem> getListagem(){
         return dao.Buscar(filtro);
+    }
+    
+    @Override
+    public InscricaoItem getEntidade() {
+        if (entidade == null) {
+            String tmp = getSessao("InscricaoItementidade");
+            entidade = tmp != null ? dao.AbrirItem(Long.parseLong(tmp)) : new InscricaoItem();
+        }
+        return entidade;
     }
 
 

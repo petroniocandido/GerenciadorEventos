@@ -86,7 +86,7 @@ public class EventoController
     }
     
     public void logoFileUpload() {  
-        entidade = dao.Refresh(entidade);
+        entidade = dao.Refresh(getEntidade());
         entidade.setLogo(criaArquivo(arquivo));
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
@@ -99,7 +99,7 @@ public class EventoController
     }
     
     public void bannerFileUpload() {  
-        entidade = dao.Refresh(entidade);
+        entidade = dao.Refresh(getEntidade());
         entidade.setBanner(criaArquivo(arquivo));
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
