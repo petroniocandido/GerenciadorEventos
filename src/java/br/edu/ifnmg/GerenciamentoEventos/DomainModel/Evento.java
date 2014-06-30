@@ -36,7 +36,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
-@Cacheable
+@Cacheable(true)
 @Entity
 @Table(name = "eventos")
 public class Evento implements Entidade, Serializable {

@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,6 +30,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "alocacoesrecursos")
+@Cacheable(true)
 public class Alocacao implements Entidade, Serializable, Comparable<Alocacao> {
     private static final long serialVersionUID = 1L;
     @Id

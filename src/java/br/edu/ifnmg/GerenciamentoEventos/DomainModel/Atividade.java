@@ -38,7 +38,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
-@Cacheable
+@Cacheable(true)
 @Entity
 @Table(name = "atividades")
 @NamedQueries({

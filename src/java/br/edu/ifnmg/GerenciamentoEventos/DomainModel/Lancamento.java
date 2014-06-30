@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -32,6 +33,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "lancamentos")
+@Cacheable(false)
 public class Lancamento implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -31,7 +31,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
-@Cacheable
+@Cacheable(true)
 @Entity
 @Table(name = "pessoas", indexes = {
     @Index(columnList = "cpf"),
