@@ -4,8 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ArquivoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
@@ -30,12 +28,12 @@ public class ArquivoController
      * Creates a new instance of FuncionarioBean
      */
     public ArquivoController() {
-        
+
     }
-    
+
     @EJB
     ArquivoRepositorio dao;
-    
+
     UploadedFile arquivo;
 
     public UploadedFile getArquivo() {
@@ -45,27 +43,27 @@ public class ArquivoController
     public void setArquivo(UploadedFile arquivo) {
         this.arquivo = arquivo;
     }
-    
+
     @Override
     public Arquivo getFiltro() {
-        filtro.setNome(getSessao("arqctrl_nome"));
-        filtro.setUri(getSessao("arqctrl_uri"));
-        
+        if (filtro == null) {
+            filtro = new Arquivo();
+            filtro.setNome(getSessao("arqctrl_nome"));
+            filtro.setUri(getSessao("arqctrl_uri"));
+        }
         return filtro;
     }
 
     @Override
     public void setFiltro(Arquivo filtro) {
         this.filtro = filtro;
-        setSessao("arqctrl_nome",filtro.getNome());
-        setSessao("arqctrl_uri",filtro.getUri());        
+        setSessao("arqctrl_nome", filtro.getNome());
+        setSessao("arqctrl_uri", filtro.getUri());
     }
-    
-    
+
     @PostConstruct
     public void init() {
-        setRepositorio(dao);            
-        setFiltro(new Arquivo());
+        setRepositorio(dao);
         setPaginaEdicao("editarArquivo.xhtml");
         setPaginaListagem("listagemArquivos.xhtml");
     }
@@ -89,18 +87,16 @@ public class ArquivoController
         setEntidade(new Arquivo());
     }
 
-    
-    public void arquivoFileUpload() {  
+    public void arquivoFileUpload() {
         setEntidade(criaArquivo(arquivo));
-        if(dao.Salvar(entidade)){
+        if (dao.Salvar(entidade)) {
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
-            
+
         } else {
             Mensagem("Falha", "Falha ao anexar o arquivo!");
-            
+
         }
-        
+
     }
 
-    
 }

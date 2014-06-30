@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/ArquivoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/comum/botoesListagem.xhtml</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Aplicacao/ControllerBaseEntidade.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/Recurso.java</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/RecursoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/listagemRecursos.xhtml</file>
         </group>
     </open-files>
 </project-private>

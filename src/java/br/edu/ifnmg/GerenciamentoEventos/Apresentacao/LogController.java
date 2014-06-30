@@ -34,10 +34,6 @@ public class LogController
      * Creates a new instance of FuncionarioBean
      */
     public LogController() {
-        /*id = 0L;
-         setEntidade(new Log());
-         setFiltro(new Log());
-         */
     }
 
     @EJB
@@ -49,15 +45,17 @@ public class LogController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Log());
         setPaginaEdicao("editarLog.xhtml");
-        setPaginaListagem("listarLogs.xtml");
+        setPaginaListagem("listagemLogs.xtml");
     }
 
     @Override
     public Log getFiltro() {
-        filtro.setUsuario((Pessoa) getSessao("logctrl_usuario", pessoaDAO));
-        filtro.setDataEvento(getSessaoData("logctrl_data"));
+        if (filtro == null) {
+            filtro = new Log();
+            filtro.setUsuario((Pessoa) getSessao("logctrl_usuario", pessoaDAO));
+            filtro.setDataEvento(getSessaoData("logctrl_data"));
+        }
         return filtro;
     }
 
@@ -70,7 +68,6 @@ public class LogController
 
     @Override
     public void limpar() {
-
         setEntidade(new Log());
     }
 

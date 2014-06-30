@@ -41,7 +41,6 @@ public class ConfiguracaoController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Configuracao());
         setPaginaEdicao("editarConfiguracao.xhtml");
         setPaginaListagem("listagemConfiguracoes.xhtml");
     }
@@ -54,9 +53,11 @@ public class ConfiguracaoController
 
     @Override
     public Configuracao getFiltro() {
-        filtro.setChave(getSessao("cnfctrl_chave"));
-        filtro.setUsuario((Pessoa) getSessao("cnfctrl_usuario", pessoaDAO));
-
+        if (filtro == null) {
+            filtro = new Configuracao();
+            filtro.setChave(getSessao("cnfctrl_chave"));
+            filtro.setUsuario((Pessoa) getSessao("cnfctrl_usuario", pessoaDAO));
+        }
         return filtro;
     }
 

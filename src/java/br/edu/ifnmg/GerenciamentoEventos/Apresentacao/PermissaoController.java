@@ -36,14 +36,16 @@ public class PermissaoController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Permissao());
-        setPaginaListagem("listarPermissoes.xtml");
+        setPaginaListagem("listagemPermissoes.xtml");
         setPaginaEdicao("editarPermissao.xhtml");
     }
 
     @Override
     public Permissao getFiltro() {
-        filtro.setUri(getSessao("filtro_uri"));
+        if (filtro == null) {
+            filtro = new Permissao();
+            filtro.setUri(getSessao("filtro_uri"));
+        }
         return filtro;
     }
 

@@ -4,8 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AlocacaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
@@ -37,60 +35,64 @@ public class AlocacaoController
      */
     public AlocacaoController() {
     }
-    
+
     Evento padrao;
-    
+
     @EJB
     AlocacaoRepositorio dao;
-    
+
     @EJB
     EventoRepositorio evtDAO;
-    
+
     @EJB
     PessoaRepositorio pessoaDAO;
-    
+
     @EJB
     RecursoRepositorio recursoDAO;
-    
+
     @PostConstruct
     public void init() {
-        setRepositorio(dao);        
-        setFiltro(new Alocacao());
+        setRepositorio(dao);
         checaEventoPadrao();
         setPaginaEdicao("editarAlocacao.xhtml");
         setPaginaListagem("listagemAlocacoes.xtml");
     }
-    
+
     @Override
     public Alocacao getFiltro() {
-        filtro.setResponsavel((Pessoa)getSessao("alcctrl_responsavel",pessoaDAO));
-        filtro.setRecurso((Recurso)getSessao("alcctrl_recurso",recursoDAO));
-        filtro.setInicio(getSessaoData("alcctrl_data")) ;
+        if (filtro == null) {
+            filtro = new Alocacao();
+            filtro.setResponsavel((Pessoa) getSessao("alcctrl_responsavel", pessoaDAO));
+            filtro.setRecurso((Recurso) getSessao("alcctrl_recurso", recursoDAO));
+            filtro.setInicio(getSessaoData("alcctrl_data"));
+        }
         return filtro;
     }
 
     @Override
     public void setFiltro(Alocacao filtro) {
         this.filtro = filtro;
-        setSessao("alcctrl_responsavel",filtro.getResponsavel());
-        setSessao("alcctrl_recurso",filtro.getRecurso());
-        setSessao("alcctrl_data", filtro.getInicio());        
+        setSessao("alcctrl_responsavel", filtro.getResponsavel());
+        setSessao("alcctrl_recurso", filtro.getRecurso());
+        setSessao("alcctrl_data", filtro.getInicio());
     }
-    
+
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
         if (evt != null && padrao == null) {
             padrao = evtDAO.Abrir(Long.parseLong(evt));
-            if(getEntidade().getEvento() == null)
+            if (getEntidade().getEvento() == null) {
                 getEntidade().setEvento(padrao);
-            if(getFiltro().getEvento() == null)
+            }
+            if (getFiltro().getEvento() == null) {
                 getFiltro().setEvento(padrao);
+            }
         }
     }
 
     @Override
     public void filtrar() {
-        checaEventoPadrao();        
+        checaEventoPadrao();
     }
 
     @Override
@@ -99,29 +101,27 @@ public class AlocacaoController
         setEntidade(new Alocacao());
     }
 
-
     public AlocacaoStatus[] getStatus() {
         return AlocacaoStatus.values();
     }
-    
-    
-    public void concluirItem(){
+
+    public void concluirItem() {
         getEntidade().setStatus(AlocacaoStatus.Concluido);
-        if(dao.Salvar(entidade)){
+        if (dao.Salvar(entidade)) {
             Mensagem("Confirmação", "Alocação concluída!");
         } else {
             AppendLog("Erro ao concluir alocação: " + dao.getErro().getMessage());
             MensagemErro("Atenção", "Erro ao concluir alocação! Consulte o administrador do sistema!");
         }
     }
-    
-    public void cancelarItem(){
+
+    public void cancelarItem() {
         getEntidade().setStatus(AlocacaoStatus.Cancelado);
-        if(dao.Salvar(entidade)){
+        if (dao.Salvar(entidade)) {
             Mensagem("Confirmação", "Alocação cancelada!");
         } else {
             AppendLog("Erro ao cancelar alocação: " + dao.getErro().getMessage());
             MensagemErro("Atenção", "Erro ao cancelar alocação! Consulte o administrador do sistema!");
         }
-    }    
+    }
 }

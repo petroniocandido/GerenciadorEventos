@@ -4,8 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Perfil;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;
@@ -35,48 +33,50 @@ public class PerfilController
      */
     public PerfilController() {
     }
-    
+
     @EJB
     PerfilRepositorio dao;
-    
+
     @EJB
     PessoaRepositorio daoP;
-    
+
     Permissao permissao;
-   
-    
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Perfil());
         setPaginaEdicao("editarPerfil.xhtml");
-        setPaginaListagem("listarPerfis.xtml");
+        setPaginaListagem("listagemPerfis.xtml");
     }
-    
-     @Override
+
+    @Override
     public Perfil getFiltro() {
-        filtro.setNome(getSessao("pflctrl_nome"));
+        if (filtro == null) {
+            filtro = new Perfil();
+            filtro.setNome(getSessao("pflctrl_nome"));
+        }
         return filtro;
     }
 
     @Override
     public void setFiltro(Perfil filtro) {
         this.filtro = filtro;
-        setSessao("pflctrl_nome",filtro.getNome());
-        
+        setSessao("pflctrl_nome", filtro.getNome());
+
     }
 
     @Override
     public void limpar() {
         setEntidade(new Perfil());
     }
-       
-    public void valueChangeListener(ValueChangeEvent evt){
+
+    public void valueChangeListener(ValueChangeEvent evt) {
         setEntidade(dao.Refresh(getEntidade()));
-        if((boolean)evt.getNewValue())
+        if ((boolean) evt.getNewValue()) {
             entidade.add(permissao);
-        else
+        } else {
             entidade.remove(permissao);
+        }
     }
 
     public Permissao getPermissao() {
@@ -86,9 +86,9 @@ public class PerfilController
     public void setPermissao(Permissao permissao) {
         this.permissao = permissao;
     }
-    
+
     public List<Pessoa> getPessoas() {
         return daoP.IgualA("perfil", entidade).Buscar();
     }
-    
+
 }

@@ -4,8 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.RecursoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
@@ -32,37 +30,40 @@ public class RecursoController
      */
     public RecursoController() {
     }
-    
+
     @EJB
     RecursoRepositorio dao;
-    
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Recurso());
+        //filtro = new Recurso();
         setPaginaListagem("listagemRecursos.xtml");
         setPaginaEdicao("editarRecurso.xhtml");
     }
-    
+
     @Override
     public Recurso getFiltro() {
-        filtro.setNome(getSessao("rcsctrl_nome"));
-        String tmp = getSessao("rcsctrl_tipo");
-        filtro.setTipo( (tmp != null ) ?  RecursoTipo.valueOf( getSessao("rcsctrl_tipo") ) : null );
+        if (filtro == null) {
+            filtro = new Recurso();
+            filtro.setNome(getSessao("rcsctrl_nome"));
+            String tmp = getSessao("rcsctrl_tipo");
+            filtro.setTipo((tmp != null) ? RecursoTipo.valueOf(getSessao("rcsctrl_tipo")) : null);
+        }
         return filtro;
     }
 
     @Override
     public void setFiltro(Recurso filtro) {
         this.filtro = filtro;
-        setSessao("rcsctrl_nome",filtro.getNome());
-        setSessao("rcsctrl_tipo", filtro.getTipo() != null ? filtro.getTipo().name() : null );
-        
+        setSessao("rcsctrl_nome", filtro.getNome());
+        setSessao("rcsctrl_tipo", filtro.getTipo() != null ? filtro.getTipo().name() : null);
+
     }
 
     @Override
     public void limpar() {
-        
+
         setEntidade(new Recurso());
     }
 
@@ -73,5 +74,5 @@ public class RecursoController
     public AlocacaoStatus[] getStatus() {
         return AlocacaoStatus.values();
     }
-    
+
 }
