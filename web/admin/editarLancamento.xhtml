@@ -98,7 +98,7 @@
                         <p:tab title="Inscrições">
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Inscrição: " />
-                                <p:autoComplete converter="#{inscricaoConverter}" value="#{lancamentoController.inscricao}"
+                                <p:autoComplete id="acInscricao" converter="#{inscricaoConverter}" value="#{lancamentoController.inscricao}"
                                                 completeMethod="#{inscricaoConverter.autoCompleteInscricao}" 
                                                 var="item" itemValue="#{item}" itemLabel="#{item.id}"
                                                 disabled="#{not lancamentoController.editavel}">
@@ -106,9 +106,10 @@
                                     <p:column headerText="Pessoa">#{item.pessoa}</p:column>
                                     <p:column headerText="Evento">#{item.evento}</p:column>
                                 </p:autoComplete>
-                                <p:commandButton value="Adicionar" action="#{lancamentoController.addInscricao}" disabled="#{not lancamentoController.editavel}" />
+                                <p:commandButton value="Adicionar" action="#{lancamentoController.addInscricao}" disabled="#{not lancamentoController.editavel}"
+                                                 update="acInscricao tblInscricoes"/>
                             </h:panelGrid>
-                            <p:dataTable value="#{lancamentoController.entidade.inscricoes}" var="item">
+                            <p:dataTable id="tblInscricoes" value="#{lancamentoController.entidade.inscricoes}" var="item">
                                 <p:column headerText="Inscrição">#{item.id}</p:column>
                                 <p:column headerText="Pessoa">#{item.pessoa}</p:column>
                                 <p:column headerText="Evento">#{item.evento}</p:column>

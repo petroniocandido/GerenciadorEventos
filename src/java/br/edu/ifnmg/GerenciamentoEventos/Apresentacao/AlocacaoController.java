@@ -72,9 +72,11 @@ public class AlocacaoController
     @Override
     public void setFiltro(Alocacao filtro) {
         this.filtro = filtro;
-        setSessao("alcctrl_responsavel", filtro.getResponsavel());
-        setSessao("alcctrl_recurso", filtro.getRecurso());
-        setSessao("alcctrl_data", filtro.getInicio());
+        if (filtro != null) {
+            setSessao("alcctrl_responsavel", filtro.getResponsavel());
+            setSessao("alcctrl_recurso", filtro.getRecurso());
+            setSessao("alcctrl_data", filtro.getInicio());
+        }
     }
 
     public void checaEventoPadrao() {

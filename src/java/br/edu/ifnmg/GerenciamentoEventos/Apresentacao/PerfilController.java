@@ -61,7 +61,8 @@ public class PerfilController
     @Override
     public void setFiltro(Perfil filtro) {
         this.filtro = filtro;
-        setSessao("pflctrl_nome", filtro.getNome());
+        if(filtro != null)
+            setSessao("pflctrl_nome", filtro.getNome());
 
     }
 

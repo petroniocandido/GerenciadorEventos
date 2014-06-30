@@ -54,7 +54,8 @@ public class LancamentoCategoriaController
     @Override
     public void setFiltro(LancamentoCategoria filtro) {
         this.filtro = filtro;
-        setSessao("lctctrl_nome", filtro.getNome());
+        if(filtro != null)
+            setSessao("lctctrl_nome", filtro.getNome());
 
     }
    

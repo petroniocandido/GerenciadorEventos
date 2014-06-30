@@ -57,8 +57,10 @@ public class ArquivoController
     @Override
     public void setFiltro(Arquivo filtro) {
         this.filtro = filtro;
-        setSessao("arqctrl_nome", filtro.getNome());
-        setSessao("arqctrl_uri", filtro.getUri());
+        if (filtro != null) {
+            setSessao("arqctrl_nome", filtro.getNome());
+            setSessao("arqctrl_uri", filtro.getUri());
+        }
     }
 
     @PostConstruct

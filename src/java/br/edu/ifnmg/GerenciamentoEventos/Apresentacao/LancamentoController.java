@@ -4,8 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoCategoria;
@@ -38,30 +36,30 @@ public class LancamentoController
      */
     public LancamentoController() {
     }
-    
+
     @EJB
     LancamentoRepositorio dao;
-    
+
     @EJB
     InscricaoRepositorio daoInsc;
-    
+
     @EJB
     PessoaRepositorio daoPessoa;
-    
+
     Inscricao inscricao;
-    
+
     @PostConstruct
     public void init() {
-        setRepositorio(dao);        
+        setRepositorio(dao);
         setPaginaEdicao("editarLancamento.xhtml");
         setPaginaListagem("listagemLancamentos.xtml");
     }
-    
-     @Override
+
+    @Override
     public Lancamento getFiltro() {
         if (filtro == null) {
             filtro = new Lancamento();
-            filtro.setCliente((Pessoa)getSessao("lcctrl_cliente", daoPessoa));
+            filtro.setCliente((Pessoa) getSessao("lcctrl_cliente", daoPessoa));
             filtro.setBaixa(getSessaoData("lcctrl_baixa"));
             String tmp = getSessao("lcctrl_tipo");
             filtro.setStatus((tmp != null) ? LancamentoStatus.valueOf(getSessao("lcctrl_tipo")) : null);
@@ -72,9 +70,11 @@ public class LancamentoController
     @Override
     public void setFiltro(Lancamento filtro) {
         this.filtro = filtro;
-        setSessao("lcctrl_cliente", filtro.getCliente());
-        setSessao("lcctrl_baixa", filtro.getBaixa());
-        setSessao("lcctrl_tipo", filtro.getStatus()!= null ? filtro.getStatus().name() : null);
+        if (filtro != null) {
+            setSessao("lcctrl_cliente", filtro.getCliente());
+            setSessao("lcctrl_baixa", filtro.getBaixa());
+            setSessao("lcctrl_tipo", filtro.getStatus() != null ? filtro.getStatus().name() : null);
+        }
     }
 
     @Override
@@ -87,21 +87,21 @@ public class LancamentoController
     }
 
     public Inscricao getInscricao() {
-        if(inscricao == null){
-            inscricao = (Inscricao)getSessaoNaoNula("lcctrl_insc", daoInsc);
-        }
         return inscricao;
     }
 
     public void setInscricao(Inscricao inscricao) {
-        this.inscricao = inscricao;
-        setSessao("lcctrl_insc", inscricao);
+        this.inscricao = inscricao;        
     }
-    
+
     public void addInscricao() {
         entidade = dao.Refresh(getEntidade());
         entidade.add(getInscricao());
-        dao.Salvar(entidade);
+        if(dao.Salvar(entidade)){
+            Mensagem("", "");
+        } else {
+            Mensagem("", "");
+        }
         setInscricao(new Inscricao());
     }
 
@@ -111,36 +111,37 @@ public class LancamentoController
         dao.Salvar(entidade);
         setInscricao(new Inscricao());
     }
-    
+
     public void baixarLancamento() {
         entidade = dao.Refresh(getEntidade());
         entidade.baixar(getUsuarioCorrente());
-        if(dao.Salvar(entidade)) {
+        if (dao.Salvar(entidade)) {
             Mensagem("Sucesso", "Lançamento baixado com sucesso!");
         } else {
             MensagemErro("Falha", "Lançamento não foi baixado! Consulte o administrador");
         }
     }
-    
+
     public void cancelarLancamento() {
         entidade = dao.Refresh(getEntidade());
         entidade.cancelar(getUsuarioCorrente());
-        if(dao.Salvar(entidade)) {
+        if (dao.Salvar(entidade)) {
             Mensagem("Sucesso", "Lançamento cancelado com sucesso!");
         } else {
             MensagemErro("Falha", "Lançamento não foi cancelado! Consulte o administrador");
         }
     }
-    
+
     public boolean isEditavel() {
-        return entidade.editavel();
+        return getEntidade().editavel();
     }
-    
-    public String getCorStatus(LancamentoStatus s){
-        if(s == null)
+
+    public String getCorStatus(LancamentoStatus s) {
+        if (s == null) {
             return "white";
-        
-        switch(s){
+        }
+
+        switch (s) {
             case Aberto:
                 return "white";
             case Baixado:
@@ -151,7 +152,7 @@ public class LancamentoController
                 return "white";
         }
     }
-    
+
     public List<LancamentoCategoria> getCategorias() {
         return dao.BuscarCategorias(null);
     }
@@ -159,7 +160,5 @@ public class LancamentoController
     public LancamentoTipo[] getTipos() {
         return LancamentoTipo.values();
     }
-    
-    
-    
+
 }

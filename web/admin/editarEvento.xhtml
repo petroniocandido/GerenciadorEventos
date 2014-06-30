@@ -39,6 +39,10 @@
                         </p:tab>
                         <p:tab id="tabDetalhes" title="Detalhes">  
                             <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Carga Horária: " />
+                                <pe:inputNumber value="#{eventoController.entidade.cargaHoraria}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{eventoController.entidade.inicio}" pattern="dd/MM/yyyy HH:mm"
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!"/>

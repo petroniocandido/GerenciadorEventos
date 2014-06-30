@@ -47,7 +47,7 @@ public class PessoaController
         setPaginaListagem("listagemUsuarios.xtml");
     }
 
-     @Override
+    @Override
     public Pessoa getFiltro() {
         if (filtro == null) {
             filtro = new Pessoa();
@@ -61,15 +61,16 @@ public class PessoaController
     @Override
     public void setFiltro(Pessoa filtro) {
         this.filtro = filtro;
-        setSessao("pctrl_nome", filtro.getNome());
-        setSessao("pctrl_cpf", filtro.getCpf());
-        setSessao("pctrl_email", filtro.getEmail());
+        if (filtro != null) {
+            setSessao("pctrl_nome", filtro.getNome());
+            setSessao("pctrl_cpf", filtro.getCpf());
+            setSessao("pctrl_email", filtro.getEmail());
+        }
     }
-
 
     @Override
     public void salvar() {
-        
+
         if (senha1 != null && senha1.length() != 0) {
 
             if (senha1.equals(senha2)) {
@@ -106,11 +107,11 @@ public class PessoaController
     public void setSenha2(String senha2) {
         this.senha2 = senha2;
     }
-    
-     public List<Pessoa> getPessoas() {
-         List<Pessoa> tmp = new ArrayList<>();
-         tmp.add(entidade);
+
+    public List<Pessoa> getPessoas() {
+        List<Pessoa> tmp = new ArrayList<>();
+        tmp.add(entidade);
         return tmp;
     }
-   
+
 }

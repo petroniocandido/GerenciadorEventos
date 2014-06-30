@@ -123,6 +123,8 @@ public class Atividade implements Entidade, Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "atividade")
     private List<Alocacao> recursos;
     
+    private int cargaHoraria;
+    
     public Atividade() {
         recursos = new ArrayList<>();
         responsaveis = new ArrayList<>();
@@ -134,6 +136,7 @@ public class Atividade implements Entidade, Serializable {
         valorExecutado = new BigDecimal("0.00");
         valorInscricao = new BigDecimal("0.00");        
         controle = new Controle(this, 0, 0);
+        cargaHoraria = 0;
     }
     
     public boolean podeEditar(Pessoa obj) {
@@ -416,6 +419,14 @@ public class Atividade implements Entidade, Serializable {
 
     public void setDependentes(List<Atividade> dependentes) {
         this.dependentes = dependentes;
+    }
+
+    public int getCargaHoraria() {
+        return cargaHoraria;
+    }
+
+    public void setCargaHoraria(int cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
     }
     
     

@@ -37,7 +37,6 @@ public class RecursoController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        //filtro = new Recurso();
         setPaginaListagem("listagemRecursos.xtml");
         setPaginaEdicao("editarRecurso.xhtml");
     }
@@ -56,8 +55,10 @@ public class RecursoController
     @Override
     public void setFiltro(Recurso filtro) {
         this.filtro = filtro;
-        setSessao("rcsctrl_nome", filtro.getNome());
-        setSessao("rcsctrl_tipo", filtro.getTipo() != null ? filtro.getTipo().name() : null);
+        if(filtro != null){
+            setSessao("rcsctrl_nome", filtro.getNome());
+            setSessao("rcsctrl_tipo", filtro.getTipo() != null ? filtro.getTipo().name() : null);
+        }
 
     }
 

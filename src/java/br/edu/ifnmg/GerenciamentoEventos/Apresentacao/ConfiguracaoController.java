@@ -64,8 +64,10 @@ public class ConfiguracaoController
     @Override
     public void setFiltro(Configuracao filtro) {
         this.filtro = filtro;
-        setSessao("cnfctrl_chave", filtro.getChave());
-        setSessao("cnfctrl_usuario", filtro.getUsuario());
+        if (filtro != null) {
+            setSessao("cnfctrl_chave", filtro.getChave());
+            setSessao("cnfctrl_usuario", filtro.getUsuario());
+        }
     }
 
     @Override

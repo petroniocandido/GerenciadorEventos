@@ -62,8 +62,10 @@ public class LogController
     @Override
     public void setFiltro(Log filtro) {
         this.filtro = filtro;
-        setSessao("logctrl_usuario", filtro.getUsuario());
-        setSessao("logctrl_data", filtro.getDataEvento());
+        if (filtro != null) {
+            setSessao("logctrl_usuario", filtro.getUsuario());
+            setSessao("logctrl_data", filtro.getDataEvento());
+        }
     }
 
     @Override

@@ -52,7 +52,8 @@ public class PermissaoController
     @Override
     public void setFiltro(Permissao filtro) {
         this.filtro = filtro;
-        setSessao("filtro_uri", filtro.getUri());
+        if(filtro != null)
+            setSessao("filtro_uri", filtro.getUri());
     }
 
     @Override

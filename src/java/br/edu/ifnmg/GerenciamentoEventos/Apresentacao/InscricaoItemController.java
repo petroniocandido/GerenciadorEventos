@@ -21,7 +21,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -37,9 +36,6 @@ public class InscricaoItemController
      * Creates a new instance of FuncionarioBean
      */
     public InscricaoItemController() {
-        id = 0L;
-        setEntidade(new InscricaoItem());
-        setFiltro(new InscricaoItem());
     }
 
     Evento padrao;
@@ -57,8 +53,11 @@ public class InscricaoItemController
     public void init() {
         setRepositorio(dao);
         checaEventoPadrao();
+        setPaginaEdicao("editarInscricaoAtividade.xhtml");
+        setPaginaListagem("listagemInscricoesAtividade.xtml");
     }
     
+    @Override
     public List<InscricaoItem> getListagem(){
         return dao.Buscar(filtro);
     }
@@ -80,46 +79,12 @@ public class InscricaoItemController
     @Override
     public void filtrar() {
         checaEventoPadrao();
-
-    }
-
-    @Override
-    public void salvar() {
-
-        SalvarEntidade();
-
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemInscricoesAtividade.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.AbrirItem(id));
-        return "editarInscricaoAtividade.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemInscricoesAtividade.xhtml";
     }
 
     @Override
     public void limpar() {
         checaEventoPadrao();
         setEntidade(new InscricaoItem());
-    }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarInscricaoAtividade.xhtml";
     }
 
     public InscricaoStatus[] getStatus() {
@@ -142,7 +107,7 @@ public class InscricaoItemController
     
      public List<Pessoa> getPessoa() {
         List<Pessoa> pessoas = new ArrayList<>();
-        pessoas.add(entidade.getPessoa());
+        pessoas.add(getEntidade().getPessoa());
         return pessoas;
     }
     
