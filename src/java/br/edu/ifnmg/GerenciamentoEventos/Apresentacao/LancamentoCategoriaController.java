@@ -12,17 +12,16 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "lancamentoCategoriaController")
-@SessionScoped
+@RequestScoped
 public class LancamentoCategoriaController
         extends ControllerBaseEntidade<LancamentoCategoria>
         implements Serializable {
@@ -31,9 +30,6 @@ public class LancamentoCategoriaController
      * Creates a new instance of FuncionarioBean
      */
     public LancamentoCategoriaController() {
-        id = 0L;
-        setEntidade(new LancamentoCategoria());
-        setFiltro(new LancamentoCategoria());
     }
     
     @EJB
@@ -42,8 +38,25 @@ public class LancamentoCategoriaController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+        setPaginaEdicao("editarLancamentoCategoria.xhtml");
+        setPaginaListagem("listagemLancamentoCategorias.xtml");
     }
 
+    @Override
+    public LancamentoCategoria getFiltro() {
+        if (filtro == null) {
+            filtro = new LancamentoCategoria();
+            filtro.setNome(getSessao("lctctrl_nome"));
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(LancamentoCategoria filtro) {
+        this.filtro = filtro;
+        setSessao("lctctrl_nome", filtro.getNome());
+
+    }
    
     @Override
     public void salvar() {
@@ -65,35 +78,15 @@ public class LancamentoCategoriaController
     }
 
     @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemLancamentoCategorias.xtml";
-    }
-
-    @Override
     public String abrir() {
         setEntidade(dao.AbrirCategoria(id));
         return "editarLancamentoCategoria.xhtml";
     }
 
     @Override
-    public String cancelar() {
-        return "listagemLancamentoCategorias.xhtml";
-    }
-
-    @Override
     public void limpar() {
-        
         setEntidade(new LancamentoCategoria());
     }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarLancamentoCategoria.xhtml";
-    }
-
     
     @Override
     public GenericDataModel getDataModel(){
