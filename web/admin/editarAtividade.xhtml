@@ -43,6 +43,10 @@
                                              required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="Descrição: " />
                                 <p:editor value="#{atividadeController.entidade.descricao}" maxlength="600" />
+                                <h:outputText value="Carga Horária: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.cargaHoraria}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!" />
@@ -137,7 +141,8 @@
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
-                                <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}"  update="tblRecursos"  />
+                                <p:growl id="msglocal" />
+                                <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}"  update="tblRecursos msglocal"  />
                             </h:panelGrid>
                             <p:dataTable id="tblRecursos" value="#{atividadeController.entidade.recursos}" var="item" 
                                          lazy="true" >  

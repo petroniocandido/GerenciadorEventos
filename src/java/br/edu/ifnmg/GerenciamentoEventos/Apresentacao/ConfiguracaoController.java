@@ -7,6 +7,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Configuracao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -33,14 +34,15 @@ public class ConfiguracaoController
 
     @EJB
     ConfiguracaoRepositorio dao;
-    
+
     @EJB
     PessoaRepositorio pessoaDAO;
 
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Configuracao());
+        setPaginaEdicao("editarConfiguracao.xhtml");
+        setPaginaListagem("listagemConfiguracoes.xhtml");
     }
 
     public List<Configuracao> autoCompleteConfiguracao(String query) {
@@ -48,28 +50,23 @@ public class ConfiguracaoController
         i.setChave(query);
         return dao.Buscar(i);
     }
-    
+
     @Override
     public Configuracao getFiltro() {
-        if(getSessao("filtro_chave") != null){
-            filtro.setChave(getSessao("filtro_chave"));
+        if (filtro == null) {
+            filtro = new Configuracao();
+            filtro.setChave(getSessao("cnfctrl_chave"));
+            filtro.setUsuario((Pessoa) getSessao("cnfctrl_usuario", pessoaDAO));
         }
-        
-        if(getSessao("filtro_usuario") != null){
-            filtro.setUsuario(pessoaDAO.Abrir( Long.parseLong(getSessao("filtro_usuario"))));
-        }
-        
         return filtro;
     }
 
     @Override
     public void setFiltro(Configuracao filtro) {
         this.filtro = filtro;
-        if(filtro.getChave()!= null){
-            setSessao("filtro_chave",filtro.getChave());
-        }
-        if(filtro.getUsuario()!= null){
-            setSessao("filtro_usuario",filtro.getUsuario().getId().toString());
+        if (filtro != null) {
+            setSessao("cnfctrl_chave", filtro.getChave());
+            setSessao("cnfctrl_usuario", filtro.getUsuario());
         }
     }
 
@@ -95,34 +92,9 @@ public class ConfiguracaoController
     }
 
     @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listarConfiguracoes.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarConfiguracao.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemConfiguracoes.xhtml";
-    }
-
-    @Override
     public void limpar() {
 
         setEntidade(new Configuracao());
     }
 
-    @Override
-    public String novo() {
-        limpar();
-        return "editarConfiguracao.xhtml";
-    }
-
-   
 }

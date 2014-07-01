@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -42,6 +43,7 @@ import javax.persistence.Version;
 @Inheritance(strategy= InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
 @Table(name = "inscricoes")
+@Cacheable(true)
 public class Inscricao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -130,6 +132,8 @@ public class Inscricao implements Entidade, Serializable {
         if(status == InscricaoStatus.Criada)
             setStatus(InscricaoStatus.Confirmada);
     }
+    
+    
     
     public boolean add(InscricaoItem item){
         item.setInscricao(this);
@@ -345,7 +349,7 @@ public class Inscricao implements Entidade, Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
+         if (obj == null) {
             return false;
         }
         if (getClass() != obj.getClass()) {

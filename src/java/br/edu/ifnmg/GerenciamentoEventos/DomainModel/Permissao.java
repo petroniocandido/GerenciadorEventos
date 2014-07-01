@@ -30,7 +30,7 @@ import org.eclipse.persistence.annotations.CacheIndex;
  *
  * @author petronio
  */
-@Cacheable
+@Cacheable(true)
 @Entity
 @Table(name="permissoes", indexes = {@Index(columnList = "uri", unique = true)})
 @CacheIndex(columnNames = {"uri"})

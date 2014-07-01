@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/AlocacaoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/PermissaoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Aplicacao/ControllerBaseEntidade.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/RecursoController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Aplicacao/ControllerBase.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/LogController.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/PerfilController.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/listagemAtividades.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/editarEvento.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/listagemAtividadeTipos.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/editarPerfil.xhtml</file>
         </group>
     </open-files>
 </project-private>

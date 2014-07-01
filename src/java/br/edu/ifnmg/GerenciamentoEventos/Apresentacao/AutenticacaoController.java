@@ -163,12 +163,34 @@ public class AutenticacaoController
     }
 
     public void validaCPF(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        
+        Pessoa tmp = dao.AbrirPorCPF(value.toString());
+        
+        if(tmp != null){
+            FacesMessage msg
+                    = new FacesMessage("CPF já cadastrado!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+        
         if (!ValidadorCPF.validaCPF(value.toString())) {
             FacesMessage msg
                     = new FacesMessage("CPF Inválido!");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
+    }
+    
+    public void validaEmail(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        
+        Pessoa tmp = dao.Abrir(value.toString());
+        
+        if(tmp != null){
+            FacesMessage msg
+                    = new FacesMessage("E-mail já cadastrado!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }        
     }
 
    

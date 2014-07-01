@@ -4,7 +4,8 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>GerenciadorEventosMySQL</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties> 
+    <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
+    <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create-or-extend-tables"/>
     </properties>
   </persistence-unit>

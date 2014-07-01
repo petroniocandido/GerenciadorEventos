@@ -4,8 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.RecursoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
@@ -31,27 +29,25 @@ public class RecursoController
      * Creates a new instance of FuncionarioBean
      */
     public RecursoController() {
-        /**id = 0L;
-        setEntidade(new Recurso());        
-        */ 
     }
-    
+
     @EJB
     RecursoRepositorio dao;
-    
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Recurso());
+        setPaginaListagem("listagemRecursos.xtml");
+        setPaginaEdicao("editarRecurso.xhtml");
     }
-    
+
     @Override
     public Recurso getFiltro() {
-        if(getSessao("filtro_nome") != null){
-            filtro.setNome(getSessao("filtro_nome"));
-        }
-        if(getSessao("filtro_tipo") != null){
-            filtro.setTipo( RecursoTipo.valueOf( getSessao("filtro_tipo") ));
+        if (filtro == null) {
+            filtro = new Recurso();
+            filtro.setNome(getSessao("rcsctrl_nome"));
+            String tmp = getSessao("rcsctrl_tipo");
+            filtro.setTipo((tmp != null) ? RecursoTipo.valueOf(getSessao("rcsctrl_tipo")) : null);
         }
         return filtro;
     }
@@ -59,53 +55,18 @@ public class RecursoController
     @Override
     public void setFiltro(Recurso filtro) {
         this.filtro = filtro;
-        if(filtro.getNome() != null){
-            setSessao("filtro_nome",filtro.getNome());
+        if(filtro != null){
+            setSessao("rcsctrl_nome", filtro.getNome());
+            setSessao("rcsctrl_tipo", filtro.getTipo() != null ? filtro.getTipo().name() : null);
         }
-        if(filtro.getTipo() != null){
-            setSessao("filtro_tipo",filtro.getTipo().name() );
-        }
-    }
 
-    @Override
-    public void salvar() {
-        
-        SalvarEntidade();
-        
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemRecursos.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarRecurso.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemRecursos.xhtml";
     }
 
     @Override
     public void limpar() {
-        
+
         setEntidade(new Recurso());
     }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarRecurso.xhtml";
-    }
-
 
     public RecursoTipo[] getTipos() {
         return RecursoTipo.values();
@@ -114,5 +75,5 @@ public class RecursoController
     public AlocacaoStatus[] getStatus() {
         return AlocacaoStatus.values();
     }
-    
+
 }

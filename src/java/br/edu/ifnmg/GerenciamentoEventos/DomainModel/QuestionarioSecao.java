@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name="questionariossecoes")
+@Cacheable(true)
 public class QuestionarioSecao implements Serializable,Entidade {
     private static final long serialVersionUID = 1L;
     @Id

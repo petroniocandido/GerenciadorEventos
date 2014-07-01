@@ -7,8 +7,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.RecursoTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -35,35 +34,27 @@ public class LogController
      * Creates a new instance of FuncionarioBean
      */
     public LogController() {
-        /*id = 0L;
-        setEntidade(new Log());
-        setFiltro(new Log());
-        */        
     }
 
     @EJB
     LogRepositorio dao;
-    
+
     @EJB
     PessoaRepositorio pessoaDAO;
 
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setFiltro(new Log());
+        setPaginaEdicao("editarLog.xhtml");
+        setPaginaListagem("listagemLogs.xtml");
     }
-    
+
     @Override
     public Log getFiltro() {
-        if(getSessao("filtro_usuario") != null){
-            filtro.setUsuario( pessoaDAO.Abrir( Long.parseLong(getSessao("filtro_usuario"))));
-        }
-        if(getSessao("filtro_data") != null){
-            try {
-                filtro.setDataEvento( DateFormat.getInstance().parse(getSessao("filtro_data"))) ;
-            } catch (ParseException ex) {
-                Logger.getLogger(LogController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (filtro == null) {
+            filtro = new Log();
+            filtro.setUsuario((Pessoa) getSessao("logctrl_usuario", pessoaDAO));
+            filtro.setDataEvento(getSessaoData("logctrl_data"));
         }
         return filtro;
     }
@@ -71,57 +62,15 @@ public class LogController
     @Override
     public void setFiltro(Log filtro) {
         this.filtro = filtro;
-        if(filtro.getUsuario() != null){
-            setSessao("filtro_usuario",filtro.getUsuario().getId().toString());
+        if (filtro != null) {
+            setSessao("logctrl_usuario", filtro.getUsuario());
+            setSessao("logctrl_data", filtro.getDataEvento());
         }
-        if(filtro.getDataEvento()!= null){
-            setSessao("filtro_data", DateFormat.getInstance().format(filtro.getDataEvento()) );
-        }
-    }    
-
-    @Override
-    public void salvar() {
-
-        SalvarEntidade();
-
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listarLogs.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarLog.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemLogs.xhtml";
     }
 
     @Override
     public void limpar() {
-
         setEntidade(new Log());
-    }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarLog.xhtml";
-    }
-   
-    
-    @Override
-    public List<Log> getListagem() {
-        return dao.Buscar(filtro);
     }
 
 }

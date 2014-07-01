@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,6 +30,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "questoesrespostas")
+@Cacheable(false)
 public class QuestaoResposta implements Serializable, Entidade {
 
     private static final long serialVersionUID = 1L;

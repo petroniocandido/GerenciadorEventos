@@ -36,7 +36,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
-@Cacheable
+@Cacheable(true)
 @Entity
 @Table(name = "eventos")
 public class Evento implements Entidade, Serializable {
@@ -99,6 +99,8 @@ public class Evento implements Entidade, Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "eventosresponsaveis")
     private List<Pessoa> responsaveis;
+    
+    private int cargaHoraria;
 
     public Evento() {
         recursos = new ArrayList<>();
@@ -110,7 +112,15 @@ public class Evento implements Entidade, Serializable {
         necessitaInscricao = false;
         inicio = new Date();
         termino  = new Date();
+        cargaHoraria = 0;
     } 
+    
+    public void atualizaCargaHoraria() {
+        cargaHoraria = 0;
+        for(Atividade a : atividades){
+             cargaHoraria += a.getCargaHoraria();
+        }
+    }
     
     public boolean podeEditar(Pessoa obj) {
         return id == 0 ||  criador.equals(obj) || responsaveis.contains(obj);
@@ -369,6 +379,16 @@ public class Evento implements Entidade, Serializable {
     public void setResponsaveis(List<Pessoa> responsaveis) {
         this.responsaveis = responsaveis;
     }
+
+    public int getCargaHoraria() {
+        return cargaHoraria;
+    }
+
+    public void setCargaHoraria(int cargaHoraria) {
+        this.cargaHoraria = cargaHoraria;
+    }
+    
+    
 
     @Override
     public int hashCode() {

@@ -25,7 +25,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
-@Cacheable
+@Cacheable(true)
 @Entity
 @Table(name = "lancamentoscategorias")
 public class LancamentoCategoria implements Entidade, Serializable {
