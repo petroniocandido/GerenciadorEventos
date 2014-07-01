@@ -141,7 +141,8 @@
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
-                                <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}"  update="tblRecursos"  />
+                                <p:growl id="msglocal" />
+                                <p:commandButton value="Adicionar" action="#{atividadeController.addAlocacao}"  update="tblRecursos msglocal"  />
                             </h:panelGrid>
                             <p:dataTable id="tblRecursos" value="#{atividadeController.entidade.recursos}" var="item" 
                                          lazy="true" >  

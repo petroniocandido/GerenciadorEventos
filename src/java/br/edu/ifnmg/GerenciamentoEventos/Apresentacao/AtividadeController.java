@@ -14,6 +14,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AlocacaoRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
@@ -48,6 +49,9 @@ public class AtividadeController
 
     @EJB
     EventoRepositorio evtDAO;
+    
+    @EJB
+    AlocacaoRepositorio alocDAO;
 
     Pessoa responsavel;
 
@@ -152,6 +156,14 @@ public class AtividadeController
         Rastrear(alocacao);
         alocacao.setInicio(entidade.getInicio());
         alocacao.setTermino(entidade.getTermino());
+        
+        List<Alocacao> tmp = alocDAO.conflitos(alocacao);
+        
+        if(!tmp.isEmpty()){
+            MensagemErro("Conflito de Horário", "O recurso já está alocado para o horário desta atividade!");
+            return;
+        }
+        
         entidade.add(alocacao);
         SalvarAgregado(alocacao);
         alocacao = new Alocacao();
