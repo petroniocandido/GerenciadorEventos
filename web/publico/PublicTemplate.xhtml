@@ -34,7 +34,7 @@
                 <h:graphicImage value="/arquivos/#{publicoController.evento.banner.uri}" />
                 <h1 style="text-align: center">Inscrições</h1>
             </c:if>
-            <p:menubar>
+            <p:menubar style="">
                 <p:menuitem value="Dados Pessoais"  url="editarDadosPessoais.xhtml" />
                 <p:menuitem value="Inscrição"  url="inscricao.xhtml" />
                 <p:menuitem rendered="#{not empty publicoController.evento}" value="Site do Evento"  url="#{publicoController.evento.site}"  />
