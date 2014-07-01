@@ -21,33 +21,21 @@
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Nome: " />
-                                <p:inputText value="#{atividadeController.tipo.nome}" 
+                                <p:inputText value="#{atividadeTipoController.entidade.nome}" 
                                              required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="Descrição: " />
-                                <p:editor value="#{atividadeController.tipo.descricao}" maxlength="600" />
+                                <p:editor value="#{atividadeTipoController.entidade.descricao}" maxlength="600" />
                                 <h:outputText value="Público: " />
-                                <p:selectBooleanCheckbox value="#{atividadeController.tipo.publico}" />
-
+                                <p:selectBooleanCheckbox value="#{atividadeTipoController.entidade.publico}" />
                             </h:panelGrid> 
                         </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{atividadeTipoController}"  />
+                        </ui:include>
                     </p:tabView>
-                    <f:facet name="footer">
-                        <p:commandButton rendered="#{autenticacaoController.autorizacao('btnSalvar')}" id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
-                        <p:commandButton rendered="#{controller.id > 0 and autenticacaoController.autorizacao('btnApagar')}" id="btnApagar" value="Apagar" icon="ui-icon-close" onclick="msgApagar.show();"  />
-                        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{atividadeController.cancelarTipo()}" />
-                        <p:commandButton rendered="#{autenticacaoController.autorizacao('btnNovo')}"  ajax="false" id="btnNovo" value="Novo"  immediate="true"   action="#{atividadeController.novoTipo()}" />
-                    </f:facet>
-                    <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
-                                     header="Confirmação" severity="alert" widgetVar="msgSalvar">  
-                        <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{atividadeController.salvarTipo()}" />  
-                        <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
-                    </p:confirmDialog>  
-
-                    <p:confirmDialog id="confirmaApagar" message="Deseja realmente apagar os dados?"  
-                                     header="Confirmação" severity="alert" widgetVar="msgApagar">  
-                        <p:commandButton ajax="false" id="simApagar" value="SIM" action="#{atividadeController.apagarTipo()}" />  
-                        <p:commandButton id="naoApagar" value="NÃO" onclick="msgApagar.hide();" type="button" />   
-                    </p:confirmDialog>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{atividadeTipoController}"  />
+                    </ui:include>
                 </p:panel>
             </ui:define>
 

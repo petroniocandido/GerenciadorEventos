@@ -12,26 +12,22 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositor
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
-import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
-import org.primefaces.event.SelectEvent;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "atividadeController")
-@SessionScoped
+@RequestScoped
 public class AtividadeController
         extends ControllerBaseEntidade<Atividade>
         implements Serializable {
@@ -40,14 +36,9 @@ public class AtividadeController
      * Creates a new instance of FuncionarioBean
      */
     public AtividadeController() {
-        id = 0L;
-        setEntidade(new Atividade());
-        setFiltro(new Atividade());
         getFiltro().setStatus(null);
         alocacao = new Alocacao();
         responsavel = new Pessoa();
-        tipo = new AtividadeTipo();
-        filtroTipo = new AtividadeTipo();
     }
 
     Evento padrao;
@@ -62,29 +53,37 @@ public class AtividadeController
 
     Alocacao alocacao;
 
-    AtividadeTipo tipo, filtroTipo;
-
-    public AtividadeTipo getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(AtividadeTipo tipo) {
-        this.tipo = tipo;
-    }
-
-    public AtividadeTipo getFiltroTipo() {
-        return filtroTipo;
-    }
-
-    public void setFiltroTipo(AtividadeTipo filtroTipo) {
-        this.filtroTipo = filtroTipo;
-    }
-
     @PostConstruct
     public void init() {
         setRepositorio(dao);
         checaEventoPadrao();
+        setPaginaEdicao("editarAtividade.xhtml");
+        setPaginaListagem("listagemAtividades.xtml");
     }
+    
+    @Override
+    public Atividade getFiltro() {
+        if (filtro == null) {
+            filtro = new Atividade();
+            filtro.setNome(getSessao("atctrl_nome"));
+            filtro.setEvento((Evento)getSessao("atctrl_evt",evtDAO));
+            String tmp = getSessao("atctrl_sit");
+            filtro.setStatus(tmp != null ? Status.valueOf(tmp) : null);
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(Atividade filtro) {
+        this.filtro = filtro;
+        if (filtro != null) {
+            setSessao("atctrl_nome", filtro.getNome());
+            setSessao("atctrl_evt", filtro.getEvento());
+            setSessao("atctrl_sit", filtro.getStatus() != null ? filtro.getStatus().name() : null);
+        }
+
+    }
+
 
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
@@ -102,34 +101,9 @@ public class AtividadeController
     @Override
     public void filtrar() {
         checaEventoPadrao();
+        setFiltro(filtro);
     }
 
-    @Override
-    public void salvar() {
-
-        SalvarEntidade();
-
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemAtividades.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarAtividade.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemAtividades.xhtml";
-    }
 
     @Override
     public void limpar() {
@@ -138,11 +112,6 @@ public class AtividadeController
         checaEventoPadrao();
     }
 
-    @Override
-    public String novo() {
-        limpar();
-        return "editarAtividade.xhtml";
-    }
 
     public Status[] getStatus() {
         return Status.values();
@@ -165,21 +134,21 @@ public class AtividadeController
     }
 
     public void addResponsavel() {
-        entidade = dao.Refresh(entidade);
+        entidade = dao.Refresh(getEntidade());
         entidade.add(responsavel);
         SalvarAgregado(responsavel);
         responsavel = new Pessoa();
     }
 
     public void removeResponsavel() {
-        entidade = dao.Refresh(entidade);
+        entidade = dao.Refresh(getEntidade());
         entidade.remove(responsavel);
         RemoverAgregado(responsavel);
         responsavel = new Pessoa();
     }
 
     public void addAlocacao() {
-        entidade = dao.Refresh(entidade);
+        entidade = dao.Refresh(getEntidade());
         Rastrear(alocacao);
         alocacao.setInicio(entidade.getInicio());
         alocacao.setTermino(entidade.getTermino());
@@ -247,67 +216,9 @@ public class AtividadeController
     public AlocacaoStatus[] getStatusAlocacao() {
         return AlocacaoStatus.values();
     }
-
-    public void salvarTipo() {
-        Rastrear(entidade);
-
-        // salva o objeto no BD
-        if (dao.SalvarTipo(tipo)) {
-
-            setId(tipo.getId());
-
-            Mensagem("Sucesso", "Registro salvo com sucesso!");
-            AppendLog("Editou a entidade " + tipo.getClass().getSimpleName() + " " + tipo.getId() + "(" + tipo.toString() + ")");
-        } else {
-            MensagemErro("Falha", "Registro não foi salvo! Consulte o Log ou o administrador do sistema!");
-            AppendLog("Falha ao editar a entidade " + tipo.getClass().getSimpleName() + " " + tipo.getId() + "(" + tipo.toString() + ")" + ": " + repositorio.getErro().getMessage());
-        }
-        // atualiza a listagem
-        filtrar();
-    }
-
-    public String apagarTipo() {
-        dao.ApagarTipo(tipo);
-        filtrar();
-        return "listagemAtividadeTipos.xtml";
-    }
-
-    public String abrirTipo() {
-        //setTipo(dao.AbrirTipo(id));
-        return "editarAtividadeTipo.xhtml";
-    }
-
-    public String cancelarTipo() {
-        return "listagemAtividadeTipos.xhtml";
-    }
-
-    public void limparTipo() {
-
-        setTipo(new AtividadeTipo());
-    }
-
-    public String novoTipo() {
-        limpar();
-        return "editarAtividadeTipo.xhtml";
-    }
-
-    public List<AtividadeTipo> getListagemTipos() {
+    
+    public List<AtividadeTipo> getListagemTipos(){
         return dao.BuscarTipo(null);
-    }
-
-    public GenericDataModel getDataModelTipo() {
-        AtividadeTipoDataModel dm = new AtividadeTipoDataModel(dao.BuscarTipo(filtroTipo), null);
-        dm.setAtividadeRepositorio(dao);
-        return dm;
-    }
-
-    public void onRowSelectTipo(SelectEvent event) {
-        try {
-            tipo = (AtividadeTipo) event.getObject();
-            FacesContext.getCurrentInstance().getExternalContext().redirect(abrirTipo());
-        } catch (IOException ex) {
-
-        }
     }
 
 }
