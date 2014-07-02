@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
+package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,21 +24,22 @@ import javax.enterprise.context.RequestScoped;
  *
  * @author petronio
  */
-@Named(value = "comprovanteInscricaoEventoController")
+@Named(value = "comprovanteInscricaoController")
 @RequestScoped
-public class ComprovanteInscricaoEventoController
-        extends ControllerBaseRelatorio<Inscricao>
+public class ComprovanteInscricaoController
+        extends ControllerBaseRelatorio<InscricaoItem>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public ComprovanteInscricaoEventoController() {
+    public ComprovanteInscricaoController() {
         setArquivoSaida("ComprovanteInscricao");
-        setRelatorio("Relatorios/ComprovanteMatriculaEvento.jasper");
+        setRelatorio("ComprovanteMatricula.jasper");
     }
     
     Inscricao inscricao;
+
     
              
     @Override
@@ -55,9 +56,8 @@ public class ComprovanteInscricaoEventoController
     }
 
     @Override
-    public List<Inscricao> getDados() {
-        List<Inscricao> tmp = new ArrayList<>();
-        tmp.add(inscricao);
+    public List<InscricaoItem> getDados() {
+        List<InscricaoItem> tmp = inscricao.getItens();
         return tmp;
     }
 

@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
+package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 
 
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -18,27 +19,31 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
-@Named(value = "comprovanteInscricaoController")
+@Named(value = "listaPresencaController")
 @RequestScoped
-public class ComprovanteInscricaoController
+public class ListaPresencaController
         extends ControllerBaseRelatorio<InscricaoItem>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public ComprovanteInscricaoController() {
-        setArquivoSaida("ComprovanteInscricao");
-        setRelatorio("Relatorios/ComprovanteMatricula.jasper");
+    public ListaPresencaController() {
+        setArquivoSaida("ListaPresencaAtividade");
+        setRelatorio("ListaPresencaAtividade.jasper");
     }
     
-    Inscricao inscricao;
+    @EJB
+    InscricaoRepositorio daoInscricao;
+    
+    Atividade atividade;
 
     
              
@@ -55,20 +60,25 @@ public class ComprovanteInscricaoController
         }
     }
 
+
     @Override
     public List<InscricaoItem> getDados() {
-        List<InscricaoItem> tmp = inscricao.getItens();
-        return tmp;
+        InscricaoItem i = new InscricaoItem();
+        i.setAtividade(atividade);
+        return daoInscricao.getRepositorioItem()
+                .IgualA("atividade", atividade)
+                .Join("pessoa", "p")
+                .Ordenar("p.nome", "ASC")
+                .Buscar();
     }
 
-    public Inscricao getInscricao() {
-        return inscricao;
+    public Atividade getAtividade() {
+        return atividade;
     }
 
-    public void setInscricao(Inscricao inscricao) {
-        this.inscricao = inscricao;
+    public void setAtividade(Atividade atividade) {
+        this.atividade = atividade;
     }
     
     
-
 }

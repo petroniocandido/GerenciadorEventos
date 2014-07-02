@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
+package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
@@ -36,7 +36,7 @@ public class AlocacoesPorEventoController
      */
     public AlocacoesPorEventoController() {
         setArquivoSaida("AlocacoesPorEvento");
-        setRelatorio("Relatorios/AlocacoesPorEvento.jasper");
+        setRelatorio("AlocacoesPorEvento.jasper");
         filtro = new Alocacao();
     }
 
