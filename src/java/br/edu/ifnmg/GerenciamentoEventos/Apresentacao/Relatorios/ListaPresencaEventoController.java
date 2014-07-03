@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
+package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 
 
@@ -25,18 +25,18 @@ import javax.enterprise.context.RequestScoped;
  *
  * @author petronio
  */
-@Named(value = "selecaoInscricoesEventoController")
+@Named(value = "listaPresencaEventoController")
 @RequestScoped
-public class SelecaoInscricoesEventoController
+public class ListaPresencaEventoController
         extends ControllerBaseRelatorio<Inscricao>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public SelecaoInscricoesEventoController() {
-        setArquivoSaida("ResultadoGeralSelecaoInscricoes");
-        setRelatorio("Relatorios/ResultadoGeralSelecaoInscricoes.jasper");
+    public ListaPresencaEventoController() {
+        setArquivoSaida("ListaPresencaEvento");
+        setRelatorio("ListaPresencaEvento.jasper");
     }
     
     @EJB
@@ -50,7 +50,7 @@ public class SelecaoInscricoesEventoController
             tmp.put("data", new Date());
             return tmp;
         } catch (MalformedURLException ex) {
-            Logger.getLogger(SelecaoInscricoesEventoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ListaPresencaEventoController.class.getName()).log(Level.SEVERE, null, ex);
             return new HashMap<>();
         }
     }
@@ -60,7 +60,8 @@ public class SelecaoInscricoesEventoController
                 
         List<Inscricao> tmp = daoInscricao
                 .IgualA("evento", getEvento())
-                .Ordenar("ordem", "ASC")
+                .Join("pessoa", "p")
+                .Ordenar("p.nome", "ASC")
                 .Buscar();
         
         return tmp;

@@ -30,6 +30,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 /**
@@ -370,6 +371,32 @@ public class Evento implements Entidade, Serializable {
 
     public void setAtividades(List<Atividade> atividades) {
         this.atividades = atividades;
+    }
+    
+    @Transient
+    private List<Atividade> atividadesPublicasSemInscricao;
+    
+    public List<Atividade> getAtividadesPublicasSemInscricao() {
+        if(atividadesPublicasSemInscricao == null){
+            atividadesPublicasSemInscricao = new ArrayList<>();
+            for(Atividade a : atividades)
+                if(a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
+                    atividadesPublicasSemInscricao.add(a);
+        }
+        return atividadesPublicasSemInscricao;
+    }
+    
+    @Transient
+    private List<Atividade> atividadesPublicasComInscricao;
+    
+    public List<Atividade> getAtividadesPublicasComInscricao() {
+        if(atividadesPublicasComInscricao == null){
+            atividadesPublicasComInscricao = new ArrayList<>();
+            for(Atividade a : atividades)
+                if(a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
+                    atividadesPublicasComInscricao.add(a);
+        }
+        return atividadesPublicasComInscricao;
     }
     
     public List<Pessoa> getResponsaveis() {

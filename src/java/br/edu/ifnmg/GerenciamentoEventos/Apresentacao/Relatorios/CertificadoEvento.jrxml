@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificado Evento" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="438"/>
+	<subDataset name="Table Dataset 1" uuid="dca93a84-d0b0-46ec-a7f7-0ee30ec12a1b">
+		<field name="nome" class="java.lang.String"/>
+		<field name="tipo" class="java.lang.Object"/>
+		<field name="cargaHoraria" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
+	<field name="pessoa.nome" class="java.lang.String"/>
+	<field name="pessoa.cpf" class="java.lang.String"/>
+	<field name="evento.nome" class="java.lang.String"/>
+	<field name="evento.cargaHoraria" class="java.lang.Integer"/>
+	<field name="evento.inicio" class="java.util.Date"/>
+	<field name="evento.termino" class="java.util.Date"/>
+	<field name="evento.local" class="java.lang.Object"/>
+	<field name="evento.atividadesPublicasSemInscricao" class="java.util.Collection"/>
+	<variable name="texto" class="java.lang.String">
+		<variableExpression><![CDATA["participou do evento <b>" + $F{evento.nome} +"</b> realizado no " +$F{evento.local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{evento.inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{evento.termino}) +" com carga horária total de " +$F{evento.cargaHoraria}.toString()+" horas."]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="555" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="3" width="798" height="180" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="194" width="798" height="45" uuid="01fa99e0-44c4-4322-bd40-6f57c7b0201f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="36" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement positionType="Float" x="0" y="325" width="798" height="98" uuid="af102d61-47d7-4b7e-81fb-de248b0844f9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="18"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{texto}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="44" y="502" width="201" height="1" uuid="39e0d790-41af-4852-97ef-1317248c9f1b"/>
+			</line>
+			<line>
+				<reportElement x="536" y="503" width="201" height="1" uuid="5cdea1be-d2e2-481c-a564-1ae0e140455e"/>
+			</line>
+			<staticText>
+				<reportElement x="262" y="441" width="84" height="26" uuid="710c7fe1-de4e-46d6-a907-813c59d0bf9d"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[Januária,]]></text>
+			</staticText>
+			<textField pattern="dd&apos; de &apos;MMMMM&apos; de &apos;yyyy">
+				<reportElement x="346" y="441" width="313" height="26" uuid="b9e1ccfd-7000-4849-a2b5-deac8b1fc95e"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="250" width="796" height="26" uuid="15d4d911-b523-4f35-be5e-218ad6f1f5c4"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Certificamos que ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="2" y="286" width="796" height="25" uuid="7ef79fd7-9e51-43cc-a554-4cabe1db8e80"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa.nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="44" y="510" width="201" height="35" uuid="0e871b3f-cb50-4f27-9527-c4b4db625a2a"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[XXXXXXX]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="536" y="510" width="201" height="35" uuid="743d1f00-ed69-48c5-935f-90414e295987"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[XXXXXXX]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="513">
+			<componentElement>
+				<reportElement key="table" x="2" y="63" width="796" height="137" uuid="d93a7845-bb05-48c9-8b55-a7afdd4f4bb2"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1" uuid="33ec40f3-303c-44ed-be3a-8c9d7fc9bfe4">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.
+data.JRBeanCollectionDataSource($F{evento.atividadesPublicasSemInscricao})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="110" uuid="609e2cc3-ae5b-4203-9a63-584dcffdc398">
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="110" height="30" uuid="73735ca2-2f59-462f-9c09-fb1bed5aacf7"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Atividade]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="110" height="16" uuid="ff0fe496-d62b-4200-8860-e5810a66ed90"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[""+$F{tipo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="362" uuid="dc3ef254-a93a-485f-82b6-e44abbe5ddd4">
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="362" height="30" uuid="1c3c1935-2a86-40ea-bb19-5b47ec011c88"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Título]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="362" height="16" uuid="242a8aca-34b7-4b25-bc89-4cc265488e93"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="613ae3ef-1897-4f46-94aa-5ff16af4e508">
+						<jr:columnHeader height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="a61a21bd-636a-408e-9fc9-516ab305745f"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[CH]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="17" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="16" uuid="67f1084a-5daa-411a-80b7-42b131d2bb2e"/>
+								<box>
+									<pen lineWidth="1.0"/>
+									<topPen lineWidth="1.0"/>
+									<leftPen lineWidth="1.0"/>
+									<bottomPen lineWidth="1.0"/>
+									<rightPen lineWidth="1.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{cargaHoraria}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<staticText>
+				<reportElement x="28" y="16" width="201" height="35" uuid="4893e71a-7fa6-4a2d-81fd-cca765784044"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Atividades do evento:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>
