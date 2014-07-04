@@ -110,6 +110,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     public void setRepositorio(Repositorio repo) {
         this.repositorio = repo;
         classe = this.repositorio.getTipo().getSimpleName();
+        postConstruct();
     }
 
     public T getFiltro() {
