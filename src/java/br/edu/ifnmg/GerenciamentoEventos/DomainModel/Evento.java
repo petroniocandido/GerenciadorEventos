@@ -102,6 +102,23 @@ public class Evento implements Entidade, Serializable {
     private List<Pessoa> responsaveis;
     
     private int cargaHoraria;
+    
+    @Column(length = 512)
+    private String certificadoTextoAssinatura1;
+    
+    @Column(length = 512)
+    private String certificadoTextoAssinatura2;
+    
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Arquivo certificadoFundo;
+    
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Arquivo certificadoAssinatura1;
+    
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Arquivo certificadoAssinatura2;
+    
+    private String certificadoCidade;
 
     public Evento() {
         recursos = new ArrayList<>();
@@ -413,6 +430,54 @@ public class Evento implements Entidade, Serializable {
 
     public void setCargaHoraria(int cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
+    }
+
+    public String getCertificadoTextoAssinatura1() {
+        return certificadoTextoAssinatura1;
+    }
+
+    public void setCertificadoTextoAssinatura1(String certificadoTextoAssinatura1) {
+        this.certificadoTextoAssinatura1 = certificadoTextoAssinatura1;
+    }
+
+    public String getCertificadoTextoAssinatura2() {
+        return certificadoTextoAssinatura2;
+    }
+
+    public void setCertificadoTextoAssinatura2(String certificadoTextoAssinatura2) {
+        this.certificadoTextoAssinatura2 = certificadoTextoAssinatura2;
+    }
+
+    public Arquivo getCertificadoFundo() {
+        return certificadoFundo;
+    }
+
+    public void setCertificadoFundo(Arquivo certificadoFundo) {
+        this.certificadoFundo = certificadoFundo;
+    }
+
+    public Arquivo getCertificadoAssinatura1() {
+        return certificadoAssinatura1;
+    }
+
+    public void setCertificadoAssinatura1(Arquivo certificadoAssinatura1) {
+        this.certificadoAssinatura1 = certificadoAssinatura1;
+    }
+
+    public Arquivo getCertificadoAssinatura2() {
+        return certificadoAssinatura2;
+    }
+
+    public void setCertificadoAssinatura2(Arquivo certificadoAssinatura2) {
+        this.certificadoAssinatura2 = certificadoAssinatura2;
+    }
+
+    public String getCertificadoCidade() {
+        return certificadoCidade;
+    }
+
+    public void setCertificadoCidade(String certificadoCidade) {
+        this.certificadoCidade = certificadoCidade;
     }
     
     

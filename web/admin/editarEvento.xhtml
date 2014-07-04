@@ -161,6 +161,16 @@
                                 <p:commandButton value="Enviar" ajax="false" action="#{eventoController.bannerFileUpload}" />
                             </h:panelGrid>
                         </p:tab>
+                        <p:tab id="tabCertificados" title="Certificados">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Cidade:" />
+                                <p:inputText value="#{eventoController.entidade.certificadoCidade}" />
+                                <h:outputText value="Texto da Assinatura 1" />
+                                <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura1}" rows="3" cols="30" />
+                                <h:outputText value="Texto da Assinatura 2" />
+                                <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura2}" rows="3" cols="30" />                                
+                            </h:panelGrid>
+                        </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{eventoController}"  />
                         </ui:include>

@@ -25,6 +25,8 @@ import org.primefaces.model.UploadedFile;
 public abstract class ControllerBaseEntidade<T extends Entidade> extends ControllerBase {
 
     protected Long id;
+    
+    private String DIRETORIO_ARQUIVOS;
 
     private String classe = "";
     private String paginaEdicao;
@@ -46,6 +48,10 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
             setSessao(classe + "entidade", id.toString());
         }
         this.id = id;
+    }
+    
+    private void postConstruct(){
+        DIRETORIO_ARQUIVOS = getConfiguracao("DIRETORIO_ARQUIVOS");
     }
 
     public abstract void limpar();
@@ -238,7 +244,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
     public Arquivo criaArquivo(UploadedFile upload) {
         try {
-            Arquivo arquivo = arqDAO.Salvar(upload.getInputstream(), upload.getFileName(), getConfiguracao("DIRETORIO_ARQUIVOS"), getUsuarioCorrente());
+            Arquivo arquivo = arqDAO.Salvar(upload.getInputstream(), upload.getFileName(), DIRETORIO_ARQUIVOS, getUsuarioCorrente());
 
             return arquivo;
         } catch (IOException ex) {
@@ -256,7 +262,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
             } else {
                 return tmp;
             }
-        } catch (Exception ex) {
+        } catch (InstantiationException | IllegalAccessException ex) {
             return null;
         }
 
