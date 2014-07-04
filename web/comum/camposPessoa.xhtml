@@ -25,13 +25,14 @@
         <h:outputText value="Senha: " />
         <p:password id="txtSenha" value="#{senha}" 
                     required="true" requiredMessage="O campo senha é obrigatório!"
-                    feedback="true" match="txtSenha2" promptLabel="Insira uma senha" 
+                    feedback="true" promptLabel="Insira uma senha" 
                     weakLabel="Fraca"  goodLabel="Boa" strongLabel="Fraca" />
         <h:outputText value="Repetir Senha: " />
         <p:password id="txtSenha2" value="#{senhaconferencia}" 
                     required="true" requiredMessage="O campo repetir senha é obrigatório!"
-                    feedback="true" match="txtSenha" promptLabel="Insira uma senha" 
-                    weakLabel="Fraca"  goodLabel="Boa" strongLabel="Fraca" />
+                    feedback="true" promptLabel="Insira uma senha" 
+                    weakLabel="Fraca"  goodLabel="Boa" strongLabel="Fraca"
+                    />
     </h:panelGrid> 
 </ui:composition>
 

@@ -50,6 +50,8 @@
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!" />
+                                <h:outputText value="Gera certificado?: " />
+                                <p:selectBooleanCheckbox value="#{atividadeController.entidade.geraCertificado}" />
                                 <h:outputText value="Término: " />
                                 <p:calendar value="#{atividadeController.entidade.termino}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Término é de preenchimento obrigatório!" />

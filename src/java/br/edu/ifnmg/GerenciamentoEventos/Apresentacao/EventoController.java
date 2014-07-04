@@ -87,59 +87,28 @@ public class EventoController
         Mensagem("Sucesso", "Configuração do usuário alterada com êxito!");
     }
     
-    public void logoFileUpload(FileUploadEvent event) {  
+    public void fileUploadListener(FileUploadEvent event) {  
         entidade = dao.Refresh(getEntidade());
-        entidade.setLogo(criaArquivo(event.getFile()));
-        if(dao.Salvar(entidade)){
-            Mensagem("Sucesso", "Arquivo anexado com êxito!");
-            AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
-        } else {
-            Mensagem("Falha", "Falha ao anexar o arquivo!");
-            AppendLog("Erro ao anexar o arquivo " + entidade.getLogo() + " ao evento " + entidade + ":" + dao.getErro());
+        Arquivo tmp = criaArquivo(event.getFile());
+        String arq = (String)event.getComponent().getAttributes().get("arquivo");
+        switch(arq){
+            case "banner":
+                entidade.setBanner(tmp);
+                break;
+            case "logomarca":
+                entidade.setLogo(tmp);
+                break;
+            case "Imagem de Fundo":
+                entidade.setCertificadoFundo(tmp);
+                break;
+            case "Assinatura 1":
+                entidade.setCertificadoAssinatura1(tmp);
+                break;
+            case "Assinatura 2":
+                entidade.setCertificadoAssinatura2(tmp);
+                break;
         }
         
-    }
-    
-     public void bannerFileUpload(FileUploadEvent event) {  
-        entidade = dao.Refresh(getEntidade());
-        entidade.setBanner(criaArquivo(event.getFile()));
-        if(dao.Salvar(entidade)){
-            Mensagem("Sucesso", "Arquivo anexado com êxito!");
-            AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
-        } else {
-            Mensagem("Falha", "Falha ao anexar o arquivo!");
-            AppendLog("Erro ao anexar o arquivo " + entidade.getLogo() + " ao evento " + entidade + ":" + dao.getErro());
-        }
-        
-    }
-    
-    public void assinatura1FileUpload(FileUploadEvent event) {  
-        entidade = dao.Refresh(getEntidade());
-        entidade.setCertificadoAssinatura1(criaArquivo(event.getFile()));
-        if(dao.Salvar(entidade)){
-            Mensagem("Sucesso", "Arquivo anexado com êxito!");
-            AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
-        } else {
-            Mensagem("Falha", "Falha ao anexar o arquivo!");
-            AppendLog("Erro ao anexar o arquivo " + entidade.getLogo() + " ao evento " + entidade + ":" + dao.getErro());
-        }        
-    }
-    
-    public void assinatura2FileUpload(FileUploadEvent event) {  
-        entidade = dao.Refresh(getEntidade());
-        entidade.setCertificadoAssinatura2(criaArquivo(event.getFile()));
-        if(dao.Salvar(entidade)){
-            Mensagem("Sucesso", "Arquivo anexado com êxito!");
-            AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
-        } else {
-            Mensagem("Falha", "Falha ao anexar o arquivo!");
-            AppendLog("Erro ao anexar o arquivo " + entidade.getLogo() + " ao evento " + entidade + ":" + dao.getErro());
-        }        
-    }
-    
-    public void fundoFileUpload(FileUploadEvent event) {  
-        entidade = dao.Refresh(getEntidade());
-        entidade.setCertificadoFundo(criaArquivo(event.getFile()));
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);

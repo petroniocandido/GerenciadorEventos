@@ -3,9 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Infraestrutura/SessaoService.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/DomainModel/Evento.java</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/editarEvento.xhtml</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Aplicacao/ControllerBaseEntidade.java</file>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/Relatorios/CertificadoEventoController.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/WEB-INF/glassfish-web.xml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/cadastrar.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/comum/camposPessoa.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/AutenticacaoController.java</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/comum/enviarImagem.xhtml</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/EventoController.java</file>
         </group>

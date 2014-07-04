@@ -122,12 +122,12 @@
                                 <ui:include src="./comum/enviarImagem.xhtml">
                                     <ui:param name="nome" value="logomarca"  />
                                     <ui:param name="arquivo" value="#{eventoController.entidade.logo}"  />
-                                    <ui:param name="fileUploadListener" value="#{eventoController.logoFileUpload}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
                                 </ui:include>
                                 <ui:include src="./comum/enviarImagem.xhtml">
                                     <ui:param name="nome" value="banner"  />
                                     <ui:param name="arquivo" value="#{eventoController.entidade.banner}"  />
-                                    <ui:param name="fileUploadListener" value="#{eventoController.bannerFileUpload}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
                                 </ui:include>                                 
                             </h:panelGrid>
                         </p:tab>
@@ -138,21 +138,21 @@
                                 <ui:include src="./comum/enviarImagem.xhtml">
                                     <ui:param name="nome" value="Imagem de Fundo"  />
                                     <ui:param name="arquivo" value="#{eventoController.entidade.certificadoFundo}"  />
-                                    <ui:param name="fileUploadListener" value="#{eventoController.fundoFileUpload}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
                                 </ui:include>
                                 Texto da Assinatura 1
                                 <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura1}" rows="3" cols="30" />
                                 <ui:include src="./comum/enviarImagem.xhtml">
                                     <ui:param name="nome" value="Assinatura 1"  />
                                     <ui:param name="arquivo" value="#{eventoController.entidade.certificadoAssinatura1}"  />
-                                    <ui:param name="fileUploadListener" value="#{eventoController.assinatura1FileUpload}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
                                 </ui:include>
                                 Texto da Assinatura 2:
                                 <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura2}" rows="3" cols="30" />
                                 <ui:include src="./comum/enviarImagem.xhtml">
                                     <ui:param name="nome" value="Assinatura 2"  />
                                     <ui:param name="arquivo" value="#{eventoController.entidade.certificadoAssinatura2}"  />
-                                    <ui:param name="fileUploadListener" value="#{eventoController.assinatura2FileUpload}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
                                 </ui:include>
                             </h:panelGrid>
                         </p:tab>

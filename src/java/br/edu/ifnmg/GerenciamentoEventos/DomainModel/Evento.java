@@ -397,7 +397,7 @@ public class Evento implements Entidade, Serializable {
         if(atividadesPublicasSemInscricao == null){
             atividadesPublicasSemInscricao = new ArrayList<>();
             for(Atividade a : atividades)
-                if(a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
+                if(a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
                     atividadesPublicasSemInscricao.add(a);
         }
         return atividadesPublicasSemInscricao;
@@ -410,7 +410,7 @@ public class Evento implements Entidade, Serializable {
         if(atividadesPublicasComInscricao == null){
             atividadesPublicasComInscricao = new ArrayList<>();
             for(Atividade a : atividades)
-                if(a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
+                if(a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
                     atividadesPublicasComInscricao.add(a);
         }
         return atividadesPublicasComInscricao;
