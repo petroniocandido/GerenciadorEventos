@@ -31,6 +31,11 @@
                                     <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                                     <f:selectItems value="#{atividadeController.status}" />
                                 </p:selectOneMenu>
+                                <h:outputText value="Tipo: " />
+                                <p:selectOneMenu value="#{atividadeController.filtro.status}" converter="#{atividadeTipoConverter}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                                    <f:selectItems value="#{atividadeController.listagemTipos}" />
+                                </p:selectOneMenu>                                
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{atividadeController}"  />
@@ -55,7 +60,12 @@
                         </p:column>
                         <p:column headerText="Início" sortBy="#{item.inicio}"  >
                             <p:outputLabel value="#{item.inicio}" >
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
+                                <f:convertDateTime pattern="dd/MM/yy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
+                            </p:outputLabel>                           
+                        </p:column>
+                        <p:column headerText="Término" sortBy="#{item.termino}"  >
+                            <p:outputLabel value="#{item.termino}" >
+                                <f:convertDateTime pattern="dd/MM/yy HH:mm" timeZone="Brazil/East" locale="pt_BR" type="both" />  
                             </p:outputLabel>                           
                         </p:column>
                         <p:column headerText="Status" sortBy="#{item.status}"  >

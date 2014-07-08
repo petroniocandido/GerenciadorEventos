@@ -84,7 +84,7 @@
             <ui:insert name="content">Content</ui:insert>
             <p:confirmDialog message="Sua sessão ficou ociosa por mais de 5 minutos e você foi desconectado automaticamente. Por favor efetue login novamente."  
                              header="Aviso" severity="alert" widgetVar="msgIdle">  
-                <p:commandButton ajax="false" value="Login" action="login.xhtml"  />  
+                <p:commandButton ajax="false" value="Login" action="#{autenticacaoController.logout()}"  />  
             </p:confirmDialog>
         </h:form>
 

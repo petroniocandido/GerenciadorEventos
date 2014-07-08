@@ -43,8 +43,15 @@
                 <p:menuitem value="Fale Conosco" url="faleConosco.xhtml" />
                 <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>
-            <p:growl showDetail="true" sticky="true"  life="60" />
+            <p:growl showDetail="true" id="messages" sticky="true"  life="60" />
+            <p:idleMonitor timeout="300000">
+                <p:ajax event="idle" listener="#{autenticacaoController.idleListener()}" oncomplete="msgIdle.show();" update="messages" />
+            </p:idleMonitor>
             <ui:insert name="content">Content</ui:insert>
+            <p:confirmDialog message="Sua sessão ficou ociosa por mais de 5 minutos e você foi desconectado automaticamente. Por favor efetue login novamente."  
+                             header="Aviso" severity="alert" widgetVar="msgIdle">  
+                <p:commandButton ajax="false" value="Login" action="#{autenticacaoController.logout()}"  />  
+            </p:confirmDialog>
         </h:form>
 
         <div id="bottom" style="float: bottom">
