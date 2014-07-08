@@ -164,6 +164,9 @@ public class AutenticacaoController
 
     public void validaCPF(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         
+        if(getUsuarioCorrente() != null)
+            return;
+        
         Pessoa tmp = dao.AbrirPorCPF(value.toString());
         
         if(tmp != null){
@@ -182,6 +185,9 @@ public class AutenticacaoController
     }
     
     public void validaEmail(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        if(getUsuarioCorrente() != null)
+            return;
         
         Pessoa tmp = dao.Abrir(value.toString());
         

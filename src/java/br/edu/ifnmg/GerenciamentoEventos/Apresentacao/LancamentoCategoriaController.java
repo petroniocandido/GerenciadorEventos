@@ -58,6 +58,18 @@ public class LancamentoCategoriaController
             setSessao("lctctrl_nome", filtro.getNome());
 
     }
+    
+    @Override
+    public LancamentoCategoria getEntidade() {
+        if (entidade == null) {
+            Long tmp = getId();
+            if(tmp == 0L)
+                entidade = new LancamentoCategoria();
+            else 
+                entidade = dao.AbrirCategoria(tmp);
+        }
+        return entidade;
+    }
    
     @Override
     public void salvar() {

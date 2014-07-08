@@ -24,7 +24,7 @@ public class SessaoService {
     public void put(String key, String value) {
         FacesContext ctx = FacesContext.getCurrentInstance();
         Cookie ck = new Cookie(key, value);
-        ck.setMaxAge(-1);
+        ck.setMaxAge(360);
         ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(ck);
 
     }

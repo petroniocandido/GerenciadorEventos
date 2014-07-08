@@ -62,6 +62,18 @@ public class AtividadeTipoController
         }
 
     }
+    
+    @Override
+    public AtividadeTipo getEntidade() {
+        if (entidade == null) {
+            Long tmp = getId();
+            if(tmp == 0L)
+                entidade = new AtividadeTipo();
+            else 
+                entidade = dao.AbrirTipo(tmp);
+        }
+        return entidade;
+    }
 
     @Override
     public void salvar() {
@@ -88,6 +100,7 @@ public class AtividadeTipoController
         return "editarAtividadeTipo.xhtml";
     }
     
+    @Override
     public String apagar() {
         dao.ApagarTipo(getEntidade());
         filtrar();
@@ -108,7 +121,7 @@ public class AtividadeTipoController
 
     @Override
     public List<AtividadeTipo> getListagem() {
-        return dao.BuscarTipo(null);
+        return dao.BuscarTipo(getFiltro());
     }
 
 

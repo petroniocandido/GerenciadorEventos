@@ -68,6 +68,8 @@ public class Atividade implements Entidade, Serializable {
     
     @Column(nullable = true)
     private boolean necessitaInscricao;
+    
+    private boolean geraCertificado;
         
     @Column(nullable = true, precision = 10, scale = 2)
     private BigDecimal valorInscricao;
@@ -427,6 +429,14 @@ public class Atividade implements Entidade, Serializable {
 
     public void setCargaHoraria(int cargaHoraria) {
         this.cargaHoraria = cargaHoraria;
+    }
+
+    public boolean isGeraCertificado() {
+        return geraCertificado;
+    }
+
+    public void setGeraCertificado(boolean geraCertificado) {
+        this.geraCertificado = geraCertificado;
     }
     
     

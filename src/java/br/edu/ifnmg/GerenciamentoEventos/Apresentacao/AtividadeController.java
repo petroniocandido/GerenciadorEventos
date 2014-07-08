@@ -71,6 +71,8 @@ public class AtividadeController
             filtro = new Atividade();
             filtro.setNome(getSessao("atctrl_nome"));
             filtro.setEvento((Evento)getSessao("atctrl_evt",evtDAO));
+            String tip = getSessao("atctrl_tip");
+            filtro.setTipo(tip != null ? dao.AbrirTipo(Long.parseLong(tip)) : null);
             String tmp = getSessao("atctrl_sit");
             filtro.setStatus(tmp != null ? Status.valueOf(tmp) : null);
         }
@@ -83,6 +85,7 @@ public class AtividadeController
         if (filtro != null) {
             setSessao("atctrl_nome", filtro.getNome());
             setSessao("atctrl_evt", filtro.getEvento());
+            setSessao("atctrl_tip", filtro.getTipo());
             setSessao("atctrl_sit", filtro.getStatus() != null ? filtro.getStatus().name() : null);
         }
 

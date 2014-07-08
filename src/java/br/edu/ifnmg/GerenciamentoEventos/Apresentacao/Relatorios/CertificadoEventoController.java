@@ -46,6 +46,9 @@ public class CertificadoEventoController
         try {
             
             Map<String, Object> tmp = getParametrosComuns();
+            tmp.put("background", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoFundo().getUri());
+            tmp.put("assinatura1", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoAssinatura1().getUri());
+            tmp.put("assinatura2", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoAssinatura2().getUri());
             tmp.put("data", new Date());
             return tmp;
         } catch (MalformedURLException ex) {
