@@ -12,19 +12,20 @@
 	<parameter name="assinatura1" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="assinatura2" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
-	<field name="pessoa.nome" class="java.lang.String"/>
-	<field name="pessoa.cpf" class="java.lang.String"/>
-	<field name="evento.nome" class="java.lang.String"/>
-	<field name="evento.cargaHoraria" class="java.lang.Integer"/>
-	<field name="evento.inicio" class="java.util.Date"/>
-	<field name="evento.termino" class="java.util.Date"/>
-	<field name="evento.local" class="java.lang.Object"/>
-	<field name="evento.atividadesPublicasSemInscricao" class="java.util.Collection"/>
-	<field name="evento.certificadoTextoAssinatura1" class="java.lang.String"/>
-	<field name="evento.certificadoTextoAssinatura2" class="java.lang.String"/>
-	<field name="evento.certificadoCidade" class="java.lang.String"/>
+	<parameter name="funcao" class="java.lang.String"/>
+	<field name="inscricao.pessoa.nome" class="java.lang.String"/>
+	<field name="inscricao.pessoa.cpf" class="java.lang.String"/>
+	<field name="inscricao.evento.nome" class="java.lang.String"/>
+	<field name="atividade.cargaHoraria" class="java.lang.Integer"/>
+	<field name="atividade.inicio" class="java.util.Date"/>
+	<field name="atividade.termino" class="java.util.Date"/>
+	<field name="inscricao.evento.local" class="java.lang.Object"/>
+	<field name="inscricao.evento.atividadesPublicasSemInscricao" class="java.util.Collection"/>
+	<field name="inscricao.evento.certificadoTextoAssinatura1" class="java.lang.String"/>
+	<field name="inscricao.evento.certificadoTextoAssinatura2" class="java.lang.String"/>
+	<field name="inscricao.evento.certificadoCidade" class="java.lang.String"/>
 	<variable name="texto" class="java.lang.String">
-		<variableExpression><![CDATA["participou do evento <b>" + $F{evento.nome} +"</b> realizado no " +$F{evento.local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{evento.inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{evento.termino}) +" com carga horária total de " +$F{evento.cargaHoraria}.toString()+" horas."]]></variableExpression>
+		<variableExpression><![CDATA["participou do evento <b>" + $F{inscricao.evento.nome} +"</b> realizado no " +$F{inscricao.evento.local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{atividade.inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{atividade.termino}) +" com carga horária total de " +$F{atividade.cargaHoraria}.toString()+" horas."]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -68,7 +69,7 @@
 				<textElement textAlignment="Center">
 					<font size="16" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{pessoa.nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{inscricao.pessoa.nome}]]></textFieldExpression>
 			</textField>
 			<image>
 				<reportElement x="166" y="314" width="91" height="50" uuid="6634fdc1-5147-4e4b-9646-258485c0fc4c"/>
@@ -83,21 +84,21 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{evento.certificadoTextoAssinatura1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.certificadoTextoAssinatura1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="542" y="371" width="201" height="44" uuid="ed3b269a-ae3d-47f1-aa0e-135522eca484"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{evento.certificadoTextoAssinatura2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.certificadoTextoAssinatura2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="108" y="284" width="311" height="25" uuid="e58f7a06-bccd-45c6-89bc-982a07a281a7"/>
 				<textElement textAlignment="Right">
 					<font size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{evento.certificadoCidade}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.certificadoCidade}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="424" y="286" width="0" height="26" uuid="710c7fe1-de4e-46d6-a907-813c59d0bf9d"/>
@@ -115,7 +116,7 @@
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table Dataset 1" uuid="33ec40f3-303c-44ed-be3a-8c9d7fc9bfe4">
 						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.
-data.JRBeanCollectionDataSource($F{evento.atividadesPublicasSemInscricao})]]></dataSourceExpression>
+data.JRBeanCollectionDataSource($F{inscricao.evento.atividadesPublicasSemInscricao})]]></dataSourceExpression>
 					</datasetRun>
 					<jr:column width="110" uuid="609e2cc3-ae5b-4203-9a63-584dcffdc398">
 						<jr:columnHeader height="30" rowSpan="1">
