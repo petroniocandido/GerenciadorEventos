@@ -33,6 +33,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 /**
@@ -199,6 +200,16 @@ public class Inscricao implements Entidade, Serializable {
         l.setDescricao("Referente pagto inscrição " + id.toString() + " do evento " + this.getEvento().getNome() + " e das atividades " + tmp);
         setLancamento(l);
         return l;
+    }
+    
+    @Transient
+    protected Boolean prontoParaCertificado = null;
+    
+    public boolean isProntoParaCertificado() {
+        if(prontoParaCertificado == null)
+            prontoParaCertificado = evento.getStatus() == Status.Concluido && this.pago && this.compareceu;
+        
+        return prontoParaCertificado;
     }
 
     @Override

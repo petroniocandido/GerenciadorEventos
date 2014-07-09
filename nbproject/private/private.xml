@@ -5,6 +5,7 @@
         <group>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Infraestrutura/AutenticacaoService.java</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/admin/relatorioCertificadoAtividade.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/web/WEB-INF/glassfish-web.xml</file>
             <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/Relatorios/CertificadoAtividadeController.java</file>
         </group>
     </open-files>
