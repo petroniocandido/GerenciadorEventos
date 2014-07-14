@@ -13,19 +13,31 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Certificado do Evento
+                        Certificado de Atividade
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Inscrição: " />
-                        <p:autoComplete id="acInscricao" converter="#{inscricaoConverter}" value="#{certificadoEventoController.inscricao}"
+                        <p:autoComplete id="acInscricao" converter="#{inscricaoConverter}" value="#{certificadoAtividadeController.inscricao}"
                                         completeMethod="#{inscricaoConverter.autoCompleteInscricao}" 
                                         var="item" itemValue="#{item}" itemLabel="#{item.id}">
                             <p:column headerText="Inscrição">#{item.id}</p:column>
                             <p:column headerText="Pessoa">#{item.pessoa}</p:column>
                             <p:column headerText="Evento">#{item.evento}</p:column>
                         </p:autoComplete>
+                        <h:outputText value="Atividade: " />
+                        <p:autoComplete converter="#{atividadeConverter}" value="#{certificadoAtividadeController.atividade}"
+                                        completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
+                                        itemLabel="#{item.nome}" itemValue="#{item}">
+                            <p:column headerText="Evento">#{item.evento}</p:column>
+                            <p:column headerText="Atividade">#{item.nome}</p:column>
+                            <p:column headerText="Tipo">#{item.tipo}</p:column>
+                        </p:autoComplete>
+                        <h:outputText value="Função: " />
+                        <p:selectOneMenu value="#{certificadoAtividadeController.funcao}">
+                            <f:selectItem itemLabel="Organização" itemValue="Organização" />
+                        </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{certificadoEventoController.executaRelatorioPDF}" />
+                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{certificadoAtividadeController.executaRelatorioPDF}" />
                 </p:panel>
             </ui:define>
 

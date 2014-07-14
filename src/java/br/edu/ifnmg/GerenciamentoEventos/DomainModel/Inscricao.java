@@ -29,10 +29,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 /**
@@ -176,7 +179,9 @@ public class Inscricao implements Entidade, Serializable {
         BigDecimal valor = new BigDecimal("0.00");
         valor = valor.add(this.getEvento().getValorInscricao());
         for(InscricaoItem i : getItens()){
-            valor = valor.add(i.getAtividade().getValorInscricao());
+            if(i.getStatus() != InscricaoStatus.Cancelada && i.getStatus() != InscricaoStatus.Recusada
+                    && i.getCategoria() == InscricaoCategoria.Normal)
+                valor = valor.add(i.getAtividade().getValorInscricao());
         }
         return valor;
     }
@@ -199,6 +204,16 @@ public class Inscricao implements Entidade, Serializable {
         l.setDescricao("Referente pagto inscrição " + id.toString() + " do evento " + this.getEvento().getNome() + " e das atividades " + tmp);
         setLancamento(l);
         return l;
+    }
+    
+    @Transient
+    protected Boolean prontoParaCertificado = null;
+    
+    public boolean isProntoParaCertificado() {
+        if(prontoParaCertificado == null)
+            prontoParaCertificado = evento.getStatus() == Status.Concluido && this.pago && this.compareceu;
+        
+        return prontoParaCertificado;
     }
 
     @Override

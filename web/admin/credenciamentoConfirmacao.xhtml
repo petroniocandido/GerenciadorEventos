@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Gerenciamento de Eventos - Credenciamento</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:messages id="mensagens" />
+            <p:panelGrid rendered="#{not empty credenciamentoController.inscricao}" id="insc" columns="2">
+                <p:outputLabel value="Inscrito:" />
+                <p:outputLabel value="#{credenciamentoController.inscricao.pessoa.nome}" />
+                <p:outputLabel value="CPF:" />
+                <p:outputLabel value="#{credenciamentoController.inscricao.pessoa.cpf}" />
+                <p:outputLabel value="Pago?:" />
+                <p:outputLabel value="#{credenciamentoController.inscricao.pago}" />
+                <p:outputLabel value="Valor:" />
+                <p:outputLabel value="#{credenciamentoController.inscricao.valorTotal}" />                
+            </p:panelGrid>
+            <p:dataTable value="#{credenciamentoController.inscricao.itens}" var="item"
+                         paginator="false" rows="30"  lazy="true" >  
+
+                <p:column headerText="Inscrição" sortBy="id"  >
+                    <p:outputLabel value="#{item.id}" />                            
+                </p:column>
+                <p:column headerText="Ordem" sortBy="#{item.ordem}"  >
+                    #{item.ordem}
+                </p:column>
+                <p:column headerText="Atividade" sortBy="#{item.pessoa}"  >
+                    #{item.atividade.nome}                            
+                </p:column>
+                <p:column headerText="Valor" sortBy="#{item.pessoa}"  >
+                    #{item.atividade.valorInscricao}                            
+                </p:column>
+                <p:column headerText="Categoria" sortBy="#{item.categoria}"  >
+                    #{item.categoria}                            
+                </p:column>
+                <p:column headerText="Status" sortBy="#{item.status}"  >
+                    #{item.status}                            
+                </p:column>
+                <p:column headerText="Pago?" sortBy="#{item.pago}"  >
+                    <p:selectBooleanCheckbox value="#{item.pago}" style="margin-left: 40%" disabled="true" />                        
+                </p:column>
+                <p:column>
+                    <p:commandButton value="Cancelar" ajax="false" action="#{credenciamentoController.cancelar(item)}" />
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="Confirmar" ajax="false" action="#{credenciamentoController.credenciar()}" />
+            <p:commandButton value="Voltar para busca" ajax="false" action="credenciamentoBusca.xhtml" />
+        </h:form>
+    </h:body>
+</html>
+

@@ -12,7 +12,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 
 /**
  *
@@ -33,6 +32,16 @@ public class InscricaoDAO
     @PostConstruct
     public void inicializar() {
         itemDAO.setManager(getManager());
+    }
+    
+    @Override
+    public List<Inscricao> Buscar(Evento evt, String participante){
+        return Join("pessoa", "p")
+                .IgualA("tipo", InscricaoTipo.Inscricao)
+                .IgualA("evento", evt)
+                .Like("p.nome", participante)
+                .Ordenar("p.nome", "ASC")
+                .Buscar();
     }
     
     @Override
