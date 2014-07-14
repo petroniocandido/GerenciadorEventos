@@ -19,8 +19,7 @@
                         <h:outputText value="Inscrição: " />
                         <p:autoComplete id="acInscricao" converter="#{inscricaoConverter}" value="#{certificadoEventoController.inscricao}"
                                         completeMethod="#{inscricaoConverter.autoCompleteInscricao}" 
-                                        var="item" itemValue="#{item}" itemLabel="#{item.id}"
-                                        disabled="#{not lancamentoController.editavel}">
+                                        var="item" itemValue="#{item}" itemLabel="#{item.id}">
                             <p:column headerText="Inscrição">#{item.id}</p:column>
                             <p:column headerText="Pessoa">#{item.pessoa}</p:column>
                             <p:column headerText="Evento">#{item.evento}</p:column>
