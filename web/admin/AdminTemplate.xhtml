@@ -15,18 +15,7 @@
     <h:body>
 
         <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >            
-            <p:panelGrid> 
-                <p:row>
-                    <p:column>
-                        <img src="../resources/imagens/logo-ifnmg.png" width="200" height="100" />
-                    </p:column>
-                    <p:column style="width: 100%" >
-                        <h1 style="text-align: center">Gestão de Eventos - IFNMG</h1>
-                        <h:outputLabel style="float: right" value="#{autenticacaoController.usuarioCorrente.nome}" />
-                        <p:commandLink style="float: right" ajax="false" value="Editar" action="editarDadosPessoais.xhtml" />
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
+            <img  src="../resources/imagens/cabecalho.png" style="width: 100%; height: 180px"/>
             <p:menubar>
                 <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/index.xhtml')}" value="Home"  url="index.xhtml" />
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Cadastros')}" label="Cadastros">
@@ -78,8 +67,9 @@
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/importaCSVPessoas.xhtml')}" value="Pessoas" url="importaCSVPessoas.xhtml"  />
                     </p:submenu>
                 </p:submenu>
-
                 <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
+                
+                <p:menuitem style="position: absolute; left: 75%; font-weight: bold; " value="#{autenticacaoController.usuarioCorrente.nome}" url="editarDadosPessoais.xhtml" />
             </p:menubar>
             <p:growl showDetail="true" id="messages" sticky="true"  life="60" />
             <p:idleMonitor timeout="300000">

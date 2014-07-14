@@ -16,20 +16,9 @@
 
     <h:body>
         <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
-            <p:panelGrid>
-                <c:if test="#{empty publicoController.evento or empty publicoController.evento.banner}">
-                    <p:row>
-                        <p:column>
-                            <img src="../resources/imagens/logo-ifnmg.png" width="200" height="100" />
-                        </p:column>
-                        <p:column style="width: 100%" >
-                            <h1 style="text-align: center">Gestão de Eventos - IFNMG</h1>
-                            <h:outputText style="float: right" value="Usuário: #{autenticacaoController.usuarioCorrente.nome}" />
-                        </p:column>
-                    </p:row>
-                </c:if>
-
-            </p:panelGrid>
+            <c:if test="#{empty publicoController.evento or empty publicoController.evento.banner}">
+                <img  src="./resources/imagens/cabecalho.png" style="width: 100%; height: 250px"/>
+            </c:if>
             <c:if test="#{not empty publicoController.evento}">
                 <h:graphicImage value="/arquivos/#{publicoController.evento.banner.uri}" />
                 <h1 style="text-align: center">Inscrições</h1>

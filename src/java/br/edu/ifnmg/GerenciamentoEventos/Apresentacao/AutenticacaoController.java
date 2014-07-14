@@ -85,7 +85,7 @@ public class AutenticacaoController
 
     public void cadastrar() {
         if (senha.equals(senhaconferencia)) {
-            usuario.setSenha(hash.getMD5(senha));
+            getUsuario().setSenha(hash.getMD5(senha));
             usuario.setPerfil(perfilDAO.getPadrao());
             if (dao.Salvar(usuario)) {
                 AppendLog("Cadastro do usuário " + usuario.getEmail());
@@ -100,7 +100,7 @@ public class AutenticacaoController
     public void salvar() {
         if (senha != null && !senha.isEmpty()) {
             if (senha.equals(senhaconferencia)) {
-                usuario.setSenha(hash.getMD5(senha));
+                getUsuario().setSenha(hash.getMD5(senha));
             } else {
                 MensagemErro("Senhas", "Senhas não conferem!");
                 return;
@@ -138,6 +138,9 @@ public class AutenticacaoController
     }
 
     public Pessoa getUsuario() {
+        if(usuario == null){
+            usuario = autenticacao.getUsuarioCorrente();
+        }
         return usuario;
     }
 
