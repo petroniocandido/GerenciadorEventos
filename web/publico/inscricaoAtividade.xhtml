@@ -25,6 +25,16 @@
                                 <p:outputLabel value="#{publicoController.atividade.nome}" />
                                 <p:outputLabel value="Tipo" />
                                 <p:outputLabel value="#{publicoController.atividade.tipo}" />
+                                <p:outputLabel rendered="#{not empty publicoController.atividade.local}" value="Local:" />
+                                <p:outputLabel rendered="#{not empty publicoController.atividade.local}" value="#{publicoController.atividade.local.nome}" />
+                                <p:outputLabel value="Início:" />
+                                <p:outputLabel value="#{publicoController.atividade.inicio}">
+                                    <f:convertDateTime pattern="EEEEEEE, dd/MM/yyyy HH:mm" locale="pt-BR" />
+                                </p:outputLabel>
+                                <p:outputLabel value="Término:" />
+                                <p:outputLabel value="#{publicoController.atividade.termino}">
+                                    <f:convertDateTime pattern="EEEEEEE, dd/MM/yyyy HH:mm" locale="pt-BR" />
+                                </p:outputLabel>
                                 <p:outputLabel value="Descrição" />
                                 <h:outputText value="#{publicoController.atividade.descricao}" escape="false" />
                                 <p:outputLabel value="Inscrições:" />
