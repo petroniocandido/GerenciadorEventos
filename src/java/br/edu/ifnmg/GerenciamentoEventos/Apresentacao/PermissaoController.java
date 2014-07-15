@@ -4,9 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Permissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PermissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
@@ -15,14 +12,14 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "permissaoController")
-@SessionScoped
+@RequestScoped
 public class PermissaoController
         extends ControllerBaseEntidade<Permissao>
         implements Serializable {
@@ -31,58 +28,37 @@ public class PermissaoController
      * Creates a new instance of FuncionarioBean
      */
     public PermissaoController() {
-        id = 0L;
-        setEntidade(new Permissao());
-        setFiltro(new Permissao());
     }
-    
+
     @EJB
     PermissaoRepositorio dao;
-   
-    
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-    }
-
-   
-    @Override
-    public void salvar() {
-        
-        SalvarEntidade();
-        
-        // atualiza a listagem
-        filtrar();
+        setPaginaListagem("listagemPermissoes.xtml");
+        setPaginaEdicao("editarPermissao.xhtml");
     }
 
     @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listarPermissoes.xtml";
+    public Permissao getFiltro() {
+        if (filtro == null) {
+            filtro = new Permissao();
+            filtro.setUri(getSessao("filtro_uri"));
+        }
+        return filtro;
     }
 
     @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarPermissao.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemPermissoes.xhtml";
+    public void setFiltro(Permissao filtro) {
+        this.filtro = filtro;
+        if(filtro != null)
+            setSessao("filtro_uri", filtro.getUri());
     }
 
     @Override
     public void limpar() {
-        
         setEntidade(new Permissao());
-    }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarPermissao.xhtml";
     }
 
     @Override

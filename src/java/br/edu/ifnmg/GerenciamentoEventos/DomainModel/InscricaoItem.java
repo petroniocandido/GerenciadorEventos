@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "inscricoesitens")
+@Cacheable(true)
 public class InscricaoItem extends Inscricao implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,6 +46,14 @@ public class InscricaoItem extends Inscricao implements Serializable {
         this.atividade = a;
         setEvento(a.getEvento());
         setPessoa(i.getPessoa());
+    }
+       
+    @Override
+    public boolean isProntoParaCertificado() {
+        if(prontoParaCertificado == null)
+            prontoParaCertificado = atividade.isGeraCertificado() && atividade.getStatus() == Status.Concluido && isPago() && isCompareceu();
+        
+        return prontoParaCertificado;
     }
     
     @Override

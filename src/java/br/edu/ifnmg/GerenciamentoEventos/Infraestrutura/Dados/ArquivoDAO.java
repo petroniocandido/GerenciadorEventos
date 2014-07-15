@@ -16,7 +16,6 @@ import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 
 /**
  *
@@ -48,6 +47,9 @@ public class ArquivoDAO
     @Override
     public Arquivo Salvar(InputStream is, String nome, String pastaBase, Pessoa criador) {
         try {
+            if(is == null || nome == null || nome.length() == 0 || pastaBase == null)
+                return null;
+            
             String extension = nome.substring(nome.lastIndexOf("."));
             String name = java.util.UUID.randomUUID().toString() + extension;
             File file = new File(pastaBase + name);

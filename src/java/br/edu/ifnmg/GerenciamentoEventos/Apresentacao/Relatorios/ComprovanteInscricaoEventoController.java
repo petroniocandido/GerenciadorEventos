@@ -2,46 +2,45 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
+package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
-@Named(value = "listaPresencaEventoController")
+@Named(value = "comprovanteInscricaoEventoController")
 @RequestScoped
-public class ListaPresencaEventoController
+public class ComprovanteInscricaoEventoController
         extends ControllerBaseRelatorio<Inscricao>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public ListaPresencaEventoController() {
-        setArquivoSaida("ListaPresencaEvento");
-        setRelatorio("Relatorios/ListaPresencaEvento.jasper");
+    public ComprovanteInscricaoEventoController() {
+        setArquivoSaida("ComprovanteInscricao");
+        setRelatorio("ComprovanteMatriculaEvento.jasper");
     }
     
-    @EJB
-    InscricaoRepositorio daoInscricao;
-            
+    Inscricao inscricao;
+    
+             
     @Override
     protected Map<String, Object> carregaParametros() {
         try {
@@ -57,13 +56,19 @@ public class ListaPresencaEventoController
 
     @Override
     public List<Inscricao> getDados() {
-                
-        List<Inscricao> tmp = daoInscricao
-                .IgualA("evento", getEvento())
-                .Join("pessoa", "p")
-                .Ordenar("p.nome", "ASC")
-                .Buscar();
-        
+        List<Inscricao> tmp = new ArrayList<>();
+        tmp.add(inscricao);
         return tmp;
     }
+
+    public Inscricao getInscricao() {
+        return inscricao;
+    }
+
+    public void setInscricao(Inscricao inscricao) {
+        this.inscricao = inscricao;
+    }
+    
+    
+
 }

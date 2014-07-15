@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 
 /**
@@ -22,7 +22,7 @@ import javax.inject.Inject;
  * @author petronio
  */
 @Named(value = "usuarioController")
-@SessionScoped
+@RequestScoped
 public class PessoaController
         extends ControllerBaseEntidade<Pessoa>
         implements Serializable {
@@ -31,9 +31,6 @@ public class PessoaController
      * Creates a new instance of FuncionarioBean
      */
     public PessoaController() {
-        id = 0L;
-        setEntidade(new Pessoa());
-        setFiltro(new Pessoa());
     }
 
     @EJB
@@ -46,13 +43,34 @@ public class PessoaController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+        setPaginaEdicao("editarUsuario.xhtml");
+        setPaginaListagem("listagemUsuarios.xtml");
     }
 
+    @Override
+    public Pessoa getFiltro() {
+        if (filtro == null) {
+            filtro = new Pessoa();
+            filtro.setNome(getSessao("pctrl_nome"));
+            filtro.setCpf(getSessao("pctrl_cpf"));
+            filtro.setEmail(getSessao("pctrl_email"));
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(Pessoa filtro) {
+        this.filtro = filtro;
+        if (filtro != null) {
+            setSessao("pctrl_nome", filtro.getNome());
+            setSessao("pctrl_cpf", filtro.getCpf());
+            setSessao("pctrl_email", filtro.getEmail());
+        }
+    }
 
     @Override
     public void salvar() {
 
-        
         if (senha1 != null && senha1.length() != 0) {
 
             if (senha1.equals(senha2)) {
@@ -70,35 +88,9 @@ public class PessoaController
     }
 
     @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listarUsuarios.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarUsuario.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemUsuarios.xhtml";
-    }
-
-    @Override
     public void limpar() {
-
         setEntidade(new Pessoa());
     }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarUsuario.xhtml";
-    }
-
 
     public String getSenha1() {
         return senha1;
@@ -115,11 +107,11 @@ public class PessoaController
     public void setSenha2(String senha2) {
         this.senha2 = senha2;
     }
-    
-     public List<Pessoa> getPessoas() {
-         List<Pessoa> tmp = new ArrayList<>();
-         tmp.add(entidade);
+
+    public List<Pessoa> getPessoas() {
+        List<Pessoa> tmp = new ArrayList<>();
+        tmp.add(entidade);
         return tmp;
     }
-   
+
 }

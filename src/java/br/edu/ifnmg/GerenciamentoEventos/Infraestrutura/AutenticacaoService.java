@@ -103,7 +103,7 @@ public class AutenticacaoService implements br.edu.ifnmg.GerenciamentoEventos.Do
     public Pessoa getUsuarioCorrente() {
         if (usuario == null) {
            String id = sessao.get("usuarioAutenticado");
-           usuario = dao.Abrir(Long.parseLong(id));             
+           if(id != null) usuario = dao.Abrir(Long.parseLong(id));             
         }
         return usuario;
     }

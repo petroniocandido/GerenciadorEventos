@@ -83,10 +83,14 @@
                             #{item.status}
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Concluir" ajax="false" action="#{alocacaoController.concluir(item)}" />
+                            <p:commandButton value="Concluir" ajax="false" action="#{alocacaoController.concluirItem}">
+                                <f:setPropertyActionListener target="#{alocacaoController.entidade}" value="#{item}" />
+                            </p:commandButton>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Cancelar" ajax="false" action="#{alocacaoController.cancelar(item)}" />
+                            <p:commandButton value="Cancelar" ajax="false" action="#{alocacaoController.cancelarItem}" >
+                                <f:setPropertyActionListener target="#{alocacaoController.entidade}" value="#{item}" />
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

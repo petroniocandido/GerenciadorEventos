@@ -7,20 +7,25 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Log;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "logController")
-@SessionScoped
+@RequestScoped
 public class LogController
         extends ControllerBaseEntidade<Log>
         implements Serializable {
@@ -29,66 +34,43 @@ public class LogController
      * Creates a new instance of FuncionarioBean
      */
     public LogController() {
-        id = 0L;
-        setEntidade(new Log());
-        setFiltro(new Log());
     }
 
     @EJB
     LogRepositorio dao;
 
+    @EJB
+    PessoaRepositorio pessoaDAO;
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+        setPaginaEdicao("editarLog.xhtml");
+        setPaginaListagem("listagemLogs.xtml");
     }
 
     @Override
-    public void filtrar() {
+    public Log getFiltro() {
+        if (filtro == null) {
+            filtro = new Log();
+            filtro.setUsuario((Pessoa) getSessao("logctrl_usuario", pessoaDAO));
+            filtro.setDataEvento(getSessaoData("logctrl_data"));
+        }
+        return filtro;
     }
 
     @Override
-    public void salvar() {
-
-        SalvarEntidade();
-
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listarLogs.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarLog.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemLogs.xhtml";
+    public void setFiltro(Log filtro) {
+        this.filtro = filtro;
+        if (filtro != null) {
+            setSessao("logctrl_usuario", filtro.getUsuario());
+            setSessao("logctrl_data", filtro.getDataEvento());
+        }
     }
 
     @Override
     public void limpar() {
-
         setEntidade(new Log());
-    }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarLog.xhtml";
-    }
-   
-    
-    @Override
-    public List<Log> getListagem() {
-        return dao.Buscar(filtro);
     }
 
 }

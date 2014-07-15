@@ -26,7 +26,7 @@
                                              required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{eventoController.entidade.status}" 
-                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!" >
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!" >
                                     <f:selectItems value="#{eventoController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Descrição: " />
@@ -39,6 +39,10 @@
                         </p:tab>
                         <p:tab id="tabDetalhes" title="Detalhes">  
                             <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Carga Horária: " />
+                                <pe:inputNumber value="#{eventoController.entidade.cargaHoraria}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{eventoController.entidade.inicio}" pattern="dd/MM/yyyy HH:mm"
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!"/>
@@ -115,46 +119,41 @@
                         </p:tab>
                         <p:tab id="tabArquivos" title="Arquivos">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <c:if test="#{not empty eventoController.entidade.logo ne  null}">
-                                    <h:outputText value="Logomarca: " />
-                                    <h:graphicImage value="/arquivos/#{eventoController.entidade.logo.uri}" />
-                                </c:if>
-                                <h:outputText value="Escolher logomarca existente: " />
-                                <p:autoComplete converter="#{arquivoConverter}" value="#{eventoController.entidade.logo}"
-                                                completeMethod="#{arquivoConverter.autoCompleteArquivo}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}">
-                                    <h:graphicImage value="/arquivos/#{item.uri}" width="100" height="100" />
-                                </p:autoComplete>
-                                <h:outputText value="Enviar nova logomarca: " />
-                                <p:fileUpload value="#{eventoController.arquivo}" mode="simple"
-                                              auto="true" sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
-                                              invalidFileMessage="Tipo de arquivo não permitido!"
-                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
-                                              label="Escolher arquivo!"
-                                              multiple="false"/> 
-                                <h:outputText value="" />
-                                <p:commandButton value="Enviar" ajax="false" action="#{eventoController.logoFileUpload}" />
-                                <c:if test="#{eventoController.entidade.banner ne  null}">
-                                    <h:outputText value="Banner: " />
-                                    <h:graphicImage value="/arquivos/#{eventoController.entidade.banner.uri}" />
-                                </c:if>
-                                <h:outputText value="Escolher banner existente: " />
-                                <p:autoComplete converter="#{arquivoConverter}" value="#{eventoController.entidade.banner}"
-                                                completeMethod="#{arquivoConverter.autoCompleteArquivo}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}">
-                                    <h:graphicImage value="/arquivos/#{item.uri}" width="100" height="100" />
-                                </p:autoComplete>
-                                <h:outputText value="Enviar novo banner: " />
-                                <p:fileUpload value="#{eventoController.arquivo}" mode="simple"
-                                              auto="true" sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
-                                              fileLimit="1" fileLimitMessage="Só é possível escolher um arquivo!"
-                                              invalidFileMessage="Tipo de arquivo não permitido!"
-                                              invalidSizeMessage="O arquivo excedeu o tamanho máximo permitido!"
-                                              label="Escolher arquivo!"
-                                              multiple="false"/> 
-                                <h:outputText value="" />
-                                <p:commandButton value="Enviar" ajax="false" action="#{eventoController.bannerFileUpload}" />
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="logomarca"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.logo}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="banner"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.banner}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>                                 
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab id="tabCertificados" title="Certificados">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                Cidade:
+                                <p:inputText value="#{eventoController.entidade.certificadoCidade}" />
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="Imagem de Fundo"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.certificadoFundo}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
+                                Texto da Assinatura 1
+                                <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura1}" rows="3" cols="30" />
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="Assinatura 1"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.certificadoAssinatura1}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
+                                Texto da Assinatura 2:
+                                <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura2}" rows="3" cols="30" />
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="Assinatura 2"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.certificadoAssinatura2}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
                             </h:panelGrid>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">

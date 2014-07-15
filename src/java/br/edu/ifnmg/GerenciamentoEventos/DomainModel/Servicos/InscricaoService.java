@@ -7,6 +7,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Controle;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
@@ -64,7 +65,27 @@ public class InscricaoService {
         return null;
     }
     
-    public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p){
+    private Atividade checarConflitos(Inscricao i, Atividade b){
+        for(InscricaoItem item : i.getItens()){
+            Atividade a = item.getAtividade();
+            if(
+                    a.getInicio().before(b.getTermino())
+               ||   a.getTermino().after(b.getInicio())
+               ||   (
+                            a.getInicio().before(b.getInicio())
+                        &&  a.getTermino().after(b.getTermino())
+                    )
+               ||   (
+                            a.getInicio().after(b.getInicio())
+                        &&  a.getTermino().before(b.getTermino())
+                    )
+            )
+                return a;
+        }
+        return null;
+    }
+    
+    public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p) throws ConflitoHorarioException{
     
         InscricaoItem tmp = inscricaoDAO.Abrir(i, e);
         
@@ -82,6 +103,11 @@ public class InscricaoService {
         
         if(!e.isNecessitaInscricao())
             return null;
+        
+        Atividade atv = checarConflitos(i, e);
+        
+        if(atv != null)
+            throw new ConflitoHorarioException(atv);
         
         Controle c = controleDAO.Abrir(e);
         

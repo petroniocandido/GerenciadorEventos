@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
+package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,22 +24,21 @@ import javax.enterprise.context.RequestScoped;
  *
  * @author petronio
  */
-@Named(value = "comprovanteInscricaoController")
+@Named(value = "certificadoEventoController")
 @RequestScoped
-public class ComprovanteInscricaoController
-        extends ControllerBaseRelatorio<InscricaoItem>
+public class CertificadoEventoController
+        extends ControllerBaseRelatorio<Inscricao>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public ComprovanteInscricaoController() {
-        setArquivoSaida("ComprovanteInscricao");
-        setRelatorio("Relatorios/ComprovanteMatricula.jasper");
+    public CertificadoEventoController() {
+        setArquivoSaida("certificadoEvento");
+        setRelatorio("CertificadoEvento.jasper");
     }
     
     Inscricao inscricao;
-
     
              
     @Override
@@ -47,6 +46,9 @@ public class ComprovanteInscricaoController
         try {
             
             Map<String, Object> tmp = getParametrosComuns();
+            tmp.put("background", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoFundo().getUri());
+            tmp.put("assinatura1", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoAssinatura1().getUri());
+            tmp.put("assinatura2", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoAssinatura2().getUri());
             tmp.put("data", new Date());
             return tmp;
         } catch (MalformedURLException ex) {
@@ -56,8 +58,9 @@ public class ComprovanteInscricaoController
     }
 
     @Override
-    public List<InscricaoItem> getDados() {
-        List<InscricaoItem> tmp = inscricao.getItens();
+    public List<Inscricao> getDados() {
+        List<Inscricao> tmp = new ArrayList<>();
+        tmp.add(inscricao);
         return tmp;
     }
 
@@ -67,8 +70,6 @@ public class ComprovanteInscricaoController
 
     public void setInscricao(Inscricao inscricao) {
         this.inscricao = inscricao;
+        setEvento(inscricao.getEvento());
     }
-    
-    
-
 }

@@ -9,13 +9,15 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import javax.inject.Named;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -23,7 +25,7 @@ import org.primefaces.model.UploadedFile;
  * @author petronio
  */
 @Named(value = "eventoController")
-@SessionScoped
+@RequestScoped
 public class EventoController
         extends ControllerBaseEntidade<Evento>
         implements Serializable {
@@ -32,9 +34,6 @@ public class EventoController
      * Creates a new instance of FuncionarioBean
      */
     public EventoController() {
-        id = 0L;
-        setEntidade(new Evento());
-        setFiltro(new Evento());
     }
     
     @EJB
@@ -53,50 +52,31 @@ public class EventoController
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+        setPaginaEdicao("editarEvento.xhtml");
+        setPaginaListagem("listagemEventos.xtml");
     }
-
-   
-
+    
     @Override
-    public void salvar() {
-        
-        SalvarEntidade();
-        
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemEventos.xtml";
+    public Evento getFiltro() {
+        if (filtro == null) {
+            filtro = new Evento();
+            filtro.setNome(getSessao("evtctrl_nome"));
+        }
+        return filtro;
     }
 
     @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarEvento.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemEventos.xhtml";
+    public void setFiltro(Evento filtro) {
+        this.filtro = filtro;
+        if(filtro != null)
+            setSessao("evtctrl_nome", filtro.getNome());
     }
 
     @Override
     public void limpar() {
-        
         setEntidade(new Evento());
     }
 
-    @Override
-    public String novo() {
-        limpar();
-        return "editarEvento.xhtml";
-    }
-
-    
     public void configurarEventoGlobal() {
         setConfiguracao("EVENTO_PADRAO", entidade.getId().toString());
         Mensagem("Sucesso", "Configuração global alterada com êxito!");
@@ -107,30 +87,36 @@ public class EventoController
         Mensagem("Sucesso", "Configuração do usuário alterada com êxito!");
     }
     
-    public void logoFileUpload() {  
-        entidade = dao.Refresh(entidade);
-        entidade.setLogo(criaArquivo(arquivo));
+    public void fileUploadListener(FileUploadEvent event) {  
+        entidade = dao.Refresh(getEntidade());
+        Arquivo tmp = criaArquivo(event.getFile());
+        String arq = (String)event.getComponent().getAttributes().get("arquivo");
+        switch(arq){
+            case "banner":
+                entidade.setBanner(tmp);
+                break;
+            case "logomarca":
+                entidade.setLogo(tmp);
+                break;
+            case "Imagem de Fundo":
+                entidade.setCertificadoFundo(tmp);
+                break;
+            case "Assinatura 1":
+                entidade.setCertificadoAssinatura1(tmp);
+                break;
+            case "Assinatura 2":
+                entidade.setCertificadoAssinatura2(tmp);
+                break;
+        }
+        
         if(dao.Salvar(entidade)){
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
         } else {
             Mensagem("Falha", "Falha ao anexar o arquivo!");
             AppendLog("Erro ao anexar o arquivo " + entidade.getLogo() + " ao evento " + entidade + ":" + dao.getErro());
-        }
-        
+        }        
     }
-    
-    public void bannerFileUpload() {  
-        entidade = dao.Refresh(entidade);
-        entidade.setBanner(criaArquivo(arquivo));
-        if(dao.Salvar(entidade)){
-            Mensagem("Sucesso", "Arquivo anexado com êxito!");
-            AppendLog("Anexou o arquivo " + entidade.getBanner()+ " ao evento " + entidade);
-        } else {
-            Mensagem("Falha", "Falha ao anexar o arquivo!");
-            AppendLog("Erro ao anexar o arquivo " + entidade.getBanner()+ " ao evento " + entidade + ":" + dao.getErro());
-        }
-    }  
     
      public Status[] getStatus() {
         return Status.values();
@@ -139,14 +125,14 @@ public class EventoController
      Pessoa responsavel;
      
      public void addResponsavel() {
-        entidade = dao.Refresh(entidade);
+        entidade = dao.Refresh(getEntidade());
         entidade.add(responsavel);
         SalvarAgregado(responsavel);
         responsavel = new Pessoa();
     }
 
     public void removeResponsavel() {
-        entidade = dao.Refresh(entidade);
+        entidade = dao.Refresh(getEntidade());
         entidade.remove(responsavel);
         RemoverAgregado(responsavel);
         responsavel = new Pessoa();

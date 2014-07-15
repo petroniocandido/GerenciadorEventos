@@ -5,6 +5,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
+import java.util.HashMap;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -28,31 +29,43 @@ public class SessaoService {
 
     }
 
-    public String get(String key) {
-        FacesContext ctx = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
-        Cookie[] cookies = request.getCookies();
+    HashMap<String, Cookie> cookies = new HashMap<>();
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().trim().equalsIgnoreCase(key)) {
-                return cookie.getValue();
+    private Cookie getCookie(String key) {
+        if (cookies.isEmpty()) {
+            FacesContext ctx = FacesContext.getCurrentInstance();
+            HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
+            Cookie[] tmp = request.getCookies();
+
+            for (Cookie cookie : tmp) {
+                cookies.put(cookie.getName(), cookie);
             }
+        }
+
+        if (cookies.containsKey(key)) {
+            return cookies.get(key);
+        } else {
+            return null;
+        }
+    }
+
+    public String get(String key) {
+        Cookie tmp = getCookie(key);
+        if (tmp != null) {
+            return tmp.getValue();
         }
         return null;
     }
 
     public void delete(String key) {
         FacesContext ctx = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
-        Cookie[] cookies = request.getCookies();
+        Cookie cookie = getCookie(key);
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().trim().equalsIgnoreCase(key)) {
-                cookie.setMaxAge(0);
-                ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(cookie);
-                break;
-            }
+        if (cookie != null) {
+            cookie.setMaxAge(0);
+            ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(cookie);
         }
+
     }
 
     public void limpar() {

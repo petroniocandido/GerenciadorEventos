@@ -25,6 +25,8 @@ public interface Repositorio<T> {
     public T Abrir();
     public List<T> Buscar();
     
+    public Class getTipo();
+    
     public Repositorio<T> Join(String campo, String alias);
     public Repositorio<T> IgualA(String campo, Object valor);
     public Repositorio<T> DiferenteDe(String campo, Object valor);

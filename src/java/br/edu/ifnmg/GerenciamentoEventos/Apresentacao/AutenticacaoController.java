@@ -16,7 +16,7 @@ import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -28,7 +28,7 @@ import javax.inject.Inject;
  * @author petronio
  */
 @Named(value = "autenticacaoController")
-@SessionScoped
+@RequestScoped
 public class AutenticacaoController
         extends ControllerBase
         implements Serializable {
@@ -85,7 +85,7 @@ public class AutenticacaoController
 
     public void cadastrar() {
         if (senha.equals(senhaconferencia)) {
-            usuario.setSenha(hash.getMD5(senha));
+            getUsuario().setSenha(hash.getMD5(senha));
             usuario.setPerfil(perfilDAO.getPadrao());
             if (dao.Salvar(usuario)) {
                 AppendLog("Cadastro do usuário " + usuario.getEmail());
@@ -100,7 +100,7 @@ public class AutenticacaoController
     public void salvar() {
         if (senha != null && !senha.isEmpty()) {
             if (senha.equals(senhaconferencia)) {
-                usuario.setSenha(hash.getMD5(senha));
+                getUsuario().setSenha(hash.getMD5(senha));
             } else {
                 MensagemErro("Senhas", "Senhas não conferem!");
                 return;
@@ -138,6 +138,9 @@ public class AutenticacaoController
     }
 
     public Pessoa getUsuario() {
+        if(usuario == null){
+            usuario = autenticacao.getUsuarioCorrente();
+        }
         return usuario;
     }
 
@@ -163,12 +166,40 @@ public class AutenticacaoController
     }
 
     public void validaCPF(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        
+        if(getUsuarioCorrente() != null)
+            return;
+        
+        Pessoa tmp = dao.AbrirPorCPF(value.toString());
+        
+        if(tmp != null){
+            FacesMessage msg
+                    = new FacesMessage("CPF já cadastrado!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+        
         if (!ValidadorCPF.validaCPF(value.toString())) {
             FacesMessage msg
                     = new FacesMessage("CPF Inválido!");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
+    }
+    
+    public void validaEmail(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        if(getUsuarioCorrente() != null)
+            return;
+        
+        Pessoa tmp = dao.Abrir(value.toString());
+        
+        if(tmp != null){
+            FacesMessage msg
+                    = new FacesMessage("E-mail já cadastrado!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }        
     }
 
    

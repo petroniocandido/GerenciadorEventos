@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name="arquivos", indexes = {@Index(columnList = "uri", unique = true)})
+@Cacheable(true)
 public class Arquivo implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ import javax.persistence.Version;
  * @author petronio
  */
 @Entity
+@Cacheable(false)
 public class Controle implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id

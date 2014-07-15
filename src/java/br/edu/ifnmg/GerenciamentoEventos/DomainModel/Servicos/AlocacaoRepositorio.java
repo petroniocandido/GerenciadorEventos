@@ -7,6 +7,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -15,5 +16,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface AlocacaoRepositorio extends Repositorio<Alocacao> {
-    
+    public List<Alocacao> conflitos(Alocacao filtro);
 }

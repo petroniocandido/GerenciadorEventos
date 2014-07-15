@@ -20,6 +20,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface InscricaoRepositorio extends Repositorio<Inscricao> {
+    public List<Inscricao> Buscar(Evento evt, String participante);
     public Inscricao Abrir(Evento evt, Pessoa p);
     public InscricaoItem Abrir(Inscricao i, Atividade a);
     public InscricaoItem AbrirItem(Long id);

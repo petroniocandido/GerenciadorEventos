@@ -9,11 +9,13 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +23,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -37,9 +38,6 @@ public class InscricaoItemController
      * Creates a new instance of FuncionarioBean
      */
     public InscricaoItemController() {
-        id = 0L;
-        setEntidade(new InscricaoItem());
-        setFiltro(new InscricaoItem());
     }
 
     Evento padrao;
@@ -52,15 +50,54 @@ public class InscricaoItemController
 
     @EJB
     AtividadeRepositorio atiDAO;
+    
+    @EJB
+    PessoaRepositorio pessoaDAO;
 
     @PostConstruct
     public void init() {
         setRepositorio(dao);
         checaEventoPadrao();
+        setPaginaEdicao("editarInscricaoAtividade.xhtml");
+        setPaginaListagem("listagemInscricoesAtividade.xtml");
     }
     
+    @Override
+    public InscricaoItem getFiltro() {
+        if (filtro == null) {
+            filtro = new InscricaoItem();
+            filtro.setPessoa((Pessoa) getSessao("iictrl_pessoa", pessoaDAO));
+            filtro.setAtividade((Atividade) getSessao("iictrl_ativ", atiDAO));
+            filtro.setEvento((Evento) getSessao("iictrl_evento", evtDAO));
+            String tmp = getSessao("iictrl_cat");
+            filtro.setCategoria((tmp != null) ? InscricaoCategoria.valueOf(getSessao("iictrl_cat")) : null);
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(InscricaoItem filtro) {
+        this.filtro = filtro;
+        if (filtro != null) {
+            setSessao("iictrl_pessoa", filtro.getPessoa());
+            setSessao("iictrl_evento", filtro.getEvento());
+            setSessao("iictrl_ativ", filtro.getAtividade());
+            setSessao("iictrl_cat", filtro.getCategoria()!= null ? filtro.getCategoria().name() : null);
+        }
+    }
+    
+    @Override
     public List<InscricaoItem> getListagem(){
         return dao.Buscar(filtro);
+    }
+    
+    @Override
+    public InscricaoItem getEntidade() {
+        if (entidade == null) {
+            String tmp = getSessao("InscricaoItementidade");
+            entidade = tmp != null ? dao.AbrirItem(Long.parseLong(tmp)) : new InscricaoItem();
+        }
+        return entidade;
     }
 
 
@@ -80,46 +117,12 @@ public class InscricaoItemController
     @Override
     public void filtrar() {
         checaEventoPadrao();
-
-    }
-
-    @Override
-    public void salvar() {
-
-        SalvarEntidade();
-
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemInscricoesAtividade.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.AbrirItem(id));
-        return "editarInscricaoAtividade.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemInscricoesAtividade.xhtml";
     }
 
     @Override
     public void limpar() {
         checaEventoPadrao();
         setEntidade(new InscricaoItem());
-    }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarInscricaoAtividade.xhtml";
     }
 
     public InscricaoStatus[] getStatus() {
@@ -142,7 +145,7 @@ public class InscricaoItemController
     
      public List<Pessoa> getPessoa() {
         List<Pessoa> pessoas = new ArrayList<>();
-        pessoas.add(entidade.getPessoa());
+        pessoas.add(getEntidade().getPessoa());
         return pessoas;
     }
     

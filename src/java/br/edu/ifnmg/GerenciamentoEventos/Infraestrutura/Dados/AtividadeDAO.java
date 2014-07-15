@@ -90,10 +90,9 @@ public class AtividadeDAO
         if(obj != null) {
             daoTipo
                 .Like("nome", obj.getNome())
-                .IgualA("publico", obj.getPublico())
-                .Ordenar("nome", "ASC");
+                .IgualA("publico", obj.getPublico());
         }
-        return daoTipo.Buscar();
+        return daoTipo.Ordenar("nome", "ASC").Buscar();
     }
 
     @Override

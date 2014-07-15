@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,6 +32,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name = "questionariosrespostas")
+@Cacheable(false)
 public class QuestionarioResposta implements Serializable, Entidade {
     private static final long serialVersionUID = 1L;
     @Id

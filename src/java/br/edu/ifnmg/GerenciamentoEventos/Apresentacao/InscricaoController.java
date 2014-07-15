@@ -16,21 +16,21 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Inject;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "inscricaoController")
-@SessionScoped
+@RequestScoped
 public class InscricaoController
         extends ControllerBaseEntidade<Inscricao>
         implements Serializable {
@@ -39,9 +39,6 @@ public class InscricaoController
      * Creates a new instance of FuncionarioBean
      */
     public InscricaoController() {
-        id = 0L;
-        setEntidade(new Inscricao());
-        setFiltro(new Inscricao());
         item = new InscricaoItem();
     }
     
@@ -53,8 +50,8 @@ public class InscricaoController
     @EJB
     EventoRepositorio evtDAO;
     
-    @Inject
-    LancamentoController lancamentoCtl;
+    @EJB
+    PessoaRepositorio pessoaDAO;
     
     InscricaoItem item;
     
@@ -62,7 +59,35 @@ public class InscricaoController
     public void init() {
         setRepositorio(dao);
         checaEventoPadrao();
+        setPaginaEdicao("editarInscricao.xhtml");
+        setPaginaListagem("listagemInscricoes.xtml");
     }
+    
+    @Override
+    public Inscricao getFiltro() {
+        if (filtro == null) {
+            filtro = new Inscricao();
+            filtro.setPessoa((Pessoa) getSessao("insctrl_pessoa", pessoaDAO));
+            filtro.setEvento((Evento) getSessao("insctrl_evento", evtDAO));
+            String tmp = getSessao("insctrl_id");
+            filtro.setId(tmp != null ? Long.parseLong(tmp) : null);
+            tmp = getSessao("insctrl_cat");
+            filtro.setCategoria((tmp != null) ? InscricaoCategoria.valueOf(getSessao("insctrl_cat")) : null);
+        }
+        return filtro;
+    }
+
+    @Override
+    public void setFiltro(Inscricao filtro) {
+        this.filtro = filtro;
+        if (filtro != null) {
+            setSessao("insctrl_pessoa", filtro.getPessoa());
+            setSessao("insctrl_evento", filtro.getEvento());
+            setSessao("insctrl_id", filtro.getId() != null ? filtro.getId().toString() : null);
+            setSessao("insctrl_cat", filtro.getCategoria()!= null ? filtro.getCategoria().name() : null);
+        }
+    }
+    
     
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
@@ -75,39 +100,10 @@ public class InscricaoController
         }
     }
 
-   
-
     @Override
     public void filtrar() {
         checaEventoPadrao();
-        
-    }
-
-    @Override
-    public void salvar() {
-        
-        SalvarEntidade();
-        
-        // atualiza a listagem
-        filtrar();
-    }
-
-    @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemInscricoes.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarInscricao.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemInscricoes.xhtml";
+        setFiltro(filtro);
     }
 
     @Override
@@ -115,13 +111,6 @@ public class InscricaoController
         checaEventoPadrao();
         setEntidade(new Inscricao());
     }
-
-    @Override
-    public String novo() {
-        limpar();
-        return "editarInscricao.xhtml";
-    }
-
 
     public InscricaoItem getItem() {
         return item;
@@ -148,21 +137,14 @@ public class InscricaoController
     }
     
     public String gerarLancamento() {
-        Lancamento l = entidade.criarLancamento(getUsuarioCorrente());
+        Lancamento l = getEntidade().criarLancamento(getUsuarioCorrente());
         Rastrear(l);
         Rastrear(entidade);
         dao.Salvar(entidade);
-        lancamentoCtl.setEntidade(l);
+        setSessao("Lancamentoentidade", l);
         return "editarLancamento.xhtml";
     }
 
-    public LancamentoController getLancamentoCtl() {
-        return lancamentoCtl;
-    }
-
-    public void setLancamentoCtl(LancamentoController lancamentoCtl) {
-        this.lancamentoCtl = lancamentoCtl;
-    }
 
     public InscricaoStatus[] getStatus() {
         return InscricaoStatus.values();
@@ -174,7 +156,7 @@ public class InscricaoController
     
     public List<Pessoa> getPessoa() {
         List<Pessoa> pessoas = new ArrayList<>();
-        pessoas.add(entidade.getPessoa());
+        pessoas.add(getEntidade().getPessoa());
         return pessoas;
     }
     
@@ -185,6 +167,4 @@ public class InscricaoController
         
         return pessoas;
     }
-    
-    
 }

@@ -22,7 +22,7 @@
                                 <p:inputText id="txtNome" size="50" value="#{recursoController.filtro.nome}"/>                                 
                                 <h:outputText value="Tipo: " />
                                 <h:selectOneMenu value="#{recursoController.filtro.tipo}" >
-                                    <f:selectItem itemValue="" itemLabel="" />
+                                    <f:selectItem itemValue="" itemLabel="" noSelectionOption="true" />
                                     <f:selectItems value="#{recursoController.tipos}" />
                                 </h:selectOneMenu>
                             </p:panelGrid>

@@ -12,7 +12,11 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoServic
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ConfiguracaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LogService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.MailService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
+import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.SessaoService;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,7 +43,10 @@ public abstract class ControllerBase {
     LogService log;
     
     @EJB
-    MailService mail;
+    MailService mail;    
+    
+    @Inject
+    SessaoService sessao;
     
     String assunto, mensagem;
     
@@ -137,6 +144,66 @@ public abstract class ControllerBase {
             }
         }
         Mensagem("Confirmação", sucesso +" e-mails enviados com sucesso!\n" + erro + " enviados com falha:\n " + erros);
+    }
+    
+    public void setSessao(String key, Entidade obj) {
+        if(sessao == null) return;
+        
+        if (obj != null && obj.getId() != null) {
+            sessao.put(key, obj.getId().toString());
+        } else {
+            sessao.delete(key);
+        }
+    }
+    
+    public void setSessao(String key, Date obj) {
+        if(sessao == null) return;
+        
+        if (obj != null) {
+            sessao.put(key, DateFormat.getInstance().format(obj));
+        } else {
+            sessao.delete(key);
+        }
+    }
+    
+    public void setSessao(String key, String obj) {
+        if(sessao == null) return;
+        
+        if (obj != null) {
+            sessao.put(key, obj);
+        } else {
+            sessao.delete(key);
+        }
+    }
+
+    public Entidade getSessao(String key, Repositorio dao) {
+        if(sessao == null) return null;
+        
+        String tmp = sessao.get(key);
+        if (tmp != null && !tmp.isEmpty()) {
+            return (Entidade) dao.Abrir(Long.parseLong(tmp));
+        }
+        return null;
+    }
+    
+    public Date getSessaoData(String key) {
+        if(sessao == null) return null;
+        
+        String tmp = sessao.get(key);
+        if (tmp != null && !tmp.isEmpty()) {
+            try {
+                return DateFormat.getInstance().parse(tmp);
+            } catch (ParseException ex) {
+                Logger.getLogger(ControllerBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+    
+    public String getSessao(String key) {
+        if(sessao == null) return null;
+        
+        return sessao.get(key);
     }
     
 }

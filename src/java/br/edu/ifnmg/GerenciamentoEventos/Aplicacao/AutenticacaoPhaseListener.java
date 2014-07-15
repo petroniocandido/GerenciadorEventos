@@ -34,6 +34,9 @@ public class AutenticacaoPhaseListener implements PhaseListener {
 
         FacesContext fc = event.getFacesContext();
         ExternalContext ec = fc.getExternalContext();
+        if(fc.getViewRoot() == null)
+            return;
+        
         String viewid = fc.getViewRoot().getViewId();
         if (viewid.contains("/admin/") || viewid.contains("/publico/")) {
             
