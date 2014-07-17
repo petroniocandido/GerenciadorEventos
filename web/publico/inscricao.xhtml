@@ -29,7 +29,7 @@
                                             <c:when test="#{publicoController.evento.antesInscricaoAberto}">
                                                 <p:outputLabel value="O período de inscrições iniciará no dia:" />
                                                 <p:outputLabel value="#{publicoController.evento.inicioInscricao}" style="background-color: greenyellow">
-                                                    <f:convertDateTime dateStyle="dd/MM/yy hh:mm" />
+                                                    <f:convertDateTime dateStyle="EEEEEE, dd/MM/yy HH:mm" timeZone="pt-BR" />
                                                 </p:outputLabel>
                                             </c:when>
                                             <c:when test="#{publicoController.evento.inscricaoAberto}">
@@ -108,12 +108,12 @@
                                                     <p:column>#{atividade.nome}</p:column>
                                                     <p:column>
                                                         <p:outputLabel value="#{atividade.inicio}" >
-                                                            <f:convertDateTime pattern="dd/MM hh:mm" locale="pt-BR" />
+                                                            <f:convertDateTime pattern="dd/MM HH:mm" locale="pt-BR" />
                                                         </p:outputLabel>
                                                     </p:column>
                                                     <p:column>
                                                         <p:outputLabel value="#{atividade.termino}" >
-                                                            <f:convertDateTime pattern="dd/MM hh:mm" locale="pt-BR" />
+                                                            <f:convertDateTime pattern="dd/MM HH:mm" locale="pt-BR" />
                                                         </p:outputLabel>
                                                     </p:column>
                                                     <p:column>
