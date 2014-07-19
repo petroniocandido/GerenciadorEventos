@@ -21,7 +21,7 @@
         <p:inputMask id="txtTelefone" value="#{pessoa.telefone}" 
                      mask="(99) 9999-9999" />
         <h:outputText value="Data de Nascimento: " />
-        <p:calendar id="txtDataNascimento" value="#{pessoa.dataNascimento}" />
+        <p:calendar id="txtDataNascimento" value="#{pessoa.dataNascimento}" pattern="dd/MM/yyyy" locale="pt-BR" />
         <h:outputText value="Senha: " />
         <p:password id="txtSenha" value="#{senha}" 
                     required="true" requiredMessage="O campo senha é obrigatório!"

@@ -37,7 +37,7 @@ public abstract class ControllerBase {
     ConfiguracaoService configuracao;
     
     @Inject
-    AutenticacaoService autentitacao;
+    protected AutenticacaoService autenticacao;
     
     @Inject
     LogService log;
@@ -53,7 +53,7 @@ public abstract class ControllerBase {
     List<Pessoa> destinatarios;
     
     public Pessoa getUsuarioCorrente() {
-        return autentitacao.getUsuarioCorrente();
+        return autenticacao.getUsuarioCorrente();
     }
 
     protected void Mensagem(Severity severity, String titulo, String msg) {
@@ -75,11 +75,11 @@ public abstract class ControllerBase {
     protected void Rastrear(Entidade obj) {
         if (obj.getId() == null || obj.getId() == 0L) {
             obj.setDataCriacao(new Date());
-            obj.setCriador(autentitacao.getUsuarioCorrente());
+            obj.setCriador(autenticacao.getUsuarioCorrente());
         }
 
         obj.setDataUltimaAlteracao(new Date());
-        obj.setUltimoAlterador(autentitacao.getUsuarioCorrente());
+        obj.setUltimoAlterador(autenticacao.getUsuarioCorrente());
     }
 
     protected void AppendLog(String desc) {
