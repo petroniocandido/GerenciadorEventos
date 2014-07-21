@@ -68,18 +68,9 @@ public class InscricaoService {
     private Atividade checarConflitos(Inscricao i, Atividade b){
         for(InscricaoItem item : i.getItens()){
             Atividade a = item.getAtividade();
-            if(
-                    a.getInicio().before(b.getTermino())
-               ||   a.getTermino().after(b.getInicio())
-               ||   (
-                            a.getInicio().before(b.getInicio())
-                        &&  a.getTermino().after(b.getTermino())
-                    )
-               ||   (
-                            a.getInicio().after(b.getInicio())
-                        &&  a.getTermino().before(b.getTermino())
-                    )
-            )
+            boolean condA = a.getInicio().after(b.getTermino());
+            boolean condB = a.getTermino().before(b.getInicio());
+            if(  !( condA  ||   condB) )            
                 return a;
         }
         return null;
