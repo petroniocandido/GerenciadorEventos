@@ -48,6 +48,11 @@
                         <p:column headerText="Cód." sortBy="#{item.id}"   >
                             <p:outputLabel value="#{item.id}" />
                         </p:column>
+                        <p:column headerText="Data" sortBy="#{item.criacao}"  >
+                            <p:outputLabel value="#{item.criacao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:outputLabel>                            
+                        </p:column>
                         <p:column headerText="Cliente" sortBy="#{item.cliente}"  >
                             <p:outputLabel value="#{item.cliente}" />                            
                         </p:column>

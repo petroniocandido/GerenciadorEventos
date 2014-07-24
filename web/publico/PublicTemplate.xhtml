@@ -17,8 +17,8 @@
     <h:body>
         <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
             <c:if test="#{empty publicoController.evento or empty publicoController.evento.banner}">
-                <img  src="./resources/imagens/cabecalho.png" style="width: 100%; height: 250px"/>
-            </c:if>
+                <img  src="../resources/imagens/cabecalho.png" style="width: 100%; height: 250px"/>    
+            </c:if> 
             <c:if test="#{not empty publicoController.evento}">
                 <h:graphicImage value="/arquivos/#{publicoController.evento.banner.uri}" />
                 <h1 style="text-align: center">Inscrições</h1>

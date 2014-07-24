@@ -31,8 +31,7 @@ public class RecursoDAO
                     .Like("descricao", filtro.getDescricao())
                     .IgualA("tipo", filtro.getTipo());
         }
-        return Ordenar("none", "asc"). Buscar();
-
+        return Ordenar("nome", "asc"). Buscar();
     }
 
 }

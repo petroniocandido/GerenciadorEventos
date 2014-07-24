@@ -63,6 +63,7 @@ public class SessaoService {
 
         if (cookie != null) {
             cookie.setMaxAge(0);
+            cookie.setValue(null);
             ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(cookie);
         }
 
@@ -71,10 +72,11 @@ public class SessaoService {
     public void limpar() {
         FacesContext ctx = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) ctx.getExternalContext().getRequest();
-        Cookie[] cookies = request.getCookies();
+        Cookie[] cks = request.getCookies();
 
-        for (Cookie cookie : cookies) {
+        for (Cookie cookie : cks) {
             cookie.setMaxAge(0);
+            cookie.setValue(null);
             ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(cookie);
 
         }

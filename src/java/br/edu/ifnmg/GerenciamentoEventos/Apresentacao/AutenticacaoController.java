@@ -48,15 +48,12 @@ public class AutenticacaoController
     PerfilRepositorio perfilDAO;
     @Inject
     AutorizacaoService autorizacao;
-    @Inject
-    AutenticacaoService autenticacao;
 
     private String login, senha, senhaconferencia;
     Pessoa usuario;
 
     public void validar() {
         if (autenticacao.login(login, senha)) {
-            usuario = autenticacao.getUsuarioCorrente();
             AppendLog("Login");
             Redirect(autenticacao.getUsuarioCorrente().getPerfil().getHome().getUri());
         } else {
@@ -68,8 +65,11 @@ public class AutenticacaoController
     public void logout() throws IOException {
 
         AppendLog("Logout");
-
+        
+        setUsuario(null);
+        
         autenticacao.logout();
+        
         FacesContext.getCurrentInstance().getExternalContext()
                 .invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext()
@@ -79,7 +79,7 @@ public class AutenticacaoController
     }
 
     public String novo() {
-        usuario = new Pessoa();
+        setUsuario(null);
         return "cadastrar.xhtml";
     }
 
@@ -139,13 +139,16 @@ public class AutenticacaoController
 
     public Pessoa getUsuario() {
         if(usuario == null){
-            usuario = autenticacao.getUsuarioCorrente();
+            usuario = (Pessoa)getSessao("usuarioAutenticado", dao);
+            if(usuario == null)
+                usuario = new Pessoa();
         }
         return usuario;
     }
 
     public void setUsuario(Pessoa usuario) {
         this.usuario = usuario;
+        setSessao("usuarioAutenticado", usuario);
     }
 
     public boolean autorizacao(String url) {
