@@ -15,6 +15,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -53,6 +54,9 @@ public class InscricaoItemController
     
     @EJB
     PessoaRepositorio pessoaDAO;
+    
+    @EJB
+    InscricaoService service;
 
     @PostConstruct
     public void init() {
@@ -112,6 +116,22 @@ public class InscricaoItemController
                 getFiltro().setEvento(padrao);
             }
         }
+    }
+    
+    @Override
+    public String apagar() {
+       Rastrear(getEntidade());
+
+        // salva o objeto no BD
+        if (service.cancelar(entidade)) {
+            Mensagem("Sucesso", "Registro removido com sucesso!");
+            AppendLog("Apagou a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")");
+        } else {
+            MensagemErro("Falha", "Registro não foi removido! Consulte o Log ou o administrador do sistema!");
+            AppendLog("Falha ao remover a entidade " + entidade.getClass().getSimpleName() + " " + entidade.getId() + "(" + entidade.toString() + ")" + ": " + repositorio.getErro().getMessage());
+        }
+        filtrar();
+        return getPaginaListagem();
     }
 
     @Override

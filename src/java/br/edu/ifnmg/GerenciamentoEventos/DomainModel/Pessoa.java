@@ -174,9 +174,8 @@ public class Pessoa implements Entidade, Serializable {
     public void setInscricoes(List<Inscricao> inscricoes) {
         this.inscricoes = inscricoes;
     }
-    
-    
 
+    
     @Override
     public int hashCode() {
         int hash = 0;

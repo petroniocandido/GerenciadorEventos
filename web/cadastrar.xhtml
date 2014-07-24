@@ -3,28 +3,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
         <ui:composition template="./TemplateExterno.xhtml">
             <ui:define name="content">
                 <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="1">
-
+                    
                     <f:facet name="header">
                         Dados do Usuário
                     </f:facet>
-                    <ui:include src="./comum/camposPessoa.xhtml">
-                        <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
-                        <ui:param name="senha" value="#{autenticacaoController.senha}"  />
-                        <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
-                    </ui:include>
+                    <h:panelGrid columns="2" cellpadding="3">
+                        <h:outputText value="Nome: " />
+                        <p:inputText id="txtNome" value="#{autenticacaoController.usuario.nome}" 
+                                     required="true" requiredMessage="O campo nome é obrigatório" />
+                        <h:outputText value="CPF: " />
+                        <p:inputMask id="txtCpf" value="#{autenticacaoController.usuario.cpf}" mask="999.999.999-99" 
+                                     required="true" requiredMessage="O campo cpf é obrigatório" 
+                                     validator="#{autenticacaoController.validaCPF}" />
+                        <h:outputText value="E-Mail: " />
+                        <p:inputText id="txtEmail" value="#{autenticacaoController.usuario.email}" 
+                                     required="true" requiredMessage="O campo e-mail é obrigatório" 
+                                     validator="#{autenticacaoController.validaEmail}"/>
+                        <h:outputText value="Telefone: " />
+                        <p:inputMask id="txtTelefone" value="#{autenticacaoController.usuario.telefone}" 
+                                     mask="(99) 9999-9999" />
+                        <h:outputText value="Data de Nascimento: " />
+                        <p:calendar id="txtDataNascimento" value="#{autenticacaoController.usuario.dataNascimento}" pattern="dd/MM/yyyy"/>
+                    </h:panelGrid> 
                     <f:facet name="footer">
                         <p:commandButton value="Cadastrar" action="#{autenticacaoController.cadastrar()}" 
                                          onsuccess="msgCadastro.show()"/>
                         <p:commandButton value="Voltar" immediate="true" ajax="false" action="login.xhtml"/>
                     </f:facet>
                 </p:panelGrid>
-                <p:confirmDialog id="confirmaSalvar" message="Cadastro realizado com sucesso! Retorne à  página inicial e efetue o login."  
+                <p:confirmDialog id="confirmaSalvar" message="Cadastro realizado com sucesso! <br /> Uma senha gerada automaticamente foi enviada para o seu e-mail. 
+                                 Acesse sua conta de e-mail e volte para a tela de login. <br />
+                                 Após o primeiro login seu cadastro no sistema de inscrições estará confirmado e você poderá alterar a senha no menu Meu Cadastro!"  
                                  header="Confirmação" severity="alert" widgetVar="msgCadastro">  
                     <p:commandButton ajax="false" immediate="true" id="simSalvar" value="Login" action="login.xhtml"  />  
                 </p:confirmDialog> 
