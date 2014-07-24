@@ -73,4 +73,12 @@ public class LogController
         setEntidade(new Log());
     }
 
+    public void apagaFiltro() {
+        dao.Apaga();
+    }
+
+    public void apagaTodos() {
+        dao.Apaga();
+    }
+
 }
