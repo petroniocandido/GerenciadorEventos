@@ -38,6 +38,8 @@
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
+                    <p:commandButton ajax="false" value="Limpar logs do filtro" action="#{logController.apagaFiltro()}" onclick="apagaFiltro.show();" />
+                    <p:commandButton ajax="false" value="Limpar todos os logs" onclick="apagaTodos.show();"  />
                     <!-- Início da Tabela -->
                     <p:dataTable value="#{logController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
@@ -59,11 +61,18 @@
                         </p:column>
                     </p:dataTable>
                 </p:panel>
+                <p:confirmDialog id="filtros" message="Deseja realmente apagar os logs?"  
+                                 header="Confirmação" severity="alert" widgetVar="apagaFiltro">  
+                    <p:commandButton value="OK" ajax="false" action="#{logController.apagaFiltro()}" type="button" />   
+                    <p:commandButton value="Cancelar" onclick="apagaFiltro.hide();" type="button" />   
+                </p:confirmDialog>
+                <p:confirmDialog id="todos" message="Deseja realmente apagar os logs?"  
+                                 header="Confirmação" severity="alert" widgetVar="apagaTodos">  
+                    <p:commandButton value="OK" ajax="false" action="#{logController.apagaTodos()}"  type="button" />   
+                    <p:commandButton value="Cancelar" onclick="apagaTodos.hide();" type="button" />   
+                </p:confirmDialog>
             </ui:define>
-            <p:confirmDialog message="Detalhes do evento:"  
-                             header="Detalhes do Evento" severity="alert" widgetVar="dadosLog">  
-                <p:commandButton value="OK" onclick="dadosLog.hide();" type="button" />   
-            </p:confirmDialog>
+
         </ui:composition>
     </body>
 </html>

@@ -65,16 +65,15 @@ public class AutenticacaoController
     public void logout() throws IOException {
 
         AppendLog("Logout");
-        
+
         setUsuario(null);
-        
+
         autenticacao.logout();
-        
+
         FacesContext.getCurrentInstance().getExternalContext()
                 .invalidateSession();
         FacesContext.getCurrentInstance().getExternalContext()
                 .redirect("../login.xhtml");
-        
 
     }
 
@@ -84,16 +83,13 @@ public class AutenticacaoController
     }
 
     public void cadastrar() {
-        if (senha.equals(senhaconferencia)) {
-            getUsuario().setSenha(hash.getMD5(senha));
-            usuario.setPerfil(perfilDAO.getPadrao());
-            if (dao.Salvar(usuario)) {
-                AppendLog("Cadastro do usuário " + usuario.getEmail());
-            } else {
-                AppendLog("Erro ao cadastrar usuário: " + dao.getErro().toString());
-            }
+        getUsuario().setPerfil(perfilDAO.getPadrao());
+        usuario.setSenha(java.util.UUID.randomUUID().toString());
+        if (dao.Salvar(usuario)) {
+            autenticacao.redefinirSenha(usuario.getEmail());
+            AppendLog("Cadastro do usuário " + usuario.getEmail());
         } else {
-            MensagemErro("Senhas", "Senhas não conferem!");
+            AppendLog("Erro ao cadastrar usuário: " + dao.getErro().toString());
         }
     }
 
@@ -138,10 +134,11 @@ public class AutenticacaoController
     }
 
     public Pessoa getUsuario() {
-        if(usuario == null){
-            usuario = (Pessoa)getSessao("usuarioAutenticado", dao);
-            if(usuario == null)
+        if (usuario == null) {
+            usuario = (Pessoa) getSessao("usuarioAutenticado", dao);
+            if (usuario == null) {
                 usuario = new Pessoa();
+            }
         }
         return usuario;
     }
@@ -165,23 +162,24 @@ public class AutenticacaoController
     }
 
     public void idleListener() {
-        autenticacao.logout();        
+        autenticacao.logout();
     }
 
     public void validaCPF(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        
-        if(getUsuarioCorrente() != null)
+
+        if (getUsuarioCorrente() != null) {
             return;
-        
+        }
+
         Pessoa tmp = dao.AbrirPorCPF(value.toString());
-        
-        if(tmp != null){
+
+        if (tmp != null) {
             FacesMessage msg
                     = new FacesMessage("CPF já cadastrado!");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
-        
+
         if (!ValidadorCPF.validaCPF(value.toString())) {
             FacesMessage msg
                     = new FacesMessage("CPF Inválido!");
@@ -189,21 +187,21 @@ public class AutenticacaoController
             throw new ValidatorException(msg);
         }
     }
-    
+
     public void validaEmail(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
-        if(getUsuarioCorrente() != null)
+        if (getUsuarioCorrente() != null) {
             return;
-        
+        }
+
         Pessoa tmp = dao.Abrir(value.toString());
-        
-        if(tmp != null){
+
+        if (tmp != null) {
             FacesMessage msg
                     = new FacesMessage("E-mail já cadastrado!");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
-        }        
+        }
     }
 
-   
 }
