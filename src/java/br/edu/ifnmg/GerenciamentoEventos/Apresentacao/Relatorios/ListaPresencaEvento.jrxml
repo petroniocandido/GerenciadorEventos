@@ -11,6 +11,9 @@
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
+	<variable name="pessoa.nome_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{pessoa.nome}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -89,7 +92,22 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="22" splitType="Stretch"/>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="23" width="100" height="20" uuid="6438805b-03df-4665-bf18-2f2c7779f485"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{pessoa.nome_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="302" y="23" width="153" height="20" uuid="c5688932-b252-49ca-af6c-a8c0292839b5"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total de Inscritos:]]></text>
+			</staticText>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="23">
