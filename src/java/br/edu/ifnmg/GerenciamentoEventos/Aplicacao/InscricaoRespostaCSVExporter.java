@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
 
 /**
@@ -32,8 +33,14 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
         StringBuilder sb = new StringBuilder();
         sb.append(obj.getPessoa().getNome()).append(";").append(obj.getPessoa().getEmail()).append(";");
         for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
-            for(Questao q : s.getQuestoes())
-                sb.append(obj.getResposta().RespostaDeQuestao(q).getValor()).append(";");
+            for(Questao q : s.getQuestoes()){
+                QuestaoResposta qr = obj.getResposta().RespostaDeQuestao(q);
+                if(qr != null){
+                    String tmp = qr.getValor();
+                    sb.append(tmp == null ? "" : tmp);
+                }
+                sb.append(";");
+            }
         
         return sb;
     }

@@ -36,11 +36,13 @@ public class PessoaDAO
         return Buscar();
     }
     
+    @Override
     public List<Pessoa> Buscar(Evento e){
         Join("inscricoes", "i").IgualA("i.evento", e).Ordenar("nome", "ASC");
         return Buscar();
     }
     
+    @Override
     public List<Pessoa> Buscar(Atividade a){
         Join("inscricoes", "i").Join("i.itens", "it").IgualA("it.atividade", a).Ordenar("nome", "ASC");
         return Buscar();
