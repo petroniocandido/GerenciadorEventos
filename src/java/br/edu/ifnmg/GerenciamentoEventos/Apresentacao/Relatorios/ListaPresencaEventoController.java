@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -60,6 +61,7 @@ public class ListaPresencaEventoController
                 
         List<Inscricao> tmp = daoInscricao
                 .IgualA("evento", getEvento())
+                .IgualA("tipo", InscricaoTipo.Inscricao)
                 .Join("pessoa", "p")
                 .Ordenar("p.nome", "ASC")
                 .Buscar();

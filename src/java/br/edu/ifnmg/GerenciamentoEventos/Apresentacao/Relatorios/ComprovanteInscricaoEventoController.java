@@ -35,7 +35,7 @@ public class ComprovanteInscricaoEventoController
      */
     public ComprovanteInscricaoEventoController() {
         setArquivoSaida("ComprovanteInscricao");
-        setRelatorio("ComprovanteMatriculaEvento.jasper");
+        setRelatorio("ComprovanteInscricaoEvento.jasper");
     }
     
     Inscricao inscricao;

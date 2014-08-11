@@ -10,6 +10,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -67,6 +68,7 @@ public class ListaPresencaController
         i.setAtividade(atividade);
         return daoInscricao.getRepositorioItem()
                 .IgualA("atividade", atividade)
+                .IgualA("tipo", InscricaoTipo.Inscricao)
                 .Join("pessoa", "p")
                 .Ordenar("p.nome", "ASC")
                 .Buscar();

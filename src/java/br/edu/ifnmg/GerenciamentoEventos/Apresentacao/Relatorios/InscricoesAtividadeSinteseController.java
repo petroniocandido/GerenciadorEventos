@@ -6,9 +6,10 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -18,30 +19,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
-@Named(value = "comprovanteInscricaoController")
+@Named(value = "inscricoesAtividadeSinteseController")
 @RequestScoped
-public class ComprovanteInscricaoController
+public class InscricoesAtividadeSinteseController
         extends ControllerBaseRelatorio<InscricaoItem>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public ComprovanteInscricaoController() {
-        setArquivoSaida("ComprovanteInscricao");
-        setRelatorio("ComprovanteInscricao.jasper");
+    public InscricoesAtividadeSinteseController() {
+        setArquivoSaida("ListaPresencaEvento");
+        setRelatorio("InscricoesAtividadeSintese.jasper");
     }
     
-    Inscricao inscricao;
-
-    
-             
+    @EJB
+    InscricaoRepositorio daoInscricao;
+            
     @Override
     protected Map<String, Object> carregaParametros() {
         try {
@@ -50,25 +51,21 @@ public class ComprovanteInscricaoController
             tmp.put("data", new Date());
             return tmp;
         } catch (MalformedURLException ex) {
-            Logger.getLogger(ListaPresencaEventoController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InscricoesAtividadeSinteseController.class.getName()).log(Level.SEVERE, null, ex);
             return new HashMap<>();
         }
     }
 
     @Override
     public List<InscricaoItem> getDados() {
-        List<InscricaoItem> tmp = inscricao.getItens();
+                
+        List<InscricaoItem> tmp = daoInscricao.getRepositorioItem()
+                .IgualA("evento", getEvento())
+                .IgualA("tipo", InscricaoTipo.InscricaoItem)
+                .Join("atividade", "a")
+                .Ordenar("a.nome", "ASC")
+                .Buscar();
+        
         return tmp;
     }
-
-    public Inscricao getInscricao() {
-        return inscricao;
-    }
-
-    public void setInscricao(Inscricao inscricao) {
-        this.inscricao = inscricao;
-    }
-    
-    
-
 }
