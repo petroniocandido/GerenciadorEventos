@@ -9,7 +9,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
@@ -44,8 +44,12 @@ public class PessoaDAO
     
     @Override
     public List<Pessoa> Buscar(Atividade a){
-        Join("inscricoes", "i").Join("i.itens", "it").IgualA("it.atividade", a).Ordenar("nome", "ASC");
-        return Buscar();
+        Query q = getManager().createQuery("select o from Pessoa o join o.inscricoes i "
+                + " join i.itens it where it.atividade = :a"
+                + " order by o.nome ");
+        q.setParameter("a", a);
+        //Join("inscricoes", "i1").Join("i.itens", "i2").IgualA("i2.atividade", a).Ordenar("nome", "ASC");
+        return q.getResultList();
     }
 
     @Override

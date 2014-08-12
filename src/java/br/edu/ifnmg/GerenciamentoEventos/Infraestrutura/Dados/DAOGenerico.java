@@ -246,7 +246,12 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
             if (join.size() > 0) {
                 for (String key : join.keySet()) {
-                    sql.append(" join o.").append(key).append(" ").append(join.get(key));
+                    if(!key.contains("."))
+                        sql.append(" join o.");
+                    else
+                        sql.append(" join ");
+                    
+                    sql.append(key).append(" ").append(join.get(key));
                 }
             }
             if (where.length() > 0) {

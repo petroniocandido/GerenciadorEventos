@@ -9,6 +9,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
 
 /**
@@ -21,7 +22,11 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
     protected StringBuilder gerarCabecalho(Inscricao obj) {
         StringBuilder sb = new StringBuilder();
         sb.append("pessoa;email;");
-        for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
+        
+        if(obj.getEvento() == null)
+            return sb;
+        
+        for(QuestionarioSecao s : obj.getEvento().getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes())
                 sb.append(q.getEnunciado()).append(";");
         
@@ -31,10 +36,15 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
     @Override
     protected StringBuilder gerarLinha(Inscricao obj) {
         StringBuilder sb = new StringBuilder();
+        if(obj.getResposta() == null) 
+            return sb;
+        
+        QuestionarioResposta resp = obj.getResposta();
+        
         sb.append(obj.getPessoa().getNome()).append(";").append(obj.getPessoa().getEmail()).append(";");
-        for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
+        for(QuestionarioSecao s : resp.getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes()){
-                QuestaoResposta qr = obj.getResposta().RespostaDeQuestao(q);
+                QuestaoResposta qr = resp.RespostaDeQuestao(q);
                 if(qr != null){
                     String tmp = qr.getValor();
                     sb.append(tmp == null ? "" : tmp);

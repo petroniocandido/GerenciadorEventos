@@ -21,12 +21,12 @@ public class PessoaCSVExporter extends CSVExporter<Pessoa> {
     @Override
     protected StringBuilder gerarLinha(Pessoa obj) {
         return new StringBuilder(obj.getNome()).append(";")
-                .append(obj.getCpf()).append(";")
-                .append(obj.getTelefone()).append(";")
-                .append(obj.getEmail()).append(";")
-                .append(df.format(obj.getDataNascimento())).append(";")
-                .append(obj.getPerfil().getId().toString()).append(";")
-                .append(obj.getTipo()).append(";");
+                .append(obj.getCpf() != null ? obj.getCpf() : "").append(";")
+                .append(obj.getTelefone() != null ? obj.getTelefone(): "").append(";")
+                .append(obj.getEmail() != null ? obj.getEmail(): "").append(";")
+                .append(obj.getDataNascimento() != null ? df.format(obj.getDataNascimento()) : "").append(";")
+                .append(obj.getPerfil() != null ? obj.getPerfil().getId().toString() : "").append(";")
+                .append(obj.getTipo() != null ? obj.getTipo() : "").append(";");
     }
 
     @Override
