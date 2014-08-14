@@ -91,7 +91,7 @@
 
                             </h:panelGrid> 
                         </p:tab>
-                       
+
                         <p:tab id="tabObservacoes" title="Observações">
                             <p:inputTextarea value="#{inscricaoItemController.entidade.observacoes}" cols="150" rows="20" />
                         </p:tab>
@@ -104,9 +104,15 @@
                         </ui:include>
 
                     </p:tabView>
-                    <ui:include src="./comum/botoesEntidade.xhtml">
-                        <ui:param name="controller" value="#{inscricaoItemController}"  />
-                    </ui:include>
+                    <f:facet name="footer">
+                        <p:commandButton rendered="#{autenticacaoController.autorizacao('btnSalvar')}" id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
+                        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{controller.cancelar()}" />                        
+                    </f:facet>
+                    <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
+                                     header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                        <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{controller.salvar()}" />  
+                        <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
+                    </p:confirmDialog>  
                 </p:panel>
             </ui:define>
 

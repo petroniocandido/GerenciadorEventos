@@ -35,10 +35,8 @@
                                     <f:selectItems value="#{inscricaoController.categorias}" />
                                 </h:selectOneMenu>
                             </p:panelGrid>
-                            <ui:include src="./comum/botoesListagem.xhtml">
-                                <ui:param name="controller" value="#{inscricaoItemController}"  />
-                                <ui:param name="campos" value=""  />
-                            </ui:include>
+                            <p:commandButton style="float: left" value="Limpar Filtros" action="#{controller.limpar}" update="#{campos}" />
+                            <p:commandButton ajax="false"  style="float: left" value="Filtrar" action="#{controller.filtrar}" />
                         </p:tab>
                     </p:accordionPanel>
                     <p:tabView id="tabView">
