@@ -24,14 +24,22 @@
                                 <c:when test="#{publicoController.evento.necessitaInscricao}">
                                     <c:choose>
                                         <c:when test="#{publicoController.evento.antesInscricaoAberto}">
-                                            Inscrições a partir de 
-                                            <p:outputLabel value="#{publicoController.evento.inicioInscricao}" style="background-color: greenyellow">
-                                                <f:convertDateTime dateStyle="EEEEEE, dd/MM/yy HH:mm" timeZone="pt-BR" />
-                                            </p:outputLabel>
+                                            <h:outputFormat value="Inscrições abertas a partir da {0, date, EEEEEE, dd/MM/yy HH:mm}." 
+                                                            style="background-color: greenyellow">
+                                                <f:param value="#{publicoController.evento.inicioInscricao}" />
+                                            </h:outputFormat>
                                         </c:when>
                                         <c:when test="#{publicoController.evento.inscricaoAberto}">
-                                            <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
-                                            <p:outputLabel rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
+                                            <h:outputFormat rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.vagasAberto}"
+                                                            value="Inscrições Abertas! As inscrições para esse evento vão até o dia {0, date, dd/MM/yyyy}." 
+                                                            style="background-color: greenyellow">
+                                                <f:param value="#{publicoController.evento.terminoInscricao}" />
+                                            </h:outputFormat>
+                                            <h:outputFormat rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.listaEsperaAberto}"
+                                                            value="O evento já esgotou todas as vagas! As inscrições agora são somente para a lista de espera! As inscrições para esse evento vão até o dia {0, date, dd/MM/yyyy}." 
+                                                            style="background-color: yellow">
+                                                <f:param value="#{publicoController.evento.terminoInscricao}" />
+                                            </h:outputFormat>
                                             Valor Inscrição
                                             <p:outputLabel rendered="#{publicoController.evento.valorInscricao gt 0}" value="#{publicoController.evento.valorInscricao}">
                                                 <f:converter binding="#{moedaConverter}"  />
@@ -45,7 +53,10 @@
 
                                         </c:when>                                        
                                         <c:otherwise>
-                                            <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
+                                            <h:outputFormat value="As inscrições para esse evento se encerraram no dia {0, date, dd/MM/yyyy}." 
+                                                            style="background-color: red">
+                                                <f:param value="#{publicoController.evento.terminoInscricao}" />
+                                            </h:outputFormat>
                                             <c:if test="#{not empty publicoController.inscricao}">
                                                 Nº Inscrição
                                                 <h:outputText value="#{publicoController.inscricao.id}" />

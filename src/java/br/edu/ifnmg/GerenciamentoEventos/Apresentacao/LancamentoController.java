@@ -11,15 +11,22 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -45,6 +52,9 @@ public class LancamentoController
 
     @EJB
     PessoaRepositorio daoPessoa;
+    
+    @EJB
+    EventoRepositorio daoEvt;
 
     Inscricao inscricao;
 
@@ -53,6 +63,15 @@ public class LancamentoController
         setRepositorio(dao);
         setPaginaEdicao("editarLancamento.xhtml");
         setPaginaListagem("listagemLancamentos.xtml");
+        checaEventoPadrao();
+    }
+    
+     public void checaEventoPadrao() {
+        String evt = getConfiguracao("EVENTO_PADRAO");
+        if (evt != null ) {
+            Evento padrao = daoEvt.Abrir(Long.parseLong(evt));
+            getFiltro().setEvento(padrao);
+        }
     }
 
     @Override
@@ -75,6 +94,12 @@ public class LancamentoController
             setSessao("lcctrl_baixa", filtro.getBaixa());
             setSessao("lcctrl_tipo", filtro.getStatus() != null ? filtro.getStatus().name() : null);
         }
+    }
+    
+    @Override
+    public void filtrar() {
+        checaEventoPadrao();
+        setFiltro(filtro);
     }
 
     @Override
@@ -114,6 +139,7 @@ public class LancamentoController
 
     public void baixarLancamento() {
         entidade = dao.Refresh(getEntidade());
+        Rastrear(entidade);
         entidade.baixar(getUsuarioCorrente());
         if (dao.Salvar(entidade)) {
             Mensagem("Sucesso", "Lançamento baixado com sucesso!");
@@ -124,6 +150,7 @@ public class LancamentoController
 
     public void cancelarLancamento() {
         entidade = dao.Refresh(getEntidade());
+        Rastrear(entidade);
         entidade.cancelar(getUsuarioCorrente());
         if (dao.Salvar(entidade)) {
             Mensagem("Sucesso", "Lançamento cancelado com sucesso!");
@@ -159,6 +186,18 @@ public class LancamentoController
 
     public LancamentoTipo[] getTipos() {
         return LancamentoTipo.values();
+    }
+    
+     public void validaValorOriginal(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+         BigDecimal valor = (BigDecimal)value;
+        
+        if (valor.compareTo(new BigDecimal("0.00")) == 0 ) {
+            FacesMessage msg
+                    = new FacesMessage("O valor inicial deve ser maior do que R$ 0,00!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
     }
 
 }

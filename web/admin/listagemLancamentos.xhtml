@@ -18,6 +18,11 @@
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
+                                <h:outputText value="Evento: " />
+                               <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.filtro.evento}"
+                                               completeMethod="#{eventoConverter.autoCompleteEvento}" var="item">
+                                    #{item.nome}
+                                </p:autoComplete>
                                <h:outputText value="Usuário: " />
                                <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.cliente}"
                                                 completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
@@ -53,13 +58,16 @@
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:outputLabel>                            
                         </p:column>
-                        <p:column headerText="Cliente" sortBy="#{item.cliente}"  >
+                        <p:column headerText="Cliente" sortBy="cliente"  >
                             <p:outputLabel value="#{item.cliente}" />                            
                         </p:column>
-                        <p:column headerText="Valor" sortBy="#{item.valorOriginal}"  >
+                        <p:column headerText="Histórico" sortBy="descricao"  >
+                            <p:outputLabel value="#{item.descricao}" />                            
+                        </p:column>
+                        <p:column headerText="Valor" sortBy="valorOriginal"  >
                             <p:outputLabel value="#{item.valorOriginal}" />                            
                         </p:column>
-                        <p:column headerText="Situação" sortBy="#{item.status}"  >
+                        <p:column headerText="Situação" sortBy="status"  >
                             <p:outputLabel value="#{item.status}" style="background-color: #{lancamentoController.getCorStatus(item.status)};" />                            
                         </p:column>
                     </p:dataTable>

@@ -351,6 +351,7 @@ public class Lancamento implements Entidade, Serializable {
     @Override
     public void setDataCriacao(Date dataCriacao) {
         this.dataCriacao = dataCriacao;
+        this.criacao = dataCriacao;
     }
 
     @Override

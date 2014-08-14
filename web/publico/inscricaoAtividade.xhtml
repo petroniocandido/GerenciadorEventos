@@ -35,18 +35,35 @@
                                 <c:choose>
                                     <c:when test="#{publicoController.atividade.necessitaInscricao}">
                                         <c:choose>
-                                            <c:when test="#{publicoController.atividade.inscricaoAberto}">
-                                                <p:outputLabel rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.vagasAberto}" value="Inscrições Abertas!" style="background-color: greenyellow" />
-                                                <p:outputLabel rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.listaEsperaAberto}" value="Inscrições para lista de espera!" style="background-color: yellow" />
+                                            <c:when test="#{publicoController.atividade.inscricaoAberto and not empty publicoController.inscricao}">
+                                                <h:outputFormat rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.vagasAberto}"
+                                                                value="Inscrições Abertas! As inscrições para essa atividade vão até o dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: greenyellow">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
+                                                <h:outputFormat rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.listaEsperaAberto}"
+                                                                value="A atividade já esgotou todas as vagas! As inscrições agora são somente para a lista de espera! As inscrições para essa atividade vão até o dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: yellow">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
                                                 Valor da Inscrição
                                                 <p:outputLabel rendered="#{publicoController.atividade.valorInscricao gt 0}" value="#{publicoController.atividade.valorInscricao}">
                                                     <f:converter binding="#{moedaConverter}"  />
                                                 </p:outputLabel>
                                                 <p:outputLabel rendered="#{publicoController.atividade.valorInscricao.unscaledValue() == 0 }" value="Inscrição Gratuita." />
 
-                                            </c:when>                                        
+                                            </c:when>  
+                                            <c:when test="#{publicoController.atividade.inscricaoAberto and empty publicoController.inscricao}">
+                                                <h:outputFormat value="Para fazer inscrição nessa atividade é necessário fazer primeiro a inscrição no evento! As inscrições para essa a atividade vão até o dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: yellow">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
+                                            </c:when>
                                             <c:otherwise>
-                                                <p:outputLabel value="Inscrições Encerradas!" style="background-color: red" />                                    
+                                                <h:outputFormat value="As inscrições para essa atividade se encerraram no dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: red">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
