@@ -106,11 +106,11 @@
                     </p:tabView>
                     <f:facet name="footer">
                         <p:commandButton rendered="#{autenticacaoController.autorizacao('btnSalvar')}" id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
-                        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{controller.cancelar()}" />                        
+                        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{inscricaoItemController.cancelar()}" />                        
                     </f:facet>
                     <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
                                      header="Confirmação" severity="alert" widgetVar="msgSalvar">  
-                        <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{controller.salvar()}" />  
+                        <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{inscricaoItemController.salvar()}" />  
                         <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
                     </p:confirmDialog>  
                 </p:panel>
