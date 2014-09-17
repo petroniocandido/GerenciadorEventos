@@ -50,6 +50,10 @@
                                 <h:selectOneMenu value="#{inscricaoItemController.filtro.categoria}">
                                     <f:selectItems value="#{inscricaoController.categorias}" />
                                 </h:selectOneMenu>
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{inscricaoItemController.filtro.status}">
+                                    <f:selectItems value="#{inscricaoController.status}" />
+                                </h:selectOneMenu>
                             </p:panelGrid>
                             <p:commandButton style="float: left" value="Limpar Filtros" action="#{inscricaoItemController.limpar}" update="#{campos}" />
                             <p:commandButton ajax="false"  style="float: left" value="Filtrar" action="#{inscricaoItemController.filtrar}" />

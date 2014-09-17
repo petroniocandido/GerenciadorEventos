@@ -18,12 +18,12 @@ package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -58,6 +58,7 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
     private String arquivoSaida;
 
     Evento evento;
+    
 
     private List<T> dados;
 
@@ -118,7 +119,9 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
     public void setEvento(Evento evento) {
         this.evento = evento;
     }
+
     
+        
     @PostConstruct
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");

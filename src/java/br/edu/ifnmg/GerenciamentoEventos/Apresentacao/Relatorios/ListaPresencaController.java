@@ -22,6 +22,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -58,7 +60,8 @@ public class ListaPresencaController
     
     Atividade atividade;
 
-    
+    InscricaoStatus status;
+    InscricaoCategoria categoria;
              
     @Override
     protected Map<String, Object> carregaParametros() {
@@ -81,6 +84,8 @@ public class ListaPresencaController
         return daoInscricao.getRepositorioItem()
                 .IgualA("atividade", atividade)
                 .IgualA("tipo", InscricaoTipo.Inscricao)
+                .IgualA("status", status)
+                .IgualA("categoria", categoria)
                 .Join("pessoa", "p")
                 .Ordenar("p.nome", "ASC")
                 .Buscar();
@@ -92,6 +97,22 @@ public class ListaPresencaController
 
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
+    }
+
+    public InscricaoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(InscricaoStatus status) {
+        this.status = status;
+    }
+
+    public InscricaoCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(InscricaoCategoria categoria) {
+        this.categoria = categoria;
     }
     
     

@@ -21,6 +21,8 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -54,6 +56,9 @@ public class ListaPresencaEventoController
     
     @EJB
     InscricaoRepositorio daoInscricao;
+    
+    InscricaoStatus status;
+    InscricaoCategoria categoria;
             
     @Override
     protected Map<String, Object> carregaParametros() {
@@ -74,10 +79,28 @@ public class ListaPresencaEventoController
         List<Inscricao> tmp = daoInscricao
                 .IgualA("evento", getEvento())
                 .IgualA("tipo", InscricaoTipo.Inscricao)
+                .IgualA("categoria", categoria)
+                .IgualA("status", status)
                 .Join("pessoa", "p")
                 .Ordenar("p.nome", "ASC")
                 .Buscar();
         
         return tmp;
+    }
+    
+    public InscricaoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(InscricaoStatus status) {
+        this.status = status;
+    }
+
+    public InscricaoCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(InscricaoCategoria categoria) {
+        this.categoria = categoria;
     }
 }

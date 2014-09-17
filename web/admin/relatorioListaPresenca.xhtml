@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -40,6 +40,14 @@
                             <p:column headerText="Atividade">#{item.nome}</p:column>
                             <p:column headerText="Tipo">#{item.tipo}</p:column>
                         </p:autoComplete>
+                        <h:outputText value="Categoria: " />
+                        <h:selectOneMenu value="#{listaPresencaEventoController.categoria}">
+                            <f:selectItems value="#{inscricaoController.categorias}" />
+                        </h:selectOneMenu>
+                        <h:outputText value="Situação: " />
+                        <h:selectOneMenu value="#{listaPresencaEventoController.status}">
+                            <f:selectItems value="#{inscricaoController.status}" />
+                        </h:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton value="Gerar Relatório" ajax="false"  action="#{listaPresencaController.executaRelatorioPDF}" />
                 </p:panel>
