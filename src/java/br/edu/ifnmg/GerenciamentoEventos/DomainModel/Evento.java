@@ -14,17 +14,20 @@
  *   You should have received a copy of the GNU General Public License
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,10 +35,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -52,84 +57,92 @@ import javax.persistence.Version;
 @Entity
 @Table(name = "eventos")
 public class Evento implements Entidade, Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(length = 500, nullable = false, unique = true)
     private String nome;
-    
+
     @Lob
     private String descricao;
-    
+
     private String site;
-    
+
     private boolean necessitaInscricao;
-    
+
     private int numeroVagas;
-    
+
     @Column(precision = 10, scale = 2)
     private BigDecimal valorInscricao;
-    
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "evento")
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
     private Controle controle;
-    
+
     @ManyToOne
     private Recurso local;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date inicio;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date termino;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date inicioInscricao;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date terminoInscricao;
-    
+
     @Enumerated(EnumType.STRING)
     private Status status;
-    
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo logo;
-    
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo banner;
-    
+
     @ManyToOne
     Questionario questionario;
-    
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
-    
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Atividade> atividades;
-    
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "eventosresponsaveis")
     private List<Pessoa> responsaveis;
-    
+
     private int cargaHoraria;
-    
+
     @Column(length = 512)
     private String certificadoTextoAssinatura1;
-    
+
     @Column(length = 512)
     private String certificadoTextoAssinatura2;
-    
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo certificadoFundo;
-    
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo certificadoAssinatura1;
-    
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo certificadoAssinatura2;
-    
+
     private String certificadoCidade;
+
+    @ElementCollection
+    @CollectionTable(name = "eventos_inscricoesPorAtividade",
+            joinColumns = @JoinColumn(name = "evento"))
+    @MapKeyJoinColumn(name = "atividadeTipo", referencedColumnName = "id")
+    @Column(name = "quantidadeInscricoes")
+    private Map<AtividadeTipo, Integer> inscricoesPorAtividade;
 
     public Evento() {
         recursos = new ArrayList<>();
@@ -140,78 +153,106 @@ public class Evento implements Entidade, Serializable {
         valorInscricao = new BigDecimal("0.00");
         necessitaInscricao = false;
         inicio = new Date();
-        termino  = new Date();
+        termino = new Date();
         cargaHoraria = 0;
-    } 
-    
+        inscricoesPorAtividade = new HashMap<>();
+    }
+
     public void atualizaCargaHoraria() {
         cargaHoraria = 0;
-        for(Atividade a : atividades){
-             cargaHoraria += a.getCargaHoraria();
+        for (Atividade a : atividades) {
+            cargaHoraria += a.getCargaHoraria();
         }
     }
     
-    public boolean podeEditar(Pessoa obj) {
-        return id == 0 ||  criador.equals(obj) || responsaveis.contains(obj);
+    public int getLimiteInscricoes(AtividadeTipo a){
+        if(inscricoesPorAtividade.containsKey(a)){
+            return inscricoesPorAtividade.get(a).intValue();
+        } else {
+            return 0;
+        }
     }
     
+    public void addLimite(AtividadeTipo a, int l){
+        if(inscricoesPorAtividade.containsKey(a)){
+            inscricoesPorAtividade.remove(a);
+        }
+        inscricoesPorAtividade.put(a, l);
+    }
+    
+    public void removeLimite(AtividadeTipo a){
+        inscricoesPorAtividade.remove(a);        
+    }
+
+    public boolean podeEditar(Pessoa obj) {
+        return id == 0 || criador.equals(obj) || responsaveis.contains(obj);
+    }
+
     public void cancelar() {
-        for(Atividade a : atividades){
+        for (Atividade a : atividades) {
             a.cancelar();
         }
-        
-        for(Alocacao a : recursos){
+
+        for (Alocacao a : recursos) {
             a.setStatus(AlocacaoStatus.Cancelado);
         }
     }
-    
+
     public boolean isPeriodoInscricaoAberto() {
-        if(status == Status.Cancelado && status == Status.Concluido)
+        if (status == Status.Cancelado && status == Status.Concluido) {
             return false;
+        }
         Date hoje = new Date();
         return hoje.compareTo(inicioInscricao) >= 0 && hoje.compareTo(terminoInscricao) <= 0;
     }
-    
+
     public boolean isVagasAberto() {
-        if(getNumeroVagas() == 0)
+        if (getNumeroVagas() == 0) {
             return true;
-        
+        }
+
         return getControle().getQuantidadeGeral() < getNumeroVagas();
     }
-    
+
     public boolean isListaEsperaAberto() {
-        if(getNumeroVagas() == 0)
+        if (getNumeroVagas() == 0) {
             return true;
-        
-        return !isVagasAberto() &&
-                getControle().getQuantidadeListaEspera()< (getNumeroVagas()*0.1);
+        }
+
+        return !isVagasAberto()
+                && getControle().getQuantidadeListaEspera() < (getNumeroVagas() * 0.1);
     }
-    
+
     public boolean isAntesInscricaoAberto() {
-        if(status == Status.Cancelado && status == Status.Concluido)
+        if (status == Status.Cancelado && status == Status.Concluido) {
             return false;
+        }
         Date hoje = new Date();
         return hoje.compareTo(inicioInscricao) < 0;
     }
-    
+
     public boolean isInscricaoAberto() {
         return isPeriodoInscricaoAberto() && (isVagasAberto() || isListaEsperaAberto());
     }
-    
+
     public boolean isAtivo() {
-        if(status == Status.Cancelado && status == Status.Concluido)
+        if (status == Status.Cancelado && status == Status.Concluido) {
             return false;
+        }
         Date hoje = new Date();
         return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
     }
-    
-    public void add(Pessoa responsavel){
-        if(!responsaveis.contains(responsavel))
+
+    public void add(Pessoa responsavel) {
+        if (!responsaveis.contains(responsavel)) {
             responsaveis.add(responsavel);
+        }
     }
-    public void remove(Pessoa responsavel){
-        if(responsaveis.contains(responsavel))
+
+    public void remove(Pessoa responsavel) {
+        if (responsaveis.contains(responsavel)) {
             responsaveis.remove(responsavel);
+        }
     }
 
     @Override
@@ -239,8 +280,6 @@ public class Evento implements Entidade, Serializable {
     public void setControle(Controle controle) {
         this.controle = controle;
     }
-    
-    
 
     public String getNome() {
         return nome;
@@ -280,21 +319,22 @@ public class Evento implements Entidade, Serializable {
 
     public void setLocal(Recurso local) {
         this.local = local;
-        if(local != null){
+        if (local != null) {
             Alocacao a = new Alocacao();
             a.setEvento(this);
             a.setRecurso(local);
             a.setInicio(inicio);
             a.setTermino(termino);
             a.setResponsavel(criador);
-            if(recursos == null)
+            if (recursos == null) {
                 recursos = new ArrayList<>();
-            if(!recursos.contains(a))
+            }
+            if (!recursos.contains(a)) {
                 recursos.add(a);
+            }
         }
     }
 
-    
     public Date getInicio() {
         return inicio;
     }
@@ -307,12 +347,12 @@ public class Evento implements Entidade, Serializable {
         return termino;
     }
 
-    public void setTermino(Date termino) throws ValidacaoException {    
+    public void setTermino(Date termino) throws ValidacaoException {
         /*if(termino == null)
-            return;
-        if(termino.before(inicio))
-            throw new ValidacaoException("A data de término do evento não pode ser menor do que a data de início!");
-                */
+         return;
+         if(termino.before(inicio))
+         throw new ValidacaoException("A data de término do evento não pode ser menor do que a data de início!");
+         */
         this.termino = termino;
     }
 
@@ -321,11 +361,11 @@ public class Evento implements Entidade, Serializable {
     }
 
     public void setInicioInscricao(Date inicioInscricao) throws ValidacaoException {
-       /* if(inicioInscricao == null)
-            return;
-        if(inicioInscricao.after(termino))
-            throw new ValidacaoException("A data de início de inscrições do evento não pode ser maior do que a data de término do evento!");
-               */
+        /* if(inicioInscricao == null)
+         return;
+         if(inicioInscricao.after(termino))
+         throw new ValidacaoException("A data de início de inscrições do evento não pode ser maior do que a data de término do evento!");
+         */
         this.inicioInscricao = inicioInscricao;
     }
 
@@ -335,10 +375,10 @@ public class Evento implements Entidade, Serializable {
 
     public void setTerminoInscricao(Date terminoInscricao) throws ValidacaoException {
         /*if(terminoInscricao == null)
-            return;
-        if(terminoInscricao.before(inicioInscricao))
-            throw new ValidacaoException("A data de término de inscrições do evento não pode ser menor do que a data de início do evento!");
-                */
+         return;
+         if(terminoInscricao.before(inicioInscricao))
+         throw new ValidacaoException("A data de término de inscrições do evento não pode ser menor do que a data de início do evento!");
+         */
         this.terminoInscricao = terminoInscricao;
     }
 
@@ -355,9 +395,10 @@ public class Evento implements Entidade, Serializable {
     }
 
     public void setStatus(Status status) {
-        if(status == Status.Cancelado && this.status != null && this.status != Status.Cancelado)
+        if (status == Status.Cancelado && this.status != null && this.status != Status.Cancelado) {
             cancelar();
-        
+        }
+
         this.status = status;
     }
 
@@ -400,33 +441,37 @@ public class Evento implements Entidade, Serializable {
     public void setAtividades(List<Atividade> atividades) {
         this.atividades = atividades;
     }
-    
+
     @Transient
     private List<Atividade> atividadesPublicasSemInscricao;
-    
+
     public List<Atividade> getAtividadesPublicasSemInscricao() {
-        if(atividadesPublicasSemInscricao == null){
+        if (atividadesPublicasSemInscricao == null) {
             atividadesPublicasSemInscricao = new ArrayList<>();
-            for(Atividade a : atividades)
-                if(a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
+            for (Atividade a : atividades) {
+                if (a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao()) {
                     atividadesPublicasSemInscricao.add(a);
+                }
+            }
         }
         return atividadesPublicasSemInscricao;
     }
-    
+
     @Transient
     private List<Atividade> atividadesPublicasComInscricao;
-    
+
     public List<Atividade> getAtividadesPublicasComInscricao() {
-        if(atividadesPublicasComInscricao == null){
+        if (atividadesPublicasComInscricao == null) {
             atividadesPublicasComInscricao = new ArrayList<>();
-            for(Atividade a : atividades)
-                if(a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao())
+            for (Atividade a : atividades) {
+                if (a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao()) {
                     atividadesPublicasComInscricao.add(a);
+                }
+            }
         }
         return atividadesPublicasComInscricao;
     }
-    
+
     public List<Pessoa> getResponsaveis() {
         return responsaveis;
     }
@@ -490,6 +535,14 @@ public class Evento implements Entidade, Serializable {
     public void setCertificadoCidade(String certificadoCidade) {
         this.certificadoCidade = certificadoCidade;
     }
+
+    public Map<AtividadeTipo, Integer> getInscricoesPorAtividade() {
+        return inscricoesPorAtividade;
+    }
+
+    public void setInscricoesPorAtividade(Map<AtividadeTipo, Integer> inscricoesPorAtividade) {
+        this.inscricoesPorAtividade = inscricoesPorAtividade;
+    }
     
     
 
@@ -517,22 +570,21 @@ public class Evento implements Entidade, Serializable {
     public String toString() {
         return nome;
     }
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimaAlteracao;
-    
+
     @Version
     private Long versao;
-    
 
     @Override
     public Pessoa getCriador() {
@@ -583,5 +635,4 @@ public class Evento implements Entidade, Serializable {
         this.versao = versao;
     }
 
-    
 }

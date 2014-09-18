@@ -172,6 +172,36 @@
                                 </ui:include>
                             </h:panelGrid>
                         </p:tab>
+                        <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Limites de Inscrição por Atividade">  
+                            <h:panelGrid columns="5" cellpadding="3"> 
+                                <h:outputText value="Atividade: " />
+                                <p:selectOneMenu converter="#{atividadeTipoConverter}" value="#{eventoController.atividadeTipo}">
+                                    <f:selectItem noSelectionOption="true" itemValue="Escolha um Tipo de Atividade" />
+                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                </p:selectOneMenu>>
+                                <h:outputText value="Limite: " />
+                                <pe:inputNumber value="#{eventoController.limite}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
+                                <p:commandButton value="Adicionar" action="#{eventoController.addLimite()}" update="tblLimites" />
+                            </h:panelGrid>
+                            <p:dataTable id="tblLimites" value="#{eventoController.limitesAtividades}" var="item"
+                                         paginator="true" lazy="true" 
+                                         >  
+
+                                <p:column headerText="Atividade" sortBy="#{item.key}"  >
+                                    #{item.key}                            
+                                </p:column>
+                                <p:column headerText="Limite" sortBy="#{item.value}"  >
+                                    #{item.value}                            
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Remover" action="#{eventoController.removeLimite}" >
+                                        <f:setPropertyActionListener target="#{eventoController.atividade}" value="#{item.key}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{eventoController}"  />
                         </ui:include>
