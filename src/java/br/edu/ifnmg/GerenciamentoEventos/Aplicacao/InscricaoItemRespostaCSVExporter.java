@@ -33,7 +33,7 @@ public class InscricaoItemRespostaCSVExporter extends CSVExporter<InscricaoItem>
         sb.append("pessoa;email;");
         for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes())
-                sb.append(q.getEnunciado()).append(";");
+                sb.append(limparTexto(q.getEnunciado())).append(";");
         
         return sb;
     }
@@ -47,7 +47,7 @@ public class InscricaoItemRespostaCSVExporter extends CSVExporter<InscricaoItem>
                 QuestaoResposta qr = obj.getResposta().RespostaDeQuestao(q);
                 if(qr != null){
                     String tmp = qr.getValor();
-                    sb.append(tmp == null ? "" : tmp);
+                    sb.append(tmp == null ? "" : limparTexto(tmp));
                 }
                 sb.append(";");
             }

@@ -30,13 +30,13 @@ public class PessoaCSVExporter extends CSVExporter<Pessoa> {
     
     @Override
     protected StringBuilder gerarLinha(Pessoa obj) {
-        return new StringBuilder(obj.getNome()).append(";")
-                .append(obj.getCpf() != null ? obj.getCpf() : "").append(";")
-                .append(obj.getTelefone() != null ? obj.getTelefone(): "").append(";")
-                .append(obj.getEmail() != null ? obj.getEmail(): "").append(";")
+        return new StringBuilder(limparTexto(obj.getNome())).append(";")
+                .append(obj.getCpf() != null ? limparTexto(obj.getCpf()) : "").append(";")
+                .append(obj.getTelefone() != null ? limparTexto(obj.getTelefone()): "").append(";")
+                .append(obj.getEmail() != null ? limparTexto(obj.getEmail()) : "").append(";")
                 .append(obj.getDataNascimento() != null ? df.format(obj.getDataNascimento()) : "").append(";")
-                .append(obj.getPerfil() != null ? obj.getPerfil().getId().toString() : "").append(";")
-                .append(obj.getTipo() != null ? obj.getTipo() : "").append(";");
+                .append(obj.getPerfil() != null ? limparTexto(obj.getPerfil().getId().toString()) : "").append(";")
+                .append(obj.getTipo() != null ? limparTexto(obj.getTipo().name()) : "").append(";");
     }
 
     @Override

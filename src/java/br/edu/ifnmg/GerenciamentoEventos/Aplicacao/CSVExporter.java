@@ -28,6 +28,10 @@ public abstract class CSVExporter<T> {
     protected abstract StringBuilder gerarLinha(T obj);    
     protected abstract StringBuilder gerarCabecalho(T obj);
     
+    protected String limparTexto(String input){
+        return input.replace(";", ".");
+    } 
+    
     public String gerarCSV(Collection<T> colecao){
         StringBuilder sb = new StringBuilder();
         Iterator<T> it = colecao.iterator();

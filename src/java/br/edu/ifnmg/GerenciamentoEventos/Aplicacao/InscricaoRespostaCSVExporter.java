@@ -52,13 +52,13 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
         
         QuestionarioResposta resp = obj.getResposta();
         
-        sb.append(obj.getPessoa().getNome()).append(";").append(obj.getPessoa().getEmail()).append(";");
+        sb.append(limparTexto(obj.getPessoa().getNome())).append(";").append(limparTexto(obj.getPessoa().getEmail())).append(";");
         for(QuestionarioSecao s : resp.getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes()){
                 QuestaoResposta qr = resp.RespostaDeQuestao(q);
                 if(qr != null){
                     String tmp = qr.getValor();
-                    sb.append(tmp == null ? "" : tmp);
+                    sb.append(tmp == null ? "" : limparTexto(tmp));
                 }
                 sb.append(";");
             }
