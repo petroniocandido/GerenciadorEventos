@@ -37,4 +37,6 @@ public interface AtividadeRepositorio extends Repositorio<Atividade> {
     public List<Atividade> BuscarAtividadesDoUsuario(Pessoa obj);
     public List<Atividade> BuscarAtividadesPorEventoETipo(Evento e, AtividadeTipo t);
     public List<AtividadeTipo> BuscarAtividadesTiposPorEvento(Evento e);
+    public List<Atividade> Responsavel(Pessoa obj);
+    public List<Atividade> Responsavel(Evento e, Pessoa obj);
 }

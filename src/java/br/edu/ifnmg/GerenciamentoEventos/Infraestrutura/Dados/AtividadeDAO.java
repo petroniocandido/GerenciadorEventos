@@ -150,4 +150,19 @@ public class AtividadeDAO
                 .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
         return q.getResultList();
     }
+
+    @Override
+    public List<Atividade> Responsavel(Pessoa obj) {
+        return Join("responsaveis","r")
+                .IgualA("r.id", obj.getId())
+                .Buscar();
+    }
+
+    @Override
+    public List<Atividade> Responsavel(Evento e, Pessoa obj) {
+        return Join("responsaveis","r")
+                .IgualA("evento", e)
+                .IgualA("r.id", obj.getId())
+                .Buscar();
+    }
 }

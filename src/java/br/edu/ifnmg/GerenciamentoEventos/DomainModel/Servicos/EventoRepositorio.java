@@ -29,4 +29,5 @@ import javax.ejb.Local;
 @Local
 public interface EventoRepositorio extends Repositorio<Evento> {
     public List<Evento> BuscarEventosDoUsuario(Pessoa obj);
+    public List<Evento> Responsavel(Pessoa obj);
 }

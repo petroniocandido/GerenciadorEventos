@@ -64,4 +64,11 @@ public class EventoDAO
                 .DiferenteDe("status", Status.Concluido)
                 .Buscar();
     }
+    
+    @Override
+    public List<Evento> Responsavel(Pessoa obj){
+        return Join("responsaveis","r")
+                .IgualA("r.id", obj.getId())
+                .Buscar();
+    }
 }

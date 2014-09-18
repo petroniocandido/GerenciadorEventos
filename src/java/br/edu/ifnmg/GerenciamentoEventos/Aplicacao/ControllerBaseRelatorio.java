@@ -120,7 +120,9 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
         this.evento = evento;
     }
 
-    
+    public List<Evento> getEventosDoUsuario() {
+        return daoEvento.Responsavel(getUsuarioCorrente());
+    }
         
     @PostConstruct
     public void checaEventoPadrao() {

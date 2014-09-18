@@ -24,7 +24,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositor
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -58,6 +58,9 @@ public class ListaPresencaController
     @EJB
     InscricaoRepositorio daoInscricao;
     
+    @EJB
+    AtividadeRepositorio daoAtividade;
+    
     Atividade atividade;
 
     InscricaoStatus status;
@@ -83,7 +86,6 @@ public class ListaPresencaController
         i.setAtividade(atividade);
         return daoInscricao.getRepositorioItem()
                 .IgualA("atividade", atividade)
-                .IgualA("tipo", InscricaoTipo.Inscricao)
                 .IgualA("status", status)
                 .IgualA("categoria", categoria)
                 .Join("pessoa", "p")
@@ -115,5 +117,8 @@ public class ListaPresencaController
         this.categoria = categoria;
     }
     
+    public List<Atividade> getAtividadesDoUsuario() {
+        return daoAtividade.Responsavel(getEvento(), getUsuarioCorrente());
+    }
     
 }
