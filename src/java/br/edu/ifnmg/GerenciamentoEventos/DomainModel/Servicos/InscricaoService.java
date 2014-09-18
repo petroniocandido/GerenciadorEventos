@@ -24,6 +24,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import java.util.Date;
 import java.util.List;
@@ -87,7 +88,7 @@ public class InscricaoService {
         return null;
     }
     
-    public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p) throws ConflitoHorarioException{
+    public InscricaoItem inscrever(Inscricao i, Atividade e, Pessoa p) throws ConflitoHorarioException,LimiteInscricoesExcedidoException{
     
         InscricaoItem tmp = inscricaoDAO.Abrir(i, e);
         
@@ -114,6 +115,14 @@ public class InscricaoService {
         Controle c = controleDAO.Abrir(e);
         
         if(e.getNumeroVagas() > 0){           
+            
+            int inscPorTipo = i.getEvento().getLimiteInscricoes(e.getTipo());
+            
+            if(inscPorTipo > 0){
+                int inscs = inscricaoDAO.QuantidadeInscricoes(i, e);
+                if(inscs >= inscPorTipo)
+                    throw new LimiteInscricoesExcedidoException(inscPorTipo,e.getTipo());
+            }
             
             if(c.getQuantidadeGeral() < e.getNumeroVagas()){
                 return criaInscricaoItem(c, i, e, p, InscricaoCategoria.Normal);

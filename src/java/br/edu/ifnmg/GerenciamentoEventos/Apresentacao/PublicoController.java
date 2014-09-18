@@ -39,6 +39,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.SessaoService;
@@ -223,6 +224,8 @@ public class PublicoController extends ControllerBase implements Serializable {
         } catch (ConflitoHorarioException ex) {
             Atividade tmp = (Atividade) ex.getConflitante();
             MensagemErro("Conflito de Horário", "Não foi possível realizar a inscrição nessa atividade pois há um conflito de horário com a atividade " + tmp.getNome() + " em que você já está inscrito!");
+        } catch (LimiteInscricoesExcedidoException ex) {
+            MensagemErro("Limite excedido!", "Só é possível realizar " + ex.getLimite() + " inscrições para " + ex.getTipo().getNome());
         }
     }
 

@@ -23,6 +23,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import javax.persistence.Query;
 
 /**
  *
@@ -130,6 +131,13 @@ public class InscricaoDAO
     @Override
     public InscricaoItem AbrirItem(Long id) {
         return itemDAO.Abrir(id);
+    }
+    
+    @Override
+    public Integer QuantidadeInscricoes(Inscricao i, Atividade a) {
+        Query query = itemDAO.getManager().createQuery("select count(i) from InscricaoItem i where i.inscricao =:inscricao and i.atividade =:atividade");
+        query.setParameter("inscricao", i).setParameter("atividade", a);
+        return (Integer)query.getSingleResult();
     }
     
 }
