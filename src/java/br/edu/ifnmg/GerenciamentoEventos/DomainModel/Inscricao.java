@@ -204,15 +204,18 @@ public class Inscricao implements Entidade, Serializable {
         l.setTipo(LancamentoTipo.Credito);
         String tmp = "";
         for(InscricaoItem i : getItens()){
-            tmp += i.getAtividade().getNome() + ",";
+            tmp += (tmp.length() > 0) ? "," : "";
+            tmp += i.getAtividade().getNome();
         }
         l.setCliente(this.getPessoa());
         l.setCriacao(new Date());
         l.setCriador(p);
         l.setValorOriginal(getValorTotal());
         l.setValorTotal(getValorTotal());
-        
-        l.setDescricao("Referente pagto inscrição " + id.toString() + " do evento " + this.getEvento().getNome() + " e das atividades " + tmp);
+        String texto = "pagamento da inscrição " + id.toString();
+        if(tmp.length() > 0)
+            texto = texto + " e inscrição nas atividades " + tmp;
+        l.setDescricao( texto );
         setLancamento(l);
         return l;
     }
