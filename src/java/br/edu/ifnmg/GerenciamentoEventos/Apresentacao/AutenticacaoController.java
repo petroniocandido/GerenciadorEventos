@@ -19,7 +19,6 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ValidadorCPF;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutenticacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AutorizacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PerfilRepositorio;

@@ -94,6 +94,10 @@
                                 </h:outputText>
                                 <h:outputText value="Usuário Baixa:" />
                                 <h:outputText value="#{lancamentoController.entidade.usuarioBaixa}" />
+                                <p:commandButton value="Recibo" ajax="false"  action="#{reciboController.executaRelatorioPDF()}">
+                                    <f:setPropertyActionListener target="#{reciboController.lancamento}" value="#{lancamentoController.entidade}" />
+                                    <f:setPropertyActionListener target="#{reciboController.local}" value="#{lancamentoController.entidade.evento.certificadoCidade}" />
+                                    </p:commandButton>
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab title="Valores">
