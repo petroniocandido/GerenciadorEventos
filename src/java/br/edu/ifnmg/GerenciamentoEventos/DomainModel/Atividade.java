@@ -347,7 +347,7 @@ public class Atividade implements Entidade, Serializable {
     public void setLocal(Recurso local) {
         this.local = local;
         
-        if(local != null){
+        if(this.local != null){
             Alocacao a = new Alocacao();
             a.setEvento(evento);
             a.setAtividade(this);

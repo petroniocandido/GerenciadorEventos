@@ -71,9 +71,10 @@
                                 <h:outputText value="Término: " />
                                 <p:calendar value="#{atividadeController.entidade.termino}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Término é de preenchimento obrigatório!" />
-                                <h:outputText value="Local: " />
-                                <p:autoComplete converter="#{recursoConverter}" value="#{atividadeController.entidade.local}"
-                                                completeMethod="#{recursoConverter.autoCompleteImoveis}" 
+                                <h:outputText rendered="#{atividadeController.entidade.id gt 0}" value="Local: " />
+                                <p:autoComplete rendered="#{atividadeController.entidade.id gt 0}" converter="#{recursoConverter}" value="#{atividadeController.entidade.local}"
+                                                completeMethod="#{recursoConverter.autoCompleteImoveis}"
+                                                validator="#{atividadeController.validaAlocacao}"
                                                 var="item" itemValue="#{item}" itemLabel="#{item.nome}">
                                     <p:column headerText="Nome">#{item.nome}</p:column>
                                     <p:column headerText="Capacidade">#{item.capacidade}</p:column>
@@ -179,13 +180,9 @@
                                         <f:selectItems value="#{atividadeController.statusAlocacao}" />
                                     </h:selectOneMenu>
                                 </p:column>
+                                
                                 <p:column >
-                                    <p:commandButton value="Editar" >
-                                        <f:setPropertyActionListener target="#{atividadeController.alocacao}" value="#{item}" />
-                                    </p:commandButton>
-                                </p:column>
-                                <p:column >
-                                    <p:commandButton value="Remover" action="#{atividadeController.removeAlocacao}" >
+                                    <p:commandButton value="Remover" ajax="false" action="#{atividadeController.removeAlocacao}" >
                                         <f:setPropertyActionListener target="#{atividadeController.alocacao}" value="#{item}" />
                                     </p:commandButton>
                                 </p:column>

@@ -161,9 +161,7 @@ public class Alocacao implements Entidade, Serializable, Comparable<Alocacao> {
             return false;
         }
         final Alocacao other = (Alocacao) obj;
-        if (!Objects.equals(this.recurso, other.recurso)) {
-            return false;
-        }
+        
         if (!Objects.equals(this.evento, other.evento)) {
             return false;
         }
