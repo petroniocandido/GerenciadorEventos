@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -35,12 +35,12 @@
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
                                 <h:outputText value="Evento: " />
-                               <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.filtro.evento}"
-                                               completeMethod="#{eventoConverter.autoCompleteEvento}" var="item">
+                                <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.filtro.evento}"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item">
                                     #{item.nome}
                                 </p:autoComplete>
-                               <h:outputText value="Usuário: " />
-                               <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.cliente}"
+                                <h:outputText value="Usuário: " />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.cliente}"
                                                 completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
@@ -50,7 +50,7 @@
                                 <p:calendar value="#{lancamentoController.filtro.baixa}" />
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{lancamentoController.filtro.status}" 
-                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
                                     <f:selectItems value="#{lancamentoController.status}" />
                                 </h:selectOneMenu>
                             </p:panelGrid>
@@ -65,7 +65,9 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{lancamentoController.onRowSelect}" />
-                        
+                        <f:facet name="header">
+                            Total: #{lancamentoController.dataModel.rowCount} lançamentos
+                        </f:facet>
                         <p:column headerText="Cód." sortBy="#{item.id}"   >
                             <p:outputLabel value="#{item.id}" />
                         </p:column>

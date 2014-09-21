@@ -67,6 +67,9 @@
                                          expandedRow="Ainda não foi selecionada uma atividade ou não há resultados!">  
 
                                 <p:ajax event="rowSelect" listener="#{inscricaoItemController.onRowSelect}" />
+                                <f:facet name="header">
+                                    Total: #{inscricaoItemController.dataModel.rowCount} inscrições
+                                </f:facet>
                                 <p:column headerText="Inscrição" sortBy="id"  >
                                     <p:outputLabel value="#{item.id}" />                            
                                 </p:column>
@@ -90,7 +93,7 @@
                                 </p:column>
                                 <p:column >
                                     <p:commandButton rendered="#{autenticacaoController.autorizacao('checkInAtividade')}" value="Check in" ajax="false" action="#{inscricaoItemController.checkIn(item)}" />
-                                </p:column>
+                                </p:column>                                
                             </p:dataTable>
                         </p:tab>
                         <ui:include src="./comum/tabEnviarMensagem.xhtml">

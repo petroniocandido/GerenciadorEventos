@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -68,6 +68,9 @@
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                                 <p:ajax event="rowSelect" listener="#{inscricaoController.onRowSelect}" />
+                                <f:facet name="header">
+                                    Total: #{inscricaoController.dataModel.rowCount} inscrições
+                                </f:facet>
                                 <p:column headerText="Inscrição" sortBy="id"  >
                                     <p:outputLabel value="#{item.id}" />                            
                                 </p:column>
@@ -86,6 +89,7 @@
                                 <p:column headerText="Status" sortBy="#{item.status}"  >
                                     #{item.status}                            
                                 </p:column>
+                                
                             </p:dataTable>
                         </p:tab>
                         <ui:include src="./comum/tabEnviarMensagem.xhtml">

@@ -72,7 +72,7 @@
                     </p:accordionPanel>
                     <!-- Início da Tabela -->
                     <p:dataTable value="#{alocacaoController.dataModel}" var="item" selectionMode="single"
-                                 paginator="true" rows="30"  lazy="true" 
+                                 paginator="true" rows="30"  lazy="true"  
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{alocacaoController.onRowSelect}" />
