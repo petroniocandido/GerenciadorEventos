@@ -47,7 +47,7 @@ public class InscricaoItemRespostaCSVExporter extends CSVExporter<InscricaoItem>
                 QuestaoResposta qr = obj.getResposta().RespostaDeQuestao(q);
                 if(qr != null){
                     String tmp = qr.getValor();
-                    sb.append(tmp == null ? "" : "\"" + limparTexto(tmp) + "\"");
+                    sb.append(tmp == null ? "" : limparTexto(tmp));
                 }
                 sb.append(";");
             }

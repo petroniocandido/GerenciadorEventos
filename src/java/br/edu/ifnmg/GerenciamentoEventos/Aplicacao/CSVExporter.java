@@ -29,7 +29,7 @@ public abstract class CSVExporter<T> {
     protected abstract StringBuilder gerarCabecalho(T obj);
     
     protected String limparTexto(String input){
-        return input.replace(";", ".").replace("\"", "");
+        return "\"" + input.replace(";", ".").replace("\"", "") + "\"" ;
     } 
     
     public String gerarCSV(Collection<T> colecao){
