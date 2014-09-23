@@ -79,6 +79,12 @@ public class Pessoa implements Entidade, Serializable {
     @Enumerated(EnumType.STRING)
     protected PessoaTipo tipo;
     
+    @Enumerated(EnumType.STRING)
+    protected PronomeTratamento tratamento;
+    
+    @Enumerated(EnumType.STRING)
+    protected Sexo sexo;
+    
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "pessoa",orphanRemoval = true)
     @JoinTable(name = "inscricoes")
     private List<Inscricao> inscricoes;
@@ -186,6 +192,24 @@ public class Pessoa implements Entidade, Serializable {
     public void setInscricoes(List<Inscricao> inscricoes) {
         this.inscricoes = inscricoes;
     }
+
+    public PronomeTratamento getTratamento() {
+        return tratamento;
+    }
+
+    public void setTratamento(PronomeTratamento tratamento) {
+        this.tratamento = tratamento;
+    }
+
+    public Sexo getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(Sexo sexo) {
+        this.sexo = sexo;
+    }
+    
+    
 
     
     @Override

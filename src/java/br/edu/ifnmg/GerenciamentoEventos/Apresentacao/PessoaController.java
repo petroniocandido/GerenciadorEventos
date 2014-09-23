@@ -20,6 +20,9 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PessoaTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PronomeTratamento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Sexo;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,6 +52,12 @@ public class PessoaController
     PessoaRepositorio dao;
     @Inject
     HashService hash;
+    
+    PessoaTipo[] tipos;
+    
+    PronomeTratamento[] tratamentos;
+    
+    Sexo[] sexos;
 
     String senha1, senha2;
 
@@ -125,5 +134,25 @@ public class PessoaController
         tmp.add(entidade);
         return tmp;
     }
+
+    public PessoaTipo[] getTipos() {
+        if(tipos == null)
+            tipos = PessoaTipo.values();
+        return tipos;
+    }
+
+    public PronomeTratamento[] getTratamentos() {
+        if(tratamentos == null)
+            tratamentos = PronomeTratamento.values();
+        return tratamentos;
+    }
+
+    public Sexo[] getSexos() {
+        if(sexos == null)
+            sexos = Sexo.values();
+        return sexos;
+    }
+    
+    
 
 }

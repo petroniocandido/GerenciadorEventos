@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -34,9 +34,26 @@
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Tratamento: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.tratamento}">
+                                    <f:selectItem itemLabel="Escolha o tratamento" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.tratamentos}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Nome: " />
                                 <p:inputText value="#{usuarioController.entidade.nome}" 
                                              required="true" requiredMessage="O campo nome é obrigatório" />
+                                <h:outputText value="Tipo: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.tipo}"
+                                                 required="true" requiredMessage="O campo tipo é obrigatório">
+                                    <f:selectItem itemLabel="Escolha o tipo" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.tipos}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Sexo: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.sexo}"
+                                                 required="true" requiredMessage="O campo sexo é obrigatório">
+                                    <f:selectItem itemLabel="Escola o sexo" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.sexos}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="CPF: " />
                                 <p:inputMask value="#{usuarioController.entidade.cpf}" mask="999.999.999-99" 
                                              required="true" requiredMessage="O campo cpf é obrigatório" />
