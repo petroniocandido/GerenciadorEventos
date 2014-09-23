@@ -197,9 +197,7 @@ public class AtividadeController
 
         List<Alocacao> conflitos = alocDAO.conflitos(tmp);
 
-        Alocacao conflito = conflitos.get(0);
-        
-        if (!conflitos.isEmpty() && !conflito.getAtividade().equals(entidade) ) {
+        if (!conflitos.isEmpty() && !conflitos.get(0).getAtividade().equals(entidade) ) {
              FacesMessage msg
                     = new FacesMessage("Conflito de Horário", "O recurso "+ value +" já está alocado para este horário na atividade " + conflitos.get(0).getAtividade() +"!");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);

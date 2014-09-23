@@ -23,13 +23,13 @@
 		<band height="8" splitType="Stretch"/>
 	</title>
 	<pageHeader>
-		<band height="164" splitType="Stretch">
+		<band height="200" splitType="Stretch">
 			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
-				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="114" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="152" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
 				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="4" y="125" width="551" height="33" uuid="01fa99e0-44c4-4322-bd40-6f57c7b0201f"/>
+				<reportElement x="4" y="163" width="551" height="33" uuid="01fa99e0-44c4-4322-bd40-6f57c7b0201f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="24" isBold="true"/>
 				</textElement>

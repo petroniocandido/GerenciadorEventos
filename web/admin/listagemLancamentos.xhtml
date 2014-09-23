@@ -68,19 +68,22 @@
                         <f:facet name="header">
                             Total: #{lancamentoController.dataModel.rowCount} lançamentos
                         </f:facet>
-                        <p:column headerText="Cód." sortBy="#{item.id}"   >
-                            <p:outputLabel value="#{item.id}" />
+                        <p:column headerText="Cód" sortBy="id"   >
+                            #{item.id}
                         </p:column>
-                        <p:column headerText="Data" sortBy="#{item.criacao}"  >
+                        <p:column headerText="Tipo" sortBy="tipo"   >
+                            #{item.tipo}
+                        </p:column>
+                        <p:column headerText="Data" sortBy="criacao"  >
                             <p:outputLabel value="#{item.criacao}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:outputLabel>                            
                         </p:column>
                         <p:column headerText="Cliente" sortBy="cliente"  >
-                            <p:outputLabel value="#{item.cliente}" />                            
+                            #{item.cliente}
                         </p:column>
                         <p:column headerText="Histórico" sortBy="descricao"  >
-                            <p:outputLabel value="#{item.descricao}" />                            
+                            #{item.descricao}
                         </p:column>
                         <p:column headerText="Valor" sortBy="valorOriginal"  >
                             <p:outputLabel value="#{item.valorOriginal}" />                            

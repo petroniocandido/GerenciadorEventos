@@ -50,16 +50,11 @@ public class AlocacaoDAO
     @Override
     public List<Alocacao> conflitos(Alocacao filtro) {
         String sql = "select a from Alocacao a where a.recurso = :recurso and a.status <> :concluido and a.status <> :cancelado "
-                + "and (a.inicio < :termino\n" +
-"               or   a.termino > :inicio\n" +
-"               or   (\n" +
-"                            a.inicio < :inicio\n" +
-"                        and  a.termino > :termino\n" +
-"                    )\n" +
-"               or   (\n" +
-"                            a.inicio > :inicio\n" +
-"                        and  a.termino < :termino\n" +
-"                    ))";
+                + "and not ("
+                + "   (  a.inicio < :inicio\n" +           // antes
+"                        and   a.termino < :inicio )\n" +
+"               or   (\n  a.inicio > :termino\n" +           // depois
+"                        and   a.termino > :termino ))";
        Query query = getManager().createQuery(sql);
        query.setParameter("recurso", filtro.getRecurso())
                .setParameter("concluido", AlocacaoStatus.Concluido)

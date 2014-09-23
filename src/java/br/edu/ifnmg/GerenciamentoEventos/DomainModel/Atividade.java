@@ -93,6 +93,8 @@ public class Atividade implements Entidade, Serializable {
     @Column(nullable = false)
     private Date termino;
     
+    private Pessoa responsavelPrincipal;
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "atividadesresponsaveis")
     private List<Pessoa> responsaveis;
@@ -168,6 +170,15 @@ public class Atividade implements Entidade, Serializable {
         Date hoje = new Date();
         return hoje.compareTo(inicio) >= 0 && hoje.compareTo(termino) <= 0;
     }
+    
+    public boolean isPeriodoInscricaoAindaNaoAberto() {
+        if(!necessitaInscricao)
+            return false;
+        if(status == Status.Cancelado && status == Status.Concluido)
+            return false;
+        Date hoje = new Date();
+        return hoje.compareTo(inicioInscricao) <= 0 && hoje.compareTo(terminoInscricao) <= 0;
+    }
 
     public boolean isPeriodoInscricaoAberto() {
         if(!necessitaInscricao)
@@ -229,6 +240,16 @@ public class Atividade implements Entidade, Serializable {
             recurso.setEvento(null);
         }
     }
+
+    public Pessoa getResponsavelPrincipal() {
+        return responsavelPrincipal;
+    }
+
+    public void setResponsavelPrincipal(Pessoa responsavelPrincipal) {
+        this.responsavelPrincipal = responsavelPrincipal;
+    }
+    
+    
 
     @Override
     public Long getId() {

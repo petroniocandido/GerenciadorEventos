@@ -64,7 +64,7 @@ public class ReciboController
             Map<String, Object> tmp = getParametrosComuns();
             tmp.put("data", new Date());
             tmp.put("cidade", local);
-            tmp.put("usuario", getUsuarioCorrente().getNome());
+            tmp.put("usuario", getEvento().getCertificadoTextoAssinatura2());
             return tmp;
         } catch (MalformedURLException ex) {
             Logger.getLogger(ListaPresencaEventoController.class.getName()).log(Level.SEVERE, null, ex);

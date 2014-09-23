@@ -29,7 +29,7 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Respostas de questionário de evento
+                        Exportação de Atividades
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
@@ -38,8 +38,13 @@
                                         itemLabel="#{item.nome}" itemValue="#{item}">
                             #{item.nome}
                         </p:autoComplete>
+                        <h:outputText value="Tipo: " />
+                                <p:selectOneMenu value="#{csvExporterController.tipo}" converter="#{atividadeTipoConverter}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{csvExporterController.exportaEvento}" />
+                    <p:commandButton value="Exportar" ajax="false"  action="#{csvExporterController.exportaAtividade()}" />
                 </p:panel>
             </ui:define>
 
