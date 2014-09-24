@@ -57,7 +57,7 @@ import javax.persistence.Version;
 @Inheritance(strategy= InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
 @Table(name = "inscricoes")
-@Cacheable(true)
+@Cacheable(false)
 public class Inscricao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
