@@ -119,7 +119,7 @@ public class InscricaoService {
             int inscPorTipo = i.getEvento().getLimiteInscricoes(e.getTipo());
             
             if(inscPorTipo > 0){
-                int inscs = inscricaoDAO.QuantidadeInscricoes(i, e);
+                Long inscs = inscricaoDAO.QuantidadeInscricoes(i, e);
                 if(inscs >= inscPorTipo)
                     throw new LimiteInscricoesExcedidoException(inscPorTipo,e.getTipo());
             }

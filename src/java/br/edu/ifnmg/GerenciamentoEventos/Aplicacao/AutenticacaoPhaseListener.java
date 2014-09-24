@@ -22,6 +22,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.AutenticacaoService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -36,10 +37,10 @@ import javax.inject.Inject;
 public class AutenticacaoPhaseListener implements PhaseListener {
 
     @Inject
-    AutorizacaoService autorizacao;
+    AutenticacaoService autenticacao;
     
     @Inject
-    AutenticacaoService autenticacao;
+    AutorizacaoService autorizacao;            
 
     @Override
     public void afterPhase(PhaseEvent event) {

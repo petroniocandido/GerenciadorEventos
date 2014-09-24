@@ -134,10 +134,10 @@ public class InscricaoDAO
     }
     
     @Override
-    public Integer QuantidadeInscricoes(Inscricao i, Atividade a) {
+    public Long QuantidadeInscricoes(Inscricao i, Atividade a) {
         Query query = itemDAO.getManager().createQuery("select count(i) from InscricaoItem i where i.inscricao =:inscricao and i.atividade =:atividade");
         query.setParameter("inscricao", i).setParameter("atividade", a);
-        return (Integer)query.getSingleResult();
+        return (Long)query.getSingleResult();
     }
     
 }

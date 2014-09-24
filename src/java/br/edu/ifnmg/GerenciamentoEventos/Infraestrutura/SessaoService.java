@@ -16,10 +16,11 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
+import java.io.Serializable;
 import java.util.HashMap;
-import javax.enterprise.context.RequestScoped;
+import javax.ejb.Stateless;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,16 +29,15 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author petronio
  */
-@Named
-@RequestScoped
-public class SessaoService {
+@SessionScoped
+public class SessaoService implements Serializable {
 
     public void put(String key, String value) {
         FacesContext ctx = FacesContext.getCurrentInstance();
         Cookie ck = new Cookie(key, value);
         ck.setMaxAge(-1);
         ((HttpServletResponse) ctx.getExternalContext().getResponse()).addCookie(ck);
-
+        cookies.put(key, ck);
     }
 
     HashMap<String, Cookie> cookies = new HashMap<>();
@@ -71,7 +71,9 @@ public class SessaoService {
     public void delete(String key) {
         FacesContext ctx = FacesContext.getCurrentInstance();
         Cookie cookie = getCookie(key);
-
+       
+        cookies.remove(key);
+        
         if (cookie != null) {
             cookie.setMaxAge(0);
             cookie.setValue(null);

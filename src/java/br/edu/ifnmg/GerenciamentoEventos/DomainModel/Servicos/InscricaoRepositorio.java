@@ -39,5 +39,5 @@ public interface InscricaoRepositorio extends Repositorio<Inscricao> {
     public boolean Salvar(InscricaoItem i);
     public boolean Apagar(InscricaoItem i);
     public Repositorio<InscricaoItem> getRepositorioItem();
-    public Integer QuantidadeInscricoes(Inscricao i, Atividade a);
+    public Long QuantidadeInscricoes(Inscricao i, Atividade a);
 }
