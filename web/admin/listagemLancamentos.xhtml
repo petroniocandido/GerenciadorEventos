@@ -1,5 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -18,8 +34,13 @@
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
-                               <h:outputText value="Usuário: " />
-                               <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.cliente}"
+                                <h:outputText value="Evento: " />
+                                <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.filtro.evento}"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <h:outputText value="Usuário: " />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.cliente}"
                                                 completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
@@ -29,7 +50,7 @@
                                 <p:calendar value="#{lancamentoController.filtro.baixa}" />
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{lancamentoController.filtro.status}" 
-                                            required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
                                     <f:selectItems value="#{lancamentoController.status}" />
                                 </h:selectOneMenu>
                             </p:panelGrid>
@@ -44,22 +65,30 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{lancamentoController.onRowSelect}" />
-                        
-                        <p:column headerText="Cód." sortBy="#{item.id}"   >
-                            <p:outputLabel value="#{item.id}" />
+                        <f:facet name="header">
+                            Total: #{lancamentoController.dataModel.rowCount} lançamentos
+                        </f:facet>
+                        <p:column headerText="Cód" sortBy="id"   >
+                            #{item.id}
                         </p:column>
-                        <p:column headerText="Data" sortBy="#{item.criacao}"  >
+                        <p:column headerText="Tipo" sortBy="tipo"   >
+                            #{item.tipo}
+                        </p:column>
+                        <p:column headerText="Data" sortBy="criacao"  >
                             <p:outputLabel value="#{item.criacao}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </p:outputLabel>                            
                         </p:column>
-                        <p:column headerText="Cliente" sortBy="#{item.cliente}"  >
-                            <p:outputLabel value="#{item.cliente}" />                            
+                        <p:column headerText="Cliente" sortBy="cliente"  >
+                            #{item.cliente}
                         </p:column>
-                        <p:column headerText="Valor" sortBy="#{item.valorOriginal}"  >
+                        <p:column headerText="Histórico" sortBy="descricao"  >
+                            #{item.descricao}
+                        </p:column>
+                        <p:column headerText="Valor" sortBy="valorOriginal"  >
                             <p:outputLabel value="#{item.valorOriginal}" />                            
                         </p:column>
-                        <p:column headerText="Situação" sortBy="#{item.status}"  >
+                        <p:column headerText="Situação" sortBy="status"  >
                             <p:outputLabel value="#{item.status}" style="background-color: #{lancamentoController.getCorStatus(item.status)};" />                            
                         </p:column>
                     </p:dataTable>

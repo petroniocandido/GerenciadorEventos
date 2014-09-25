@@ -1,17 +1,29 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *   This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ *
+ *   SGEA is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   SGEA is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -46,6 +58,7 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
     private String arquivoSaida;
 
     Evento evento;
+    
 
     private List<T> dados;
 
@@ -106,7 +119,11 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
     public void setEvento(Evento evento) {
         this.evento = evento;
     }
-    
+
+    public List<Evento> getEventosDoUsuario() {
+        return daoEvento.Responsavel(getUsuarioCorrente());
+    }
+        
     @PostConstruct
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");

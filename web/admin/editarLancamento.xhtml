@@ -1,5 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -24,17 +40,23 @@
                                 <h:outputText value="Situação: " />
                                 <h:outputText value="#{lancamentoController.entidade.status}" />
                                 <h:outputText value="Tipo: " />
-                                <p:selectOneMenu value="#{lancamentoController.entidade.tipo}">
+                                <p:selectOneMenu value="#{lancamentoController.entidade.tipo}"
+                                                 disabled="#{not lancamentoController.editavel}"
+                                                 required="true" requiredMessage="O campo Tipo é obrigatório!">
                                     <f:selectItems value="#{lancamentoController.tipos}" />
                                 </p:selectOneMenu>
                                 <h:outputText value="Categoria: " />
-                                <p:selectOneMenu value="#{lancamentoController.entidade.categoria}" converter="#{lancamentoCategoriaConverter}">
+                                <p:selectOneMenu value="#{lancamentoController.entidade.categoria}" 
+                                                 converter="#{lancamentoCategoriaConverter}"
+                                                 disabled="#{not lancamentoController.editavel}"
+                                                 required="true" requiredMessage="O campo Categoria é obrigatório!">
                                     <f:selectItems value="#{lancamentoController.categorias}" />
                                 </p:selectOneMenu>
                                 <h:outputText value="Cliente: " />
                                 <p:autoComplete id="txtPessoa" converter="#{usuarioConverter}" size="100" value="#{lancamentoController.entidade.cliente}"
                                                 completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item" itemLabel="#{item.nome}" itemValue="#{item}"
-                                                required="required" disabled="#{not lancamentoController.editavel}">
+                                                required="false" 
+                                                disabled="#{not lancamentoController.editavel}">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>
@@ -42,19 +64,23 @@
                                 <h:outputText value="Evento: " />
                                 <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.entidade.evento}"
                                                 completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                                itemLabel="#{item.nome}" itemValue="#{item}"
+                                                disabled="#{not lancamentoController.editavel}"                                                
+                                                 required="true" requiredMessage="O campo Evento é obrigatório!">
                                     #{item.nome}
                                 </p:autoComplete>
                                 <h:outputText value="Atividade: " />
                                 <p:autoComplete converter="#{atividadeConverter}" value="#{lancamentoController.entidade.atividade}"
                                                 completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                                itemLabel="#{item.nome}" itemValue="#{item}"
+                                                disabled="#{not lancamentoController.editavel}">
                                     <p:column headerText="Evento">#{item.evento}</p:column>
                                     <p:column headerText="Atividade">#{item.nome}</p:column>
                                 </p:autoComplete>
                                 <h:outputText value="Histórico: " />
                                 <p:inputTextarea value="#{lancamentoController.entidade.descricao}" 
-                                                 required="required" rows="4" cols="100" 
+                                                 required="true" requiredMessage="O campo Histórico é obrigatório!"
+                                                 rows="4" cols="100" 
                                                  disabled="#{not lancamentoController.editavel}" />
                                 <h:outputText value="Data Criação:" />
                                 <h:outputText value="#{lancamentoController.entidade.criacao}" >
@@ -68,15 +94,21 @@
                                 </h:outputText>
                                 <h:outputText value="Usuário Baixa:" />
                                 <h:outputText value="#{lancamentoController.entidade.usuarioBaixa}" />
+                                <p:commandButton rendered="#{lancamentoController.entidade.id gt 0}"
+                                    value="Recibo" ajax="false"  action="#{reciboController.executaRelatorioPDF()}">
+                                    <f:setPropertyActionListener target="#{reciboController.lancamento}" value="#{lancamentoController.entidade}" />
+                                    <f:setPropertyActionListener target="#{reciboController.local}" value="#{lancamentoController.entidade.evento.certificadoCidade}" />
+                                    </p:commandButton>
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab title="Valores">
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Valor Original: " />
                                 <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorOriginal}" 
-                                                required="required" disabled="#{not lancamentoController.editavel}">
+                                                required="required" disabled="#{not lancamentoController.editavel}"
+                                                validator="#{lancamentoController.validaValorOriginal}">
                                     <f:convertNumber currencyCode="pt-BR" />
-                                    <f:ajax render="txtValorTotal" />
+                                    
                                 </pe:inputNumber>
                                 <h:outputText value="Valor Acréscimos: " />
                                 <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorAcrescimos}"
@@ -90,7 +122,7 @@
                                 </pe:inputNumber>
                                 <h:outputText value="Valor Total: " />
                                 <pe:inputNumber id="txtValorTotal" symbol="R$ " value="#{lancamentoController.entidade.valorTotal}" 
-                                                disabled="#{not lancamentoController.editavel}" required="required">
+                                                disabled="true" required="required">
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                             </h:panelGrid>
@@ -106,7 +138,8 @@
                                     <p:column headerText="Pessoa">#{item.pessoa}</p:column>
                                     <p:column headerText="Evento">#{item.evento}</p:column>
                                 </p:autoComplete>
-                                <p:commandButton value="Adicionar" action="#{lancamentoController.addInscricao}" disabled="#{not lancamentoController.editavel}"
+                                <p:commandButton value="Adicionar" action="#{lancamentoController.addInscricao}" 
+                                                 disabled="#{not lancamentoController.editavel}"
                                                  update="acInscricao tblInscricoes"/>
                             </h:panelGrid>
                             <p:dataTable id="tblInscricoes" value="#{lancamentoController.entidade.inscricoes}" var="item">

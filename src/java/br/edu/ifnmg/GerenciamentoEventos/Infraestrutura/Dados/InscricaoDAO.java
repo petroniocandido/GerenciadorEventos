@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *   This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ *
+ *   SGEA is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   SGEA is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
@@ -12,6 +23,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.Repositorio;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
+import javax.persistence.Query;
 
 /**
  *
@@ -119,6 +131,13 @@ public class InscricaoDAO
     @Override
     public InscricaoItem AbrirItem(Long id) {
         return itemDAO.Abrir(id);
+    }
+    
+    @Override
+    public Long QuantidadeInscricoes(Inscricao i, Atividade a) {
+        Query query = itemDAO.getManager().createQuery("select count(i) from InscricaoItem i where i.inscricao =:inscricao and i.atividade =:atividade");
+        query.setParameter("inscricao", i).setParameter("atividade", a);
+        return (Long)query.getSingleResult();
     }
     
 }

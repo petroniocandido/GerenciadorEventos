@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *   This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ *
+ *   SGEA is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   SGEA is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
@@ -14,6 +26,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AlocacaoRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -22,6 +35,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
 /**
  *
@@ -49,7 +66,7 @@ public class AtividadeController
 
     @EJB
     EventoRepositorio evtDAO;
-    
+
     @EJB
     AlocacaoRepositorio alocDAO;
 
@@ -64,13 +81,13 @@ public class AtividadeController
         setPaginaEdicao("editarAtividade.xhtml");
         setPaginaListagem("listagemAtividades.xtml");
     }
-    
+
     @Override
     public Atividade getFiltro() {
         if (filtro == null) {
             filtro = new Atividade();
             filtro.setNome(getSessao("atctrl_nome"));
-            filtro.setEvento((Evento)getSessao("atctrl_evt",evtDAO));
+            filtro.setEvento((Evento) getSessao("atctrl_evt", evtDAO));
             String tip = getSessao("atctrl_tip");
             filtro.setTipo(tip != null ? dao.AbrirTipo(Long.parseLong(tip)) : null);
             String tmp = getSessao("atctrl_sit");
@@ -91,7 +108,6 @@ public class AtividadeController
 
     }
 
-
     public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
         if (evt != null) {
@@ -111,14 +127,12 @@ public class AtividadeController
         setFiltro(filtro);
     }
 
-
     @Override
     public void limpar() {
         setEntidade(new Atividade());
         getFiltro().setStatus(null);
         checaEventoPadrao();
     }
-
 
     public Status[] getStatus() {
         return Status.values();
@@ -159,17 +173,36 @@ public class AtividadeController
         Rastrear(alocacao);
         alocacao.setInicio(entidade.getInicio());
         alocacao.setTermino(entidade.getTermino());
-        
+
         List<Alocacao> tmp = alocDAO.conflitos(alocacao);
-        
-        if(!tmp.isEmpty()){
+
+        if (!tmp.isEmpty()) {
             MensagemErro("Conflito de Horário", "O recurso já está alocado para o horário desta atividade!");
             return;
         }
-        
+
         entidade.add(alocacao);
         SalvarAgregado(alocacao);
         alocacao = new Alocacao();
+    }
+
+    public void validaAlocacao(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        entidade = dao.Refresh(getEntidade());
+
+        Alocacao tmp = new Alocacao();
+        tmp.setRecurso((Recurso) value);
+        tmp.setInicio(entidade.getInicio());
+        tmp.setTermino(entidade.getTermino());
+
+        List<Alocacao> conflitos = alocDAO.conflitos(tmp);
+
+        if (!conflitos.isEmpty() && !conflitos.get(0).getAtividade().equals(entidade) ) {
+             FacesMessage msg
+                    = new FacesMessage("Conflito de Horário", "O recurso "+ value +" já está alocado para este horário na atividade " + conflitos.get(0).getAtividade() +"!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
     }
 
     public void removeAlocacao() {
@@ -231,8 +264,8 @@ public class AtividadeController
     public AlocacaoStatus[] getStatusAlocacao() {
         return AlocacaoStatus.values();
     }
-    
-    public List<AtividadeTipo> getListagemTipos(){
+
+    public List<AtividadeTipo> getListagemTipos() {
         return dao.BuscarTipo(null);
     }
 

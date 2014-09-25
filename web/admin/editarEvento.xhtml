@@ -1,5 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -155,6 +171,36 @@
                                     <ui:param name="controller" value="#{eventoController}"  />
                                 </ui:include>
                             </h:panelGrid>
+                        </p:tab>
+                        <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Limites de Inscrição por Atividade">  
+                            <h:panelGrid columns="5" cellpadding="3"> 
+                                <h:outputText value="Atividade: " />
+                                <p:selectOneMenu converter="#{atividadeTipoConverter}" value="#{eventoController.atividadeTipo}">
+                                    <f:selectItem noSelectionOption="true" itemValue="Escolha um Tipo de Atividade" />
+                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                </p:selectOneMenu>>
+                                <h:outputText value="Limite: " />
+                                <pe:inputNumber value="#{eventoController.limite}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
+                                <p:commandButton value="Adicionar" action="#{eventoController.addLimite()}" update="tblLimites" />
+                            </h:panelGrid>
+                            <p:dataTable id="tblLimites" value="#{eventoController.limitesAtividades}" var="item"
+                                         paginator="true" lazy="true" 
+                                         >  
+
+                                <p:column headerText="Atividade" sortBy="#{item.key}"  >
+                                    #{item.key}                            
+                                </p:column>
+                                <p:column headerText="Limite" sortBy="#{item.value}"  >
+                                    #{item.value}                            
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Remover" action="#{eventoController.removeLimite}" >
+                                        <f:setPropertyActionListener target="#{eventoController.atividade}" value="#{item.key}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{eventoController}"  />

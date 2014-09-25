@@ -1,6 +1,18 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ *   This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ *
+ *   SGEA is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   SGEA is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
@@ -10,6 +22,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.AutenticacaoService;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
@@ -24,10 +37,10 @@ import javax.inject.Inject;
 public class AutenticacaoPhaseListener implements PhaseListener {
 
     @Inject
-    AutorizacaoService autorizacao;
+    AutenticacaoService autenticacao;
     
     @Inject
-    AutenticacaoService autenticacao;
+    AutorizacaoService autorizacao;            
 
     @Override
     public void afterPhase(PhaseEvent event) {

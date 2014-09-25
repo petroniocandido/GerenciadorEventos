@@ -1,13 +1,26 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *   This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ *
+ *   SGEA is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU General Public License as published by
+ *   the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *
+ *   SGEA is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
 
 /**
@@ -20,7 +33,11 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
     protected StringBuilder gerarCabecalho(Inscricao obj) {
         StringBuilder sb = new StringBuilder();
         sb.append("pessoa;email;");
-        for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
+        
+        if(obj.getEvento() == null)
+            return sb;
+        
+        for(QuestionarioSecao s : obj.getEvento().getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes())
                 sb.append(q.getEnunciado()).append(";");
         
@@ -30,10 +47,21 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
     @Override
     protected StringBuilder gerarLinha(Inscricao obj) {
         StringBuilder sb = new StringBuilder();
-        sb.append(obj.getPessoa().getNome()).append(";").append(obj.getPessoa().getEmail()).append(";");
-        for(QuestionarioSecao s : obj.getResposta().getQuestionario().getSecoes())        
-            for(Questao q : s.getQuestoes())
-                sb.append(obj.getResposta().RespostaDeQuestao(q).getValor()).append(";");
+        if(obj.getResposta() == null) 
+            return sb;
+        
+        QuestionarioResposta resp = obj.getResposta();
+        
+        sb.append(limparTexto(obj.getPessoa().getNome())).append(";").append(limparTexto(obj.getPessoa().getEmail())).append(";");
+        for(QuestionarioSecao s : resp.getQuestionario().getSecoes())        
+            for(Questao q : s.getQuestoes()){
+                QuestaoResposta qr = resp.RespostaDeQuestao(q);
+                if(qr != null){
+                    String tmp = qr.getValor();
+                    sb.append(tmp == null ? "" : limparTexto(tmp));
+                }
+                sb.append(";");
+            }
         
         return sb;
     }

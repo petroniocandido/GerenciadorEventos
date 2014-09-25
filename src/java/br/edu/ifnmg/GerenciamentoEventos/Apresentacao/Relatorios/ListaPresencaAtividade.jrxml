@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="19"/>
 	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
 	<field name="pessoa.nome" class="java.lang.String"/>
@@ -11,6 +11,12 @@
 	<field name="atividade.nome" class="java.lang.String"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<variable name="pessoa.nome_1" class="java.lang.Integer" resetType="Column" calculation="Count">
+		<variableExpression><![CDATA[$F{pessoa.nome}]]></variableExpression>
+	</variable>
+	<variable name="pessoa.nome_2" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$F{pessoa.nome}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -97,7 +103,22 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="22" splitType="Stretch"/>
+		<band height="64" splitType="Stretch">
+			<textField>
+				<reportElement x="455" y="21" width="100" height="20" uuid="1e9a0a27-8e25-4c84-9784-16880f092cdd"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{pessoa.nome_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="248" y="21" width="207" height="20" uuid="e74dd182-affa-4248-beca-9f18f8882b52"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Parcial de Inscritos:]]></text>
+			</staticText>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="23">
@@ -142,6 +163,21 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="234" y="13" width="207" height="20" uuid="af7f3fc8-20d0-4778-8e08-7f25675bd6bc"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Geral de Inscritos:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="439" y="12" width="100" height="20" uuid="8febfd5b-3c4c-4fa7-94cc-e89d342393fd"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{pessoa.nome_2}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>

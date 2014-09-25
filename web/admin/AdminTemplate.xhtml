@@ -1,5 +1,21 @@
 <?xml version='1.0' encoding='ISO-8859-1' ?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
@@ -43,17 +59,20 @@
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Relatórios')}" label="Relatórios">
                     <p:menuitem  value="Lista de Presença Geral do Evento" url="relatorioListaPresencaEvento.xhtml"  />
                     <p:menuitem  value="Lista de Presença de Atividade" url="relatorioListaPresenca.xhtml"  />
+                    <p:menuitem  value="Resumo de Inscrições por Atividade" url="relatorioInscricoesAtividadeSintese.xhtml"  />
                     <p:menuitem  value="Resultado Geral de Seleção de Inscrições" url="relatorioResultadoGeralSelecaoInscricoes.xhtml"  />
                     <p:menuitem  value="Alocações" url="relatorioAlocacoesPorEvento.xhtml"  />
+                    <p:menuitem  value="Atividades" url="relatorioAtividadesEvento.xhtml"  />
                     <p:submenu label="Certificados">
                         <p:menuitem  value="Evento" url="relatorioCertificadoEvento.xhtml"  />
                         <p:menuitem  value="Atividade" url="relatorioCertificadoAtividade.xhtml"  />
                     </p:submenu>                    
                     <p:submenu label="Exportação CSV">
-                        <p:menuitem  value="Respostas de questionário de evento" url="relatorioExportaCSVEvento.xhtml"  />
-                        <p:menuitem  value="Respostas de questionário de atividade" url="relatorioExportaCSVAtividade.xhtml"  />
-                        <p:menuitem  value="Dados das pessoas por evento" url="relatorioExportaCSVPessoasEvento.xhtml"  />
-                        <p:menuitem  value="Dados das pessoas por atividade" url="relatorioExportaCSVPessoasAtividade.xhtml"  />
+                        <p:menuitem  value="Respostas de questionário de evento" url="ExportaCSVRespostasEvento.xhtml"  />
+                        <p:menuitem  value="Respostas de questionário de atividade" url="ExportaCSVRespostasAtividade.xhtml"  />
+                        <p:menuitem  value="Dados das pessoas por evento" url="ExportaCSVPessoasEvento.xhtml"  />
+                        <p:menuitem  value="Dados das pessoas por atividade" url="ExportaCSVPessoasAtividade.xhtml"  />
+                        <p:menuitem  value="Atividades do evento" url="ExportaCSVAtividades.xhtml"  />
                     </p:submenu>
                 </p:submenu>                
                 <p:menuitem   value="Área Pública" url="../publico/selecionaEvento.xhtml" />
@@ -81,10 +100,19 @@
                 <p:commandButton ajax="false" value="Login" action="#{autenticacaoController.logout()}"  />  
             </p:confirmDialog>
         </h:form>
-
         <div id="bottom" style="float: bottom">
             Copyright 2013 - Gerenciamento de Eventos - TADS IFNMG Januária
         </div>
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-55120145-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
     </h:body>
 
 </html>
