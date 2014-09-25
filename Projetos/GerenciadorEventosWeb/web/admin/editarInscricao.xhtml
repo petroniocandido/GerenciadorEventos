@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Editar dados gerais do inscrição
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Inscrição: " />
+                                <h:outputText value="#{inscricaoController.entidade.id}" />
+                                <h:outputText value="Categoria: " />
+                                <h:selectOneMenu value="#{inscricaoController.entidade.categoria}" 
+                                                 required="true" requiredMessage="A campo Categoria é de preenchimento obrigatório!">
+                                    <f:selectItems value="#{inscricaoController.categorias}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{inscricaoController.entidade.status}" 
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                    <f:selectItems value="#{inscricaoController.status}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Evento: " />
+                                <p:autoComplete converter="#{eventoConverter}" value="#{inscricaoController.entidade.evento}"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}"
+                                                required="true" requiredMessage="A campo Evento é de preenchimento obrigatório!">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <h:outputText value="Participante: " />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{inscricaoController.entidade.pessoa}"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}"
+                                                required="true" requiredMessage="A campo Participante é de preenchimento obrigatório!">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <h:outputText value="Ordem Insc.: " />
+                                <p:spinner value="#{inscricaoController.entidade.ordem}"  min="1">
+                                    <f:convertNumber type="number" integerOnly="true" />
+                                </p:spinner>
+                                <h:outputText value="Pago?: " />
+                                <p:selectBooleanCheckbox value="#{inscricaoController.entidade.pago}" />
+                                <h:outputText value="Compareceu?: " />
+                                <p:selectBooleanCheckbox value="#{inscricaoController.entidade.compareceu}" />
+
+                                <c:if test="#{inscricaoController.entidade.resposta ne null}">
+                                    <h:outputText value="Respostas: " />
+                                    <p:dataTable value="#{inscricaoController.entidade.resposta.respostas}" var="item">                                                
+                                        <p:column sortBy="#{item.questao.secao.ordem}"> 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Seção"/> 
+                                            </f:facet> 
+                                            #{item.questao.secao.nome}
+                                        </p:column>
+                                        <p:column sortBy="#{item.questao.ordem}"> 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Questão"/> 
+                                            </f:facet> 
+                                            #{item.questao.enunciado}
+                                        </p:column>                                     
+                                        <p:column > 
+                                            <f:facet name="header"> 
+                                                <h:outputText value="Resposta"/> 
+                                            </f:facet>
+                                            <c:if test="#{item.questao.tipo eq 'Arquivo'}">
+                                                <a href="../arquivos/#{item.arquivo.uri}" target="_blank">#{item.arquivo.nome}</a>
+                                            </c:if>
+                                            #{item.valor}
+                                        </p:column>                            
+                                    </p:dataTable>
+                                </c:if>
+
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab rendered="#{inscricaoController.entidade.id gt 0}" title="Itens">
+                            <h:panelGrid columns="3" cellpadding="3"> 
+                                <h:outputText value="Atividade: " />
+                                <p:autoComplete id="txtAtividade" converter="#{atividadeConverter}" value="#{inscricaoController.item.atividade}"
+                                                completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome} - #{item.evento}
+                                </p:autoComplete>
+                                <p:commandButton id="btnAddItem" value="Adicionar" action="#{inscricaoController.addItem}" update="tblItens" />
+                            </h:panelGrid>
+                            <p:accordionPanel id="tblItens">
+                                <c:forEach items="#{inscricaoController.entidade.itens}" var="insc">
+                                    <p:tab title="#{insc.atividade.nome}">
+                                        <h:panelGrid columns="2" cellpadding="3">
+                                            <h:outputText value="Inscrição: " />
+                                            <h:outputText value="#{insc.id}" />
+                                            <h:outputText value="Data inscrição: " />
+                                            <h:outputText value="#{insc.dataInscricao}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy hh:m" />
+                                            </h:outputText>
+                                            <h:outputText value="Pago?: " />
+                                            <p:selectBooleanCheckbox value="#{insc.pago}" />
+                                            <h:outputText value="Compareceu?: " />
+                                            <p:selectBooleanCheckbox value="#{insc.compareceu}" />
+                                            <h:outputText value="Situação: " />
+                                            <h:selectOneMenu value="#{insc.status}" 
+                                                             required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                                <f:selectItems value="#{inscricaoController.status}" />
+                                            </h:selectOneMenu>
+
+                                            <c:if test="#{insc.resposta ne null}">
+                                                <h:outputText value="Respostas: " />
+                                                <p:dataTable value="#{insc.resposta.respostas}" var="item">                                                
+                                                    <p:column sortBy="#{item.questao.secao.ordem}"> 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Seção"/> 
+                                                        </f:facet> 
+                                                        #{item.questao.secao.nome}
+                                                    </p:column>
+                                                    <p:column sortBy="#{item.questao.ordem}"> 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Questão"/> 
+                                                        </f:facet> 
+                                                        #{item.questao.enunciado}
+                                                    </p:column>                                     
+                                                    <p:column > 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Resposta"/> 
+                                                        </f:facet>
+                                                        <c:if test="#{item.questao.tipo eq 'Arquivo'}">
+                                                            <a href="../arquivos/#{item.arquivo.uri}" target="_blank">#{item.arquivo.nome}</a>
+                                                        </c:if>
+                                                        #{item.valor}
+                                                    </p:column>                            
+                                                </p:dataTable>
+                                            </c:if>
+
+                                            <p:commandButton value="Salvar" action="#{inscricaoController.salvar()}" update="tblItens" />
+                                            <p:commandButton rendered="#{autenticacaoController.autorizacao('btnApagarInscricao')}" value="Remover" action="#{inscricaoController.removeItem}" update="tblItens">
+                                                <f:setPropertyActionListener target="#{inscricaoController.item}" value="#{insc}" />
+                                            </p:commandButton>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </c:forEach>
+                            </p:accordionPanel>
+
+                        </p:tab>
+
+                        <p:tab id="tabObservacoes" title="Observações">
+                            <p:inputTextarea value="#{inscricaoController.entidade.observacoes}" cols="150" rows="20" />
+                        </p:tab>
+                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
+                            <ui:param name="controller" value="#{inscricaoController}"  />
+                            <ui:param name="destinatarios" value="#{inscricaoController.pessoa}"  />
+                        </ui:include>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{inscricaoController}"  />
+                        </ui:include>
+
+                    </p:tabView>
+                    <p:commandButton rendered="#{empty inscricaoController.entidade.lancamento}" value="Gerar Pagamento" action="#{inscricaoController.gerarLancamento()}" />
+                    <f:facet name="footer">
+                        <p:commandButton rendered="#{autenticacaoController.autorizacao('btnSalvar')}" id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
+                        <p:commandButton rendered="#{inscricaoController.id > 0 and autenticacaoController.autorizacao('btnApagarInscricao')}" id="btnApagar" value="Apagar" icon="ui-icon-close" onclick="msgApagar.show();"  />
+                        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{inscricaoController.cancelar()}" />
+                        <p:commandButton rendered="#{autenticacaoController.autorizacao('btnNovo')}"  ajax="false" id="btnNovo" value="Novo"  immediate="true"   action="#{inscricaoController.novo()}" />
+                    </f:facet>
+                    <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
+                                     header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                        <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{inscricaoController.salvar()}" />  
+                        <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
+                    </p:confirmDialog>  
+
+                    <p:confirmDialog id="confirmaApagar" message="Deseja realmente apagar os dados?"  
+                                     header="Confirmação" severity="alert" widgetVar="msgApagar">  
+                        <p:commandButton ajax="false" id="simApagar" value="SIM" action="#{inscricaoController.apagar()}" />  
+                        <p:commandButton id="naoApagar" value="NÃO" onclick="msgApagar.hide();" type="button" />   
+                    </p:confirmDialog>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

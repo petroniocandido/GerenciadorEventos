@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagem de Configurações
+                    </f:facet>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Chave: " />
+                                <p:inputText id="txtNome" size="50" value="#{configuracaoController.filtro.chave}"/>                                 
+                            </p:panelGrid>
+                            <ui:include src="./comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{configuracaoController}"  />
+                                <ui:param name="campos" value="txtNome"  />
+                            </ui:include>
+                        </p:tab>
+                    </p:accordionPanel>
+                    <!-- Início da Tabela -->
+                    <p:dataTable value="#{configuracaoController.dataModel}" var="item" selectionMode="single"
+                                 paginator="true" rows="30"  lazy="true" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+
+                        <p:ajax event="rowSelect" listener="#{configuracaoController.onRowSelect}" />
+                        <p:column headerText="Usuario" sortBy="#{item.usuario}"  >
+                            #{item.usuario} 
+                        </p:column>
+                        <p:column headerText="Chave" sortBy="#{item.chave}"  >
+                            #{item.chave}
+                        </p:column>
+                        <p:column headerText="Valor" sortBy="#{item.valor}"  >
+                            #{item.valor}
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

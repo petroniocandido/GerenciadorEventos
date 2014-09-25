@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./PublicTemplate.xhtml">
+
+            <ui:define name="content">
+
+                    <p:tabView>
+                        <p:tab title="Detalhes">
+                            <p:panelGrid columns="2">
+                                Atividade
+                                <p:outputLabel value="#{publicoController.atividade.nome}" style="text-align: center; font-weight: bolder" />
+
+                                <p:outputLabel rendered="#{not empty publicoController.atividade.local}" value="Local" />
+                                <p:outputLabel rendered="#{not empty publicoController.atividade.local}" value="#{publicoController.atividade.local.nome}" />
+                                Início
+                                <p:outputLabel value="#{publicoController.atividade.inicio}">
+                                    <f:convertDateTime pattern="EEEEEEE, dd/MM/yyyy HH:mm" locale="pt-BR" />
+                                </p:outputLabel>
+                                Término
+                                <p:outputLabel value="#{publicoController.atividade.termino}">
+                                    <f:convertDateTime pattern="EEEEEEE, dd/MM/yyyy HH:mm" locale="pt-BR" />
+                                </p:outputLabel>
+                                Descrição
+                                <h:outputText value="#{publicoController.atividade.descricao}" escape="false" />
+                                Inscrições
+                                <c:choose>
+                                    <c:when test="#{publicoController.atividade.necessitaInscricao}">
+                                        <c:choose>
+                                            <c:when test="#{publicoController.atividade.periodoInscricaoAindaNaoAberto and not empty publicoController.inscricao}">
+                                                <h:outputFormat value="As inscrições para essa atividade se iniciarão em {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: yellow">
+                                                    <f:param value="#{publicoController.atividade.inicioInscricao}" />
+                                                </h:outputFormat>
+                                                Valor da Inscrição
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao gt 0}" value="#{publicoController.atividade.valorInscricao}">
+                                                    <f:converter binding="#{moedaConverter}"  />
+                                                </p:outputLabel>
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao.unscaledValue() == 0 }" value="Inscrição Gratuita." />
+                                            </c:when>
+                                            <c:when test="#{publicoController.atividade.inscricaoAberto and not empty publicoController.inscricao}">
+                                                <h:outputFormat rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.vagasAberto}"
+                                                                value="Inscrições Abertas! As inscrições para essa atividade vão até o dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: greenyellow">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
+                                                <h:outputFormat rendered="#{publicoController.atividade.periodoInscricaoAberto and publicoController.atividade.listaEsperaAberto}"
+                                                                value="A atividade já esgotou todas as vagas! As inscrições agora são somente para a lista de espera! As inscrições para essa atividade vão até o dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: yellow">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
+                                                Valor da Inscrição
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao gt 0}" value="#{publicoController.atividade.valorInscricao}">
+                                                    <f:converter binding="#{moedaConverter}"  />
+                                                </p:outputLabel>
+                                                <p:outputLabel rendered="#{publicoController.atividade.valorInscricao.unscaledValue() == 0 }" value="Inscrição Gratuita." />
+
+                                            </c:when>  
+                                            <c:when test="#{publicoController.atividade.inscricaoAberto and empty publicoController.inscricao}">
+                                                <h:outputFormat value="Para fazer inscrição nessa atividade é necessário fazer primeiro a inscrição no evento! As inscrições para essa a atividade vão até o dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: yellow">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h:outputFormat value="As inscrições para essa atividade se encerraram no dia {0, date, dd/MM/yyyy}." 
+                                                                style="background-color: red">
+                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
+                                                </h:outputFormat>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p:outputLabel value="Não é necessário se inscrever para participar dessa atividade!" style="background-color: greenyellow" />
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem}">
+                                    Nº Inscrição
+                                    <h:outputText value="#{publicoController.inscricaoItem.id}" />
+                                </c:if>
+
+                            </p:panelGrid>
+                            <p:commandButton rendered="#{publicoController.atividade.inscricaoAberto and not empty publicoController.inscricao and empty publicoController.inscricaoItem}" value="Inscrever" onclick="msgSalvar.show()" />
+                            <p:commandButton rendered="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" onclick="msgCancelar.show()" />
+                        </p:tab>
+                        <c:if test="#{not empty publicoController.atividade.questionario and not empty publicoController.inscricaoItem}">
+                            <p:tab title="Dados da Inscrição">
+                                <p:tabView>
+                                    <ui:include src="../comum/questionario.xhtml">
+                                        <ui:param name="controller" value="#{publicoController}"  />
+                                        <ui:param name="questionario" value="#{publicoController.atividade.questionario}"  />
+                                        <ui:param name="inscricao" value="#{publicoController.inscricaoItem}"  />
+                                        <ui:param name="inscricaotipo" value="item"  />
+                                    </ui:include>
+                                </p:tabView>
+                                <p:commandButton value="Salvar" ajax="false" action="#{publicoController.processaQuestionarioAtividade}" />
+                            </p:tab>
+                        </c:if> 
+
+                    </p:tabView>
+                    <p:commandButton value="Voltar" action="inscricao.xhtml" />
+                    <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricaoItem}" message="Deseja se inscrever no evento?"  
+                                     header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                        <c:if test="#{not empty publicoController.atividade.questionario}">
+                            <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
+                            <p:scrollPanel mode="native" style="width:600px;height:400px">
+                                <p:tabView>
+                                    <ui:include src="../comum/questionario.xhtml">
+                                        <ui:param name="controller" value="#{publicoController}"  />
+                                        <ui:param name="questionario" value="#{publicoController.atividade.questionario}"  />
+                                        <ui:param name="inscricao" value="#{publicoController.inscricaoItem}"  />
+                                        <ui:param name="inscricaotipo" value="item"  />
+                                    </ui:include>
+                                </p:tabView>
+                            </p:scrollPanel>
+                        </c:if>
+                        <p:commandButton ajax="false" value="Confirmar Inscrição" action="#{publicoController.inscreverAtividade}" />  
+                        <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
+                    </p:confirmDialog>  
+
+                    <p:confirmDialog id="cancelaInscricao" rendered="#{not empty publicoController.inscricaoItem}" message="Deseja realmente cancelar sua inscrição? 
+                                     Ao confirmar a inscrição todos os dados preenchidos serão apagados."
+                                     header="Confirmação" severity="alert" widgetVar="msgCancelar">  
+
+                        <p:commandButton ajax="false" value="Confirmar Cancelamento" action="#{publicoController.cancelarInscricaoAtividade}" />  
+                        <p:commandButton value="Voltar" onclick="msgCancelar.hide();" type="button" />   
+                    </p:confirmDialog>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

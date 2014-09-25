@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Editar dados do formulário
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tab1" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value =" Titulo:" />
+                                <p:inputText size="50" value="#{questionarioController.entidade.titulo}"/>
+                                
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab rendered="#{questionarioController.editing}" title="Seções">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Título: " />
+                                <p:inputText id="txtNome" size="50" value="#{questionarioController.secao.nome}"/>
+                                <h:outputText value="Pai: " />
+                                <p:autoComplete id="atcPai" value="#{questionarioController.secao.pai}" size="50"  completeMethod="#{questionarioController.autoCompleteQuestionarioSecao}"  
+                                                var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="#{questionarioSecaoConverter}" forceSelection="true">  
+                                    <p:column>  
+                                        #{p.nome}  
+                                    </p:column>  
+                                </p:autoComplete>
+                                <h:outputText value="Ordem: " />
+                                <p:spinner id="spnOrdem" value="#{questionarioController.secao.ordem}"  min="1">
+                                    <f:convertNumber type="number" integerOnly="true" />
+                                </p:spinner>  
+                                <p:commandButton id="btnAddSecao" value="Adicionar" icon="ui-icon-pencil" onclick="msgAddSecao.show()"  />
+                            </h:panelGrid> 
+                            <p:dataTable id="tblSecoes"  value="#{questionarioController.entidade.secoes}" rows="50" var="item">                                                
+                                <p:column sortBy="#{item.pai.ordem}"> 
+                                    <f:facet name="header"> 
+                                        <h:outputText value="Seção Pai"/> 
+                                    </f:facet> 
+                                    #{item.pai.nome}
+                                </p:column>
+                                <p:column sortBy="#{item.nome}"> 
+                                    <f:facet name="header"> 
+                                        <h:outputText value="Nome"/> 
+                                    </f:facet> 
+                                    #{item.nome}
+                                </p:column>                                     
+                                <p:column sortBy="#{item.ordem}"> 
+                                    <f:facet name="header"> 
+                                        <h:outputText value="Ordem"/> 
+                                    </f:facet> 
+                                    #{item.ordem}
+                                </p:column>
+                                <p:column > 
+                                    <p:commandButton ajax="false" icon="ui-icon-pencil"  >
+                                        <f:setPropertyActionListener target="#{questionarioController.secao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column > 
+                                    <p:commandButton ajax="false"  icon="ui-icon-trash" action="${questionarioController.removeSecao}">
+                                        <f:setPropertyActionListener target="#{questionarioController.secao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                            <p:confirmDialog id="confirmaAddSecao" message="Deseja realmente salvar as alterações?"  
+                                             header="Confirmação" severity="alert" widgetVar="msgAddSecao">  
+                                <p:commandButton value="SIM" action="#{questionarioController.addSecao}" onclick="msgAddSecao.hide()" update="tblSecoes txtNome atcPai spnOrdem" />  
+                                <p:commandButton value="NÃO" onclick="msgAddSecao.hide()" type="button" />   
+                            </p:confirmDialog>
+                        </p:tab>  
+                        <p:tab  rendered="#{questionarioController.editing}" title="Questões">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Seção: " />
+                                <p:selectOneMenu value="#{questionarioController.questao.secao}" converter="#{questionarioSecaoConverter}">
+                                    <f:selectItems value="#{questionarioController.entidade.secoes}" />
+                                </p:selectOneMenu>                                
+                                <h:outputText value="Tipo: " />
+                                <h:selectOneMenu id="cbxTipo" value="#{questionarioController.questao.tipo}">
+                                    <f:selectItem itemValue="" itemLabel="" />
+                                    <f:selectItems value="#{questionarioController.tipos}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Questão: " />
+                                <p:inputText id="txtEnunciado" size="50" value="#{questionarioController.questao.enunciado}"/>
+                                <h:outputText value="Ordem: " />
+                                <p:spinner value="#{questionarioController.questao.ordem}"  min="1">
+                                    <f:convertNumber type="number" integerOnly="true" />
+                                </p:spinner>
+                                <h:outputText value="Máximo: " />
+                                <p:spinner value="#{questionarioController.questao.maximo}"  min="1">
+                                    <f:convertNumber type="number" integerOnly="true" />
+                                </p:spinner>
+                                <h:outputText value="Mínimo: " />
+                                <p:spinner value="#{questionarioController.questao.minimo}"  min="1">
+                                    <f:convertNumber type="number" integerOnly="true" />
+                                </p:spinner>
+                                <h:outputText value="Opções: " />
+                                <p:inputText id="txtOpcoes" size="50" value="#{questionarioController.questao.opcoes}"/>
+                                
+                                <p:commandButton id="btnAddQuestao" value="Adicionar" icon="ui-icon-pencil" onclick="msgAddQuestao.show()"  />
+                            </h:panelGrid>
+                            <p:dataTable id="tblQuestoes"  value="#{questionarioController.entidade.questoes}" rows="50" var="item">                                                
+                                <p:column sortBy="#{item.secao.ordem}"> 
+                                    <f:facet name="header"> 
+                                        <h:outputText value="Seção"/> 
+                                    </f:facet> 
+                                    #{item.secao.nome}
+                                </p:column>                                                        
+                                <p:column sortBy="#{item.tipo}"> 
+                                    <f:facet name="header"> 
+                                        <h:outputText value="Tipo"/> 
+                                    </f:facet> 
+                                    #{item.tipo}
+                                </p:column>
+                                <p:column sortBy="#{item.enunciado}"> 
+                                    <f:facet name="header"> 
+                                        <h:outputText value="Enunciado"/> 
+                                    </f:facet> 
+                                    #{item.enunciado}
+                                </p:column>
+                                <p:column sortBy="#{item.ordem}"> 
+                                    <f:facet name="header"> 
+                                        <h:outputText value="Ordem"/> 
+                                    </f:facet> 
+                                    #{item.ordem}
+                                </p:column>
+                                <p:column > 
+                                    <p:commandButton ajax="false"  icon="ui-icon-disk" action="#{questionarioController.editarQuestao}">
+                                        <f:setPropertyActionListener target="#{questionarioController.questao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column > 
+                                    <p:commandButton ajax="false"  icon="ui-icon-trash" action="#{questionarioController.removeQuestao}">
+                                        <f:setPropertyActionListener target="#{questionarioController.questao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                            <p:confirmDialog id="confirmaAddQuestao" message="Deseja realmente salvar as alterações?"  
+                                             header="Confirmação" severity="alert" widgetVar="msgAddQuestao">  
+                                <p:commandButton value="SIM" ajax="false" action="#{questionarioController.addQuestao()}" onclick="msgAddQuestao.hide()"  />
+                                <p:commandButton value="NÃO" onclick="msgAddQuestao.hide()" type="button" />   
+                            </p:confirmDialog>  
+                        </p:tab>  
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{questionarioController}"  />
+                        </ui:include>                    
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{questionarioController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

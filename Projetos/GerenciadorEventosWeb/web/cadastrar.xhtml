@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+        <ui:composition template="./TemplateExterno.xhtml">
+            <ui:define name="content">
+                <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="1">
+                    
+                    <f:facet name="header">
+                        Dados do Usuário
+                    </f:facet>
+                    <h:panelGrid columns="2" cellpadding="3">
+                        <h:outputText value="Nome: " />
+                        <p:inputText id="txtNome" value="#{autenticacaoController.usuario.nome}" 
+                                     required="true" requiredMessage="O campo nome é obrigatório" />
+                        <h:outputText value="CPF: " />
+                        <p:inputMask id="txtCpf" value="#{autenticacaoController.usuario.cpf}" mask="999.999.999-99" 
+                                     required="true" requiredMessage="O campo cpf é obrigatório" 
+                                     validator="#{autenticacaoController.validaCPF}" />
+                        <h:outputText value="E-Mail: " />
+                        <p:inputText id="txtEmail" value="#{autenticacaoController.usuario.email}" 
+                                     required="true" requiredMessage="O campo e-mail é obrigatório" 
+                                     validator="#{autenticacaoController.validaEmail}"/>
+                        <h:outputText value="Telefone: " />
+                        <p:inputMask id="txtTelefone" value="#{autenticacaoController.usuario.telefone}" 
+                                     mask="(99) 9999-9999" />
+                        <h:outputText value="Data de Nascimento: " />
+                        <p:calendar id="txtDataNascimento" value="#{autenticacaoController.usuario.dataNascimento}" pattern="dd/MM/yyyy"/>
+                    </h:panelGrid> 
+                    <f:facet name="footer">
+                        <p:commandButton value="Cadastrar" action="#{autenticacaoController.cadastrar()}" 
+                                         onsuccess="msgCadastro.show()"/>
+                        <p:commandButton value="Voltar" immediate="true" ajax="false" action="login.xhtml"/>
+                    </f:facet>
+                </p:panelGrid>
+                <p:confirmDialog id="confirmaSalvar" message="Cadastro realizado com sucesso!"  
+                                 header="Confirmação" severity="alert" widgetVar="msgCadastro">
+                    <br />
+                    <p:outputLabel value="Uma senha gerada automaticamente foi enviada para o seu e-mail. Acesse sua conta de e-mail e volte para a tela de login." /> <br /><br />
+                    <p:outputLabel value="Após o primeiro login seu cadastro no sistema de inscrições estará confirmado e você poderá alterar a senha no menu Meu Cadastro!" /> <br /><br />
+                    <p:commandButton ajax="false" immediate="true" id="simSalvar" value="Voltar para a página de Login" action="login.xhtml"  />  
+                </p:confirmDialog> 
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

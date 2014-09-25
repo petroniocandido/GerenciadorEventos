@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Editar dados gerais do evento
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Nome: " />
+                                <p:inputText value="#{eventoController.entidade.nome}" size="100"
+                                             required="true" requiredMessage="O campo nome é obrigatório" />
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{eventoController.entidade.status}" 
+                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!" >
+                                    <f:selectItems value="#{eventoController.status}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Descrição: " />
+                                <p:editor id="editor" value="#{eventoController.entidade.descricao}" width="600"/> 
+                                <h:outputText value="Site do Evento: " />
+                                <p:inputText value="#{eventoController.entidade.site}" size="100"/>
+                                <p:commandButton value="Tornar Padrão Global" action="#{eventoController.configurarEventoGlobal}" style="background-color: red" />
+                                <p:commandButton value="Tornar Padrão do Usuário" action="#{eventoController.configurarEventoUsuario()}" style="background-color: red" />
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab id="tabDetalhes" title="Detalhes">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Carga Horária: " />
+                                <pe:inputNumber value="#{eventoController.entidade.cargaHoraria}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
+                                <h:outputText value="Início: " />
+                                <p:calendar value="#{eventoController.entidade.inicio}" pattern="dd/MM/yyyy HH:mm"
+                                            required="true" requiredMessage="A campo Início é de preenchimento obrigatório!"/>
+                                <h:outputText value="Término: " />
+                                <p:calendar value="#{eventoController.entidade.termino}"  pattern="dd/MM/yyyy HH:mm" 
+                                            required="true" requiredMessage="A campo Término é de preenchimento obrigatório!"/>
+                                <h:outputText value="Local: " />
+                                <p:autoComplete converter="#{recursoConverter}" value="#{eventoController.entidade.local}"
+                                                completeMethod="#{recursoConverter.autoCompleteImoveis}" 
+                                                var="item" itemValue="#{item}" itemLabel="#{item.nome}">
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
+                                    <p:column headerText="Capacidade">#{item.capacidade}</p:column>
+                                </p:autoComplete>
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab id="tabInscricoes" title="Inscrições">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Necessita inscrição?: " />
+                                <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
+                                <h:outputText value="Número de vagas: " />
+                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
+                                <h:outputText value="Valor Inscrição: " />
+                                <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" >
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
+                                <h:outputText value="Início Inscriçães: " />
+                                <p:calendar value="#{eventoController.entidade.inicioInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
+                                <h:outputText value="Término Inscriçães: " />
+                                <p:calendar value="#{eventoController.entidade.terminoInscricao}"  pattern="dd/MM/yyyy HH:mm" />
+                                <h:outputText value="Formulário de Inscrição: " />
+                                <p:autoComplete value="#{eventoController.entidade.questionario}" size="50" id="customPojo3" 
+                                                completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
+                                                var="p" itemLabel="#{p.titulo}" itemValue="#{p}" 
+                                                converter="#{questionarioConverter}" >  
+                                    <p:column>  
+                                        #{p.titulo}  
+                                    </p:column>                                
+                                </p:autoComplete>
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Responsáveis">  
+                            <h:panelGrid columns="3" cellpadding="3"> 
+                                <h:outputText value="Responsável: " />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{eventoController.responsavel}"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <p:commandButton value="Adicionar" action="#{eventoController.addResponsavel}" update="tblResponsaveis" />
+                            </h:panelGrid>
+                            <p:dataTable id="tblResponsaveis" value="#{eventoController.entidade.responsaveis}" var="item"
+                                         paginator="true" lazy="true" 
+                                         >  
+
+                                <p:column headerText="Nome" sortBy="#{item.nome}"  >
+                                    #{item.nome}                            
+                                </p:column>
+                                <p:column headerText="E-mail" sortBy="#{item.email}"  >
+                                    #{item.email}                            
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Editar" >
+                                        <f:setPropertyActionListener target="#{eventoController.responsavel}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Remover" action="#{eventoController.removeResponsavel}" >
+                                        <f:setPropertyActionListener target="#{eventoController.responsavel}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab id="tabArquivos" title="Arquivos">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="logomarca"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.logo}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="banner"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.banner}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>                                 
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab id="tabCertificados" title="Certificados">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                Cidade:
+                                <p:inputText value="#{eventoController.entidade.certificadoCidade}" />
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="Imagem de Fundo"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.certificadoFundo}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
+                                Texto da Assinatura 1
+                                <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura1}" rows="3" cols="30" />
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="Assinatura 1"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.certificadoAssinatura1}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
+                                Texto da Assinatura 2:
+                                <p:inputTextarea value="#{eventoController.entidade.certificadoTextoAssinatura2}" rows="3" cols="30" />
+                                <ui:include src="./comum/enviarImagem.xhtml">
+                                    <ui:param name="nome" value="Assinatura 2"  />
+                                    <ui:param name="arquivo" value="#{eventoController.entidade.certificadoAssinatura2}"  />
+                                    <ui:param name="controller" value="#{eventoController}"  />
+                                </ui:include>
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Limites de Inscrição por Atividade">  
+                            <h:panelGrid columns="5" cellpadding="3"> 
+                                <h:outputText value="Atividade: " />
+                                <p:selectOneMenu converter="#{atividadeTipoConverter}" value="#{eventoController.atividadeTipo}">
+                                    <f:selectItem noSelectionOption="true" itemValue="Escolha um Tipo de Atividade" />
+                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                </p:selectOneMenu>>
+                                <h:outputText value="Limite: " />
+                                <pe:inputNumber value="#{eventoController.limite}" decimalPlaces="0">
+                                    <f:convertNumber integerOnly="true" />
+                                </pe:inputNumber>
+                                <p:commandButton value="Adicionar" action="#{eventoController.addLimite()}" update="tblLimites" />
+                            </h:panelGrid>
+                            <p:dataTable id="tblLimites" value="#{eventoController.limitesAtividades}" var="item"
+                                         paginator="true" lazy="true" 
+                                         >  
+
+                                <p:column headerText="Atividade" sortBy="#{item.key}"  >
+                                    #{item.key}                            
+                                </p:column>
+                                <p:column headerText="Limite" sortBy="#{item.value}"  >
+                                    #{item.value}                            
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Remover" action="#{eventoController.removeLimite}" >
+                                        <f:setPropertyActionListener target="#{eventoController.atividade}" value="#{item.key}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{eventoController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{eventoController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

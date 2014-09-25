@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagem de Logs
+                    </f:facet>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Descrição: " />
+                                <p:inputText id="txtNome" size="50" value="#{logController.filtro.descricao}"/> 
+                                <h:outputText value="Máquina: " />
+                                <p:inputText id="txtCpf" size="50" value="#{logController.filtro.maquina}" /> 
+                                <h:outputText value="Usuário: " />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{logController.filtro.usuario}"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
+                                    <p:column headerText="CPF">#{item.cpf}</p:column>
+                                    <p:column headerText="E-Mail">#{item.email}</p:column>
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
+                                </p:autoComplete>
+                                <h:outputText value="Data: " />
+                                <p:calendar value="#{logController.filtro.dataEvento}" />
+                            </p:panelGrid>
+                            <ui:include src="./comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{logController}"  />
+                                <ui:param name="campos" value=""  />
+                            </ui:include>
+                        </p:tab>
+                    </p:accordionPanel>
+                    <p:commandButton ajax="false" value="Limpar logs do filtro" action="#{logController.apagaFiltro()}" onclick="apagaFiltro.show();" />
+                    <p:commandButton ajax="false" value="Limpar todos os logs" onclick="apagaTodos.show();"  />
+                    <!-- Início da Tabela -->
+                    <p:dataTable value="#{logController.dataModel}" var="item" selectionMode="single"
+                                 paginator="true" rows="30"  lazy="true" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+
+                        <p:ajax event="rowSelect" listener="#{logController.onRowSelect}"   />
+                        <!-- Coluna Codigo -->
+                        <p:column headerText="Data" sortBy="#{item.data}"   >
+                            <p:outputLabel value="#{item.dataEvento}">
+                                <f:convertDateTime pattern="dd/MM HH:mm" />
+                            </p:outputLabel>
+                        </p:column>
+                        <!-- Coluna Nome -->
+                        <p:column headerText="Usuário" sortBy="#{item.usuario}"  >
+                            <p:outputLabel value="#{item.usuario}" />                            
+                        </p:column>
+                        <p:column headerText="Descrição" sortBy="#{item.descricao}"  >
+                            <p:outputLabel value="#{item.descricao}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:confirmDialog id="filtros" message="Deseja realmente apagar os logs?"  
+                                 header="Confirmação" severity="alert" widgetVar="apagaFiltro">  
+                    <p:commandButton value="OK" ajax="false" action="#{logController.apagaFiltro()}" type="button" />   
+                    <p:commandButton value="Cancelar" onclick="apagaFiltro.hide();" type="button" />   
+                </p:confirmDialog>
+                <p:confirmDialog id="todos" message="Deseja realmente apagar os logs?"  
+                                 header="Confirmação" severity="alert" widgetVar="apagaTodos">  
+                    <p:commandButton value="OK" ajax="false" action="#{logController.apagaTodos()}"  type="button" />   
+                    <p:commandButton value="Cancelar" onclick="apagaTodos.hide();" type="button" />   
+                </p:confirmDialog>
+            </ui:define>
+
+        </ui:composition>
+    </body>
+</html>

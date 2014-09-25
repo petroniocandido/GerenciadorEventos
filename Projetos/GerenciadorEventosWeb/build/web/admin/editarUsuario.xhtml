@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Editar dados gerais de usuário
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Tratamento: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.tratamento}">
+                                    <f:selectItem itemLabel="Escolha o tratamento" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.tratamentos}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Nome: " />
+                                <p:inputText value="#{usuarioController.entidade.nome}" 
+                                             required="true" requiredMessage="O campo nome é obrigatório" />
+                                <h:outputText value="Tipo: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.tipo}"
+                                                 required="true" requiredMessage="O campo tipo é obrigatório">
+                                    <f:selectItem itemLabel="Escolha o tipo" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.tipos}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Sexo: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.sexo}"
+                                                 required="true" requiredMessage="O campo sexo é obrigatório">
+                                    <f:selectItem itemLabel="Escola o sexo" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.sexos}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="CPF: " />
+                                <p:inputMask value="#{usuarioController.entidade.cpf}" mask="999.999.999-99" 
+                                             required="true" requiredMessage="O campo cpf é obrigatório" />
+                                <h:outputText value="E-Mail: " />
+                                <p:inputText value="#{usuarioController.entidade.email}" 
+                                             required="true" requiredMessage="O campo e-mail é obrigatório" />
+                                <h:outputText value="Telefone: " />
+                                <p:inputMask value="#{usuarioController.entidade.telefone}" 
+                                             mask="(99) 9999-9999" />
+                                <h:outputText value="Data de Nascimento: " />
+                                <p:calendar value="#{usuarioController.entidade.dataNascimento}" />
+
+                            </h:panelGrid> 
+                        </p:tab>
+                        <p:tab rendered="#{autenticacaoController.autorizacao('admin/tabSenha')}" id="tabSenha" title="Senha">
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Senha: " />
+                                <p:password value="#{usuarioController.senha1}" />
+                                <h:outputText value="Repita a Senha: " />
+                                <p:password value="#{usuarioController.senha2}" />
+                            </h:panelGrid>
+                        </p:tab>
+                        <p:tab rendered="#{autenticacaoController.autorizacao('admin/tabPerfil')}" id="tabPerfil" title="Perfil">  
+                            <p:autoComplete converter="#{perfilConverter}" value="#{usuarioController.entidade.perfil}"
+                                            completeMethod="#{perfilConverter.autoCompletePerfil}" var="item"
+                                            itemLabel="#{item.nome}" itemValue="#{item}">
+                                <p:column headerText="Nome">#{item.nome}</p:column>
+                            </p:autoComplete>
+                        </p:tab>
+                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
+                            <ui:param name="controller" value="#{usuarioController}"  />
+                            <ui:param name="destinatarios" value="#{usuarioController.pessoas}"  />
+                        </ui:include>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{usuarioController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{usuarioController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

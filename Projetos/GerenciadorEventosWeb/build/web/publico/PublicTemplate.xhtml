@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+        <meta http-equiv="refresh" content="600;url=../login.xhtml" />
+        <h:outputStylesheet name="/css/default.css"/>
+        <h:outputStylesheet name="/css/cssLayout.css"/>
+        <title>Gerenciamento de Eventos - TADS IFNMG Januária</title>
+    </h:head>
+
+    <h:body>
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  enctype="multipart/form-data"  >
+            <c:if test="#{empty publicoController.evento or empty publicoController.evento.banner}">
+                <img  src="../resources/imagens/cabecalho.png" style="width: 100%; height: 250px"/>    
+            </c:if> 
+            <c:if test="#{not empty publicoController.evento}">
+                <h:graphicImage value="/arquivos/#{publicoController.evento.banner.uri}" />
+                <h1 style="text-align: center">Inscrições</h1>
+            </c:if>
+            <p:menubar >
+                <p:menuitem value="Dados Pessoais"  url="editarDadosPessoais.xhtml" />
+                <p:menuitem rendered="#{not empty publicoController.evento}" value="Site do Evento"  url="#{publicoController.evento.site}"  />
+                <p:menuitem value="Inscrição"  url="inscricao.xhtml" />
+                <p:menuitem value="Certificados" url="certificados.xhtml" />                
+                <p:menuitem rendered="#{autenticacaoController.autorizacao('admin')}" value="Área Administrativa" url="../admin/index.xhtml" />
+                <p:menuitem value="Fale Conosco" url="faleConosco.xhtml" />
+                <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
+            </p:menubar>
+            <p:growl showDetail="true" id="messages" sticky="true"  life="60" />
+            <ui:insert name="content">Content</ui:insert>            
+        </h:form>
+
+        <div id="bottom" style="float: bottom">
+            Copyright 2013 - Gerenciamento de Eventos - TADS IFNMG Januária
+        </div>
+        <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-55120145-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    </h:body>
+
+</html>

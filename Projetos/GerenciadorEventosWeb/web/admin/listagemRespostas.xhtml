@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagem de Cargos
+                    </f:facet>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Pessoa: " />
+                                <p:autoComplete value="#{respostaController.filtro.pessoa}" size="50" id="customPojo2" completeMethod="#{usuarioController.autoCompletePessoa}"  
+                                                var="p" itemLabel="#{p.nome}" itemValue="#{p}" converter="#{usuarioConverter}" forceSelection="true">  
+                                    <p:column>  
+                                        #{p.nome}  
+                                    </p:column>  
+                                </p:autoComplete>
+                                <h:outputText value="Question�rio: " />
+                                <p:autoComplete value="#{respostaController.filtro.questionario}" size="50" id="customPojo3" completeMethod="#{questionarioController.autoCompleteQuestionario}"  
+                                                var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" forceSelection="true">  
+                                    <p:column>  
+                                        #{p.titulo}  
+                                    </p:column>  
+                                </p:autoComplete>
+                            </p:panelGrid>
+                            <ui:include src="./comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{respostaController}"  />
+                                <ui:param name="campos" value="customPojo2 customPojo2"  />
+                            </ui:include>
+                        </p:tab>
+                    </p:accordionPanel>
+                    <!-- Início da Tabela -->
+                    <p:dataTable id="tblListagem" value="#{respostaController.dataModel}" var="item" selectionMode="single"
+                                 paginator="true" rows="30"  lazy="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                 rowsPerPageTemplate="5,10,15">  
+
+                        <p:ajax event="rowSelect" listener="#{respostaController.onRowSelect}" />
+
+                        <!-- Coluna Codigo -->
+                        <p:column headerText="C�d." sortBy="#{item.id}" width="30"  >
+                            #{item.id}
+                        </p:column>
+
+                        <p:column headerText="Pessoa" sortBy="#{item.pessoa.nome}" >
+                            #{item.pessoa.nome}
+                        </p:column>
+
+                        <p:column headerText="Question�rio" sortBy="#{item.questionario.titulo}" >
+                            #{item.questionario.titulo}
+                        </p:column>
+
+                        <p:column headerText="Data" sortBy="#{item.alteracao}" >
+                            <h:outputText value="#{item.alteracao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"  timeZone="Brazil/East" locale="pt_BR" type="both" />
+                            </h:outputText>
+                        </p:column>
+
+
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
