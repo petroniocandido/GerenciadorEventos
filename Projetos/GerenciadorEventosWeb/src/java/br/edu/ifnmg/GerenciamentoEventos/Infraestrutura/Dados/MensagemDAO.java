@@ -17,35 +17,32 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
-import br.edu.ifnmg.DomainModel.Log;
-import br.edu.ifnmg.DomainModel.Services.LogRepositorio;
+import br.edu.ifnmg.GerenciadorMensagens.DomainModel.Mensagem;
+import br.edu.ifnmg.GerenciadorMensagens.DomainModel.MensagemRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author petronio
  */
 @Singleton
-public class LogDAO 
-    extends DAO<Log> 
-    implements LogRepositorio {
+public class MensagemDAO 
+    extends DAO<Mensagem> 
+    implements MensagemRepositorio {
 
-    public LogDAO(){
-        super(Log.class);
+    public MensagemDAO(){
+        super(Alocacao.class);
     }
     
     @Override
-    public List<Log> Buscar(Log filtro) {
-       return MaiorOuIgualA("dataEvento", filtro.getDataEvento())
-                .IgualA("usuario", filtro.getUsuario())
-                .IgualA("permissao", filtro.getPermissao())    
-                .Ordenar("dataEvento", "desc")
+    public List<Mensagem> Buscar(Mensagem filtro) {
+       return IgualA("destinatario", filtro.getDestinatario())
+                .IgualA("assunto", filtro.getAssunto())
                 .Buscar();
                
     }
+    
     
 }

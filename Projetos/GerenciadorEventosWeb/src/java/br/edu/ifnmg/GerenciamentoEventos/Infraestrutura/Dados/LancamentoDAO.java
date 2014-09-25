@@ -16,6 +16,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
@@ -30,14 +31,14 @@ import javax.persistence.EntityManager;
  */
 @Singleton
 public class LancamentoDAO
-        extends DAOGenerico<Lancamento>
+        extends DAO<Lancamento>
         implements LancamentoRepositorio {
 
-    DAOGenerico<LancamentoCategoria> daoCategoria;
+    DAO<LancamentoCategoria> daoCategoria;
 
     public LancamentoDAO() {
         super(Lancamento.class);
-        daoCategoria = new DAOGenerico<>(LancamentoCategoria.class);
+        daoCategoria = new DAO<>(LancamentoCategoria.class);
     }
 
     @PostConstruct

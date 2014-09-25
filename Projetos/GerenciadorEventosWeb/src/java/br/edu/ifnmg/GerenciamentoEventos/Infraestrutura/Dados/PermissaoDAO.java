@@ -16,6 +16,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Permissao;
 import br.edu.ifnmg.DomainModel.Services.PermissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
@@ -30,7 +31,7 @@ import javax.persistence.Query;
  */
 @Singleton
 public class PermissaoDAO
-        extends DAOGenerico<Permissao>
+        extends DAO<Permissao>
         implements PermissaoRepositorio {
 
     public PermissaoDAO() {

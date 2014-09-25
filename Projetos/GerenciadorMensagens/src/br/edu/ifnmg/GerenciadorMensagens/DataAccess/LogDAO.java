@@ -15,15 +15,12 @@
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
+package br.edu.ifnmg.GerenciadorMensagens.DataAccess;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Log;
 import br.edu.ifnmg.DomainModel.Services.LogRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 
 /**
  *

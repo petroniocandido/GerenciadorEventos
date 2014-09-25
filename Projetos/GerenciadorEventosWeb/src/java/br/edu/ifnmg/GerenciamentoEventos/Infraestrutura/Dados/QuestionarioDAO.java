@@ -16,6 +16,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
@@ -32,16 +33,16 @@ import javax.ejb.Stateless;
  */
 @Singleton
 public class QuestionarioDAO
-        extends DAOGenerico<Questionario>
+        extends DAO<Questionario>
         implements QuestionarioRepositorio {
     
-    DAOGenerico<Questao> daoQuestao;
-    DAOGenerico<QuestionarioSecao> daoSecao;
+    DAO<Questao> daoQuestao;
+    DAO<QuestionarioSecao> daoSecao;
     
     public QuestionarioDAO() {
         super(Questionario.class);
-        daoQuestao = new DAOGenerico<>(Questao.class);
-        daoSecao = new DAOGenerico<>(QuestionarioSecao.class);
+        daoQuestao = new DAO<>(Questao.class);
+        daoSecao = new DAO<>(QuestionarioSecao.class);
     }
     
     @PostConstruct

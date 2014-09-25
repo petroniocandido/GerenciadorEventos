@@ -29,7 +29,7 @@ import javax.persistence.Query;
  */
 @Singleton
 public class PessoaDAO
-        extends DAOGenerico<Pessoa>
+        extends DAO<Pessoa>
         implements PessoaRepositorioLocal {
 
     public PessoaDAO() {

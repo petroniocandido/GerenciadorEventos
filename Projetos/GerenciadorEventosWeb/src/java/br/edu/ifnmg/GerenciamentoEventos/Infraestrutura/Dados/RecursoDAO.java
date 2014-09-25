@@ -27,7 +27,7 @@ import javax.ejb.Singleton;
  */
 @Singleton
 public class RecursoDAO
-        extends DAOGenerico<Recurso>
+        extends DAO<Recurso>
         implements RecursoRepositorio {
 
     public RecursoDAO() {

@@ -17,6 +17,7 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.ArquivoRepositorio;
@@ -36,7 +37,7 @@ import javax.ejb.Singleton;
  */
 @Singleton
 public class ArquivoDAO 
-    extends DAOGenerico<Arquivo> 
+    extends DAO<Arquivo> 
     implements ArquivoRepositorio {
     
     public ArquivoDAO(){

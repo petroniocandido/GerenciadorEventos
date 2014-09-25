@@ -14,15 +14,13 @@
  *   You should have received a copy of the GNU General Public License
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
+package br.edu.ifnmg.GerenciadorMensagens.DataAccess;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Configuracao;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoRepositorio;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 
 /**
  *

@@ -14,7 +14,7 @@
  *   You should have received a copy of the GNU General Public License
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
+package br.edu.ifnmg.DataAccess;
 
 import br.edu.ifnmg.DomainModel.Entidade;
 import br.edu.ifnmg.DomainModel.Services.Repositorio;
@@ -31,10 +31,7 @@ import javax.persistence.Query;
  * @author petronio
  * @param <T>
  */
-public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
-
-    @PersistenceContext(name = "GerenciamentoEventosPU")
-    private EntityManager manager;
+public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
     private final Class tipo;
     private Exception erro;
@@ -49,13 +46,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         tipo = t;
     }
 
-    public EntityManager getManager() {
-        return manager;
-    }
-
-    public void setManager(EntityManager manager) {
-        this.manager = manager;
-    }
+    public abstract EntityManager getManager();
     
     @Override
     public Class getTipo(){
@@ -72,7 +63,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
      */
     @PostConstruct
     public void configure() {
-        manager.setFlushMode(FlushModeType.COMMIT);
+        getManager().setFlushMode(FlushModeType.COMMIT);
     }
 
     @Override
@@ -195,7 +186,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
                 sql.append(" where ").append(where.toString());
             }
 
-            Query query = manager.createQuery(sql.toString(), tipo);
+            Query query = getManager().createQuery(sql.toString(), tipo);
 
             for (Integer key : params.keySet()) {
                 query.setParameter("p" + key.toString(), params.get(key));
@@ -231,7 +222,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
                 sql.append(" where ").append(where.toString());
             }
 
-            Query query = manager.createQuery(sql.toString(), tipo);
+            Query query = getManager().createQuery(sql.toString(), tipo);
 
             for (Integer key : params.keySet()) {
                 query.setParameter("p" + key.toString(), params.get(key));
@@ -274,7 +265,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
 
             String tmp = sql.toString();
 
-            Query query = manager.createQuery(tmp, tipo);
+            Query query = getManager().createQuery(tmp, tipo);
 
             for (Integer key : params.keySet()) {
                 query.setParameter("p" + key.toString(), params.get(key));
@@ -346,13 +337,13 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     @Override
     public boolean Salvar(T obj) {
         try {
-            if (manager.contains(obj) || (obj.getId() != null && obj.getId() > 0)) {
-                obj = manager.merge(obj);
+            if (getManager().contains(obj) || (obj.getId() != null && obj.getId() > 0)) {
+                obj = getManager().merge(obj);
             } else {
-                manager.persist(obj);
+                getManager().persist(obj);
             }
 
-            manager.flush();
+            getManager().flush();
 
             return true;
         } catch (Exception ex) {
@@ -365,9 +356,9 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     public boolean Apagar(T obj) {
         try {
             // Persiste o objeto
-            manager.remove(manager.merge(obj));
+            getManager().remove(getManager().merge(obj));
 
-            manager.flush();
+            getManager().flush();
 
             return true;
         } catch (Exception ex) {
@@ -381,7 +372,7 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
         try {
 
             // Persiste o objeto
-            T obj = (T) manager.find(tipo, id);
+            T obj = (T) getManager().find(tipo, id);
 
             return obj;
 
@@ -410,9 +401,9 @@ public class DAOGenerico<T extends Entidade> implements Repositorio<T> {
     @Override
     public T Refresh(T obj) {
         if (obj.getId() != null && obj.getId() > 0) {
-            manager.flush();
+            getManager().flush();
             //manager.refresh(obj);
-            obj = (T) manager.getReference(tipo, obj.getId());
+            obj = (T) getManager().getReference(tipo, obj.getId());
         }
         return obj;
     }

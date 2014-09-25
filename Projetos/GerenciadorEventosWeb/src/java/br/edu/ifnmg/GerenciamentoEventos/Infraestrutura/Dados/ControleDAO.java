@@ -16,6 +16,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.ControleRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
@@ -29,7 +30,7 @@ import javax.persistence.LockModeType;
  */
 @Singleton
 public class ControleDAO 
-    extends DAOGenerico<Controle> 
+    extends DAO<Controle> 
     implements ControleRepositorio {
     
     

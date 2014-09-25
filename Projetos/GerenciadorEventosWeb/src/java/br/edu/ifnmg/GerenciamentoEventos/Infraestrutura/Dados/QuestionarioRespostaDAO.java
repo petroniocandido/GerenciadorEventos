@@ -17,6 +17,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
@@ -32,7 +33,7 @@ import javax.ejb.Stateless;
  */
 @Singleton
 public class QuestionarioRespostaDAO
-        extends DAOGenerico<QuestionarioResposta>
+        extends DAO<QuestionarioResposta>
         implements QuestionarioRespostaRepositorio {
 
     public QuestionarioRespostaDAO() {

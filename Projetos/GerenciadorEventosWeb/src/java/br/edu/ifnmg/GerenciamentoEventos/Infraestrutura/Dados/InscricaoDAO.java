@@ -17,6 +17,7 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
@@ -32,14 +33,14 @@ import javax.persistence.Query;
  */
 @Singleton
 public class InscricaoDAO 
-    extends DAOGenerico<Inscricao> 
+    extends DAO<Inscricao> 
     implements InscricaoRepositorio {
 
-    DAOGenerico<InscricaoItem> itemDAO;
+    DAO<InscricaoItem> itemDAO;
     
     public InscricaoDAO(){
         super(Inscricao.class);
-        itemDAO = new DAOGenerico<>(InscricaoItem.class);
+        itemDAO = new DAO<>(InscricaoItem.class);
     }
     
     @PostConstruct

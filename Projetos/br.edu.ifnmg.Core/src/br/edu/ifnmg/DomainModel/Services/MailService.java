@@ -24,7 +24,6 @@ import javax.ejb.Local;
  * @author petronio
  */
 @Local
-public interface MailService {
-    
+public interface MailService {    
     public boolean enviar(String destinatario, String assunto, String corpo);
 }

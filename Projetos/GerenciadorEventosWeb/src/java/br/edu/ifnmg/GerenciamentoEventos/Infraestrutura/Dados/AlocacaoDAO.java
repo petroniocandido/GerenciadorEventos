@@ -29,7 +29,7 @@ import javax.persistence.Query;
  */
 @Singleton
 public class AlocacaoDAO 
-    extends DAOGenerico<Alocacao> 
+    extends DAO<Alocacao> 
     implements AlocacaoRepositorio {
 
     public AlocacaoDAO(){

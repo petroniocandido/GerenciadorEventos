@@ -16,6 +16,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
@@ -34,14 +35,14 @@ import javax.persistence.Query;
  */
 @Singleton
 public class AtividadeDAO
-        extends DAOGenerico<Atividade>
+        extends DAO<Atividade>
         implements AtividadeRepositorio {
 
-    DAOGenerico<AtividadeTipo> daoTipo;
+    DAO<AtividadeTipo> daoTipo;
 
     public AtividadeDAO() {
         super(Atividade.class);
-        daoTipo = new DAOGenerico<>(AtividadeTipo.class);
+        daoTipo = new DAO<>(AtividadeTipo.class);
 
     }
 
