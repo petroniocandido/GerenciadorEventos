@@ -20,13 +20,11 @@ import br.edu.ifnmg.DomainModel.Configuracao;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoRepositorio;
 import java.util.List;
-import javax.ejb.Singleton;
 
 /**
  *
  * @author petronio
  */
-@Singleton
 public class ConfiguracaoDAO extends DAO<Configuracao> implements ConfiguracaoRepositorio {
 
     public ConfiguracaoDAO() {

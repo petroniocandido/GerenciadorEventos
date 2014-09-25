@@ -20,14 +20,9 @@ import br.edu.ifnmg.DomainModel.Log;
 import br.edu.ifnmg.DomainModel.Services.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.DomainModel.Pessoa;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -52,7 +47,7 @@ public class LogController
     LogRepositorio dao;
 
     @EJB
-    PessoaRepositorio pessoaDAO;
+    PessoaRepositorioLocal pessoaDAO;
 
     @PostConstruct
     public void init() {

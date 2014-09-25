@@ -21,11 +21,11 @@ import br.edu.ifnmg.DomainModel.Services.ConfiguracaoRepositorio;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.DomainModel.Services.MailService;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Random;
 import javax.ejb.EJB;
-import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -35,7 +35,7 @@ import javax.servlet.http.HttpSession;
 public class AutenticacaoService implements br.edu.ifnmg.DomainModel.Services.AutenticacaoService, Serializable {
 
     @EJB
-    PessoaRepositorio dao;
+    PessoaRepositorioLocal dao;
     @EJB
     HashService hash;
     @EJB

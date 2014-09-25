@@ -20,7 +20,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.CSVImporter;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.PessoaCSVImporter;
 import br.edu.ifnmg.DomainModel.Pessoa;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,7 +48,7 @@ public class csvImporterController
 
     }
     @EJB
-    PessoaRepositorio daoP;
+    PessoaRepositorioLocal daoP;
 
     UploadedFile arquivo;
 

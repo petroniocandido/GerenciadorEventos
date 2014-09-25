@@ -29,6 +29,7 @@ import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class InscricaoItemController
     AtividadeRepositorio atiDAO;
     
     @EJB
-    PessoaRepositorio pessoaDAO;
+    PessoaRepositorioLocal pessoaDAO;
     
     @EJB
     InscricaoService service;

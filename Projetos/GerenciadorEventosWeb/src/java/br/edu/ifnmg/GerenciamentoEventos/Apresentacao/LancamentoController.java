@@ -28,6 +28,7 @@ import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -63,7 +64,7 @@ public class LancamentoController
     InscricaoRepositorio daoInsc;
 
     @EJB
-    PessoaRepositorio daoPessoa;
+    PessoaRepositorioLocal daoPessoa;
     
     @EJB
     EventoRepositorio daoEvt;

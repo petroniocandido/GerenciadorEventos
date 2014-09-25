@@ -20,13 +20,11 @@ package br.edu.ifnmg.GerenciadorMensagens.DataAccess;
 import br.edu.ifnmg.DomainModel.Log;
 import br.edu.ifnmg.DomainModel.Services.LogRepositorio;
 import java.util.List;
-import javax.ejb.Singleton;
 
 /**
  *
  * @author petronio
  */
-@Singleton
 public class LogDAO 
     extends DAO<Log> 
     implements LogRepositorio {

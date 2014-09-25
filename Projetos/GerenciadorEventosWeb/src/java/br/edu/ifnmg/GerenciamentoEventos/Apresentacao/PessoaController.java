@@ -18,11 +18,11 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.HashService;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.DomainModel.PessoaTipo;
 import br.edu.ifnmg.DomainModel.PronomeTratamento;
 import br.edu.ifnmg.DomainModel.Sexo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class PessoaController
     }
 
     @EJB
-    PessoaRepositorio dao;
+    PessoaRepositorioLocal dao;
     @Inject
     HashService hash;
     

@@ -24,6 +24,13 @@
     <class>br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta</class>
     <class>br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao</class>
     <class>br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso</class>
+    <class>br.edu.ifnmg.DomainModel.Arquivo</class>
+    <class>br.edu.ifnmg.DomainModel.Configuracao</class>
+    <class>br.edu.ifnmg.DomainModel.Log</class>
+    <class>br.edu.ifnmg.DomainModel.Perfil</class>
+    <class>br.edu.ifnmg.DomainModel.Permissao</class>
+    <class>br.edu.ifnmg.DomainModel.Pessoa</class>
+    <class>br.edu.ifnmg.GerenciadorMensagens.DomainModel.Mensagem</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
     <properties>

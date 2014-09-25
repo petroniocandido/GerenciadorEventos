@@ -20,7 +20,7 @@ import br.edu.ifnmg.DomainModel.Configuracao;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.DomainModel.Pessoa;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -48,7 +48,7 @@ public class ConfiguracaoController
     ConfiguracaoRepositorio dao;
 
     @EJB
-    PessoaRepositorio pessoaDAO;
+    PessoaRepositorioLocal pessoaDAO;
 
     @PostConstruct
     public void init() {

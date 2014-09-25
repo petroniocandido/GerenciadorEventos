@@ -22,6 +22,7 @@ import br.edu.ifnmg.DomainModel.Services.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -50,7 +51,7 @@ public class PerfilController
     PerfilRepositorio dao;
 
     @EJB
-    PessoaRepositorio daoP;
+    PessoaRepositorioLocal daoP;
 
     Permissao permissao;
 

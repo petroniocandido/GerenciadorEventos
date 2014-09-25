@@ -32,17 +32,14 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositor
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
-import br.edu.ifnmg.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.DomainModel.Pessoa;
-import br.edu.ifnmg.DomainModel.Services.Repositorio;
-import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.SessaoService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -55,7 +52,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import org.primefaces.event.FileUploadEvent;
 
 /**
@@ -79,7 +75,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     InscricaoService inscricaoservice;
 
     @EJB
-    PessoaRepositorio pessoaDAO;
+    PessoaRepositorioLocal pessoaDAO;
 
     @EJB
     QuestionarioRepositorio questionarioDAO;

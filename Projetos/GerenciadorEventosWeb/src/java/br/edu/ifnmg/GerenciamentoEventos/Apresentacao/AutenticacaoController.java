@@ -23,6 +23,7 @@ import br.edu.ifnmg.DomainModel.Services.AutorizacaoService;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.DomainModel.Services.PerfilRepositorio;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -52,7 +53,7 @@ public class AutenticacaoController
     }
 
     @EJB
-    PessoaRepositorio dao;
+    PessoaRepositorioLocal dao;
     @EJB
     HashService hash;
     @EJB

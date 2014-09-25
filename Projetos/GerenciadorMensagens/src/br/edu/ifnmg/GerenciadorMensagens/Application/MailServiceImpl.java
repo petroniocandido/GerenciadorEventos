@@ -19,7 +19,6 @@ package br.edu.ifnmg.GerenciadorMensagens.Application;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoService;
 import br.edu.ifnmg.DomainModel.Services.LogService;
 import br.edu.ifnmg.DomainModel.Services.MailService;
-import java.net.PasswordAuthentication;
 import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.mail.*;

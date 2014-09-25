@@ -24,7 +24,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AlocacaoStatus;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.RecursoRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -57,7 +57,7 @@ public class AlocacaoController
     EventoRepositorio evtDAO;
 
     @EJB
-    PessoaRepositorio pessoaDAO;
+    PessoaRepositorioLocal pessoaDAO;
 
     @EJB
     RecursoRepositorio recursoDAO;

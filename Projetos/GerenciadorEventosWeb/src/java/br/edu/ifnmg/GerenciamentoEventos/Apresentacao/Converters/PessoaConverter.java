@@ -19,6 +19,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Converters;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericConverter;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -37,7 +38,7 @@ public class PessoaConverter
         implements Serializable {
 
     @EJB
-    PessoaRepositorio dao;
+    PessoaRepositorioLocal dao;
 
     @PostConstruct
     public void init() {
