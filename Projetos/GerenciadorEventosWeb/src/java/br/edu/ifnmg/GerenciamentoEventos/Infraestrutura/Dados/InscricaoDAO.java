@@ -137,8 +137,9 @@ public class InscricaoDAO
     
     @Override
     public Long QuantidadeInscricoes(Inscricao i, Atividade a) {
-        Query query = itemDAO.getManager().createQuery("select count(i) from InscricaoItem i where i.inscricao =:inscricao and i.atividade =:atividade");
-        query.setParameter("inscricao", i).setParameter("atividade", a);
+        Query query = itemDAO.getManager().createQuery("select count(i) from InscricaoItem i where i.inscricao =:inscricao "
+                + "and i.atividade =:atividade and i.categoria =:normal");
+        query.setParameter("inscricao", i).setParameter("atividade", a).setParameter("normal", InscricaoCategoria.Normal);
         return (Long)query.getSingleResult();
     }
     

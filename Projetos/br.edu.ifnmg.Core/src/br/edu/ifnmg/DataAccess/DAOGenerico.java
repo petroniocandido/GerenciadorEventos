@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -41,15 +42,16 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
     private StringBuilder order = new StringBuilder();
     private HashMap<String, String> join = new HashMap<>();
     private HashMap<Integer, Object> params = new HashMap<>();
+    private boolean jts = true;
 
     public DAOGenerico(Class t) {
         tipo = t;
     }
 
     public abstract EntityManager getManager();
-    
+
     @Override
-    public Class getTipo(){
+    public Class getTipo() {
         return tipo;
     }
 
@@ -179,6 +181,7 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
 
     @Override
     public boolean Atualiza() {
+        EntityTransaction tran = null;
         try {
             StringBuilder sql = new StringBuilder("update ").append(tipo.getSimpleName()).append(" o set ").append(update.toString());
 
@@ -192,10 +195,22 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
                 query.setParameter("p" + key.toString(), params.get(key));
             }
 
+            if (!jts) {
+                tran = getManager().getTransaction();
+                tran.begin();
+            }
+
             query.executeUpdate();
+
+            if (!jts) {
+                tran.commit();
+            }
 
             return true;
         } catch (Exception ex) {
+            if (!jts) {
+                tran.rollback();
+            }
             setErro(ex);
             return false;
         } finally {
@@ -209,6 +224,7 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
 
     @Override
     public boolean Apaga() {
+        EntityTransaction tran = null;
         try {
             StringBuilder sql = new StringBuilder("delete from ").append(tipo.getSimpleName()).append(" o ");
 
@@ -228,10 +244,21 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
                 query.setParameter("p" + key.toString(), params.get(key));
             }
 
+            if (!jts) {
+                tran = getManager().getTransaction();
+                tran.begin();
+            }
+
             query.executeUpdate();
 
+            if (!jts) 
+                tran.commit();
+            
             return true;
         } catch (Exception ex) {
+            if (!jts) 
+                tran.rollback();
+            
             setErro(ex);
             return false;
         } finally {
@@ -248,11 +275,12 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
 
             if (join.size() > 0) {
                 for (String key : join.keySet()) {
-                    if(!key.contains("."))
+                    if (!key.contains(".")) {
                         sql.append(" join o.");
-                    else
+                    } else {
                         sql.append(" join ");
-                    
+                    }
+
                     sql.append(key).append(" ").append(join.get(key));
                 }
             }
@@ -336,7 +364,13 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
 
     @Override
     public boolean Salvar(T obj) {
+        EntityTransaction tran = null;
         try {
+            if (!jts) {
+                tran = getManager().getTransaction();
+                tran.begin();
+            }
+
             if (getManager().contains(obj) || (obj.getId() != null && obj.getId() > 0)) {
                 obj = getManager().merge(obj);
             } else {
@@ -345,8 +379,14 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
 
             getManager().flush();
 
+            if (!jts) 
+                tran.commit();
+            
             return true;
         } catch (Exception ex) {
+            if (!jts) 
+                tran.rollback();
+            
             setErro(ex);
             return false;
         }
@@ -354,14 +394,26 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
 
     @Override
     public boolean Apagar(T obj) {
+        EntityTransaction tran = null;
         try {
+            if (!jts) {
+                tran = getManager().getTransaction();
+                tran.begin();
+            }
+
             // Persiste o objeto
             getManager().remove(getManager().merge(obj));
 
             getManager().flush();
 
+            if (!jts) 
+                tran.commit();
+            
             return true;
         } catch (Exception ex) {
+            if (!jts) 
+                tran.rollback();
+            
             setErro(ex);
             return false;
         }
@@ -407,4 +459,14 @@ public abstract class DAOGenerico<T extends Entidade> implements Repositorio<T> 
         }
         return obj;
     }
+
+    public boolean isJts() {
+        return jts;
+    }
+
+    public void setJts(boolean jts) {
+        this.jts = jts;
+    }
+    
+    
 }

@@ -166,7 +166,7 @@ public class AutenticacaoController
 
     public void novasenha() {
         if (autenticacao.redefinirSenha(login)) {
-            Mensagem("Sucesso!", "Foi enviado para o seu e-mail uma nova senha! ");
+            Mensagem("Sucesso!", "Em alguns minutos será enviada uma nova senha para o e-mail informado! ");
         } else {
             MensagemErro("Falha!", "Houve um problema ao enviar o e-mail com a nova senha! "
                     + "Consulte o administrador do sistema ou tente novamente em alguns instantes.");

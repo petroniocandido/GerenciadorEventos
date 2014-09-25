@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 
-package br.edu.ifnmg.GerenciadorMensagens.DomainModel;
+package br.edu.ifnmg.DomainModel.Services;
 
 import br.edu.ifnmg.DomainModel.Services.Repositorio;
-import br.edu.ifnmg.GerenciadorMensagens.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.Mensagem;
 import javax.ejb.Local;
 
 /**

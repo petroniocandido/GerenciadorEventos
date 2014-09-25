@@ -147,13 +147,19 @@
                                                                 <c:when test="#{not empty publicoController.inscricao.getItem(atividade)}">
                                                                     <p:outputLabel value="Inscrito" style="background-color: greenyellow" />
                                                                 </c:when>
+                                                                <c:when test="#{atividade.periodoInscricaoAberto and atividade.vagasAberto}">
+                                                                    Inscrições Abertas
+                                                                </c:when>
+                                                                <c:when test="#{atividade.periodoInscricaoAberto and atividade.listaEsperaAberto}">
+                                                                    <p:outputLabel value="Lista de Espera" style="background-color: yellow" />
+                                                                </c:when>
                                                                 <c:otherwise>
-                                                                    Não Inscrito
+                                                                    <p:outputLabel value="Inscrições Encerradas" style="background-color: red" />
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            Inscrito
+                                                            <p:outputLabel value="Inscrito" style="background-color: greenyellow" />
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </p:column>

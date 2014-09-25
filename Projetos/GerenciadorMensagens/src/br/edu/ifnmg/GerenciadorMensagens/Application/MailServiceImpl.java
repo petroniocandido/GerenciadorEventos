@@ -48,10 +48,6 @@ public class MailServiceImpl implements MailService {
     private String proxyPorta;
 
     public MailServiceImpl() {
-    }
-
-    @PostConstruct
-    public void init() {
         this.servidor = configuracao.get("SMTP_SERVIDOR");
         this.porta = configuracao.get("SMTP_PORTA");
         this.usuario = configuracao.get("SMTP_USUARIO");
@@ -62,6 +58,7 @@ public class MailServiceImpl implements MailService {
         this.proxyPorta = configuracao.get("PROXY_PORTA");
 
     }
+
 
     @Override
     public boolean enviar(String destinatario, String assunto, String corpo) {
@@ -115,7 +112,8 @@ public class MailServiceImpl implements MailService {
             Transport.send(message);
             return true;
         } catch (MessagingException mex) {
-            log.Append("Falha ao enviar e-mail para: " + destinatario + ". " + mex.getMessage());
+            //log.Append("Falha ao enviar e-mail para: " + destinatario + ". " + mex.getMessage());
+            System.out.println("Erro ao enviar e-mail:" + mex.getMessage());
             return false;
         }
     }

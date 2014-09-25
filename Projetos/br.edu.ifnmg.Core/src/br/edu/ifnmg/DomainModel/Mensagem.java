@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.edu.ifnmg.GerenciadorMensagens.DomainModel;
+package br.edu.ifnmg.DomainModel;
 
 import br.edu.ifnmg.DomainModel.Entidade;
 import br.edu.ifnmg.DomainModel.Pessoa;

@@ -6,8 +6,8 @@
 
 package br.edu.ifnmg.GerenciadorMensagens.DataAccess;
 
-import br.edu.ifnmg.GerenciadorMensagens.DomainModel.Mensagem;
-import br.edu.ifnmg.GerenciadorMensagens.DomainModel.MensagemRepositorio;
+import br.edu.ifnmg.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.Services.MensagemRepositorio;
 
 /**
  *

@@ -79,7 +79,8 @@
                                                 </p:outputLabel>
                                                 <p:outputLabel rendered="#{publicoController.atividade.valorInscricao.unscaledValue() == 0 }" value="Inscrição Gratuita." />
 
-                                            </c:when>  
+                                            </c:when> 
+                                            
                                             <c:when test="#{publicoController.atividade.inscricaoAberto and empty publicoController.inscricao}">
                                                 <h:outputFormat value="Para fazer inscrição nessa atividade é necessário fazer primeiro a inscrição no evento! As inscrições para essa a atividade vão até o dia {0, date, dd/MM/yyyy}." 
                                                                 style="background-color: yellow">
@@ -87,10 +88,8 @@
                                                 </h:outputFormat>
                                             </c:when>
                                             <c:otherwise>
-                                                <h:outputFormat value="As inscrições para essa atividade se encerraram no dia {0, date, dd/MM/yyyy}." 
-                                                                style="background-color: red">
-                                                    <f:param value="#{publicoController.atividade.terminoInscricao}" />
-                                                </h:outputFormat>
+                                                <h:outputLabel value="As vagas da atividade se esgotaram ou o período de inscrição já está encerrado!" 
+                                                                style="background-color: red" />
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>

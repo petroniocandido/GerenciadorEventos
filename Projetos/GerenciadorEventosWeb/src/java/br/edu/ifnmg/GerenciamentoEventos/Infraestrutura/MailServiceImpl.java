@@ -17,8 +17,8 @@
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
 import br.edu.ifnmg.DomainModel.Services.MailService;
-import br.edu.ifnmg.GerenciadorMensagens.DomainModel.Mensagem;
-import br.edu.ifnmg.GerenciadorMensagens.DomainModel.MensagemRepositorio;
+import br.edu.ifnmg.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.Services.MensagemRepositorio;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 

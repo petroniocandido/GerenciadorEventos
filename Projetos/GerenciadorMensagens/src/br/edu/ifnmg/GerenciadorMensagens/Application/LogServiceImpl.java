@@ -28,6 +28,7 @@ public class LogServiceImpl implements LogService {
             logDAO.Salvar(log);
 
         } catch (Exception ex) {
+            System.out.println("Erro ao gravar log: " + ex.getMessage());
             return false;
         } 
         return true;

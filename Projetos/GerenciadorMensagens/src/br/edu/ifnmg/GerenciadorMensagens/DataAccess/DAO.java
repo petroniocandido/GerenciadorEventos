@@ -18,6 +18,7 @@ public class DAO<T extends Entidade> extends DAOGenerico<T> {
 
     public DAO(Class t) {
         super(t);
+        setJts(false);
     }
            
     @Override
