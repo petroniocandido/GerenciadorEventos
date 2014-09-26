@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./PublicTemplate.xhtml">
+            <ui:define name="content">
+
+                <p:tabView>
+                    <p:tab title="Evento Principal">
+                        <p:panelGrid columns="2">
+                            Evento
+                            <p:outputLabel value="#{publicoController.evento.nome}" />
+                            Descrição
+                            <h:outputText value="#{publicoController.evento.descricao}" escape="false" />
+                            Inscrições
+                            <c:choose>
+                                <c:when test="#{publicoController.evento.necessitaInscricao}">
+                                    <c:choose>
+                                        <c:when test="#{publicoController.evento.antesInscricaoAberto}">
+                                            <h:outputFormat value="Inscrições abertas a partir da {0, date, EEEEEE, dd/MM/yy HH:mm}." 
+                                                            style="background-color: greenyellow">
+                                                <f:param value="#{publicoController.evento.inicioInscricao}" />
+                                            </h:outputFormat>
+                                        </c:when>
+                                        <c:when test="#{publicoController.evento.inscricaoAberto}">
+                                            <h:outputFormat rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.vagasAberto}"
+                                                            value="Inscrições Abertas! As inscrições para esse evento vão até o dia {0, date, dd/MM/yyyy}." 
+                                                            style="background-color: greenyellow">
+                                                <f:param value="#{publicoController.evento.terminoInscricao}" />
+                                            </h:outputFormat>
+                                            <h:outputFormat rendered="#{publicoController.evento.periodoInscricaoAberto and publicoController.evento.listaEsperaAberto}"
+                                                            value="O evento já esgotou todas as vagas! As inscrições agora são somente para a lista de espera! As inscrições para esse evento vão até o dia {0, date, dd/MM/yyyy}." 
+                                                            style="background-color: yellow">
+                                                <f:param value="#{publicoController.evento.terminoInscricao}" />
+                                            </h:outputFormat>
+                                            Valor Inscrição
+                                            <p:outputLabel rendered="#{publicoController.evento.valorInscricao gt 0}" value="#{publicoController.evento.valorInscricao}">
+                                                <f:converter binding="#{moedaConverter}"  />
+                                            </p:outputLabel>
+                                            <p:outputLabel rendered="#{publicoController.evento.valorInscricao.unscaledValue() == 0}" value="Inscrição Gratuita." />
+
+                                            <c:if test="#{not empty publicoController.inscricao}">
+                                                Nº Inscrição
+                                                <h:outputText value="#{publicoController.inscricao.id}" />                                                    
+                                            </c:if>
+
+                                        </c:when>                                        
+                                        <c:otherwise>
+                                            <h:outputFormat value="As inscrições para esse evento se encerraram no dia {0, date, dd/MM/yyyy}." 
+                                                            style="background-color: red">
+                                                <f:param value="#{publicoController.evento.terminoInscricao}" />
+                                            </h:outputFormat>
+                                            <c:if test="#{not empty publicoController.inscricao}">
+                                                Nº Inscrição
+                                                <h:outputText value="#{publicoController.inscricao.id}" />
+                                            </c:if>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:when>
+                                <c:otherwise>
+                                    <p:outputLabel value="Não é necessário se inscrever para participar desse evento!" style="background-color: greenyellow" />
+                                </c:otherwise>
+                            </c:choose>                                
+                        </p:panelGrid>
+                        <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />
+                        <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
+                        <c:if test="#{not empty publicoController.inscricao}">
+                            <c:choose>
+                                <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
+                                    <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoController.executaRelatorioPDF()}">
+                                        <f:setPropertyActionListener target="#{comprovanteInscricaoController.inscricao}" value="#{publicoController.inscricao}" />
+                                    </p:commandButton>   
+                                </c:when>
+                                <c:otherwise>
+                                    <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoEventoController.executaRelatorioPDF()}">
+                                        <f:setPropertyActionListener target="#{comprovanteInscricaoEventoController.inscricao}" value="#{publicoController.inscricao}" />
+                                    </p:commandButton>   
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
+                    </p:tab>
+                    <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
+                        <c:if test="#{not empty publicoController.evento.questionario and not empty publicoController.inscricao}">
+                            <p:tab title="Dados da Inscrição">
+                                <p:tabView>
+                                    <ui:include src="../comum/questionario.xhtml">
+                                        <ui:param name="controller" value="#{publicoController}"  />
+                                        <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
+                                        <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
+                                        <ui:param name="inscricaotipo" value="normal"  />
+                                    </ui:include>
+                                </p:tabView>
+                                <p:commandButton value="Salvar" ajax="false" action="#{publicoController.processaQuestionarioEvento}" />
+                            </p:tab>
+                        </c:if>
+                        <c:forEach items="#{publicoController.atividadesTipos}" var="atividadeTipo">
+                            <c:if test="#{not empty publicoController.getAtividades(atividadeTipo)}">  
+                                <p:tab title="#{atividadeTipo.nome}">
+                                    <p:panelGrid>
+                                        <f:facet name="header">
+                                            <p:row>
+                                                <p:column>Atividade</p:column>
+                                                <p:column colspan="2">Data/Horário</p:column>
+                                                <p:column colspan="2">Inscrição</p:column>                                                    
+                                            </p:row>
+                                        </f:facet>
+                                        <c:forEach items="#{publicoController.getAtividades(atividadeTipo)}" var="atividade">
+                                            <p:row>
+                                                <p:column>#{atividade.nome}</p:column>
+                                                <p:column>
+                                                    <p:outputLabel value="#{atividade.inicio}" >
+                                                        <f:convertDateTime pattern="dd/MM HH:mm" locale="pt-BR" />
+                                                    </p:outputLabel>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:outputLabel value="#{atividade.termino}" >
+                                                        <f:convertDateTime pattern="dd/MM HH:mm" locale="pt-BR" />
+                                                    </p:outputLabel>
+                                                </p:column>
+                                                <p:column>
+                                                    <c:choose>
+                                                        <c:when test="#{atividade.necessitaInscricao}">
+                                                            <c:choose>
+                                                                <c:when test="#{not empty publicoController.inscricao.getItem(atividade)}">
+                                                                    <p:outputLabel value="Inscrito" style="background-color: greenyellow" />
+                                                                </c:when>
+                                                                <c:when test="#{atividade.periodoInscricaoAberto and atividade.vagasAberto}">
+                                                                    Inscrições Abertas
+                                                                </c:when>
+                                                                <c:when test="#{atividade.periodoInscricaoAberto and atividade.listaEsperaAberto}">
+                                                                    <p:outputLabel value="Lista de Espera" style="background-color: yellow" />
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <p:outputLabel value="Inscrições Encerradas" style="background-color: red" />
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <p:outputLabel value="Inscrito" style="background-color: greenyellow" />
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </p:column>
+                                                <p:column>
+                                                    <p:commandButton value="Detalhes e Inscrição" action="inscricaoAtividade.xhtml">
+                                                        <f:setPropertyActionListener target="#{publicoController.atividade}" value="#{atividade}" />
+                                                    </p:commandButton>
+                                                </p:column>
+                                            </p:row>
+                                        </c:forEach>
+                                    </p:panelGrid>
+                                </p:tab>
+                            </c:if>
+                        </c:forEach>
+                    </c:if> 
+                </p:tabView>
+
+                <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricao}" message="Deseja se inscrever no evento?"  
+                                 header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                    <c:if test="#{not empty publicoController.evento.questionario}">
+                        <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
+                        <p:scrollPanel mode="native" style="width:600px;height:400px">
+                            <p:tabView>
+                                <ui:include src="../comum/questionario.xhtml">
+                                    <ui:param name="controller" value="#{publicoController}"  />
+                                    <ui:param name="questionario" value="#{publicoController.evento.questionario}"  />
+                                    <ui:param name="inscricao" value="#{publicoController.inscricao}"  />
+                                    <ui:param name="inscricaotipo" value="normal"  />
+                                </ui:include>
+                            </p:tabView>
+                        </p:scrollPanel>
+                    </c:if>
+                    <p:commandButton ajax="false" value="Confirmar Inscrição" action="#{publicoController.inscreverEvento}" />  
+                    <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
+                </p:confirmDialog>  
+
+                <p:confirmDialog id="cancelaInscricao" rendered="#{not empty publicoController.inscricao}" message="Deseja realmente cancelar sua inscrição? 
+                                 Ao confirmar a inscrição todos os dados preenchidos serão apagados."
+                                 header="Confirmação" severity="alert" widgetVar="msgCancelar">  
+
+                    <p:commandButton ajax="false" value="Confirmar Cancelamento" action="#{publicoController.cancelarInscricaoEvento}" />  
+                    <p:commandButton value="Voltar" onclick="msgCancelar.hide();" type="button" />   
+                </p:confirmDialog>
+                <p:commandButton value="Selecionar outro evento" action="selecionaEvento.xhtml" />
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
