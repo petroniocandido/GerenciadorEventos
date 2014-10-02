@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciadorMensagens.Application;
 import br.edu.ifnmg.DomainModel.Services.MailService;
 import br.edu.ifnmg.GerenciadorMensagens.DataAccess.MensagemDAO;
 import br.edu.ifnmg.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.Services.ConfiguracaoService;
 import br.edu.ifnmg.DomainModel.Services.MensagemRepositorio;
 import java.util.List;
 
@@ -19,7 +20,16 @@ public class GerenciadorMensagens {
 
     public static void main(String[] args) throws InterruptedException {
         while (true) {
-            Thread.sleep(1000 * 60 * 3);
+            ConfiguracaoService configuracao = new ConfiguracaoServiceImpl();
+            String conf_minutos;
+            conf_minutos = configuracao.get("GERENCIADORMENSAGENS_INTERVALO");
+            int minutos = 3;
+            try {
+                minutos = Integer.parseInt(conf_minutos);
+            } catch(Exception ex){
+                
+            }
+            Thread.sleep(1000 * 60 * minutos);
             try {
                 MensagemRepositorio mDAO = new MensagemDAO();
                 MailService mail = new MailServiceImpl();

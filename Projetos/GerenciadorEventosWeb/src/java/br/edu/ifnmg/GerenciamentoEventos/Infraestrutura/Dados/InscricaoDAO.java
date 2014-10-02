@@ -17,7 +17,6 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;

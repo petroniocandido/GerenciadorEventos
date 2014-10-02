@@ -57,7 +57,8 @@ import javax.persistence.Version;
 @Table(name = "atividades")
 @NamedQueries({
     @NamedQuery(name = "atividades.porTipoEvento", query = "SELECT a FROM Atividade a where a.tipo = :tipo and a.evento = :evento and (a.status = :pendente or a.status = :emexecucao) order by a.inicio, a.termino"),
-    @NamedQuery(name = "atividades.ativasUsuario", query = "SELECT a FROM Atividade a join a.responsaveis r where r.id = :idUsuario and a.termino <= :termino and a.status <> :cancelado and a.status <> :concluido")
+    @NamedQuery(name = "atividades.ativasUsuario", query = "SELECT a FROM Atividade a join a.responsaveis r where r.id = :idUsuario and a.termino <= :termino and a.status <> :cancelado and a.status <> :concluido"),
+    @NamedQuery(name = "atividades.responsavel", query = "SELECT a FROM Atividade a join a.responsaveis r where a.evento = :evento and ( r.id = :idUsuario or a.responsavelPrincipal = :idUsuario )")
     })
 public class Atividade implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;

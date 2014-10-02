@@ -45,6 +45,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -60,6 +62,9 @@ import javax.persistence.Version;
 @Cacheable(true)
 @Entity
 @Table(name = "eventos")
+@NamedQueries({
+    @NamedQuery(name = "eventos.responsavel", query = "SELECT e FROM Evento e join e.responsaveis r where r.id = :idResponsavel"),
+    })
 public class Evento implements Entidade, Serializable {
 
     private static final long serialVersionUID = 1L;
