@@ -37,7 +37,7 @@ public class MoedaConverter implements Converter {
     
     static Locale ptBR = new Locale("pt","BR");
 
-    @Override
+   @Override
     public Object getAsObject(FacesContext facesContext,
             UIComponent uiComponent, String value) {
 
@@ -83,4 +83,5 @@ public class MoedaConverter implements Converter {
             throw new ConverterException("Formato não é número.");
         }
     }
+    
 }

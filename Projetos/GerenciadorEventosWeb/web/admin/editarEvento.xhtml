@@ -56,9 +56,8 @@
                         <p:tab id="tabDetalhes" title="Detalhes">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Carga Horária: " />
-                                <pe:inputNumber value="#{eventoController.entidade.cargaHoraria}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{eventoController.entidade.cargaHoraria}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{eventoController.entidade.inicio}" pattern="dd/MM/yyyy HH:mm"
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!"/>
@@ -79,11 +78,10 @@
                                 <h:outputText value="Necessita inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Número de vagas: " />
-                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Valor Inscrição: " />
-                                <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" >
+                                <pe:inputNumber symbol="R$ " value="#{eventoController.entidade.valorInscricao}" >
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                                 <h:outputText value="Início Inscriçães: " />
@@ -180,9 +178,8 @@
                                     <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
                                 </p:selectOneMenu>>
                                 <h:outputText value="Limite: " />
-                                <pe:inputNumber value="#{eventoController.limite}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{eventoController.limite}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <p:commandButton value="Adicionar" action="#{eventoController.addLimite()}" update="tblLimites" />
                             </h:panelGrid>
                             <p:dataTable id="tblLimites" value="#{eventoController.limitesAtividades}" var="item"

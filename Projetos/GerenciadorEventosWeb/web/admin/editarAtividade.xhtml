@@ -62,9 +62,8 @@
                                 <h:outputText value="Gera certificado?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.geraCertificado}" />
                                 <h:outputText value="Carga Horária: " />
-                                <pe:inputNumber value="#{atividadeController.entidade.cargaHoraria}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{atividadeController.entidade.cargaHoraria}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!" />
@@ -97,9 +96,8 @@
                                     <f:convertNumber currencyCode="pt-BR" />                                    
                                 </pe:inputNumber>
                                 <h:outputText value="Número de vagas: " />
-                                <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>                                
+                                <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Início do período de inscrições: " />
                                 <p:calendar value="#{atividadeController.entidade.inicioInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Término do período de inscrições: " />
