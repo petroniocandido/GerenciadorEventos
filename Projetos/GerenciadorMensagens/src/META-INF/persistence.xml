@@ -8,6 +8,7 @@
     <class>br.edu.ifnmg.DomainModel.Pessoa</class>
     <class>br.edu.ifnmg.DomainModel.Permissao</class>
     <class>br.edu.ifnmg.DomainModel.Perfil</class>
+    <class>br.edu.ifnmg.DomainModel.MensagemPerfil</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/GerenciamentoEventos?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.password" value=""/>
