@@ -18,5 +18,10 @@ public class MensagemPerfilDAO extends DAO<MensagemPerfil> implements MensagemPe
     public MensagemPerfilDAO() {
         super(MensagemPerfil.class);
     }
+    
+    @Override
+    public MensagemPerfil getPadrao() {
+        return IgualA("padrao", true).Abrir();
+    }
        
 }

@@ -87,11 +87,11 @@
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemMensagens.xhtml')}" value="Mensagens Pendentes" url="listagemMensagens.xhtml"  />
                     </p:submenu>
                     <p:submenu label="Importa CSV">
-                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/importaCSVPessoas.xhtml')}" value="Pessoas" url="importaCSVPessoas.xhtml"  />
-                    </p:submenu>
                 </p:submenu>
                 <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
                 
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/importaCSVPessoas.xhtml')}" value="Pessoas" url="importaCSVPessoas.xhtml"  />
+                    </p:submenu>
                 <p:menuitem style="position: absolute; left: 75%; font-weight: bold; " value="#{autenticacaoController.usuarioCorrente.nome}" url="editarDadosPessoais.xhtml" />
             </p:menubar>
             <p:growl showDetail="true" id="messages" sticky="true"  life="60" />

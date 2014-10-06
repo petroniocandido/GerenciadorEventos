@@ -34,33 +34,33 @@
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
-                                <h:outputText value="Nome: " />
-                                <p:inputText id="txtNome" size="50" value="#{eventoController.filtro.nome}"/>                                 
+                                <h:outputText value="Assunto: " />
+                                <p:inputText id="txtNome" size="50" value="#{mensagemController.filtro.assunto}"/>                                 
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
-                                <ui:param name="controller" value="#{eventoController}"  />
+                                <ui:param name="controller" value="#{mensagemController}"  />
                                 <ui:param name="campos" value="txtNome"  />
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
                     
-                    <p:dataTable value="#{eventoController.dataModel}" var="item" selectionMode="single"
+                    <p:dataTable value="#{mensagemController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
-                        <p:ajax event="rowSelect" listener="#{eventoController.onRowSelect}" />
+                        <p:ajax event="rowSelect" listener="#{mensagemController.onRowSelect}" />
                         
                         <p:column headerText="Cód." sortBy="id"   >
                             #{item.id}
                         </p:column>
-                        <p:column headerText="Nome" sortBy="nome"  >
-                            #{item.nome}
+                        <p:column headerText="Destinatario"  >
+                            #{item.destinatario}
                         </p:column>
-                        <p:column headerText="Usuário" sortBy="usuario"  >
-                            #{item.usuario}
+                        <p:column headerText="Assunto" >
+                            #{item.assunto}
                         </p:column>
-                        <p:column headerText="Servidor" sortBy="servidor"  >
-                            #{item.servidor}
+                        <p:column headerText="Perfil" >
+                            #{item.perfil}
                         </p:column>
                     </p:dataTable>
                 </p:panel>

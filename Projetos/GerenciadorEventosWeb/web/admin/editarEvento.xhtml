@@ -97,6 +97,10 @@
                                         #{p.titulo}  
                                     </p:column>                                
                                 </p:autoComplete>
+                                 <h:outputText value="Perfil de envio de e-mails:: " />
+                                 <h:selectOneMenu value="#{eventoController.entidade.mensagemPerfil}" >
+                                     <f:selectItems value="#{mensagemPerfilController.listagemGeral}" />
+                                </h:selectOneMenu>
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Responsáveis">  

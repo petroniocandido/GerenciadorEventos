@@ -20,6 +20,7 @@ import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.ValidacaoException;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.DomainModel.Entidade;
+import br.edu.ifnmg.DomainModel.MensagemPerfil;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -152,6 +153,9 @@ public class Evento implements Entidade, Serializable {
     @MapKeyJoinColumn(name = "atividadeTipo", referencedColumnName = "id")
     @Column(name = "quantidadeInscricoes")
     private Map<AtividadeTipo, Integer> inscricoesPorAtividade;
+    
+    @ManyToOne
+    private MensagemPerfil mensagemPerfil;
 
     public Evento() {
         recursos = new ArrayList<>();
@@ -551,6 +555,14 @@ public class Evento implements Entidade, Serializable {
 
     public void setInscricoesPorAtividade(Map<AtividadeTipo, Integer> inscricoesPorAtividade) {
         this.inscricoesPorAtividade = inscricoesPorAtividade;
+    }
+
+    public MensagemPerfil getMensagemPerfil() {
+        return mensagemPerfil;
+    }
+
+    public void setMensagemPerfil(MensagemPerfil mensagemPerfil) {
+        this.mensagemPerfil = mensagemPerfil;
     }
     
     

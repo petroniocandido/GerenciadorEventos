@@ -20,7 +20,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <body>
 
@@ -36,33 +37,33 @@
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Nome: " />
-                                <p:inputText value="#{configuracaoController.entidade.nome}" 
+                                <p:inputText value="#{mensagemPerfilController.entidade.nome}" 
                                              required="true" requiredMessage="O campo nome é obrigatório" />
-
-                                <h:outputText value="Usuário: " />
-                                <p:inputText value="#{configuracaoController.entidade.usuario}" 
+                                <h:outputText value="Usuário SMTP: " />
+                                <p:inputText value="#{mensagemPerfilController.entidade.usuario}" 
                                              required="true" requiredMessage="O campo usuário é obrigatório" />
-                                <h:outputText value="Senha: " />
-                                <p:inputText value="#{configuracaoController.entidade.senha}" 
+                                <h:outputText value="Senha SMTP: " />
+                                <p:password value="#{mensagemPerfilController.entidade.senha}" 
                                              required="true" requiredMessage="O campo senha é obrigatório" />
-                                <h:outputText value="Servidor: " />
-                                <p:inputText value="#{configuracaoController.entidade.servidor}" 
+                                <h:outputText value="Servidor SMTP: " />
+                                <p:inputText value="#{mensagemPerfilController.entidade.servidor}" 
                                              required="true" requiredMessage="O campo servidor é obrigatório" />
-                                <h:outputText value="Porta: " />
-                                <p:inputText value="#{configuracaoController.entidade.porta}" 
+                                <h:outputText value="Porta SMTP: " />
+                                <pe:inputNumber value="#{mensagemPerfilController.entidade.porta}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" 
                                              required="true" requiredMessage="O campo porta é obrigatório" />
-                                <h:outputText value="Conexão Segura ?: " />
-                                <p:inputText value="#{configuracaoController.entidade.ssl}" />
-                                <h:outputText value="Mensagens em HTML ?: " />
-                                <p:inputText value="#{configuracaoController.entidade.html}" />
+                                <h:outputText value="Utilizar Conexão Segura ? " />
+                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.ssl}" />
+                                <h:outputText value="Utilizar Mensagens em HTML ? " />
+                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.html}" />
                             </h:panelGrid> 
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
-                            <ui:param name="controller" value="#{configuracaoController}"  />
+                            <ui:param name="controller" value="#{mensagemPerfilController}"  />
                         </ui:include>
                     </p:tabView>
                     <ui:include src="./comum/botoesEntidade.xhtml">
-                        <ui:param name="controller" value="#{configuracaoController}"  />
+                        <ui:param name="controller" value="#{mensagemPerfilController}"  />
                     </ui:include>
                 </p:panel>
             </ui:define>

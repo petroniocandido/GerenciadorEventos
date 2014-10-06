@@ -47,6 +47,17 @@ public class MailServiceImpl implements MailService {
 
     private String proxyPorta;
 
+    public MailServiceImpl(String servidor, String porta, String autenticacao, String tls, String usuario, String senha, String proxyServidor, String proxyPorta) {
+        this.servidor = servidor;
+        this.porta = porta;
+        this.autenticacao = autenticacao;
+        this.tls = tls;
+        this.usuario = usuario;
+        this.senha = senha;
+        this.proxyServidor = proxyServidor;
+        this.proxyPorta = proxyPorta;
+    }
+    
     public MailServiceImpl() {
         this.servidor = configuracao.get("SMTP_SERVIDOR");
         this.porta = configuracao.get("SMTP_PORTA");
