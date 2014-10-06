@@ -82,6 +82,10 @@
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemPerfis.xhtml')}" value="Perfis" url="listagemPerfis.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemPermissoes.xhtml')}" value="Permissões"  url="listagemPermissoes.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLogs.xhtml')}" value="Logs" url="listagemLogs.xhtml"  />
+                    <p:submenu label="E-mails">
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemMensagensPerfis.xhtml')}" value="Perfis" url="listagemMensagensPerfis.xhtml"  />
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemMensagens.xhtml')}" value="Mensagens Pendentes" url="listagemMensagens.xhtml"  />
+                    </p:submenu>
                     <p:submenu label="Importa CSV">
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/importaCSVPessoas.xhtml')}" value="Pessoas" url="importaCSVPessoas.xhtml"  />
                     </p:submenu>
