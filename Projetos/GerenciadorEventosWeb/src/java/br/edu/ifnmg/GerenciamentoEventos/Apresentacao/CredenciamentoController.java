@@ -94,12 +94,17 @@ public class CredenciamentoController
             String tmp = getSessao("credInsc");
             if(tmp != null)
                 id = Long.parseLong(tmp);
+            else
+                id = 0L;
         }
         return id;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        if(id != null)
+            this.id = id;
+        else 
+            this.id = 0L;
         setSessao("credInsc", id.toString());
     }
 
@@ -112,7 +117,7 @@ public class CredenciamentoController
 
     public void setInscricao(Inscricao inscricao) {
         this.inscricao = inscricao;
-        setSessao("credInsc", inscricao);
+        if(inscricao != null) setId(inscricao.getId());
     }
 
     public Evento getEvento() {

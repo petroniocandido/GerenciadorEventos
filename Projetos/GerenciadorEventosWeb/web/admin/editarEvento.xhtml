@@ -98,7 +98,7 @@
                                     </p:column>                                
                                 </p:autoComplete>
                                  <h:outputText value="Perfil de envio de e-mails:: " />
-                                 <h:selectOneMenu value="#{eventoController.entidade.mensagemPerfil}" >
+                                 <h:selectOneMenu value="#{eventoController.entidade.mensagemPerfil}" converter="#{mensagemPerfilConverter}" >
                                      <f:selectItems value="#{mensagemPerfilController.listagemGeral}" />
                                 </h:selectOneMenu>
                             </h:panelGrid> 

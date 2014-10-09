@@ -18,6 +18,8 @@ package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
 import br.edu.ifnmg.DomainModel.Services.MailService;
 import br.edu.ifnmg.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.MensagemPerfil;
+import br.edu.ifnmg.DomainModel.Services.MensagemPerfilRepositorio;
 import br.edu.ifnmg.DomainModel.Services.MensagemRepositorio;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -29,9 +31,22 @@ public class MailServiceImpl implements MailService {
     @EJB
     MensagemRepositorio dao;
     
+    @EJB
+    MensagemPerfilRepositorio daoPerfil;
+    
     @Override
     public boolean enviar(String destinatario, String assunto, String corpo) {
-        return dao.Salvar(new Mensagem(destinatario, assunto, corpo));
+        return dao.Salvar(new Mensagem(destinatario, assunto, corpo, daoPerfil.getPadrao()));
+    }
+
+    @Override
+    public boolean enviar(Mensagem m) {
+        return dao.Salvar(m);
+    }
+
+    @Override
+    public boolean enviar(String destinatario, String assunto, String corpo, MensagemPerfil perfil) {
+        return dao.Salvar(new Mensagem(destinatario, assunto, corpo, perfil));
     }
 
 }

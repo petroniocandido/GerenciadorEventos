@@ -20,7 +20,6 @@ import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoRepositorio;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.DomainModel.Services.MailService;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.Serializable;
 import java.util.Enumeration;

@@ -18,10 +18,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.DomainModel.Pessoa;
-import java.util.Date;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -35,21 +32,9 @@ public class InscricaoConfirmacaoService {
     @EJB
     InscricaoRepositorio daoInsc;
     
-    @EJB
-    LancamentoRepositorio daoLanc;
     
     public boolean confirmar(Inscricao i, Pessoa p){
-        i.setCompareceu(true);
-        i.setDataPagamento(new Date());
-        i.setPago(true);
-        i.setStatus(InscricaoStatus.Confirmada);
-        if(i.getLancamento() == null){
-            Lancamento l = i.criarLancamento(p);
-            i.setLancamento(l);
-            l.baixar(p);
-            daoLanc.Salvar(l);
-        }
-        
+        i.pagar(p);
         return daoInsc.Salvar(i);
     }
 }

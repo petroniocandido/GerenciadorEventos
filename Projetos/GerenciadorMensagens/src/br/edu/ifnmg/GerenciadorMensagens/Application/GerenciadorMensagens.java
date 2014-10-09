@@ -19,11 +19,8 @@ package br.edu.ifnmg.GerenciadorMensagens.Application;
 import br.edu.ifnmg.DomainModel.Services.MailService;
 import br.edu.ifnmg.GerenciadorMensagens.DataAccess.MensagemDAO;
 import br.edu.ifnmg.DomainModel.Mensagem;
-import br.edu.ifnmg.DomainModel.MensagemPerfil;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoService;
-import br.edu.ifnmg.DomainModel.Services.MensagemPerfilRepositorio;
 import br.edu.ifnmg.DomainModel.Services.MensagemRepositorio;
-import br.edu.ifnmg.GerenciadorMensagens.DataAccess.MensagemPerfilDAO;
 import java.util.List;
 
 /**
@@ -46,39 +43,32 @@ public class GerenciadorMensagens {
             Thread.sleep(1000 * 60 * minutos);
             int total = 0, totalEnviado = 0, totalNaoEnviado = 0, totalErro = 0;
             br.edu.ifnmg.DomainModel.Services.LogService log = new LogServiceImpl();
+            MailService mail = new MailServiceImpl();
             try {
-                MensagemPerfilRepositorio mpDAO = new MensagemPerfilDAO();
                 MensagemRepositorio mDAO = new MensagemDAO();
-
-                List<MensagemPerfil> perfis = mpDAO.Buscar();
-
-                for (MensagemPerfil mp : perfis) {
-                    MailService mail = new MailServiceImpl(mp.getServidor(), Integer.toString(mp.getPorta()),
-                            "true", Boolean.toString(mp.isSsl()), mp.getUsuario(), mp.getSenha(), "", "");
-
-                    List<Mensagem> mensagens = mDAO.porPerfil(mp);
-                    total = mensagens.size();
-                    for (Mensagem m : mensagens) {
-                        try {
-                            if (mail.enviar(m.getDestinatario(), m.getAssunto(), m.getCorpo())) {
-                                totalEnviado++;
-                                mDAO.Apagar(m);
+                List<Mensagem> mensagens = mDAO.Buscar();
+                total = mensagens.size();
+                for (Mensagem m : mensagens) {
+                    try {
+                        if (mail.enviar(m)) {
+                            totalEnviado++;
+                            mDAO.Apagar(m);
+                        } else {
+                            totalNaoEnviado++;
+                            if (m.getNumeroTentativas() <= 5) {
+                                m.setNumeroTentativas(m.getNumeroTentativas() + 1);
                             } else {
-                                totalNaoEnviado++;
-                                if (m.getNumeroTentativas() <= 5) {
-                                    m.setNumeroTentativas(m.getNumeroTentativas() + 1);
-                                } else {
-                                    mDAO.Apagar(m);
-                                    log.Append("A mensagem \'" + m.getAssunto() + "\" para o destinatário \"" + m.getDestinatario()
-                                            + " está sendo removida após 5 tentativas de envio sem êxito!");
-                                }
+                                mDAO.Apagar(m);
+                                log.Append("A mensagem \'" + m.getAssunto() + "\" para o destinatário \"" + m.getDestinatario()
+                                        + " está sendo removida após 5 tentativas de envio sem êxito!");
                             }
-                        } catch (Exception ex) {
-                            totalErro++;
-                            log.Append("Erro ao processar a mensagem : " + ex.getMessage());
-                            System.out.println("Erro ao processar a mensagem : " + ex.getMessage());
                         }
+                    } catch (Exception ex) {
+                        totalErro++;
+                        log.Append("Erro ao processar a mensagem : " + ex.getMessage());
+                        System.out.println("Erro ao processar a mensagem : " + ex.getMessage());
                     }
+
                 }
 
                 log.Append("Término da execução do Gerenciador de Mensagens: " + total + " mensagens, "

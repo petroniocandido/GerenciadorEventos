@@ -53,9 +53,11 @@
                                                 thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" 
                                              required="true" requiredMessage="O campo porta é obrigatório" />
                                 <h:outputText value="Utilizar Conexão Segura ? " />
-                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.ssl}" />
+                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.requerSsl}" />
                                 <h:outputText value="Utilizar Mensagens em HTML ? " />
                                 <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.html}" />
+                                <h:outputText value="Perfil padrão ? " />
+                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.padrao}" />
                             </h:panelGrid> 
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">

@@ -47,16 +47,16 @@ public class IntegerConverter implements Converter {
             return "";
         }
         if (value instanceof String) {
-
             return (String) value;
         }
-        try {
-            FacesContext fc = FacesContext.getCurrentInstance();
-            Integer valor = (Integer)value;
-            return value.toString();
-
-        } catch (Exception e) {
-            throw new ConverterException("Formato não é número.");
+        if (value instanceof Integer) {
+            return ((Integer) value).toString();
         }
+        if (value instanceof Long) {
+            return ((Long) value).toString();
+        }
+
+        throw new ConverterException("Formato não é número.");
+        
     }
 }

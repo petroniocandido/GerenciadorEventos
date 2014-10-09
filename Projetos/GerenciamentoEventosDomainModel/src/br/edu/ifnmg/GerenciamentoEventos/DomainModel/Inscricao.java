@@ -104,7 +104,7 @@ public class Inscricao implements Entidade, Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Lancamento lancamento;
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -140,7 +140,19 @@ public class Inscricao implements Entidade, Serializable {
             lancamento.cancelar(pessoa);
     }
     
-    public void pagar() {
+    public Lancamento pagar(Pessoa operador) {
+        if(pago)
+            return getLancamento();
+        
+        setCompareceu(true);
+        setDataPagamento(new Date());
+        setPago(true);
+        setStatus(InscricaoStatus.Confirmada);
+        
+        Lancamento l = criarLancamento(operador);
+        setLancamento(l);
+        l.baixar(operador);
+        
         for(InscricaoItem i : itens){
             i.setPago(true);
             if(i.getStatus() == InscricaoStatus.Criada)
@@ -148,6 +160,8 @@ public class Inscricao implements Entidade, Serializable {
         }
         if(status == InscricaoStatus.Criada)
             setStatus(InscricaoStatus.Confirmada);
+        
+        return l;
     }
     
     
@@ -280,8 +294,6 @@ public class Inscricao implements Entidade, Serializable {
     }
 
     public void setPago(boolean pago) {
-        if(pago == true && this.pago == false)
-            pagar();
         this.pago = pago;
     }
 
