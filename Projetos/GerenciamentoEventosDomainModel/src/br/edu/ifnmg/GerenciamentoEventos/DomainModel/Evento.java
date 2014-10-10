@@ -267,6 +267,19 @@ public class Evento implements Entidade, Serializable {
             responsaveis.remove(responsavel);
         }
     }
+    
+    public void add(Alocacao recurso){
+        recurso.setEvento(this);
+        if(!recursos.contains(recurso)){            
+            recursos.add(recurso);
+        }
+    }
+    public void remove(Alocacao recurso){
+        if(recursos.contains(recurso)){
+            recursos.remove(recurso);
+            recurso.setStatus(AlocacaoStatus.Cancelado);
+        }
+    }
 
     @Override
     public Long getId() {

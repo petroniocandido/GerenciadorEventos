@@ -25,6 +25,9 @@ import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AlocacaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -34,6 +37,10 @@ import java.util.Map.Entry;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 
@@ -56,11 +63,16 @@ public class EventoController
     @EJB
     EventoRepositorio dao;
     
+    @EJB
+    AlocacaoRepositorio alocDAO;
+    
     UploadedFile arquivo;
     
     AtividadeTipo atividadeTipo;
     
     Integer limite;
+    
+    Alocacao alocacao;
 
     public UploadedFile getArquivo() {
         return arquivo;
@@ -199,6 +211,57 @@ public class EventoController
     
     public List<Entry<AtividadeTipo, Integer>> getLimitesAtividades() {
         return new ArrayList<Entry<AtividadeTipo, Integer>>(entidade.getInscricoesPorAtividade().entrySet());
+    }
+    
+    public void addAlocacao() {
+        entidade = dao.Refresh(getEntidade());
+        Rastrear(alocacao);
+        alocacao.setInicio(entidade.getInicio());
+        alocacao.setTermino(entidade.getTermino());
+
+        List<Alocacao> tmp = alocDAO.conflitos(alocacao);
+
+        if (!tmp.isEmpty()) {
+            MensagemErro("Conflito de Horário", "O recurso já está alocado para o horário desta atividade!");
+            return;
+        }
+
+        entidade.add(alocacao);
+        SalvarAgregado(alocacao);
+        alocacao = new Alocacao();
+    }
+
+    public void validaAlocacao(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+        entidade = dao.Refresh(getEntidade());
+
+        Alocacao tmp = new Alocacao();
+        tmp.setRecurso((Recurso) value);
+        tmp.setInicio(entidade.getInicio());
+        tmp.setTermino(entidade.getTermino());
+
+        List<Alocacao> conflitos = alocDAO.conflitos(tmp);
+
+        if (!conflitos.isEmpty() && !conflitos.get(0).getAtividade().equals(entidade) ) {
+             FacesMessage msg
+                    = new FacesMessage("Conflito de Horário", "O recurso "+ value +" já está alocado para este horário na atividade " + conflitos.get(0).getAtividade() +"!");
+            msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+            throw new ValidatorException(msg);
+        }
+    }
+
+    public void removeAlocacao() {
+        entidade.remove(alocacao);
+        RemoverAgregado(alocacao);
+        alocacao = new Alocacao();
+    }
+
+    public Alocacao getAlocacao() {
+        return alocacao;
+    }
+
+    public void setAlocacao(Alocacao alocacao) {
+        this.alocacao = alocacao;
     }
     
     

@@ -176,6 +176,25 @@ public class InscricaoItemController
         }
     }
     
+    public void cancelar(InscricaoItem itm) throws Exception {
+        if(service.cancelar(itm)){
+            AppendLog("Item de Inscrição cancelado: " + itm.getPessoa().getNome());
+            Mensagem("Confirmação", "Inscrição cancelada com êxito!");
+        } else {
+            AppendLog("Erro ao cancelar inscrição: " + dao.getErro().getMessage());
+            MensagemErro("Atenção", "Erro ao cancelar inscrição! Consulte o administrador do sistema!");
+        }
+    }
+    
+    public void promover() throws Exception {
+        if(service.promoverListaEsperaParaNormal(getEntidade())){
+            Mensagem("Confirmação", "Inscrição em lista de espera promovida a inscrição normal com êxito!");
+        } else {
+            //AppendLog("Erro ao promover inscrição: " + dao.getErro().getMessage());
+            MensagemErro("Atenção", "Erro ao promover inscrição! Consulte o administrador do sistema!");
+        }
+    }
+    
      public List<Pessoa> getPessoa() {
         List<Pessoa> pessoas = new ArrayList<>();
         pessoas.add(getEntidade().getPessoa());

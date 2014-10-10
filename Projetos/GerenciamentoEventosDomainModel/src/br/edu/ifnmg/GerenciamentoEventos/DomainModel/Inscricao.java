@@ -120,6 +120,14 @@ public class Inscricao implements Entidade, Serializable {
         status = InscricaoStatus.Criada;
     }
     
+    public boolean isPendente() {
+        return status == InscricaoStatus.Criada || status == InscricaoStatus.Aceita;
+    }
+    
+    public boolean isCancelada() {
+        return status == InscricaoStatus.Cancelada || status == InscricaoStatus.Recusada;
+    }
+    
     public void cancelar(){
         
         for(InscricaoItem i : itens){

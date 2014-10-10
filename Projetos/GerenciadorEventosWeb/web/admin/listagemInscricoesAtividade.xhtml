@@ -46,6 +46,12 @@
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete> 
+                                 <h:outputText value="Participante: " />
+                                 <p:autoComplete converter="#{usuarioConverter}" value="#{inscricaoItemController.filtro.pessoa}"
+                                                 completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
                                 <h:outputText value="Categoria: " />
                                 <h:selectOneMenu value="#{inscricaoItemController.filtro.categoria}">
                                     <f:selectItems value="#{inscricaoController.categorias}" />
@@ -92,8 +98,12 @@
                                     <p:selectBooleanCheckbox  value="#{item.compareceu}" style="margin-left: 40%" disabled="true"  />
                                 </p:column>
                                 <p:column >
-                                    <p:commandButton rendered="#{autenticacaoController.autorizacao('checkInAtividade')}" value="Check in" ajax="false" action="#{inscricaoItemController.checkIn(item)}" />
-                                </p:column>                                
+                                    <p:commandButton rendered="#{autenticacaoController.autorizacao('checkInAtividade')}" disabled="#{not item.pendente}"
+                                                     value="Check in" ajax="false" action="#{inscricaoItemController.checkIn(item)}" />
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton disabled="#{item.cancelada and not item.pendente}" value="Cancelar" ajax="false" action="#{inscricaoItemController.cancelar(item)}" />
+                                </p:column>
                             </p:dataTable>
                         </p:tab>
                         <ui:include src="./comum/tabEnviarMensagem.xhtml">

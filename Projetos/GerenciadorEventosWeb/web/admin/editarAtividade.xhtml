@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -110,6 +110,12 @@
                                         #{p.titulo}  
                                     </p:column>                                
                                 </p:autoComplete>
+                                <h:outputText value="Total de inscritos: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.controle.quantidadeGeral}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                <h:outputText value="Lista de Espera: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.controle.quantidadeListaEspera}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                             </h:panelGrid>
                         </p:tab>
                         <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Responsáveis">  
@@ -183,7 +189,7 @@
                                         <f:selectItems value="#{atividadeController.statusAlocacao}" />
                                     </h:selectOneMenu>
                                 </p:column>
-                                
+
                                 <p:column >
                                     <p:commandButton value="Remover" ajax="false" action="#{atividadeController.removeAlocacao}" >
                                         <f:setPropertyActionListener target="#{atividadeController.alocacao}" value="#{item}" />

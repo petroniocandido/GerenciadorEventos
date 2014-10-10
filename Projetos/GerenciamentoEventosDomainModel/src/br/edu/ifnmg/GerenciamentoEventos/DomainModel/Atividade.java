@@ -240,8 +240,7 @@ public class Atividade implements Entidade, Serializable {
     public void remove(Alocacao recurso){
         if(recursos.contains(recurso)){
             recursos.remove(recurso);
-            recurso.setAtividade(null);
-            recurso.setEvento(null);
+            recurso.setStatus(AlocacaoStatus.Cancelado);
         }
     }
 
