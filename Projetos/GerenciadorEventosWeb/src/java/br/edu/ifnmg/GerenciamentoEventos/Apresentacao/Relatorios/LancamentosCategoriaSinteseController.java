@@ -20,6 +20,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -39,14 +40,14 @@ import javax.enterprise.context.RequestScoped;
  */
 @Named(value = "lancamentoCategoriaSinteseController")
 @RequestScoped
-public class LancamentoCategoriaSinteseController
+public class LancamentosCategoriaSinteseController
         extends ControllerBaseRelatorio<Lancamento>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public LancamentoCategoriaSinteseController() {
+    public LancamentosCategoriaSinteseController() {
         setArquivoSaida("LancamentosCategoriaSintese");
         setRelatorio("LancamentosCategoriaSintese.jasper");
         filtro = new Lancamento();
@@ -75,8 +76,7 @@ public class LancamentoCategoriaSinteseController
     public List<Lancamento> getDados() {
         return daoLancamento
                 .IgualA("evento", filtro.getEvento())
-                .IgualA("atividade", filtro.getAtividade())
-                .IgualA("status", filtro.getStatus())
+                .IgualA("status", LancamentoStatus.Baixado)
                 .Ordenar("categoria", "ASC")
                 .Buscar();
     }

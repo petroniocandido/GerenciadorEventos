@@ -30,6 +30,7 @@ import javax.ejb.Local;
 @Local
 public interface LancamentoRepositorio extends Repositorio<Lancamento> {
      public LancamentoCategoria AbrirCategoria(Long id);
+     public LancamentoCategoria CategoriaPadrao();
      public boolean SalvarCategoria(LancamentoCategoria obj);
      public boolean ApagarCategoria(LancamentoCategoria obj);
      public List<LancamentoCategoria> BuscarCategorias(LancamentoCategoria filtro);

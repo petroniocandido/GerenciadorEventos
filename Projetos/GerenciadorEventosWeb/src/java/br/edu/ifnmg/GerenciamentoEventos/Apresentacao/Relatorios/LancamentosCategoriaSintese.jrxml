@@ -11,10 +11,10 @@
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
 	<variable name="categoria.nome_1" class="java.math.BigDecimal" resetType="Group" resetGroup="Categoria" calculation="Sum">
-		<variableExpression><![CDATA[$F{categoria.nome}]]></variableExpression>
+		<variableExpression><![CDATA[$F{valorTotalComSinal}]]></variableExpression>
 	</variable>
 	<variable name="somatorioParcial" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
-		<variableExpression><![CDATA[$V{categoria.nome_1}]]></variableExpression>
+		<variableExpression><![CDATA[$F{valorTotalComSinal}]]></variableExpression>
 	</variable>
 	<variable name="somatorioGeral" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{valorTotalComSinal}]]></variableExpression>

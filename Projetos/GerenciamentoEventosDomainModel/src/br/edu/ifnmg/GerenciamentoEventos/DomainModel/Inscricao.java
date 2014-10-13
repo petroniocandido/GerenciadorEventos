@@ -151,7 +151,7 @@ public class Inscricao implements Entidade, Serializable {
     public Lancamento pagar(Pessoa operador) {
         if(pago)
             return getLancamento();
-        
+               
         setCompareceu(true);
         setDataPagamento(new Date());
         setPago(true);
