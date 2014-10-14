@@ -24,17 +24,16 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioReposi
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 
 /**
  *
  * @author petronio
  */
 @Named(value = "questionarioController")
-@SessionScoped
+@RequestScoped
 public class QuestionarioController
         extends ControllerBaseEntidade<Questionario>
         implements Serializable {
@@ -43,67 +42,52 @@ public class QuestionarioController
      * Creates a new instance of ClienteBean
      */
     public QuestionarioController() {
-        id = 0L;
-        setEntidade(new Questionario());
-        setFiltro(new Questionario());
-        novaQuestao();
-        novaSecao();
+        
     }
+    
     @EJB
     QuestionarioRepositorio dao;
+    
     QuestionarioSecao secao;
+    
     Questao questao;
 
     @PostConstruct
     public void init() {
         setRepositorio(dao);
+        setPaginaEdicao("editarQuestionario.xhtml");
+        setPaginaListagem("listagemQuestionarios.xtml");        
+        questao = new Questao();
+        secao = new QuestionarioSecao();
     }
-
     
-
     @Override
-    public void salvar() {
-        SalvarEntidade();
-
-        // atualiza a listagem
-        filtrar();
+    public Questionario getFiltro() {
+        if (filtro == null) {
+            filtro = new Questionario();
+            filtro.setTitulo(getSessao("qstctrl_titulo"));
+        }
+        return filtro;
     }
 
     @Override
-    public String apagar() {
-        ApagarEntidade();
-        filtrar();
-        return "listagemQuestionarios.xtml";
-    }
-
-    @Override
-    public String abrir() {
-        setEntidade(dao.Abrir(id));
-        return "editarQuestionario.xhtml";
-    }
-
-    @Override
-    public String cancelar() {
-        return "listagemQuestionarios.xhtml";
+    public void setFiltro(Questionario filtro) {
+        this.filtro = filtro;
+        if(filtro != null)
+            setSessao("qstctrl_titulo", filtro.getTitulo());
     }
 
     @Override
     public void limpar() {
-        setId(0L);
         setEntidade(new Questionario());
         setQuestao(new Questao());
         setSecao(new QuestionarioSecao());
     }
 
-    @Override
-    public String novo() {
-        limpar();
-        return "editarQuestionario.xhtml";
-    }
 
     public void addSecao() {
         Refresh();
-        entidade.add(secao);
+        getEntidade().add(secao);
         SalvarAgregado(secao);
         novaSecao();
     }
@@ -116,14 +100,14 @@ public class QuestionarioController
 
     public void removeSecao() {
         Refresh();
-        entidade.remove(secao);
+        getEntidade().remove(secao);
         RemoverAgregado(secao);
         novaSecao();
     }
 
     public void addQuestao() {
         Refresh();
-        entidade.add(questao);
+        getEntidade().add(questao);
         SalvarAgregado(questao);
         novaQuestao();
     }
@@ -136,13 +120,13 @@ public class QuestionarioController
     
     public void editarQuestao() {
         Refresh();
-        entidade.remove(questao);
+        getEntidade().remove(questao);
         dao.Salvar(entidade);        
     }
 
     public void removeQuestao() {
         Refresh();
-        entidade.remove(questao);
+        getEntidade().remove(questao);
         RemoverAgregado(questao);
         novaQuestao();
     }
@@ -168,6 +152,4 @@ public class QuestionarioController
     public QuestaoTipo[] getTipos() {
         return QuestaoTipo.values();
     }
-
-
 }

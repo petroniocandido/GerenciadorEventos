@@ -8,5 +8,5 @@
     </property>
     
   </jsp-config>
-  <property name="alternatedocroot_1" value="from=/arquivos/* dir=/home/petronio/" />
+  <property name="alternatedocroot_1" value="from=/arquivos/* dir=/home/tads/" />
 </glassfish-web-app>

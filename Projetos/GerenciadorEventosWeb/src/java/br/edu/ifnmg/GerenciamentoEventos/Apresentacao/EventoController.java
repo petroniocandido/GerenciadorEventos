@@ -22,7 +22,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.DomainModel.Arquivo;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
@@ -87,6 +86,7 @@ public class EventoController
         setRepositorio(dao);
         setPaginaEdicao("editarEvento.xhtml");
         setPaginaListagem("listagemEventos.xtml");
+        alocacao = new Alocacao();
     }
     
     @Override
