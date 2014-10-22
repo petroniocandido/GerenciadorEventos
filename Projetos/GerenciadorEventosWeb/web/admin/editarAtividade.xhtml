@@ -92,7 +92,7 @@
                                 <h:outputText value="Necessita de Inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Valor da Inscrição: " />                                
-                                <pe:inputNumber symbol="R$ " value="#{atividadeController.entidade.valorInscricao}" >
+                                <pe:inputNumber symbol="R$ " thousandSeparator=""  value="#{atividadeController.entidade.valorInscricao}" >
                                     <f:convertNumber currencyCode="pt-BR" />                                    
                                 </pe:inputNumber>
                                 <h:outputText value="Número de vagas: " />

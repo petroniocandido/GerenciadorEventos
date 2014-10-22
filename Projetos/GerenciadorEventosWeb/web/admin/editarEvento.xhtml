@@ -81,7 +81,7 @@
                                 <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" 
                                                 thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Valor Inscrição: " />
-                                <pe:inputNumber symbol="R$ " value="#{eventoController.entidade.valorInscricao}" >
+                                <pe:inputNumber symbol="R$ " thousandSeparator="" value="#{eventoController.entidade.valorInscricao}" >
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                                 <h:outputText value="Início Inscriçães: " />

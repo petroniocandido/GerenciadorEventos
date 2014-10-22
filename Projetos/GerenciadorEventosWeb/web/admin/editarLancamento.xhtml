@@ -106,17 +106,17 @@
                                 <h:outputText value="Valor Original: " />
                                 <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorOriginal}" 
                                                 required="required" disabled="#{not lancamentoController.editavel}"
-                                                validator="#{lancamentoController.validaValorOriginal}">
+                                                thousandSeparator="" validator="#{lancamentoController.validaValorOriginal}">
                                     <f:convertNumber currencyCode="pt-BR" />
                                     
                                 </pe:inputNumber>
                                 <h:outputText value="Valor Acréscimos: " />
-                                <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorAcrescimos}"
+                                <pe:inputNumber symbol="R$ " thousandSeparator=""  value="#{lancamentoController.entidade.valorAcrescimos}"
                                                 disabled="#{not lancamentoController.editavel}">
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                                 <h:outputText value="Valor Descontos:" />
-                                <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorDescontos}"
+                                <pe:inputNumber symbol="R$ " thousandSeparator=""  value="#{lancamentoController.entidade.valorDescontos}"
                                                 disabled="#{not lancamentoController.editavel}">
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
