@@ -32,27 +32,39 @@
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
                         <p:autoComplete converter="#{eventoConverter}" value="#{lancamentosController.filtro.evento}"
-                                        completeMethod="#{eventoConverter.autoCompleteEvento}" var="item">
-                            #{item.nome}
+                                        completeMethod="#{eventoConverter.autoCompleteEvento}" 
+                                        var="item" itemLabel="#{item.nome}" itemValue="#{item}">
+                            <p:column>#{item.nome}</p:column>
                         </p:autoComplete>
                         <h:outputText value="Cliente: " />
                         <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentosController.filtro.cliente}"
-                                        completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
+                                        completeMethod="#{usuarioConverter.autoCompletePessoa}"  
+                                        var="item" itemLabel="#{item.nome}" itemValue="#{item}">
                             <p:column headerText="CPF">#{item.cpf}</p:column>
                             <p:column headerText="E-Mail">#{item.email}</p:column>
                             <p:column headerText="Nome">#{item.nome}</p:column>
                         </p:autoComplete>
                         <h:outputText value="Usuário de baixa: " />
                         <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentosController.filtro.usuarioBaixa}"
-                                        completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
+                                        completeMethod="#{usuarioConverter.autoCompletePessoa}"  
+                                        var="item" itemLabel="#{item.nome}" itemValue="#{item}">
                             <p:column headerText="CPF">#{item.cpf}</p:column>
                             <p:column headerText="E-Mail">#{item.email}</p:column>
                             <p:column headerText="Nome">#{item.nome}</p:column>
                         </p:autoComplete>
+                        <p:selectOneMenu value="#{lancamentosController.filtro.categoria}">
+                            <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                            <f:selectItems value="#{lancamentoCategoriaController.listagemGeral}" />
+                        </p:selectOneMenu>
                         <h:outputText value="Início: " />
-                        <p:calendar value="#{lancamentosController.inicio}" />
+                        <p:calendar value="#{lancamentosController.inicio}" pattern="dd/MM/yyyy HH:mm" />
                         <h:outputText value="Término: " />
-                        <p:calendar value="#{lancamentosController.termino}" />
+                        <p:calendar value="#{lancamentosController.termino}" pattern="dd/MM/yyyy HH:mm" />
+                        <h:outputText value="Tipo: " />
+                        <h:selectOneMenu value="#{lancamentosController.filtro.tipo}">
+                            <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                            <f:selectItems value="#{lancamentoController.tipos}" />
+                        </h:selectOneMenu>
                         <h:outputText value="Situação: " />
                         <h:selectOneMenu value="#{lancamentosController.filtro.status}">
                             <f:selectItem noSelectionOption="true" itemLabel="Todos" />

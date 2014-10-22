@@ -32,7 +32,7 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
     @Override
     protected StringBuilder gerarCabecalho(Inscricao obj) {
         StringBuilder sb = new StringBuilder();
-        sb.append("pessoa;email;");
+        sb.append("pessoa;email;cpf;inscricao;");
         
         if(obj.getEvento() == null)
             return sb;
@@ -52,7 +52,11 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao>{
         
         QuestionarioResposta resp = obj.getResposta();
         
-        sb.append(limparTexto(obj.getPessoa().getNome())).append(";").append(limparTexto(obj.getPessoa().getEmail())).append(";");
+        sb.append(limparTexto(obj.getPessoa().getNome()))
+                .append(";").append(limparTexto(obj.getPessoa().getEmail()))
+                .append(";").append(limparTexto(obj.getPessoa().getCpf()))
+                .append(";").append(limparTexto(obj.getId().toString()))
+                .append(";");
         for(QuestionarioSecao s : resp.getQuestionario().getSecoes())        
             for(Questao q : s.getQuestoes()){
                 QuestaoResposta qr = resp.RespostaDeQuestao(q);

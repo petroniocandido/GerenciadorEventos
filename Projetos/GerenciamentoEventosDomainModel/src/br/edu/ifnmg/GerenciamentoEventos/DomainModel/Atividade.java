@@ -111,6 +111,9 @@ public class Atividade implements Entidade, Serializable {
     Questionario questionario;
     
     @ManyToOne
+    Questionario avaliacao;
+    
+    @ManyToOne
     private Recurso local;
     
     @Column(nullable = true)
@@ -472,6 +475,14 @@ public class Atividade implements Entidade, Serializable {
 
     public void setGeraCertificado(boolean geraCertificado) {
         this.geraCertificado = geraCertificado;
+    }
+
+    public Questionario getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Questionario avaliacao) {
+        this.avaliacao = avaliacao;
     }
     
     

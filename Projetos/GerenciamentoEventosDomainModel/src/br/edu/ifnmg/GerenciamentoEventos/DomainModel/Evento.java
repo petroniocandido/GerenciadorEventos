@@ -117,6 +117,9 @@ public class Evento implements Entidade, Serializable {
 
     @ManyToOne
     Questionario questionario;
+    
+    @ManyToOne
+    Questionario avaliacao;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
@@ -576,6 +579,14 @@ public class Evento implements Entidade, Serializable {
 
     public void setMensagemPerfil(MensagemPerfil mensagemPerfil) {
         this.mensagemPerfil = mensagemPerfil;
+    }
+
+    public Questionario getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Questionario avaliacao) {
+        this.avaliacao = avaliacao;
     }
     
     

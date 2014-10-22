@@ -103,7 +103,15 @@
                                 <h:outputText value="Término do período de inscrições: " />
                                 <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Formulário de Inscrição: " />
-                                <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50" id="customPojo3" 
+                                <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50"
+                                                completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
+                                                var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  
+                                    <p:column>  
+                                        #{p.titulo}  
+                                    </p:column>                                
+                                </p:autoComplete>
+                                <h:outputText value="Formulário de Avaliação: " />
+                                <p:autoComplete value="#{atividadeController.entidade.avaliacao}" size="50" 
                                                 completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
                                                 var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  
                                     <p:column>  
