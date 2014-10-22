@@ -34,4 +34,5 @@ public interface LancamentoRepositorio extends Repositorio<Lancamento> {
      public boolean SalvarCategoria(LancamentoCategoria obj);
      public boolean ApagarCategoria(LancamentoCategoria obj);
      public List<LancamentoCategoria> BuscarCategorias(LancamentoCategoria filtro);
+     public List<LancamentoCategoria> listagemCategorias();
 }

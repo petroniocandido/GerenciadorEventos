@@ -91,5 +91,11 @@ public class LancamentoDAO
         }
         return daoCategoria.Ordenar("nome", "ASC").Buscar();
     }
+    
+    
+    @Override
+    public List<LancamentoCategoria> listagemCategorias() {
+        return daoCategoria.Ordenar("nome", "ASC").Buscar();
+    }
 
 }

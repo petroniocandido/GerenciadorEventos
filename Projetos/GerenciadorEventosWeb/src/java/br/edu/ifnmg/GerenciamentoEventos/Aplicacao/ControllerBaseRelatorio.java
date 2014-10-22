@@ -89,10 +89,14 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
             httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + getArquivoSaida() + ".pdf");
             ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-            FacesContext.getCurrentInstance().responseComplete();
+            FacesContext.getCurrentInstance().responseComplete();            
 
         } catch (JRException ex) {
-            Logger.getLogger(ControllerBaseRelatorio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ControllerBaseRelatorio.class.getName()).log(Level.SEVERE, null, ex);            
+        } finally {
+            if(reportStream != null)
+                reportStream.close();
+            
         }
     }
 

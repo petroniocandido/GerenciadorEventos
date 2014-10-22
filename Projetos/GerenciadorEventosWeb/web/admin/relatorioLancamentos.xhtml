@@ -52,6 +52,7 @@
                             <p:column headerText="E-Mail">#{item.email}</p:column>
                             <p:column headerText="Nome">#{item.nome}</p:column>
                         </p:autoComplete>
+                        <h:outputText value="Categorias: " />
                         <p:selectOneMenu value="#{lancamentosController.filtro.categoria}">
                             <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                             <f:selectItems value="#{lancamentoCategoriaController.listagemGeral}" />
