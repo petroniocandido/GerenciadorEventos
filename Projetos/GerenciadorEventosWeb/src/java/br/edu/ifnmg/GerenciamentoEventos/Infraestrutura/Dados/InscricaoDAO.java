@@ -63,6 +63,7 @@ public class InscricaoDAO
                 .IgualA("evento", filtro.getEvento())
                 .IgualA("tipo", filtro.getTipo())
                 .IgualA("categoria", filtro.getCategoria())
+                .IgualA("status", filtro.getStatus())
                 .Ordenar("categoria", "ASC")
                 .Ordenar("ordem", "ASC")
                 .Buscar();
@@ -76,6 +77,7 @@ public class InscricaoDAO
                 .IgualA("atividade", filtro.getAtividade())
                 .IgualA("tipo", filtro.getTipo())
                 .IgualA("categoria", filtro.getCategoria())
+                .IgualA("status", filtro.getStatus())
                 .Ordenar("categoria", "ASC")
                 .Ordenar("ordem", "ASC")
                 .Buscar();

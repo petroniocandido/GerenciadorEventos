@@ -36,24 +36,47 @@
                             <p:panelGrid columns="2">
                                 <h:outputText value="Evento: " />
                                 <p:autoComplete converter="#{eventoConverter}" value="#{lancamentoController.filtro.evento}"
-                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item">
-                                    #{item.nome}
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" 
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}">
+                                    <p:column>#{item.nome}</p:column>
                                 </p:autoComplete>
-                                <h:outputText value="Usuário: " />
+                                <h:outputText value="Cliente: " />
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.cliente}"
-                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item">
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}"  
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}">
                                     <p:column headerText="CPF">#{item.cpf}</p:column>
                                     <p:column headerText="E-Mail">#{item.email}</p:column>
                                     <p:column headerText="Nome">#{item.nome}</p:column>
                                 </p:autoComplete>
-                                <h:outputText value="Data de Baixa: " />
-                                <p:calendar value="#{lancamentoController.filtro.baixa}" />
+                                <h:outputText value="Usuário de baixa: " />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{lancamentoController.filtro.usuarioBaixa}"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}"  
+                                                var="item" itemLabel="#{item.nome}" itemValue="#{item}">
+                                    <p:column headerText="CPF">#{item.cpf}</p:column>
+                                    <p:column headerText="E-Mail">#{item.email}</p:column>
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
+                                </p:autoComplete>
+                                <h:outputText value="Categorias: " />
+                                <p:selectOneMenu value="#{lancamentoController.filtro.categoria}" converter="#{lancamentoCategoriaConverter}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                                    <f:selectItems value="#{lancamentoCategoriaController.listagemGeral}" />
+                                </p:selectOneMenu>
+                                <h:outputText value="Início: " />
+                                <p:calendar value="#{lancamentoController.inicio}" pattern="dd/MM/yyyy HH:mm" />
+                                <h:outputText value="Término: " />
+                                <p:calendar value="#{lancamentoController.termino}" pattern="dd/MM/yyyy HH:mm" />
+                                <h:outputText value="Tipo: " />
+                                <h:selectOneMenu value="#{lancamentoController.filtro.tipo}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                                    <f:selectItems value="#{lancamentoController.tipos}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Situação: " />
-                                <h:selectOneMenu value="#{lancamentoController.filtro.status}" 
-                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
+                                <h:selectOneMenu value="#{lancamentoController.filtro.status}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                                     <f:selectItems value="#{lancamentoController.status}" />
                                 </h:selectOneMenu>
                             </p:panelGrid>
+
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{lancamentoController}"  />
                                 <ui:param name="campos" value=""  />

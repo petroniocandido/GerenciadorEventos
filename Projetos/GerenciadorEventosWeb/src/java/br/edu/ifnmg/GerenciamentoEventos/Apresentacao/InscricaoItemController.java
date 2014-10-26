@@ -88,6 +88,8 @@ public class InscricaoItemController
             filtro.setEvento((Evento) getSessao("iictrl_evento", evtDAO));
             String tmp = getSessao("iictrl_cat");
             filtro.setCategoria((tmp != null) ? InscricaoCategoria.valueOf(getSessao("iictrl_cat")) : null);
+            tmp = getSessao("iictrl_sta");
+            filtro.setStatus((tmp != null) ? InscricaoStatus.valueOf(getSessao("iictrl_sta")) : null);
         }
         return filtro;
     }
@@ -100,6 +102,7 @@ public class InscricaoItemController
             setSessao("iictrl_evento", filtro.getEvento());
             setSessao("iictrl_ativ", filtro.getAtividade());
             setSessao("iictrl_cat", filtro.getCategoria()!= null ? filtro.getCategoria().name() : null);
+            setSessao("iictrl_sta", filtro.getStatus()!= null ? filtro.getStatus().name() : null);
         }
     }
     

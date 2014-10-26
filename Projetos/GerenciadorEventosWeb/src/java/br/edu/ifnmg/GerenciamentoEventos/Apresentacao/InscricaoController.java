@@ -89,6 +89,8 @@ public class InscricaoController
             filtro.setId(tmp != null ? Long.parseLong(tmp) : null);
             tmp = getSessao("insctrl_cat");
             filtro.setCategoria((tmp != null) ? InscricaoCategoria.valueOf(getSessao("insctrl_cat")) : null);
+            tmp = getSessao("insctrl_sta");
+            filtro.setStatus((tmp != null) ? InscricaoStatus.valueOf(getSessao("insctrl_sta")) : null);
         }
         return filtro;
     }
@@ -101,6 +103,7 @@ public class InscricaoController
             setSessao("insctrl_evento", filtro.getEvento());
             setSessao("insctrl_id", filtro.getId() != null ? filtro.getId().toString() : null);
             setSessao("insctrl_cat", filtro.getCategoria()!= null ? filtro.getCategoria().name() : null);
+            setSessao("insctrl_sta", filtro.getStatus()!= null ? filtro.getStatus().name() : null);
         }
     }
     

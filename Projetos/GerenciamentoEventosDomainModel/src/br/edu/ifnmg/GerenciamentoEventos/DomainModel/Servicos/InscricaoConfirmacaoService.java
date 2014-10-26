@@ -14,12 +14,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
+import br.edu.ifnmg.DomainModel.Log;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.DomainModel.Services.LogRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -29,16 +33,61 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class InscricaoConfirmacaoService {
-    
+
     @EJB
     InscricaoRepositorio daoInsc;
-    
+
     @EJB
     LancamentoRepositorio daoLanc;
-    
-    public boolean confirmar(Inscricao i, Pessoa p){
-        Lancamento l = i.pagar(p);
-        l.setCategoria(daoLanc.CategoriaPadrao());
-        return daoInsc.Salvar(i);
+
+    @EJB
+    LogRepositorio daoLog;
+
+    public boolean confirmar(Inscricao i, Pessoa p) {
+        try {
+            Lancamento l = i.pagar(p);
+            l.setCategoria(daoLanc.CategoriaPadrao());
+            return daoInsc.Salvar(i);
+        } catch (Exception ex) {
+            Log l = new Log();
+            l.setCriador(p);
+            l.setDescricao(ex.getMessage());
+            l.setUsuario(p);
+            daoLog.Salvar(l);
+            return false;
+        }
+    }
+
+    public boolean confirmar(Evento e, List<Inscricao> insc, Pessoa p) {
+        try {
+            Lancamento l = new Lancamento();
+            l.setCliente(p);
+            l.setEvento(e);
+            l.setCriador(p);
+            l.setDataCriacao(new Date());
+            l.setCategoria(daoLanc.CategoriaPadrao());
+            StringBuilder sb = new StringBuilder("Confirmação das inscrições ");
+            for (Inscricao i : insc) {
+                sb.append(i.getId().toString()).append(",");
+                l.setValorOriginal(l.getValorOriginal().add(i.getValorTotal()));
+            }
+            l.setDescricao(sb.toString());
+            l.baixar(p);
+            if (daoLanc.Salvar(l)) {
+                for (Inscricao i : insc) {
+                    i.pagar(l, p);
+                    daoInsc.Salvar(i);
+                }
+                return true;
+            }
+            return false;
+        } catch (Exception ex) {
+            Log l = new Log();
+            l.setCriador(p);
+            l.setDescricao(ex.getMessage());
+            l.setUsuario(p);
+            daoLog.Salvar(l);
+            return false;
+        }
     }
 }

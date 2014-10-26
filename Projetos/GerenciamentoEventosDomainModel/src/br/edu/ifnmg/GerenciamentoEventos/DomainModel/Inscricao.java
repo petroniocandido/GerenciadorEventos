@@ -172,6 +172,23 @@ public class Inscricao implements Entidade, Serializable {
         return l;
     }
     
+    public void pagar(Lancamento l, Pessoa operador) {
+        setLancamento(l);
+        setCompareceu(true);
+        setDataPagamento(new Date());
+        setPago(true);
+        setStatus(InscricaoStatus.Confirmada);
+        
+        for(InscricaoItem i : itens){
+            i.setPago(true);
+            if(i.getStatus() == InscricaoStatus.Criada)
+                i.setStatus(InscricaoStatus.Confirmada);
+        }
+        if(status == InscricaoStatus.Criada)
+            setStatus(InscricaoStatus.Confirmada);
+        
+    }
+    
     
     
     public boolean add(InscricaoItem item){

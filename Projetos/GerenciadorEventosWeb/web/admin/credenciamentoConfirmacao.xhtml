@@ -63,7 +63,7 @@
                     <p:commandButton value="Cancelar" ajax="false" action="#{credenciamentoController.cancelar(item)}" />
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="Confirmar" ajax="false" action="#{credenciamentoController.credenciar()}" />
+            <p:commandButton rendered="#{credenciamentoController.inscricao.pendente}" value="Confirmar" ajax="false" action="#{credenciamentoController.credenciar()}" />
             <p:commandButton value="Voltar para busca" ajax="false" action="credenciamentoBusca.xhtml" />
         </h:form>
     </h:body>
