@@ -104,27 +104,18 @@
                         <p:tab title="Valores">
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Valor Original: " />
-                                <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorOriginal}" 
+                                <pe:inputNumber symbol="R$ " value="#{lancamentoController.entidade.valorOriginal}" converter="#{bigDecimalConverter}" 
                                                 required="required" disabled="#{not lancamentoController.editavel}"
-                                                thousandSeparator="" validator="#{lancamentoController.validaValorOriginal}">
-                                    <f:convertNumber currencyCode="pt-BR" />
-                                    
-                                </pe:inputNumber>
+                                                thousandSeparator="" validator="#{lancamentoController.validaValorOriginal}" />
                                 <h:outputText value="Valor Acréscimos: " />
                                 <pe:inputNumber symbol="R$ " thousandSeparator=""  value="#{lancamentoController.entidade.valorAcrescimos}"
-                                                disabled="#{not lancamentoController.editavel}">
-                                    <f:convertNumber currencyCode="pt-BR" />
-                                </pe:inputNumber>
+                                                disabled="#{not lancamentoController.editavel}"  converter="#{bigDecimalConverter}" />
                                 <h:outputText value="Valor Descontos:" />
                                 <pe:inputNumber symbol="R$ " thousandSeparator=""  value="#{lancamentoController.entidade.valorDescontos}"
-                                                disabled="#{not lancamentoController.editavel}">
-                                    <f:convertNumber currencyCode="pt-BR" />
-                                </pe:inputNumber>
+                                                disabled="#{not lancamentoController.editavel}"  converter="#{bigDecimalConverter}" />
                                 <h:outputText value="Valor Total: " />
                                 <pe:inputNumber id="txtValorTotal" symbol="R$ " value="#{lancamentoController.entidade.valorTotal}" 
-                                                disabled="true" required="required">
-                                    <f:convertNumber currencyCode="pt-BR" />
-                                </pe:inputNumber>
+                                                disabled="true" required="required"  converter="#{bigDecimalConverter}" />
                             </h:panelGrid>
                         </p:tab>
                         <p:tab title="Inscrições">

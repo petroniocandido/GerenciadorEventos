@@ -91,11 +91,13 @@
                             <c:choose>
                                 <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
                                     <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoController.executaRelatorioPDF()}">
+                                        <f:setPropertyActionListener target="#{comprovanteInscricaoController.evento}" value="#{publicoController.evento}" />
                                         <f:setPropertyActionListener target="#{comprovanteInscricaoController.inscricao}" value="#{publicoController.inscricao}" />
                                     </p:commandButton>   
                                 </c:when>
                                 <c:otherwise>
                                     <p:commandButton value="Comprovante de Inscrição" ajax="false"  action="#{comprovanteInscricaoEventoController.executaRelatorioPDF()}">
+                                        <f:setPropertyActionListener target="#{comprovanteInscricaoEventoController.evento}" value="#{publicoController.evento}" />
                                         <f:setPropertyActionListener target="#{comprovanteInscricaoEventoController.inscricao}" value="#{publicoController.inscricao}" />
                                     </p:commandButton>   
                                 </c:otherwise>

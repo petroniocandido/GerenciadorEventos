@@ -364,7 +364,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     @Override
     public void enviarMensagem() {
         String tmp = getMensagem();
-        List<Pessoa> admin = new ArrayList<Pessoa>();
+        List<Pessoa> admin = new ArrayList<>();
 
         tmp = tmp + "\n" + getUsuarioCorrente().toString();
 
