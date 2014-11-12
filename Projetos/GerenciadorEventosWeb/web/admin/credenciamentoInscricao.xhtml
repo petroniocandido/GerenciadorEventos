@@ -26,16 +26,16 @@
     <h:body>
         <h:form>
             <p:messages id="mensagens" />
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="2">
                 <p:outputLabel value="Evento:" />
                 <p:autoComplete converter="#{eventoConverter}" value="#{credenciamentoController.evento}"
-                                completeMethod="#{eventoConverter.autoCompleteEvento}" minQueryLength="4"
+                                completeMethod="#{eventoConverter.autoCompleteEvento}" size="80" minQueryLength="4"
                                 var="item" itemValue="#{item}" itemLabel="#{item.nome}">
                     #{item.nome}
                 </p:autoComplete>
                 <p:outputLabel value="Nome Inscrito:" />
                 <p:autoComplete converter="#{usuarioConverter}" value="#{credenciamentoController.pessoa}"
-                                completeMethod="#{usuarioConverter.autoCompletePessoa}" minQueryLength="4"
+                                completeMethod="#{usuarioConverter.autoCompletePessoa}" size="80" minQueryLength="4"
                                 var="item" itemValue="#{item}" itemLabel="#{item.nome}">
                     <p:column headerText="Pessoa">#{item.nome}</p:column>
                     <p:column headerText="CPF">#{item.cpf}</p:column>

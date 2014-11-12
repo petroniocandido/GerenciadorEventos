@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -28,32 +28,30 @@
         <h:form>
             <p:messages id="mensagens" />
             <p:panelGrid columns="2">
-                <h:panelGrid columns="2" cellpadding="3">
-                        <h:outputText value="Nome: " />
-                        <p:inputText id="txtNome" value="#{credenciamentoController.pessoa.nome}" 
-                                     required="true" requiredMessage="O campo nome é obrigatório" />
-                        <h:outputText value="Sexo: " />
-                        <h:selectOneMenu value="#{credenciamentoController.pessoa.sexo}"
-                                         required="true" requiredMessage="O campo sexo é obrigatório">
-                            <f:selectItem itemLabel="Escola o sexo" noSelectionOption="true" />
-                            <f:selectItems value="#{pessoaController.sexos}" />
-                        </h:selectOneMenu>
-                        <h:outputText value="CPF: " />
-                        <p:inputMask id="txtCpf" value="#{credenciamentoController.pessoa.cpf}" mask="999.999.999-99" 
-                                     required="true" requiredMessage="O campo cpf é obrigatório" />
-                        <h:outputText value="E-Mail: " />
-                        <p:inputText id="txtEmail" value="#{credenciamentoController.pessoa.email}" 
-                                     required="true" requiredMessage="O campo e-mail é obrigatório" />
-                        <h:outputText value="Telefone: " />
-                        <p:inputMask id="txtTelefone" value="#{credenciamentoController.pessoa.telefone}" 
-                                     mask="(99) 9999-9999" />
-                        <h:outputText value="Data de Nascimento: " />
-                        <p:calendar id="txtDataNascimento" value="#{credenciamentoController.pessoa.dataNascimento}" 
-                                    pattern="dd/MM/yyyy" locale="pt-BR"/>
-                    </h:panelGrid>
+                <h:outputText value="Nome: " />
+                <p:inputText id="txtNome" value="#{credenciamentoController.pessoa.nome}" 
+                             required="true" requiredMessage="O campo nome é obrigatório" />
+                <h:outputText value="Sexo: " />
+                <h:selectOneMenu value="#{credenciamentoController.pessoa.sexo}"
+                                 required="true" requiredMessage="O campo sexo é obrigatório">
+                    <f:selectItem itemLabel="Escola o sexo" noSelectionOption="true" />
+                    <f:selectItems value="#{usuarioController.sexos}" />
+                </h:selectOneMenu>
+                <h:outputText value="CPF: " />
+                <p:inputMask id="txtCpf" value="#{credenciamentoController.pessoa.cpf}" mask="999.999.999-99" 
+                             required="true" requiredMessage="O campo cpf é obrigatório" />
+                <h:outputText value="E-Mail: " />
+                <p:inputText id="txtEmail" value="#{credenciamentoController.pessoa.email}" 
+                             required="true" requiredMessage="O campo e-mail é obrigatório" />
+                <h:outputText value="Telefone: " />
+                <p:inputMask id="txtTelefone" value="#{credenciamentoController.pessoa.telefone}" 
+                             mask="(99) 9999-9999" />
+                <h:outputText value="Data de Nascimento: " />
+                <p:calendar id="txtDataNascimento" value="#{credenciamentoController.pessoa.dataNascimento}" 
+                            pattern="dd/MM/yyyy"/>
                 <p:commandButton value="Salvar" ajax="false" action="#{credenciamentoController.cadastrar()}" />
             </p:panelGrid>
-            <p:commandButton value="Voltar" ajax="false" immediate="false" action="credenciamentoBusca.xhtml" />
+            <p:commandButton value="Voltar" ajax="false" immediate="true" action="credenciamentoBusca.xhtml" />
         </h:form>
     </h:body>
 </html>

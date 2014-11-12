@@ -28,6 +28,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoConfirmacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -64,7 +65,7 @@ public class CredenciamentoController
     InscricaoService inscServ;
     
     @EJB
-    PessoaRepositorio daoPessoa;
+    PessoaRepositorioLocal daoPessoa;
     
     @EJB
     PerfilRepositorio daoPerfil;
@@ -158,6 +159,11 @@ public class CredenciamentoController
         }
         MensagemErro("Erro ao cadastrar! Tente novamente", "Erro");
         return "";
+    }
+    
+    public String novaPessoa() {
+        setPessoa(null);
+        return "credenciamentoCadastro.xhtml";        
     }
     
     public Evento getEvento() {
