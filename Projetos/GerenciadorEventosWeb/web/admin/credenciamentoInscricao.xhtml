@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+    <h:head>
+        <title>Gerenciamento de Eventos - Credenciamento</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:messages id="mensagens" />
+            <p:panelGrid columns="3">
+                <p:outputLabel value="Evento:" />
+                <p:autoComplete converter="#{eventoConverter}" value="#{credenciamentoController.evento}"
+                                completeMethod="#{eventoConverter.autoCompleteEvento}" minQueryLength="4"
+                                var="item" itemValue="#{item}" itemLabel="#{item.nome}">
+                    #{item.nome}
+                </p:autoComplete>
+                <p:outputLabel value="Nome Inscrito:" />
+                <p:autoComplete converter="#{usuarioConverter}" value="#{credenciamentoController.pessoa}"
+                                completeMethod="#{usuarioConverter.autoCompletePessoa}" minQueryLength="4"
+                                var="item" itemValue="#{item}" itemLabel="#{item.nome}">
+                    <p:column headerText="Pessoa">#{item.nome}</p:column>
+                    <p:column headerText="CPF">#{item.cpf}</p:column>
+                    <p:column headerText="Evento">#{item.email}</p:column>
+                </p:autoComplete>
+                <p:commandButton value="Criar" ajax="false" action="#{credenciamentoController.inscrever}" />
+            </p:panelGrid>
+            <p:commandButton value="Voltar" ajax="false" immediate="false" action="credenciamentoBusca.xhtml" />
+        </h:form>
+    </h:body>
+</html>
+

@@ -16,6 +16,9 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
+import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.DomainModel.Services.PerfilRepositorio;
+import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
@@ -24,6 +27,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoConfirmacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
@@ -56,9 +60,20 @@ public class CredenciamentoController
     @EJB
     InscricaoConfirmacaoService serv;
     
+    @EJB
+    InscricaoService inscServ;
+    
+    @EJB
+    PessoaRepositorio daoPessoa;
+    
+    @EJB
+    PerfilRepositorio daoPerfil;
+    
     Long id;
     
     Inscricao inscricao;
+    
+    Pessoa pessoa;
     
     Evento evento;
     
@@ -119,7 +134,32 @@ public class CredenciamentoController
         this.inscricao = inscricao;
         if(inscricao != null) setId(inscricao.getId());
     }
-
+   
+    public void cancelar(InscricaoItem i){
+        i.setStatus(InscricaoStatus.Cancelada);
+        dao.Salvar(i.getInscricao());
+    }
+    
+    public String cadastrar() {
+        pessoa.setPerfil(daoPerfil.getPadrao());
+        pessoa.setSenha("123");
+        if(daoPessoa.Salvar(pessoa)){
+            return "credenciamentoInscricao.xhtml";
+        }
+        MensagemErro("Erro ao cadastrar! Tente novamente", "Erro");
+        return "";
+    }
+    
+    public String inscrever() {
+        Inscricao tmp = inscServ.inscrever(getEvento(), getPessoa());
+        if(tmp != null){
+            setInscricao(tmp);
+            return "credenciamentoConfirmacao.xhtml";
+        }
+        MensagemErro("Erro ao cadastrar! Tente novamente", "Erro");
+        return "";
+    }
+    
     public Evento getEvento() {
         if(evento == null){
             evento = (Evento)getSessao("credEvento", daoEvt);
@@ -135,10 +175,19 @@ public class CredenciamentoController
         this.evento = evento;
         setSessao("credEvento", evento);
     }
-    
-    public void cancelar(InscricaoItem i){
-        i.setStatus(InscricaoStatus.Cancelada);
-        dao.Salvar(i.getInscricao());
+
+    public Pessoa getPessoa() {
+        if(pessoa == null){
+            pessoa = (Pessoa)getSessao("credpessoa", daoPessoa);
+            if(pessoa == null) pessoa = new Pessoa();
+        }
+        return pessoa;
     }
 
+    public void setPessoa(Pessoa pessoa) {
+        if(pessoa != null){
+            setSessao("credpessoa", pessoa);
+        }
+        this.pessoa = pessoa;
+    }
 }
