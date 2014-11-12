@@ -25,9 +25,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -35,10 +38,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -147,6 +152,13 @@ public class Atividade implements Entidade, Serializable {
     
     private int cargaHoraria;
     
+    @ElementCollection
+    @CollectionTable(name = "atividades_inscricoesPorCategoria",
+            joinColumns = @JoinColumn(name = "atividade"))
+    @MapKeyJoinColumn(name = "eventoInscricaoCategoria", referencedColumnName = "id")
+    @Column(name = "quantidadeInscricoes")
+    private Map<EventoInscricaoCategoria, Integer> inscricoesPorCategoria;
+    
     public Atividade() {
         recursos = new ArrayList<>();
         responsaveis = new ArrayList<>();
@@ -245,6 +257,25 @@ public class Atividade implements Entidade, Serializable {
             recursos.remove(recurso);
             recurso.setStatus(AlocacaoStatus.Cancelado);
         }
+    }
+    
+    public int getLimiteInscricoes(EventoInscricaoCategoria a){
+        if(inscricoesPorCategoria.containsKey(a)){
+            return inscricoesPorCategoria.get(a).intValue();
+        } else {
+            return 0;
+        }
+    }
+    
+    public void addLimite(EventoInscricaoCategoria a, int l){
+        if(inscricoesPorCategoria.containsKey(a)){
+            inscricoesPorCategoria.remove(a);
+        }
+        inscricoesPorCategoria.put(a, l);
+    }
+    
+    public void removeLimite(EventoInscricaoCategoria a){
+        inscricoesPorCategoria.remove(a);        
     }
 
     public Pessoa getResponsavelPrincipal() {

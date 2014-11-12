@@ -43,8 +43,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -72,6 +70,9 @@ public class Inscricao implements Entidade, Serializable {
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Evento evento;
+    
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    private EventoInscricaoCategoria eventoInscricaoCategoria;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataInscricao;
@@ -407,6 +408,16 @@ public class Inscricao implements Entidade, Serializable {
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
     }
+
+    public EventoInscricaoCategoria getEventoInscricaoCategoria() {
+        return eventoInscricaoCategoria;
+    }
+
+    public void setEventoInscricaoCategoria(EventoInscricaoCategoria eventoInscricaoCategoria) {
+        this.eventoInscricaoCategoria = eventoInscricaoCategoria;
+    }
+    
+    
 
     @Override
     public int hashCode() {

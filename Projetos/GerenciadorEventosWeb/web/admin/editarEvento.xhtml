@@ -189,9 +189,65 @@
                                 </ui:include>
                             </h:panelGrid>
                         </p:tab>
+                        <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Categorias de Inscricao">  
+                            <h:panelGrid columns="3" cellpadding="3"> 
+                                <h:outputText value="Nome: " />
+                                <p:inputText value="#{eventoController.categoria.nome}" size="50" />
+                                <h:outputText value="Valor: " />
+                                <pe:inputNumber symbol="R$ " thousandSeparator="" 
+                                                value="#{eventoController.categoria.valorInscricao}" >
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
+                                <p:commandButton value="Adicionar" action="#{eventoController.addCategoria}" update="tblInscricaoCategorias" />
+                            </h:panelGrid>
+                            <p:dataTable id="tblInscricaoCategorias" value="#{eventoController.entidade.inscricoesCategorias}" var="item"
+                                        paginator="true" lazy="true" >  
+
+                                <p:column headerText="Nome" sortBy="#{item.nome}"  >
+                                    #{item.nome}                            
+                                </p:column>
+                                <p:column headerText="Valor" sortBy="#{item.email}"  >
+                                    #{item.valor}                            
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Remover" action="#{eventoController.removeCategoria}" >
+                                        <f:setPropertyActionListener target="#{eventoController.categoria}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
                         <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Limites de Inscrição por Atividade">  
                             <h:panelGrid columns="5" cellpadding="3"> 
                                 <h:outputText value="Atividade: " />
+                                <p:selectOneMenu converter="#{atividadeTipoConverter}" value="#{eventoController.atividadeTipo}">
+                                    <f:selectItem noSelectionOption="true" itemValue="Escolha um Tipo de Atividade" />
+                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                </p:selectOneMenu>>
+                                <h:outputText value="Limite: " />
+                                <pe:inputNumber value="#{eventoController.limite}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                <p:commandButton value="Adicionar" action="#{eventoController.addLimite()}" update="tblLimites" />
+                            </h:panelGrid>
+                            <p:dataTable id="tblLimites" value="#{eventoController.limitesAtividades}" var="item"
+                                         paginator="true" lazy="true" 
+                                         >  
+
+                                <p:column headerText="Atividade" sortBy="#{item.key}"  >
+                                    #{item.key}                            
+                                </p:column>
+                                <p:column headerText="Limite" sortBy="#{item.value}"  >
+                                    #{item.value}                            
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Remover" action="#{eventoController.removeLimite}" >
+                                        <f:setPropertyActionListener target="#{eventoController.atividade}" value="#{item.key}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Limites de Inscrição por Categoria">  
+                            <h:panelGrid columns="5" cellpadding="3"> 
+                                <h:outputText value="Categoria: " />
                                 <p:selectOneMenu converter="#{atividadeTipoConverter}" value="#{eventoController.atividadeTipo}">
                                     <f:selectItem noSelectionOption="true" itemValue="Escolha um Tipo de Atividade" />
                                     <f:selectItems value="#{atividadeTipoController.listagemGeral}" />

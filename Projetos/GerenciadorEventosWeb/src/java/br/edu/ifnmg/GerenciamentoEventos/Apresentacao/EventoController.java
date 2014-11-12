@@ -25,6 +25,7 @@ import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.AtividadeTipo;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Alocacao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.EventoInscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Recurso;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AlocacaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
@@ -72,6 +73,8 @@ public class EventoController
     Integer limite;
     
     Alocacao alocacao;
+    
+    EventoInscricaoCategoria categoria;
 
     public UploadedFile getArquivo() {
         return arquivo;
@@ -171,6 +174,20 @@ public class EventoController
         responsavel = new Pessoa();
     }
     
+    public void addCategoria() {
+        entidade = dao.Refresh(getEntidade());
+        entidade.add(categoria);
+        SalvarAgregado(categoria);
+        categoria = new EventoInscricaoCategoria();
+    }
+
+    public void removeCategoria() {
+        entidade = dao.Refresh(getEntidade());
+        entidade.remove(categoria);
+        RemoverAgregado(categoria);
+        categoria = new EventoInscricaoCategoria();
+    }
+    
     public void addLimite() {
         entidade = dao.Refresh(getEntidade());
         entidade.addLimite(atividadeTipo, limite);
@@ -183,6 +200,20 @@ public class EventoController
         entidade.removeLimite(atividadeTipo);
         RemoverAgregado(atividadeTipo);
         atividadeTipo = new AtividadeTipo();
+    }
+    
+    public void addLimiteCategoria() {
+        entidade = dao.Refresh(getEntidade());
+        entidade.addLimite(categoria, limite);
+        SalvarAgregado(categoria);
+        categoria = new EventoInscricaoCategoria();
+    }
+
+    public void removeLimiteCategoria() {
+        entidade = dao.Refresh(getEntidade());
+        entidade.removeLimite(categoria);
+        RemoverAgregado(categoria);
+        categoria = new EventoInscricaoCategoria();
     }
 
     public Pessoa getResponsavel() {
@@ -262,6 +293,14 @@ public class EventoController
 
     public void setAlocacao(Alocacao alocacao) {
         this.alocacao = alocacao;
+    }
+
+    public EventoInscricaoCategoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(EventoInscricaoCategoria categoria) {
+        this.categoria = categoria;
     }
     
     
