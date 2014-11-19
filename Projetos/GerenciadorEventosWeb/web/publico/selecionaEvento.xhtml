@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -33,13 +33,33 @@
                     <f:facet name="header">
                         Escolha um evento:
                     </f:facet>
-                    <p:panelGrid columns="1">
-                        <c:forEach items="#{publicoController.eventos}" var="evento">
-                            <p:commandButton ajax="false" value="#{evento.nome}" action="inscricao.xhtml">
-                                <f:setPropertyActionListener target="#{publicoController.evento}" value="#{evento}" />
-                            </p:commandButton>
-                        </c:forEach>
-                    </p:panelGrid>
+                    <p:tabView id="tabView">
+                        <p:tab id="tabDados" title="Atuais">
+                            <p:dataTable value="#{publicoController.eventos}" var="item" >  
+                                <p:column headerText="Nome">
+                                    #{item.nome}
+                                </p:column>
+                                <p:column headerText="Início">
+                                    <p:outputLabel value="#{item.inicio}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy (EEEEEEE)" locale="pt-BR" />
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Término">
+                                    <p:outputLabel value="#{item.termino}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy (EEEEEEE)" locale="pt-BR" />
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton ajax="false" value="Selecionar" action="inscricao.xhtml">
+                                        <f:setPropertyActionListener target="#{publicoController.evento}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>  
+                        <p:tab  title="Anteriores">
+                            
+                        </p:tab>
+                   </p:tabView>  
                 </p:panel>
             </ui:define>
 

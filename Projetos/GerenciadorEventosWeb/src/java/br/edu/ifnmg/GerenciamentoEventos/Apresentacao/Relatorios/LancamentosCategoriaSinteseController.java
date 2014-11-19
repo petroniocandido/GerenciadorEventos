@@ -75,7 +75,7 @@ public class LancamentosCategoriaSinteseController
     @Override
     public List<Lancamento> getDados() {
         return daoLancamento
-                .IgualA("evento", filtro.getEvento())
+                .IgualA("evento", getEvento())
                 .IgualA("status", LancamentoStatus.Baixado)
                 .Ordenar("categoria", "ASC")
                 .Buscar();

@@ -31,7 +31,7 @@
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
-                        <p:autoComplete converter="#{eventoConverter}" value="#{lancamentosController.filtro.evento}"
+                        <p:autoComplete converter="#{eventoConverter}" value="#{lancamentosController.evento}"
                                         completeMethod="#{eventoConverter.autoCompleteEvento}" 
                                         var="item" itemLabel="#{item.nome}" itemValue="#{item}">
                             <p:column>#{item.nome}</p:column>

@@ -81,7 +81,7 @@ public class LancamentosController
     @Override
     public List<Lancamento> getDados() {
         return daoLancamento
-                .IgualA("evento", filtro.getEvento())
+                .IgualA("evento", getEvento())
                 .IgualA("atividade", filtro.getAtividade())
                 .IgualA("status", filtro.getStatus())
                 .IgualA("tipo", filtro.getTipo())

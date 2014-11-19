@@ -18,12 +18,15 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.PerfilRepositorio;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoConfirmacaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
@@ -32,6 +35,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioL
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
@@ -70,6 +75,9 @@ public class CredenciamentoController
     @EJB
     PerfilRepositorio daoPerfil;
     
+    @EJB
+    AtividadeRepositorio daoAtividade;
+    
     Long id;
     
     Inscricao inscricao;
@@ -77,6 +85,8 @@ public class CredenciamentoController
     Pessoa pessoa;
     
     Evento evento;
+    
+    Atividade atividade;
     
     public String buscar(){
         inscricao = dao.Abrir(getId());
@@ -133,7 +143,10 @@ public class CredenciamentoController
 
     public void setInscricao(Inscricao inscricao) {
         this.inscricao = inscricao;
-        if(inscricao != null) setId(inscricao.getId());
+        if(inscricao != null) {
+            setId(inscricao.getId());
+            setEvento(inscricao.getEvento());
+        }
     }
    
     public void cancelar(InscricaoItem i){
@@ -158,6 +171,21 @@ public class CredenciamentoController
             return "credenciamentoConfirmacao.xhtml";
         }
         MensagemErro("Erro ao cadastrar! Tente novamente", "Erro");
+        return "";
+    }
+    
+    public String inscreverAtividade() {
+        try {
+            if(inscServ.inscrever(getInscricao(), getAtividade(), getPessoa()) != null){
+                return "credenciamentoConfirmacao.xhtml";
+            }
+            MensagemErro("Erro ao cadastrar! Tente novamente", "Erro");
+            
+        } catch (ConflitoHorarioException ex) {
+            MensagemErro("Erro ao cadastrar! Tente novamente", "O participante já possui outra atividade no horário!");
+        } catch (LimiteInscricoesExcedidoException ex) {
+            MensagemErro("Erro ao cadastrar! Tente novamente", "O Limite de Inscrições para essa atividade foi atingido!");
+        }
         return "";
     }
     
@@ -196,4 +224,20 @@ public class CredenciamentoController
         }
         this.pessoa = pessoa;
     }
+
+    public Atividade getAtividade() {
+        if(atividade == null){
+            atividade = (Atividade)getSessao("credatividade", daoAtividade);
+            if(atividade == null) atividade = new Atividade();
+        }
+        return atividade;
+    }
+
+    public void setAtividade(Atividade atividade) {
+        if(atividade != null){
+            setSessao("credatividade", atividade);
+        }
+        this.atividade = atividade;
+    }
+    
 }

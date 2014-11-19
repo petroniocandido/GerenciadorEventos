@@ -24,7 +24,7 @@
         <title>Gerenciamento de Eventos - Credenciamento</title>
     </h:head>
     <h:body>
-        <h:form>
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  >
             <p:messages id="mensagens" />
             <p:panelGrid columns="3">
                 <p:outputLabel value="Nº Inscrição:" />
@@ -33,7 +33,7 @@
                 <p:commandButton value="Buscar" ajax="false" action="#{credenciamentoController.buscar}" />
                 <p:outputLabel value="Nome Inscrito:" />
                 <p:autoComplete id="acInscricao" converter="#{inscricaoConverter}" value="#{credenciamentoController.inscricao}"
-                                completeMethod="#{credenciamentoController.autoCompletar}" 
+                                completeMethod="#{credenciamentoController.autoCompletar}" minQueryLength="4" 
                                 var="item" itemValue="#{item}" itemLabel="#{item.id}">
                     <p:column headerText="Inscrição">#{item.id}</p:column>
                     <p:column headerText="Pessoa">#{item.pessoa}</p:column>

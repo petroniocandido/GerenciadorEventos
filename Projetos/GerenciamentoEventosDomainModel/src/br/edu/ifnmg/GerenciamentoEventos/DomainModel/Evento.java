@@ -536,7 +536,7 @@ public class Evento implements Entidade, Serializable {
         if (atividadesPublicasComInscricao == null) {
             atividadesPublicasComInscricao = new ArrayList<>();
             for (Atividade a : atividades) {
-                if (a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao()) {
+                if (a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && a.isNecessitaInscricao()) {
                     atividadesPublicasComInscricao.add(a);
                 }
             }

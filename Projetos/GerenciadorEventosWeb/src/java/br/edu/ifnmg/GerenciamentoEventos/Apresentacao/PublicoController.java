@@ -106,9 +106,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public List<Evento> getEventos() {
-        Evento filtro = new Evento();
-        filtro.setStatus(Status.EmExecucao);
-        return eventoDAO.Buscar(filtro);
+        return eventoDAO.Ordenar("inicio", "DESC").Buscar();
     }
 
     public List<AtividadeTipo> getAtividadesTipos() {
