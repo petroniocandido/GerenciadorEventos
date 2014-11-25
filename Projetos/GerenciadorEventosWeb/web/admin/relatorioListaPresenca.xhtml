@@ -45,12 +45,12 @@
                             <p:column>#{item.nome}</p:column>
                         </p:autoComplete>
                         <h:outputText value="Categoria: " />
-                        <h:selectOneMenu value="#{listaPresencaEventoController.categoria}">
+                        <h:selectOneMenu value="#{listaPresencaController.categoria}">
                             <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                             <f:selectItems value="#{inscricaoController.categorias}" />
                         </h:selectOneMenu>
                         <h:outputText value="Situação: " />
-                        <h:selectOneMenu value="#{listaPresencaEventoController.status}">
+                        <h:selectOneMenu value="#{listaPresencaController.status}">
                             <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                             <f:selectItems value="#{inscricaoController.status}" />
                         </h:selectOneMenu>

@@ -98,7 +98,7 @@
                                     <p:selectBooleanCheckbox  value="#{item.compareceu}" style="margin-left: 40%" disabled="true"  />
                                 </p:column>
                                 <p:column >
-                                    <p:commandButton rendered="#{autenticacaoController.autorizacao('checkInAtividade')}" disabled="#{not item.pendente}"
+                                    <p:commandButton rendered="#{autenticacaoController.autorizacao('checkInAtividade')}"
                                                      value="Check in" ajax="false" action="#{inscricaoItemController.checkIn(item)}" />
                                 </p:column>
                                 <p:column >
