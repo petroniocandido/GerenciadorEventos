@@ -127,7 +127,9 @@ public class PublicoController extends ControllerBase implements Serializable {
     public Inscricao getInscricao() {
         if (inscricao == null) {
             inscricao = (Inscricao) getSessao("inscricao", inscricaoDAO);
-            if (inscricao == null && getEvento() != null) {
+            if (inscricao != null)
+                return inscricao;
+            else if (inscricao == null && getEvento() != null) {
                 setInscricao(inscricaoDAO.Abrir(getEvento(), getUsuarioCorrente()));
                 return inscricao;
             } else {
