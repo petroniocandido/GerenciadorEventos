@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificado Evento" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="552"/>
+	<subDataset name="Table Dataset 1" uuid="dca93a84-d0b0-46ec-a7f7-0ee30ec12a1b">
+		<field name="nome" class="java.lang.String"/>
+		<field name="tipo" class="java.lang.Object"/>
+		<field name="cargaHoraria" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="background" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="assinatura1" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="assinatura2" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
+	<field name="responsavelPrincipal.nome" class="java.lang.String"/>
+	<field name="responsavelPrincipal.cpf" class="java.lang.String"/>
+	<field name="evento.nome" class="java.lang.String"/>
+	<field name="cargaHoraria" class="java.lang.Integer"/>
+	<field name="evento.inicio" class="java.util.Date"/>
+	<field name="evento.termino" class="java.util.Date"/>
+	<field name="evento.local" class="java.lang.Object"/>
+	<field name="evento.atividadesPublicasSemInscricao" class="java.util.Collection"/>
+	<field name="evento.certificadoTextoAssinatura1" class="java.lang.String"/>
+	<field name="evento.certificadoTextoAssinatura2" class="java.lang.String"/>
+	<field name="evento.certificadoCidade" class="java.lang.String"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="tipo" class="java.lang.Object"/>
+	<field name="nome" class="java.lang.String"/>
+	<variable name="texto" class="java.lang.String">
+		<variableExpression><![CDATA["Certificamos que <b>"+$F{responsavelPrincipal.nome}+"</b> ministrou o(a) " + $F{tipo}.toString() + " <b>" + $F{nome} + "</b> no evento <b>" + $F{evento.nome} +"</b> realizado no " +$F{evento.local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{evento.inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{evento.termino}) +" perfazendo carga horária total de " +$F{cargaHoraria}.toString()+" horas."]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="555" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="2" y="1" width="798" height="552" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{background}]]></imageExpression>
+			</image>
+			<textField isStretchWithOverflow="true" evaluationTime="Report">
+				<reportElement positionType="Float" x="175" y="133" width="623" height="162" uuid="af102d61-47d7-4b7e-81fb-de248b0844f9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="16"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{texto}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="275" y="386" width="201" height="1" uuid="39e0d790-41af-4852-97ef-1317248c9f1b"/>
+			</line>
+			<line>
+				<reportElement x="556" y="387" width="201" height="1" uuid="5cdea1be-d2e2-481c-a564-1ae0e140455e"/>
+			</line>
+			<textField pattern="dd&apos; de &apos;MMMMM&apos; de &apos;yyyy">
+				<reportElement x="460" y="305" width="369" height="26" uuid="b9e1ccfd-7000-4849-a2b5-deac8b1fc95e"/>
+				<textElement>
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="324" y="335" width="109" height="50" uuid="6634fdc1-5147-4e4b-9646-258485c0fc4c"/>
+				<imageExpression><![CDATA[$P{assinatura1}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="606" y="335" width="91" height="50" uuid="8f8d581d-9fe2-439b-a42f-acf90e1195d7"/>
+				<imageExpression><![CDATA[$P{assinatura2}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="275" y="388" width="201" height="44" uuid="31705a74-5285-4106-b8a5-82c585d84c3f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{evento.certificadoTextoAssinatura1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="556" y="388" width="201" height="44" uuid="ed3b269a-ae3d-47f1-aa0e-135522eca484"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{evento.certificadoTextoAssinatura2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="139" y="305" width="311" height="25" uuid="e58f7a06-bccd-45c6-89bc-982a07a281a7"/>
+				<textElement textAlignment="Right">
+					<font size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{evento.certificadoCidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="455" y="307" width="0" height="26" uuid="710c7fe1-de4e-46d6-a907-813c59d0bf9d"/>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<text><![CDATA[,]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="513"/>
+	</summary>
+</jasperReport>
