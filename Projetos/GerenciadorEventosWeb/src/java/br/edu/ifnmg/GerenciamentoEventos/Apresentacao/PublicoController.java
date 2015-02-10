@@ -34,7 +34,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositor
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
@@ -396,6 +395,15 @@ public class PublicoController extends ControllerBase implements Serializable {
     public List<Atividade> getAtividadesPublicas() {
         return atividadeDAO.Join("tipo", "t")
                 .IgualA("t.publico", true)
+                .IgualA("evento", getEvento())
+                .Ordenar("nome", "ASC")
+                .Buscar();
+    }
+    
+    public List<Atividade> getResponsavelPorAtividades() {
+        return atividadeDAO
+                .IgualA("geraCertificado", true)
+                .IgualA("responsavelPrincipal", getUsuarioCorrente())
                 .IgualA("evento", getEvento())
                 .Ordenar("nome", "ASC")
                 .Buscar();

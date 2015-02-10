@@ -50,6 +50,14 @@
                                         </p:commandButton>    
                                     </c:if>
                                 </c:forEach>
+                                <c:forEach items="#{publicoController.responsavelPorAtividades}" var="ativ">
+                                    #{ativ.nome}
+                                    <p:commandButton ajax="false" value="Visualizar" action="#{certificadoAtividadeResponsavelController.executaRelatorioPDF()}">
+                                        <f:setPropertyActionListener target="#{certificadoAtividadeResponsavelController.atividade}" value="#{ativ}" />
+                                        <f:setPropertyActionListener target="#{certificadoAtividadeResponsavelController.evento}" value="#{ativ.evento}" />
+                                        <f:setPropertyActionListener target="#{certificadoAtividadeResponsavelController.funcao}" value="ministrante" />
+                                    </p:commandButton>    
+                                </c:forEach>
                             </p:panelGrid>
                         </c:when>
                         <c:otherwise>

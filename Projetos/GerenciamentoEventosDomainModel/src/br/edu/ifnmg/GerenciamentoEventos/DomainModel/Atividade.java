@@ -102,6 +102,7 @@ public class Atividade implements Entidade, Serializable {
     @Column(nullable = false)
     private Date termino;
     
+    @ManyToOne
     private Pessoa responsavelPrincipal;
     
     @ManyToMany(fetch = FetchType.LAZY)
