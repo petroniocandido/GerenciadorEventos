@@ -36,9 +36,9 @@ import javax.enterprise.context.RequestScoped;
  *
  * @author petronio
  */
-@Named(value = "certificadoAtividadeResponsavelController")
+@Named(value = "certificadoAtividadeEquipeController")
 @RequestScoped
-public class CertificadoAtividadeResponsavelController
+public class CertificadoAtividadeEquipeController
         extends ControllerBaseRelatorio<Atividade>
         implements Serializable {
 
@@ -46,9 +46,9 @@ public class CertificadoAtividadeResponsavelController
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public CertificadoAtividadeResponsavelController() {
-        setArquivoSaida("certificadoAtividadeResponsavel");
-        setRelatorio("CertificadoAtividadeResponsavel.jasper");
+    public CertificadoAtividadeEquipeController() {
+        setArquivoSaida("certificadoAtividadeEquipe");
+        setRelatorio("CertificadoAtividadeEquipe.jasper");
     }
     
     Atividade atividade;
@@ -64,7 +64,7 @@ public class CertificadoAtividadeResponsavelController
             tmp.put("assinatura1", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoAssinatura1().getUri());
             tmp.put("assinatura2", getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getCertificadoAssinatura2().getUri());
             tmp.put("data", new Date());
-            tmp.put("funcao", funcao);
+            tmp.put("usuario", getUsuarioCorrente().getNome());
             return tmp;
         } catch (MalformedURLException ex) {
             Logger.getLogger(ListaPresencaEventoController.class.getName()).log(Level.SEVERE, null, ex);

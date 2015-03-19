@@ -408,5 +408,15 @@ public class PublicoController extends ControllerBase implements Serializable {
                 .Ordenar("nome", "ASC")
                 .Buscar();
     }
+    
+    public List<Atividade> getEquipeDeAtividades() {
+        return atividadeDAO
+                .IgualA("geraCertificado", true)
+                .Join("responsaveis", "r")
+                .IgualA("r.id", getUsuarioCorrente().getId())
+                .IgualA("evento", getEvento())
+                .Ordenar("nome", "ASC")
+                .Buscar();
+    }
 
 }

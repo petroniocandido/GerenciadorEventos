@@ -58,6 +58,13 @@
                                         <f:setPropertyActionListener target="#{certificadoAtividadeResponsavelController.funcao}" value="ministrante" />
                                     </p:commandButton>    
                                 </c:forEach>
+                                <c:forEach items="#{publicoController.equipeDeAtividades}" var="ativ">
+                                    #{ativ.nome}
+                                    <p:commandButton ajax="false" value="Visualizar" action="#{certificadoAtividadeEquipeController.executaRelatorioPDF()}">
+                                        <f:setPropertyActionListener target="#{certificadoAtividadeEquipeController.atividade}" value="#{ativ}" />
+                                        <f:setPropertyActionListener target="#{certificadoAtividadeEquipeController.evento}" value="#{ativ.evento}" />
+                                    </p:commandButton>    
+                                </c:forEach>
                             </p:panelGrid>
                         </c:when>
                         <c:otherwise>
