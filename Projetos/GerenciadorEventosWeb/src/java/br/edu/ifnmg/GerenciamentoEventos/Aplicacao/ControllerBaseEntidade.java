@@ -47,6 +47,14 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     @EJB
     ArquivoRepositorio arqDAO;
 
+    public String getDIRETORIO_ARQUIVOS() {
+        if(DIRETORIO_ARQUIVOS == null)
+            DIRETORIO_ARQUIVOS = getConfiguracao("DIRETORIO_ARQUIVOS");
+        return DIRETORIO_ARQUIVOS;
+    }
+
+    
+    
     public Long getId() {
         if (id == null || id == 0L) {
             String tmp = getSessao(classe + "entidade");
@@ -62,10 +70,6 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
         this.id = id;
     }
     
-    private void postConstruct(){
-        DIRETORIO_ARQUIVOS = getConfiguracao("DIRETORIO_ARQUIVOS");
-    }
-
     public abstract void limpar();
 
     public void filtrar() {
@@ -122,7 +126,6 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
     public void setRepositorio(Repositorio repo) {
         this.repositorio = repo;
         classe = this.repositorio.getTipo().getSimpleName();
-        postConstruct();
     }
 
     public T getFiltro() {
@@ -257,7 +260,7 @@ public abstract class ControllerBaseEntidade<T extends Entidade> extends Control
 
     public Arquivo criaArquivo(UploadedFile upload) {
         try {
-            Arquivo arquivo = arqDAO.Salvar(upload.getInputstream(), upload.getFileName(), DIRETORIO_ARQUIVOS, getUsuarioCorrente());
+            Arquivo arquivo = arqDAO.Salvar(upload.getInputstream(), upload.getFileName(), getDIRETORIO_ARQUIVOS(), getUsuarioCorrente());
 
             return arquivo;
         } catch (IOException ex) {
