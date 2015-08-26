@@ -172,6 +172,9 @@ public class Evento implements Entidade, Serializable {
     
     @ManyToOne
     private MensagemPerfil mensagemPerfil;
+    
+    @ManyToOne
+    private PagSeguroPerfil pagSeguroPerfil;
 
     public Evento() {
         recursos = new ArrayList<>();
@@ -658,9 +661,15 @@ public class Evento implements Entidade, Serializable {
     public void setMensagemInscricao(String mensagemInscricao) {
         this.mensagemInscricao = mensagemInscricao;
     }
-    
-    
 
+    public PagSeguroPerfil getPagSeguroPerfil() {
+        return pagSeguroPerfil;
+    }
+
+    public void setPagSeguroPerfil(PagSeguroPerfil pagSeguroPerfil) {
+        this.pagSeguroPerfil = pagSeguroPerfil;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

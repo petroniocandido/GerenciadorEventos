@@ -99,6 +99,8 @@ public class Lancamento implements Entidade, Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lancamento")
     private List<Inscricao> inscricoes;
+    
+    private String transacaoPagSeguro;
 
     public Lancamento() {
         valorOriginal = new BigDecimal("0.00");
