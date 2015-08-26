@@ -6,8 +6,8 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DomainModel.MensagemPerfil;
-import br.edu.ifnmg.DomainModel.Services.MensagemPerfilRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PagSeguroPerfil;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PagSeguroPerfilRepositorio;
 import javax.ejb.Singleton;
 
 /**
@@ -15,14 +15,10 @@ import javax.ejb.Singleton;
  * @author petronio
  */
 @Singleton
-public class MensagemPerfilDAO extends DAO<MensagemPerfil> implements MensagemPerfilRepositorio {
+public class PagSeguroPerfilDAO extends DAO<PagSeguroPerfil> implements PagSeguroPerfilRepositorio {
 
-    public MensagemPerfilDAO() {
-        super(MensagemPerfil.class);
+    public PagSeguroPerfilDAO() {
+        super(PagSeguroPerfil.class);
     }      
-    
-    @Override
-    public MensagemPerfil getPadrao() {
-        return IgualA("padrao", true).Abrir();
-    }
+       
 }

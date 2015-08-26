@@ -29,39 +29,33 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Listagem de Perfis de Mensagens
+                        Listagem de Perfis de PagSeguro
                     </f:facet>
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
                                 <h:outputText value="Nome: " />
-                                <p:inputText id="txtNome" size="50" value="#{mensagemPerfilController.filtro.nome}"/>                                 
+                                <p:inputText id="txtNome" size="50" value="#{pagSeguroPerfilController.filtro.nome}"/>                                 
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
-                                <ui:param name="controller" value="#{mensagemPerfilController}"  />
+                                <ui:param name="controller" value="#{pagSeguroPerfilController}"  />
                                 <ui:param name="campos" value="txtNome"  />
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
                     
-                    <p:dataTable value="#{mensagemPerfilController.dataModel}" var="item" selectionMode="single"
+                    <p:dataTable value="#{pagSeguroPerfilController.dataModel}" var="item" selectionMode="single"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
-                        <p:ajax event="rowSelect" listener="#{mensagemPerfilController.onRowSelect}" />
+                        <p:ajax event="rowSelect" listener="#{pagSeguroPerfilController.onRowSelect}" />
                         
                         <p:column headerText="Cód." sortBy="id"   >
                             #{item.id}
                         </p:column>
-                        <p:column headerText="Nome" sortBy="nome"  >
-                            #{item.nome}
-                        </p:column>
-                        <p:column headerText="Usuário" sortBy="usuario"  >
-                            #{item.usuario}
-                        </p:column>
-                        <p:column headerText="Servidor" sortBy="servidor"  >
-                            #{item.servidor}
-                        </p:column>
+                        <p:column headerText="E-mail" sortBy="email"  >
+                            #{item.email}
+                        </p:column>                       
                     </p:dataTable>
                 </p:panel>
             </ui:define>

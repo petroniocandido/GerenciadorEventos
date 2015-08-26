@@ -16,9 +16,9 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-import br.edu.ifnmg.DomainModel.MensagemPerfil;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import br.edu.ifnmg.DomainModel.Services.MensagemPerfilRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PagSeguroPerfil;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PagSeguroPerfilRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
@@ -29,43 +29,43 @@ import javax.enterprise.context.RequestScoped;
  *
  * @author petronio
  */
-@Named(value = "mensagemPerfilController")
+@Named(value = "pagSeguroPerfilController")
 @RequestScoped
-public class MensagemPerfilController
-        extends ControllerBaseEntidade<MensagemPerfil>
+public class PagSeguroPerfilController
+        extends ControllerBaseEntidade<PagSeguroPerfil>
         implements Serializable {
 
     /**
      * Creates a new instance of FuncionarioBean
      */
-    public MensagemPerfilController() {
+    public PagSeguroPerfilController() {
     }
 
     @EJB
-    MensagemPerfilRepositorio dao;
+    PagSeguroPerfilRepositorio dao;
 
     @PostConstruct
     public void init() {
         setRepositorio(dao);
-        setPaginaEdicao("editarMensagemPerfil.xhtml");
-        setPaginaListagem("listagemMensagensPerfis.xtml");
+        setPaginaEdicao("editarPagSeguroPerfil.xhtml");
+        setPaginaListagem("listagemPagSeguroPerfis.xtml");
     }
         
 
     @Override
-    public MensagemPerfil getFiltro() {
+    public PagSeguroPerfil getFiltro() {
         if (filtro == null) {
-            filtro = new MensagemPerfil();
-            filtro.setNome(getSessao("mpctrl_nome"));
+            filtro = new PagSeguroPerfil();
+            filtro.setEmail(getSessao("psctrl_email"));
         }
         return filtro;
     }
 
     @Override
-    public void setFiltro(MensagemPerfil filtro) {
+    public void setFiltro(PagSeguroPerfil filtro) {
         this.filtro = filtro;
         if (filtro != null) {
-            setSessao("mpctrl_nome", filtro.getNome());
+            setSessao("psctrl_email", filtro.getEmail());
         }
     }
     
@@ -76,7 +76,7 @@ public class MensagemPerfilController
 
     @Override
     public void limpar() {
-        setEntidade(new MensagemPerfil());
+        setEntidade(new PagSeguroPerfil());
     }
 
 }

@@ -16,13 +16,10 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Permissao;
 import br.edu.ifnmg.DomainModel.Services.PermissaoRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import javax.persistence.Query;
 
 /**

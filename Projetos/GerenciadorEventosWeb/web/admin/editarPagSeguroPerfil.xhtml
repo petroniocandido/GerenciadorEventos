@@ -20,8 +20,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:pe="http://primefaces.org/ui/extensions">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <body>
 
@@ -31,41 +30,25 @@
                 <p:panel>
 
                     <f:facet name="header">
-                        Editar Perfil de Mensagem
+                        Editar Perfil do PagSeguro
                     </f:facet>
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <h:outputText value="Nome: " />
-                                <p:inputText value="#{mensagemPerfilController.entidade.nome}" 
+                                <h:outputText value="E-mail: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.email}" 
                                              required="true" requiredMessage="O campo nome é obrigatório" />
-                                <h:outputText value="Usuário SMTP: " />
-                                <p:inputText value="#{mensagemPerfilController.entidade.usuario}" 
-                                             required="true" requiredMessage="O campo usuário é obrigatório" />
-                                <h:outputText value="Senha SMTP: " />
-                                <p:password value="#{mensagemPerfilController.entidade.senha}" 
-                                             required="true" requiredMessage="O campo senha é obrigatório" />
-                                <h:outputText value="Servidor SMTP: " />
-                                <p:inputText value="#{mensagemPerfilController.entidade.servidor}" 
-                                             required="true" requiredMessage="O campo servidor é obrigatório" />
-                                <h:outputText value="Porta SMTP: " />
-                                <pe:inputNumber value="#{mensagemPerfilController.entidade.porta}" 
-                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" 
-                                             required="true" requiredMessage="O campo porta é obrigatório" />
-                                <h:outputText value="Utilizar Conexão Segura ? " />
-                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.requerSsl}" />
-                                <h:outputText value="Utilizar Mensagens em HTML ? " />
-                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.html}" />
-                                <h:outputText value="Perfil padrão ? " />
-                                <p:selectBooleanCheckbox value="#{mensagemPerfilController.entidade.padrao}" />
+                                <h:outputText value="Token: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.token}" 
+                                             required="true" requiredMessage="O campo token é obrigatório" />                                
                             </h:panelGrid> 
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
-                            <ui:param name="controller" value="#{mensagemPerfilController}"  />
+                            <ui:param name="controller" value="#{pagSeguroPerfilController}"  />
                         </ui:include>
                     </p:tabView>
                     <ui:include src="./comum/botoesEntidade.xhtml">
-                        <ui:param name="controller" value="#{mensagemPerfilController}"  />
+                        <ui:param name="controller" value="#{pagSeguroPerfilController}"  />
                     </ui:include>
                 </p:panel>
             </ui:define>

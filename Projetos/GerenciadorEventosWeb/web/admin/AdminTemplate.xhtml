@@ -59,6 +59,7 @@
                     
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Financeiro')}" label="Financeiro">
+                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemPagSeguroPerfis.xhtml')}"  value="Perfis do PagSeguro" url="listagemPagSeguroPerfis.xhtml" />                    
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentos.xhtml')}"  value="Lançamentos" url="listagemLancamentos.xhtml" />                    
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Relatórios')}" label="Relatórios">

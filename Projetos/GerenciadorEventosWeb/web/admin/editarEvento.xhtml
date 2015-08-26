@@ -106,6 +106,15 @@
                                         #{p.titulo}  
                                     </p:column>                                
                                 </p:autoComplete>
+                                 <h:outputText value="Perfil PagSeguro: " />
+                                 <p:autoComplete value="#{eventoController.entidade.pagSeguroPerfil}" size="50"  
+                                                completeMethod="#{pagSeguroPerfilConverter.autoCompletePerfil}"  
+                                                var="p" itemLabel="#{p.email}" itemValue="#{p}" 
+                                                converter="#{pagSeguroPerfilConverter}" >  
+                                    <p:column>  
+                                        #{p.email}  
+                                    </p:column>                                
+                                </p:autoComplete>
                                 <h:outputText value="Perfil de envio de e-mails:: " />
                                 <h:selectOneMenu value="#{eventoController.entidade.mensagemPerfil}" converter="#{mensagemPerfilConverter}" >
                                     <f:selectItems value="#{mensagemPerfilController.listagemGeral}" />
