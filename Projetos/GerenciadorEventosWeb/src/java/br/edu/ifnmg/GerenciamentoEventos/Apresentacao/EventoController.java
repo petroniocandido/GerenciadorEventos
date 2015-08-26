@@ -93,6 +93,11 @@ public class EventoController
     }
     
     @Override
+    public List<Evento> getListagem() {
+        return repositorio.Ordenar("inicio", "DESC").Buscar(getFiltro());
+    }
+    
+    @Override
     public Evento getFiltro() {
         if (filtro == null) {
             filtro = new Evento();

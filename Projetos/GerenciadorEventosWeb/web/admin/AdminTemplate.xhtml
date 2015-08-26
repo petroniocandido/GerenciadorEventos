@@ -51,8 +51,12 @@
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições no Evento" url="listagemInscricoes.xhtml"  />
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoesAtividade.xhtml')}" value="Inscrições Por Atividade" url="listagemInscricoesAtividade.xhtml"  />
                     </p:submenu>
-                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/credenciamentoBusca.xhtml')}" value="Credenciamento"  url="credenciamentoBusca.xhtml"  />
-                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/credenciamentoEmBloco.xhtml')}" value="Credenciamento em Bloco"  url="credenciamentoEmBloco.xhtml"  />
+                    <p:submenu label="Credenciamento">
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/credenciamentoBusca.xhtml')}" value="Individual "  url="credenciamentoBusca.xhtml"  />
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/credenciamentoEmBloco.xhtml')}" value="Em Bloco"  url="credenciamentoEmBloco.xhtml"  />
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/credenciamentoBusca.xhtml')}" value="Por Lista"  url="credenciamentoListagem.xhtml"  />
+                    </p:submenu>
+                    
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Financeiro')}" label="Financeiro">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentos.xhtml')}"  value="Lançamentos" url="listagemLancamentos.xhtml" />                    

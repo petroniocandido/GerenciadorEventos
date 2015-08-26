@@ -2,28 +2,30 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="260"/>
+	<property name="ireport.y" value="386"/>
 	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
 	<field name="inscricao.pessoa.nome" class="java.lang.String"/>
 	<field name="inscricao.pessoa.cpf" class="java.lang.String"/>
 	<field name="inscricao.evento.nome" class="java.lang.String"/>
+	<field name="inscricao.evento.inicio" class="java.util.Date"/>
+	<field name="inscricao.evento.termino" class="java.util.Date"/>
+	<field name="inscricao.evento.local" class="java.lang.Object"/>
+	<field name="inscricao.evento.valorInscricao" class="java.math.BigDecimal"/>
+	<field name="inscricao.evento.mensagemInscricao" class="java.lang.String"/>
+	<field name="inscricao.status" class="java.lang.Object"/>
+	<field name="inscricao.valorTotal" class="java.math.BigDecimal"/>
+	<field name="inscricao.categoria" class="java.lang.Object"/>
 	<field name="inscricao.id" class="java.lang.Long"/>
 	<field name="atividade.nome" class="java.lang.String"/>
 	<field name="atividade.inicio" class="java.util.Date"/>
 	<field name="atividade.termino" class="java.util.Date"/>
 	<field name="atividade.local" class="java.lang.Object"/>
-	<field name="ordem" class="java.lang.Integer"/>
-	<field name="inscricao.evento.inicio" class="java.util.Date"/>
-	<field name="inscricao.evento.termino" class="java.util.Date"/>
-	<field name="inscricao.evento.local" class="java.lang.Object"/>
-	<field name="inscricao.evento.valorInscricao" class="java.math.BigDecimal"/>
+	<field name="atividade.mensagemInscricao" class="java.lang.String"/>
 	<field name="atividade.valorInscricao" class="java.math.BigDecimal"/>
-	<field name="inscricao.status" class="java.lang.Object"/>
+	<field name="ordem" class="java.lang.Integer"/>
 	<field name="status" class="java.lang.Object"/>
 	<field name="categoria" class="java.lang.Object"/>
-	<field name="inscricao.valorTotal" class="java.math.BigDecimal"/>
-	<field name="inscricao.categoria" class="java.lang.Object"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
@@ -49,7 +51,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="141" splitType="Stretch">
+		<band height="132" splitType="Stretch">
 			<staticText>
 				<reportElement x="1" y="2" width="67" height="20" uuid="52f6b3ee-1ee1-4753-ad55-e742e4030e53"/>
 				<box>
@@ -237,7 +239,7 @@
 				<textFieldExpression><![CDATA[""+$F{inscricao.evento.local}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="108" width="551" height="33" uuid="5c67d36e-0dd2-47d4-ac27-a0d0568df68d"/>
+				<reportElement x="3" y="99" width="551" height="33" uuid="5c67d36e-0dd2-47d4-ac27-a0d0568df68d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -321,7 +323,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="105" splitType="Stretch">
+		<band height="131" splitType="Stretch">
 			<textField>
 				<reportElement x="67" y="1" width="486" height="20" uuid="eeca44a9-c71f-412e-8b38-a90a131ec883"/>
 				<box>
@@ -530,10 +532,15 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{atividade.valorInscricao}]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="87" width="552" height="33" uuid="591c2d5a-1f36-4475-8e5a-715506a2561a"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$F{atividade.mensagemInscricao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="22" splitType="Stretch"/>
+		<band height="35" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="102">
@@ -600,14 +607,12 @@
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch">
-			<staticText>
-				<reportElement x="4" y="6" width="551" height="36" uuid="9304cbb5-54e0-40eb-96a3-57d3667f367f"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[O recolhimento da taxa de inscrição será realizado durante o credenciamento do evento!]]></text>
-			</staticText>
+		<band height="333" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="555" height="235" uuid="cfc2e33f-c6f4-453f-aa26-e2ab119b218c"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.mensagemInscricao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

@@ -108,6 +108,17 @@ public class CredenciamentoController
         }
     }
     
+    public void credenciar(Inscricao insc){
+        if(insc == null){
+            MensagemErro("ERRO", "Inscrição não encontrada!");
+            return;
+        } 
+        
+        if(serv.confirmar(insc, getUsuarioCorrente())){
+            Mensagem("Sucesso!", "Inscrição confirmada com êxito!");
+        }
+    }
+    
      public void checaEventoPadrao() {
         String evt = getConfiguracao("EVENTO_PADRAO");
         if (evt != null) {

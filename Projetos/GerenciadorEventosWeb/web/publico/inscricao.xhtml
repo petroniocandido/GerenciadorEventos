@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -120,7 +120,7 @@
                         </c:if>
                         <c:forEach items="#{publicoController.atividadesTipos}" var="atividadeTipo">
                             <c:if test="#{not empty publicoController.getAtividades(atividadeTipo)}">  
-                                <p:tab title="#{atividadeTipo.nome}">
+                                <p:tab title="#{atividadeTipo.nomePlural}">
                                     <p:panelGrid>
                                         <f:facet name="header">
                                             <p:row>
@@ -181,9 +181,15 @@
 
                 <p:confirmDialog id="confirmaInscricao" rendered="#{empty publicoController.inscricao}" message="Deseja se inscrever no evento?"  
                                  header="Confirmação" severity="alert" widgetVar="msgSalvar">  
-                    <c:if test="#{not empty publicoController.evento.questionario}">
-                        <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." />
-                        <p:scrollPanel mode="native" style="width:600px;height:400px">
+                    <p:scrollPanel mode="native" style="width:600px;height:400px">
+                        <c:if test="#{not empty publicoController.evento.mensagemInscricao}">
+                            <p:outputLabel value="Avisos importantes:" style="font-weight: bold" />
+                            <h:outputText value="#{publicoController.evento.mensagemInscricao}" escape="false" />
+                            <f:verbatim><hr/></f:verbatim>
+                        </c:if>    
+                        <c:if test="#{not empty publicoController.evento.questionario}">
+                            
+                            <p:outputLabel value="Preencha o formulário abaixo para confirmar a inscrição." style="font-weight: bold" />
                             <p:tabView>
                                 <ui:include src="../comum/questionario.xhtml">
                                     <ui:param name="controller" value="#{publicoController}"  />
@@ -192,8 +198,8 @@
                                     <ui:param name="inscricaotipo" value="normal"  />
                                 </ui:include>
                             </p:tabView>
-                        </p:scrollPanel>
-                    </c:if>
+                        </c:if>
+                    </p:scrollPanel>
                     <p:commandButton ajax="false" value="Confirmar Inscrição" action="#{publicoController.inscreverEvento}" />  
                     <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
                 </p:confirmDialog>  

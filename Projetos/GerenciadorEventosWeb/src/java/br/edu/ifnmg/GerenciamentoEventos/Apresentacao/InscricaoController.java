@@ -28,6 +28,8 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
@@ -202,4 +204,26 @@ public class InscricaoController
         
         return pessoas;
     }
+    
+    List<Inscricao> credenciamento;
+    
+    public List<Inscricao> getCredenciamentoListagem() {
+        if(credenciamento == null)
+            credenciamento = dao.IgualA("evento", getFiltro().getEvento())
+                .IgualA("tipo", InscricaoTipo.Inscricao)
+                .IgualA("categoria", getFiltro().getCategoria())
+                .IgualA("status", InscricaoStatus.Criada)
+                .Join("pessoa", "p")
+                .Ordenar("p.nome", "ASC")
+                .MaximoResultados(100)
+                .Buscar();
+        
+        return credenciamento;
+    }
+    
+    public GenericDataModel getCredenciamentoDataModel() {
+        return new GenericDataModel<>(getCredenciamentoListagem(), repositorio);
+    }
+    
+    
 }

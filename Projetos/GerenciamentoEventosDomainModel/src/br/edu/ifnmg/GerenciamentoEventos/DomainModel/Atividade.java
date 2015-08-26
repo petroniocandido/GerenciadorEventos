@@ -160,6 +160,9 @@ public class Atividade implements Entidade, Serializable {
     @Column(name = "quantidadeInscricoes")
     private Map<EventoInscricaoCategoria, Integer> inscricoesPorCategoria;
     
+    @Lob
+    private String mensagemInscricao;
+    
     public Atividade() {
         recursos = new ArrayList<>();
         responsaveis = new ArrayList<>();
@@ -515,6 +518,14 @@ public class Atividade implements Entidade, Serializable {
 
     public void setAvaliacao(Questionario avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public String getMensagemInscricao() {
+        return mensagemInscricao;
+    }
+
+    public void setMensagemInscricao(String mensagemInscricao) {
+        this.mensagemInscricao = mensagemInscricao;
     }
     
     

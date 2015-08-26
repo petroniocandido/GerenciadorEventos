@@ -118,6 +118,8 @@
                                         #{p.titulo}  
                                     </p:column>                                
                                 </p:autoComplete>
+                                <h:outputText value="Mensagem de inscrição: " />
+                                <p:editor value="#{atividadeController.entidade.mensagemInscricao}" width="600"/>
                                 <h:outputText value="Total de inscritos: " />
                                 <pe:inputNumber value="#{atividadeController.entidade.controle.quantidadeGeral}" 
                                                 thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />

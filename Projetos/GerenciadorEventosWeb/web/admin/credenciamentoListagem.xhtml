@@ -40,21 +40,6 @@
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
-                                <h:outputText value="Pessoa: " />
-                                <p:autoComplete converter="#{usuarioConverter}" value="#{inscricaoController.filtro.pessoa}"
-                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}">
-                                    #{item.nome}
-                                </p:autoComplete>
-                                <h:outputText value="ID: " />
-                                <p:inputText id="txtID" size="50" value="#{inscricaoController.filtro.id}">
-                                    <f:convertNumber integerOnly="true" />
-                                </p:inputText> 
-                                <h:outputText value="Situação: " />
-                                <h:selectOneMenu value="#{inscricaoController.filtro.status}">
-                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
-                                    <f:selectItems value="#{inscricaoController.status}" />
-                                </h:selectOneMenu>
                                 <h:outputText value="Categoria: " />
                                 <h:selectOneMenu value="#{inscricaoController.filtro.categoria}">
                                     <f:selectItem noSelectionOption="true" itemLabel="Todos" />
@@ -63,28 +48,22 @@
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{inscricaoController}"  />
-                                <ui:param name="campos" value="txtID"  />
+                                <ui:param name="campos" value=""  />
                             </ui:include>
                         </p:tab>
                     </p:accordionPanel>
                     <p:tabView id="tabView">
                         <p:tab title="Listagem">
-                            <p:dataTable value="#{inscricaoController.dataModel}" var="item" selectionMode="single"
+                            <p:dataTable value="#{inscricaoController.credenciamentoDataModel}" var="item" 
                                          paginator="true" rows="30"  lazy="true" 
                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
-                                <p:ajax event="rowSelect" listener="#{inscricaoController.onRowSelect}" />
-                                <f:facet name="header">
-                                    Total: #{inscricaoController.dataModel.rowCount} inscrições
-                                </f:facet>
+                                
                                 <p:column headerText="Inscrição" sortBy="id"  >
                                     <p:outputLabel value="#{item.id}" />                            
                                 </p:column>
                                 <p:column headerText="Ordem" sortBy="#{item.ordem}"  >
                                     #{item.ordem}
-                                </p:column>
-                                <p:column headerText="Evento" sortBy="#{item.evento}"  >
-                                    #{item.evento}
                                 </p:column>
                                 <p:column headerText="Participante" sortBy="#{item.pessoa}"  >
                                     #{item.pessoa}                            
@@ -95,7 +74,9 @@
                                 <p:column headerText="Status" sortBy="#{item.status}"  >
                                     #{item.status}                            
                                 </p:column>
-                                
+                                <p:column>
+                                    <p:commandButton value="Credenciar" ajax="false" action="#{credenciamentoController.credenciar(item)}"/>
+                                </p:column>
                             </p:dataTable>
                         </p:tab>
                         <ui:include src="./comum/tabEnviarMensagem.xhtml">

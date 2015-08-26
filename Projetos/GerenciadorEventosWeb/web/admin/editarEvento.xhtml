@@ -110,6 +110,8 @@
                                 <h:selectOneMenu value="#{eventoController.entidade.mensagemPerfil}" converter="#{mensagemPerfilConverter}" >
                                     <f:selectItems value="#{mensagemPerfilController.listagemGeral}" />
                                 </h:selectOneMenu>
+                                <h:outputText value="Mensagem de inscrição: " />
+                                <p:editor value="#{eventoController.entidade.mensagemInscricao}" width="600"/>
                                 <h:outputText value="Total de inscritos: " />
                                 <pe:inputNumber value="#{eventoController.entidade.controle.quantidadeGeral}" 
                                                 thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />

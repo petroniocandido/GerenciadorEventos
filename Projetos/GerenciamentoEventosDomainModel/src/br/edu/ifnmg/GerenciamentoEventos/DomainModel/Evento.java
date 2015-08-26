@@ -141,6 +141,9 @@ public class Evento implements Entidade, Serializable {
 
     @Column(length = 512)
     private String certificadoTextoAssinatura2;
+    
+    @Lob
+    private String mensagemInscricao;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo certificadoFundo;
@@ -646,6 +649,14 @@ public class Evento implements Entidade, Serializable {
 
     public void setInscricoesPorCategoria(Map<EventoInscricaoCategoria, Integer> inscricoesPorCategoria) {
         this.inscricoesPorCategoria = inscricoesPorCategoria;
+    }
+
+    public String getMensagemInscricao() {
+        return mensagemInscricao;
+    }
+
+    public void setMensagemInscricao(String mensagemInscricao) {
+        this.mensagemInscricao = mensagemInscricao;
     }
     
     
