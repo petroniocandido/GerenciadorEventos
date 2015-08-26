@@ -88,6 +88,8 @@ public class InscricaoItemController
             filtro.setEvento((Evento) getSessao("iictrl_evento", evtDAO));
             String tmp = getSessao("iictrl_cat");
             filtro.setCategoria((tmp != null) ? InscricaoCategoria.valueOf(getSessao("iictrl_cat")) : null);
+            tmp = getSessao("iictrl_sta");
+            filtro.setStatus((tmp != null) ? InscricaoStatus.valueOf(getSessao("iictrl_sta")) : null);
         }
         return filtro;
     }
@@ -100,6 +102,7 @@ public class InscricaoItemController
             setSessao("iictrl_evento", filtro.getEvento());
             setSessao("iictrl_ativ", filtro.getAtividade());
             setSessao("iictrl_cat", filtro.getCategoria()!= null ? filtro.getCategoria().name() : null);
+            setSessao("iictrl_sta", filtro.getStatus()!= null ? filtro.getStatus().name() : null);
         }
     }
     
@@ -173,6 +176,25 @@ public class InscricaoItemController
         } else {
             AppendLog("Erro ao registrar presença: " + dao.getErro().getMessage());
             MensagemErro("Atenção", "Erro ao registrar presença! Consulte o administrador do sistema!");
+        }
+    }
+    
+    public void cancelar(InscricaoItem itm) throws Exception {
+        if(service.cancelar(itm)){
+            AppendLog("Item de Inscrição cancelado: " + itm.getPessoa().getNome());
+            Mensagem("Confirmação", "Inscrição cancelada com êxito!");
+        } else {
+            AppendLog("Erro ao cancelar inscrição: " + dao.getErro().getMessage());
+            MensagemErro("Atenção", "Erro ao cancelar inscrição! Consulte o administrador do sistema!");
+        }
+    }
+    
+    public void promover() throws Exception {
+        if(service.promoverListaEsperaParaNormal(getEntidade())){
+            Mensagem("Confirmação", "Inscrição em lista de espera promovida a inscrição normal com êxito!");
+        } else {
+            //AppendLog("Erro ao promover inscrição: " + dao.getErro().getMessage());
+            MensagemErro("Atenção", "Erro ao promover inscrição! Consulte o administrador do sistema!");
         }
     }
     

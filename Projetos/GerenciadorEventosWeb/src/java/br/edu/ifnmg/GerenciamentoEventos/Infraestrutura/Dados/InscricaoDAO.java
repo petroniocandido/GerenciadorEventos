@@ -14,10 +14,8 @@
  *   You should have received a copy of the GNU General Public License
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
@@ -32,24 +30,24 @@ import javax.persistence.Query;
  * @author petronio
  */
 @Singleton
-public class InscricaoDAO 
-    extends DAO<Inscricao> 
-    implements InscricaoRepositorio {
+public class InscricaoDAO
+        extends DAO<Inscricao>
+        implements InscricaoRepositorio {
 
     DAO<InscricaoItem> itemDAO;
-    
-    public InscricaoDAO(){
+
+    public InscricaoDAO() {
         super(Inscricao.class);
         itemDAO = new DAO<>(InscricaoItem.class);
     }
-    
+
     @PostConstruct
     public void inicializar() {
         itemDAO.setManager(getManager());
     }
-    
+
     @Override
-    public List<Inscricao> Buscar(Evento evt, String participante){
+    public List<Inscricao> Buscar(Evento evt, String participante) {
         return Join("pessoa", "p")
                 .IgualA("tipo", InscricaoTipo.Inscricao)
                 .IgualA("evento", evt)
@@ -57,7 +55,7 @@ public class InscricaoDAO
                 .Ordenar("p.nome", "ASC")
                 .Buscar();
     }
-    
+
     @Override
     public List<Inscricao> Buscar(Inscricao filtro) {
         return IgualA("id", filtro.getId())
@@ -65,11 +63,12 @@ public class InscricaoDAO
                 .IgualA("evento", filtro.getEvento())
                 .IgualA("tipo", filtro.getTipo())
                 .IgualA("categoria", filtro.getCategoria())
+                .IgualA("status", filtro.getStatus())
                 .Ordenar("categoria", "ASC")
                 .Ordenar("ordem", "ASC")
                 .Buscar();
     }
-    
+
     @Override
     public List<InscricaoItem> Buscar(InscricaoItem filtro) {
         return itemDAO.IgualA("id", filtro.getId())
@@ -78,6 +77,7 @@ public class InscricaoDAO
                 .IgualA("atividade", filtro.getAtividade())
                 .IgualA("tipo", filtro.getTipo())
                 .IgualA("categoria", filtro.getCategoria())
+                .IgualA("status", filtro.getStatus())
                 .Ordenar("categoria", "ASC")
                 .Ordenar("ordem", "ASC")
                 .Buscar();
@@ -90,7 +90,7 @@ public class InscricaoDAO
                 .IgualA("tipo", InscricaoTipo.Inscricao)
                 .Abrir();
     }
-    
+
     @Override
     public InscricaoItem Abrir(Inscricao i, Atividade a) {
         return itemDAO.IgualA("inscricao", i)
@@ -98,28 +98,28 @@ public class InscricaoDAO
                 .IgualA("tipo", InscricaoTipo.InscricaoItem)
                 .Abrir();
     }
-    
+
     @Override
-    public boolean Apagar(Inscricao i){
+    public boolean Apagar(Inscricao i) {
         /*for(InscricaoItem item : i.getItens()){
-            i.remove(item);
-        }
-        for(Arquivo a : i.getArquivos())
-            i.remove(a);*/
+         i.remove(item);
+         }
+         for(Arquivo a : i.getArquivos())
+         i.remove(a);*/
         return super.Apagar(i);
     }
-    
+
     @Override
-    public boolean Salvar(InscricaoItem i){
-/*        Inscricao tmp = i.getInscricao();
-        tmp.add(i);
-        return Salvar(tmp);
- */
+    public boolean Salvar(InscricaoItem i) {
+        /*        Inscricao tmp = i.getInscricao();
+         tmp.add(i);
+         return Salvar(tmp);
+         */
         return itemDAO.Salvar(i);
     }
-    
+
     @Override
-    public boolean Apagar(InscricaoItem i){
+    public boolean Apagar(InscricaoItem i) {
         Inscricao tmp = i.getInscricao();
         tmp.remove(i);
         return Salvar(tmp);
@@ -134,13 +134,17 @@ public class InscricaoDAO
     public InscricaoItem AbrirItem(Long id) {
         return itemDAO.Abrir(id);
     }
-    
+
     @Override
     public Long QuantidadeInscricoes(Inscricao i, Atividade a) {
         Query query = itemDAO.getManager().createQuery("select count(i) from InscricaoItem i where i.inscricao =:inscricao "
-                + "and i.atividade =:atividade and i.categoria =:normal");
-        query.setParameter("inscricao", i).setParameter("atividade", a).setParameter("normal", InscricaoCategoria.Normal);
-        return (Long)query.getSingleResult();
+                + "and i.atividade =:atividade and i.categoria =:normal and i.status <> :cancelada and i.status <> :recusada");
+        query.setParameter("inscricao", i)
+                .setParameter("atividade", a)
+                .setParameter("normal", InscricaoCategoria.Normal)
+                .setParameter("cancelada", InscricaoStatus.Cancelada)
+                .setParameter("recusada", InscricaoStatus.Recusada);
+        return (Long) query.getSingleResult();
     }
-    
+
 }

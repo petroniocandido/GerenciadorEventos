@@ -79,12 +79,6 @@ public class csvExporterController
     
     AtividadeTipo tipo;
 
-    public void checaEventoPadrao() {
-        String evt = getConfiguracao("EVENTO_PADRAO");
-        if (evt != null) {
-            padrao = dao.Abrir(Long.parseLong(evt));
-        }
-    }
 
     public Evento getPadrao() {
         return padrao;
@@ -199,7 +193,7 @@ public class csvExporterController
         CSVExporter csv = new AtividadeCSVExporter();
         List<Atividade> dados = daoA.IgualA("evento", padrao).IgualA("tipo", tipo).Buscar();
         try {
-            String arq = atividade.getNome().replace(" ", "");
+            String arq = padrao.getNome().replace(" ", "");
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + arq + ".csv");
             servletOutputStream = httpServletResponse.getOutputStream();

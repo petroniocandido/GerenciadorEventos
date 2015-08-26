@@ -242,6 +242,10 @@ public class Lancamento implements Entidade, Serializable {
     public BigDecimal getValorTotal() {
         return valorTotal;
     }
+    
+    public BigDecimal getValorTotalComSinal() {
+        return (tipo == LancamentoTipo.Credito ? valorTotal : valorTotal.negate() );
+    }
 
     public void setValorTotal(BigDecimal valorTotal) {
         this.valorTotal = valorTotal;

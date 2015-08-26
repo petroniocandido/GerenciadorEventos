@@ -16,11 +16,12 @@
  */
 package br.edu.ifnmg.GerenciadorMensagens.Application;
 
+import br.edu.ifnmg.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.MensagemPerfil;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoService;
 import br.edu.ifnmg.DomainModel.Services.LogService;
 import br.edu.ifnmg.DomainModel.Services.MailService;
 import java.util.*;
-import javax.annotation.PostConstruct;
 import javax.mail.*;
 import javax.mail.internet.*;
 
@@ -47,6 +48,17 @@ public class MailServiceImpl implements MailService {
 
     private String proxyPorta;
 
+    public MailServiceImpl(String servidor, String porta, String autenticacao, String tls, String usuario, String senha, String proxyServidor, String proxyPorta) {
+        this.servidor = servidor;
+        this.porta = porta;
+        this.autenticacao = autenticacao;
+        this.tls = tls;
+        this.usuario = usuario;
+        this.senha = senha;
+        this.proxyServidor = proxyServidor;
+        this.proxyPorta = proxyPorta;
+    }
+    
     public MailServiceImpl() {
         this.servidor = configuracao.get("SMTP_SERVIDOR");
         this.porta = configuracao.get("SMTP_PORTA");
@@ -116,6 +128,29 @@ public class MailServiceImpl implements MailService {
             System.out.println("Erro ao enviar e-mail:" + mex.getMessage());
             return false;
         }
+    }
+
+    @Override
+    public boolean enviar(Mensagem m) {
+        configurarPerfil(m.getPerfil());
+        return enviar(m.getDestinatario(), m.getAssunto(), m.getCorpo());
+    }
+
+    @Override
+    public boolean enviar(String destinatario, String assunto, String corpo, MensagemPerfil perfil) {
+        configurarPerfil(perfil);
+        return enviar(destinatario, assunto, corpo);
+    }
+    
+    private void configurarPerfil(MensagemPerfil mp){
+        this.servidor = mp.getServidor();
+        this.porta = Integer.toString(mp.getPorta());
+        this.autenticacao = "true";
+        this.tls = Boolean.toString(mp.isRequerSsl());
+        this.usuario = mp.getUsuario();
+        this.senha = mp.getSenha();
+        this.proxyServidor = "";
+        this.proxyPorta = "";
     }
 
 }

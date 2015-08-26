@@ -24,6 +24,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
@@ -118,6 +119,11 @@ public class LancamentoCategoriaController
         LancamentoCategoriaDataModel dm = new LancamentoCategoriaDataModel(dao.BuscarCategorias(filtro),null);
         dm.setLancamentoRepositorio(dao);
         return dm;
+    }
+    
+    @Override
+    public List<LancamentoCategoria> getListagemGeral() {
+        return dao.listagemCategorias();
     }
     
 }

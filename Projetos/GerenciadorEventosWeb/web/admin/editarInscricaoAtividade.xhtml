@@ -39,40 +39,17 @@
                                 <h:outputText value="Inscrição: " />
                                 <h:outputText value="#{inscricaoItemController.entidade.id}" />
                                 <h:outputText value="Categoria: " />
-                                <h:selectOneMenu value="#{inscricaoItemController.entidade.categoria}" 
-                                                 required="true" requiredMessage="A campo Categoria é de preenchimento obrigatório!">
-                                    <f:selectItems value="#{inscricaoItemController.categorias}" />
-                                </h:selectOneMenu>
+                                <h:outputText value="#{inscricaoItemController.entidade.categoria}" />
                                 <h:outputText value="Situação: " />
-                                <h:selectOneMenu value="#{inscricaoItemController.entidade.status}" 
-                                                 required="true" requiredMessage="A campo Situação é de preenchimento obrigatório!">
-                                    <f:selectItems value="#{inscricaoItemController.status}" />
-                                </h:selectOneMenu>
+                                <h:outputText value="#{inscricaoItemController.entidade.status}" />
                                 <h:outputText value="Evento: " />
-                                <p:autoComplete converter="#{eventoConverter}" value="#{inscricaoItemController.entidade.evento}"
-                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}"
-                                                required="true" requiredMessage="A campo Evento é de preenchimento obrigatório!">
-                                    #{item.nome}
-                                </p:autoComplete>
+                                <h:outputText value="#{inscricaoItemController.entidade.evento}" />
                                 <h:outputText value="Atividade: " />
-                                <p:autoComplete converter="#{atividadeConverter}" value="#{inscricaoItemController.entidade.atividade}"
-                                                completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}"
-                                                required="true" requiredMessage="A campo Evento é de preenchimento obrigatório!">
-                                    #{item.nome}
-                                </p:autoComplete>
+                                <h:outputText value="#{inscricaoItemController.entidade.atividade}" />
                                 <h:outputText value="Participante: " />
-                                <p:autoComplete converter="#{usuarioConverter}" value="#{inscricaoItemController.entidade.pessoa}"
-                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
-                                                itemLabel="#{item.nome}" itemValue="#{item}"
-                                                required="true" requiredMessage="A campo Participante é de preenchimento obrigatório!">
-                                    #{item.nome}
-                                </p:autoComplete>
+                                <h:outputText value="#{inscricaoItemController.entidade.pessoa}" />
                                 <h:outputText value="Ordem Insc.: " />
-                                <p:spinner value="#{inscricaoItemController.entidade.ordem}"  min="1">
-                                    <f:convertNumber type="number" integerOnly="true" />
-                                </p:spinner>
+                                <h:outputText value="#{inscricaoItemController.entidade.ordem}" />
                                 <h:outputText value="Pago?: " />
                                 <p:selectBooleanCheckbox value="#{inscricaoItemController.entidade.pago}" />
                                 <h:outputText value="Compareceu?: " />
@@ -104,7 +81,7 @@
                                         </p:column>                            
                                     </p:dataTable>
                                 </c:if>
-
+                                <p:commandButton ajax="false" value="Promover a inscrição normal"  immediate="true"  action="#{inscricaoItemController.promover()}" style="background-color: red" />
                             </h:panelGrid> 
                         </p:tab>
 
@@ -122,7 +99,7 @@
                     </p:tabView>
                     <f:facet name="footer">
                         <p:commandButton rendered="#{autenticacaoController.autorizacao('btnSalvar')}" id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
-                        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{inscricaoItemController.cancelar()}" />                        
+                        <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="#{inscricaoItemController.cancelar()}" />
                     </f:facet>
                     <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
                                      header="Confirmação" severity="alert" widgetVar="msgSalvar">  

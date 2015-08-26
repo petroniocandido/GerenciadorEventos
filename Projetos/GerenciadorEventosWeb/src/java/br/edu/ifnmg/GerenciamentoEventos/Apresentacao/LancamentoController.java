@@ -32,6 +32,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioL
 import javax.inject.Named;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -56,7 +57,7 @@ public class LancamentoController
      */
     public LancamentoController() {
     }
-
+    
     @EJB
     LancamentoRepositorio dao;
 
@@ -70,6 +71,10 @@ public class LancamentoController
     EventoRepositorio daoEvt;
 
     Inscricao inscricao;
+    
+    Date inicio;
+    
+    Date termino;
 
     @PostConstruct
     public void init() {
@@ -77,6 +82,8 @@ public class LancamentoController
         setPaginaEdicao("editarLancamento.xhtml");
         setPaginaListagem("listagemLancamentos.xtml");
         checaEventoPadrao();
+        //inicio = new Date();
+        //termino = new Date();
     }
     
      public void checaEventoPadrao() {
@@ -201,6 +208,21 @@ public class LancamentoController
         return LancamentoTipo.values();
     }
     
+    @Override
+    public List<Lancamento> getListagem() {
+        return dao
+                .IgualA("evento", filtro.getEvento())
+                .IgualA("atividade", filtro.getAtividade())
+                .IgualA("status", filtro.getStatus())
+                .IgualA("tipo", filtro.getTipo())
+                .IgualA("categoria", filtro.getCategoria())
+                .IgualA("cliente", filtro.getCliente())
+                .IgualA("usuarioBaixa", filtro.getUsuarioBaixa())
+                .MaiorOuIgualA("criacao", inicio)
+                .MenorOuIgualA("criacao", termino)
+                .Buscar();
+    }
+    
      public void validaValorOriginal(FacesContext context, UIComponent component, Object value) throws ValidatorException {
 
          BigDecimal valor = (BigDecimal)value;
@@ -212,5 +234,32 @@ public class LancamentoController
             throw new ValidatorException(msg);
         }
     }
+
+    public Date getInicio() {
+        inicio = getSessaoData("lcctrl_inicio");
+        if(inicio == null)
+            inicio = new Date();            
+        
+        return inicio;
+    }
+
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
+        setSessao("lcctrl_inicio", inicio);
+    }
+
+    public Date getTermino() {
+        termino = getSessaoData("lcctrl_termino");
+        if(termino == null)
+            termino = new Date();                    
+        return termino;
+    }
+
+    public void setTermino(Date termino) {
+        this.termino = termino;
+        setSessao("lcctrl_termino", termino);
+    }
+     
+     
 
 }

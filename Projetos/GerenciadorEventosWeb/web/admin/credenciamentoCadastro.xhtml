@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Gerenciamento de Eventos - Credenciamento</title>
+    </h:head>
+    <h:body>
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  >
+            <p:messages id="mensagens" />
+            <p:panelGrid columns="2">
+                <h:outputText value="Nome: " />
+                <p:inputText id="txtNome" value="#{credenciamentoController.pessoa.nome}" 
+                             required="true" requiredMessage="O campo nome é obrigatório" />
+                <h:outputText value="Sexo: " />
+                <h:selectOneMenu value="#{credenciamentoController.pessoa.sexo}"
+                                 required="true" requiredMessage="O campo sexo é obrigatório">
+                    <f:selectItem itemLabel="Escola o sexo" noSelectionOption="true" />
+                    <f:selectItems value="#{usuarioController.sexos}" />
+                </h:selectOneMenu>
+                <h:outputText value="CPF: " />
+                <p:inputMask id="txtCpf" value="#{credenciamentoController.pessoa.cpf}" mask="999.999.999-99" 
+                             required="true" requiredMessage="O campo cpf é obrigatório" />
+                <h:outputText value="E-Mail: " />
+                <p:inputText id="txtEmail" value="#{credenciamentoController.pessoa.email}" 
+                             required="true" requiredMessage="O campo e-mail é obrigatório" />
+                <h:outputText value="Telefone: " />
+                <p:inputMask id="txtTelefone" value="#{credenciamentoController.pessoa.telefone}" 
+                             mask="(99) 9999-9999" />
+                <h:outputText value="Data de Nascimento: " />
+                <p:calendar id="txtDataNascimento" value="#{credenciamentoController.pessoa.dataNascimento}" 
+                            pattern="dd/MM/yyyy"/>
+                <p:commandButton value="Salvar" ajax="false" action="#{credenciamentoController.cadastrar()}" />
+            </p:panelGrid>
+            <p:commandButton value="Voltar" ajax="false" immediate="true" action="credenciamentoBusca.xhtml" />
+        </h:form>
+    </h:body>
+</html>
+

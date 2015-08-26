@@ -25,9 +25,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -35,10 +38,12 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -57,7 +62,8 @@ import javax.persistence.Version;
 @Table(name = "atividades")
 @NamedQueries({
     @NamedQuery(name = "atividades.porTipoEvento", query = "SELECT a FROM Atividade a where a.tipo = :tipo and a.evento = :evento and (a.status = :pendente or a.status = :emexecucao) order by a.inicio, a.termino"),
-    @NamedQuery(name = "atividades.ativasUsuario", query = "SELECT a FROM Atividade a join a.responsaveis r where r.id = :idUsuario and a.termino <= :termino and a.status <> :cancelado and a.status <> :concluido")
+    @NamedQuery(name = "atividades.ativasUsuario", query = "SELECT a FROM Atividade a join a.responsaveis r where r.id = :idUsuario and a.termino <= :termino and a.status <> :cancelado and a.status <> :concluido"),
+    @NamedQuery(name = "atividades.responsavel", query = "SELECT a FROM Atividade a join a.responsaveis r where a.evento = :evento and ( r.id = :idUsuario or a.responsavelPrincipal = :idUsuario )")
     })
 public class Atividade implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
@@ -96,6 +102,7 @@ public class Atividade implements Entidade, Serializable {
     @Column(nullable = false)
     private Date termino;
     
+    @ManyToOne
     private Pessoa responsavelPrincipal;
     
     @ManyToMany(fetch = FetchType.LAZY)
@@ -108,6 +115,9 @@ public class Atividade implements Entidade, Serializable {
     
     @ManyToOne
     Questionario questionario;
+    
+    @ManyToOne
+    Questionario avaliacao;
     
     @ManyToOne
     private Recurso local;
@@ -142,6 +152,16 @@ public class Atividade implements Entidade, Serializable {
     private List<Alocacao> recursos;
     
     private int cargaHoraria;
+    
+    @ElementCollection
+    @CollectionTable(name = "atividades_inscricoesPorCategoria",
+            joinColumns = @JoinColumn(name = "atividade"))
+    @MapKeyJoinColumn(name = "eventoInscricaoCategoria", referencedColumnName = "id")
+    @Column(name = "quantidadeInscricoes")
+    private Map<EventoInscricaoCategoria, Integer> inscricoesPorCategoria;
+    
+    @Lob
+    private String mensagemInscricao;
     
     public Atividade() {
         recursos = new ArrayList<>();
@@ -239,9 +259,27 @@ public class Atividade implements Entidade, Serializable {
     public void remove(Alocacao recurso){
         if(recursos.contains(recurso)){
             recursos.remove(recurso);
-            recurso.setAtividade(null);
-            recurso.setEvento(null);
+            recurso.setStatus(AlocacaoStatus.Cancelado);
         }
+    }
+    
+    public int getLimiteInscricoes(EventoInscricaoCategoria a){
+        if(inscricoesPorCategoria.containsKey(a)){
+            return inscricoesPorCategoria.get(a).intValue();
+        } else {
+            return 0;
+        }
+    }
+    
+    public void addLimite(EventoInscricaoCategoria a, int l){
+        if(inscricoesPorCategoria.containsKey(a)){
+            inscricoesPorCategoria.remove(a);
+        }
+        inscricoesPorCategoria.put(a, l);
+    }
+    
+    public void removeLimite(EventoInscricaoCategoria a){
+        inscricoesPorCategoria.remove(a);        
     }
 
     public Pessoa getResponsavelPrincipal() {
@@ -472,6 +510,22 @@ public class Atividade implements Entidade, Serializable {
 
     public void setGeraCertificado(boolean geraCertificado) {
         this.geraCertificado = geraCertificado;
+    }
+
+    public Questionario getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Questionario avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    public String getMensagemInscricao() {
+        return mensagemInscricao;
+    }
+
+    public void setMensagemInscricao(String mensagemInscricao) {
+        this.mensagemInscricao = mensagemInscricao;
     }
     
     

@@ -43,8 +43,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -72,6 +70,9 @@ public class Inscricao implements Entidade, Serializable {
     
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Evento evento;
+    
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    private EventoInscricaoCategoria eventoInscricaoCategoria;
     
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataInscricao;
@@ -104,7 +105,7 @@ public class Inscricao implements Entidade, Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Lancamento lancamento;
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -118,6 +119,14 @@ public class Inscricao implements Entidade, Serializable {
         dataInscricao = new Date();
         categoria = InscricaoCategoria.Normal; 
         status = InscricaoStatus.Criada;
+    }
+    
+    public boolean isPendente() {
+        return status == InscricaoStatus.Criada || status == InscricaoStatus.Aceita;
+    }
+    
+    public boolean isCancelada() {
+        return status == InscricaoStatus.Cancelada || status == InscricaoStatus.Recusada;
     }
     
     public void cancelar(){
@@ -140,7 +149,19 @@ public class Inscricao implements Entidade, Serializable {
             lancamento.cancelar(pessoa);
     }
     
-    public void pagar() {
+    public Lancamento pagar(Pessoa operador) {
+        if(pago)
+            return getLancamento();
+               
+        setCompareceu(true);
+        setDataPagamento(new Date());
+        setPago(true);
+        setStatus(InscricaoStatus.Confirmada);
+        
+        Lancamento l = criarLancamento(operador);
+        setLancamento(l);
+        l.baixar(operador);
+        
         for(InscricaoItem i : itens){
             i.setPago(true);
             if(i.getStatus() == InscricaoStatus.Criada)
@@ -148,6 +169,25 @@ public class Inscricao implements Entidade, Serializable {
         }
         if(status == InscricaoStatus.Criada)
             setStatus(InscricaoStatus.Confirmada);
+        
+        return l;
+    }
+    
+    public void pagar(Lancamento l, Pessoa operador) {
+        setLancamento(l);
+        setCompareceu(true);
+        setDataPagamento(new Date());
+        setPago(true);
+        setStatus(InscricaoStatus.Confirmada);
+        
+        for(InscricaoItem i : itens){
+            i.setPago(true);
+            if(i.getStatus() == InscricaoStatus.Criada)
+                i.setStatus(InscricaoStatus.Confirmada);
+        }
+        if(status == InscricaoStatus.Criada)
+            setStatus(InscricaoStatus.Confirmada);
+        
     }
     
     
@@ -227,8 +267,8 @@ public class Inscricao implements Entidade, Serializable {
     protected Boolean prontoParaCertificado = null;
     
     public boolean isProntoParaCertificado() {
-        if(prontoParaCertificado == null)
-            prontoParaCertificado = evento.getStatus() == Status.Concluido && this.pago && this.compareceu;
+     if(prontoParaCertificado == null)
+            prontoParaCertificado = getEvento().getStatus() == Status.Concluido && isPago() && isCompareceu();
         
         return prontoParaCertificado;
     }
@@ -280,8 +320,6 @@ public class Inscricao implements Entidade, Serializable {
     }
 
     public void setPago(boolean pago) {
-        if(pago == true && this.pago == false)
-            pagar();
         this.pago = pago;
     }
 
@@ -370,6 +408,16 @@ public class Inscricao implements Entidade, Serializable {
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
     }
+
+    public EventoInscricaoCategoria getEventoInscricaoCategoria() {
+        return eventoInscricaoCategoria;
+    }
+
+    public void setEventoInscricaoCategoria(EventoInscricaoCategoria eventoInscricaoCategoria) {
+        this.eventoInscricaoCategoria = eventoInscricaoCategoria;
+    }
+    
+    
 
     @Override
     public int hashCode() {

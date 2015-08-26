@@ -16,13 +16,11 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
 /**
@@ -59,6 +57,11 @@ public class LancamentoDAO
         }
         return Buscar();
     }
+    
+    @Override
+    public LancamentoCategoria CategoriaPadrao() {
+        return daoCategoria.IgualA("padrao", true).Abrir();
+    }
 
     @Override
     public LancamentoCategoria AbrirCategoria(Long id) {
@@ -67,6 +70,9 @@ public class LancamentoDAO
 
     @Override
     public boolean SalvarCategoria(LancamentoCategoria obj) {
+        if(obj.isPadrao()){
+            daoCategoria.Setar("padrao", false).DiferenteDe("id", obj.getId()).Atualiza();
+        }
         return daoCategoria.Salvar(obj);
     }
 
@@ -83,6 +89,12 @@ public class LancamentoDAO
                     .IgualA("nome", filtro.getNome())
                     .IgualA("padrao", filtro.isPadrao());
         }
+        return daoCategoria.Ordenar("nome", "ASC").Buscar();
+    }
+    
+    
+    @Override
+    public List<LancamentoCategoria> listagemCategorias() {
         return daoCategoria.Ordenar("nome", "ASC").Buscar();
     }
 

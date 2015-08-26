@@ -162,6 +162,25 @@ public class InscricaoService {
             return false;
         }
     }
+     
+     public boolean promoverListaEsperaParaNormal(InscricaoItem i){
+        if(i.getCategoria() != InscricaoCategoria.ListaEspera)
+            return false;
+        
+        Controle c = controleDAO.Abrir(i.getAtividade());
+        
+        if(i.getAtividade().getNumeroVagas() <= c.getQuantidadeGeral())
+            return false;
+        
+        i.setCategoria(InscricaoCategoria.Normal);
+        if(inscricaoDAO.Salvar(i)){
+            c.setQuantidadeGeral(c.getQuantidadeGeral() + 1);
+            c.setQuantidadeListaEspera(c.getQuantidadeListaEspera() - 1);
+            return controleDAO.Alterar(c);
+        } else {
+            return false;
+        }
+    }
 
     private Inscricao criaInscricao(Controle ctl, Evento e, Pessoa p, InscricaoCategoria c) {
         Inscricao i = new Inscricao();

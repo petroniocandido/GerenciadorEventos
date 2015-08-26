@@ -16,13 +16,11 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Configuracao;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.ConfiguracaoRepositorio;
 import java.util.List;
 import javax.ejb.Singleton;
-import javax.ejb.Stateless;
 
 /**
  *

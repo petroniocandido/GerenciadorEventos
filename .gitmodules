@@ -1,0 +1,3 @@
+[submodule "Projetos/br.edu.ifnmg.core"]
+	path = Projetos/br.edu.ifnmg.core
+	url = https://github.com/petroniocandido/br.edu.ifnmg.core.git

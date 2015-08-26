@@ -33,22 +33,25 @@
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
-                        <p:selectOneMenu  converter="#{eventoConverter}" value="#{listaPresencaController.evento}"
-                                         >
-                            <f:selectItem noSelectionOption="true" itemLabel="Selecionar evento" />
-                            <f:selectItems value="#{listaPresencaController.eventosDoUsuario}" />
-                        </p:selectOneMenu>
+                        <p:autoComplete converter="#{eventoConverter}" value="#{listaPresencaController.evento}"
+                                        completeMethod="#{eventoConverter.autoCompleteEvento}" 
+                                        var="item" itemLabel="#{item.nome}" itemValue="#{item}">
+                            <p:column>#{item.nome}</p:column>
+                        </p:autoComplete>
                         <h:outputText value="Atividade: " />
-                        <p:selectOneMenu converter="#{atividadeConverter}" value="#{listaPresencaController.atividade}">
-                            <f:selectItem noSelectionOption="true" itemLabel="Selecionar atividade" />
-                            <f:selectItems value="#{listaPresencaController.atividadesDoUsuario}" />
-                        </p:selectOneMenu>
+                        <p:autoComplete converter="#{atividadeConverter}" value="#{listaPresencaController.atividade}"
+                                        completeMethod="#{atividadeConverter.autoCompleteAtividade}" 
+                                        var="item" itemLabel="#{item.nome}" itemValue="#{item}">
+                            <p:column>#{item.nome}</p:column>
+                        </p:autoComplete>
                         <h:outputText value="Categoria: " />
-                        <h:selectOneMenu value="#{listaPresencaEventoController.categoria}">
+                        <h:selectOneMenu value="#{listaPresencaController.categoria}">
+                            <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                             <f:selectItems value="#{inscricaoController.categorias}" />
                         </h:selectOneMenu>
                         <h:outputText value="Situação: " />
-                        <h:selectOneMenu value="#{listaPresencaEventoController.status}">
+                        <h:selectOneMenu value="#{listaPresencaController.status}">
+                            <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                             <f:selectItems value="#{inscricaoController.status}" />
                         </h:selectOneMenu>
                     </p:panelGrid>

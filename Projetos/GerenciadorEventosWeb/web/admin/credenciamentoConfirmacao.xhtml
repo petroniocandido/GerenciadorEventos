@@ -15,25 +15,33 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Gerenciamento de Eventos - Credenciamento</title>
     </h:head>
     <h:body>
-        <h:form>
+        <h:form acceptcharset="ISO-8859-1" lang="pt_BR"  >
             <p:messages id="mensagens" />
             <p:panelGrid rendered="#{not empty credenciamentoController.inscricao}" id="insc" columns="2">
                 <p:outputLabel value="Inscrito:" />
                 <p:outputLabel value="#{credenciamentoController.inscricao.pessoa.nome}" />
+                <p:outputLabel value="Nº Inscrição:" />
+                <p:outputLabel value="#{credenciamentoController.inscricao.id}" />
                 <p:outputLabel value="CPF:" />
                 <p:outputLabel value="#{credenciamentoController.inscricao.pessoa.cpf}" />
                 <p:outputLabel value="Pago?:" />
                 <p:outputLabel value="#{credenciamentoController.inscricao.pago}" />
                 <p:outputLabel value="Valor:" />
-                <p:outputLabel value="#{credenciamentoController.inscricao.valorTotal}" />                
+                <p:outputLabel value="#{credenciamentoController.inscricao.valorTotal}" />
+                <p:outputLabel value="Atividade:" />
+                <h:selectOneMenu value="#{credenciamentoController.atividade}" converter="#{atividadeConverter}" >
+                    <f:selectItems value="#{credenciamentoController.inscricao.evento.atividadesPublicasComInscricao}" />
+                </h:selectOneMenu>
+                <p:commandButton rendered="#{credenciamentoController.inscricao.pendente}" value="Adicionar Atividade" ajax="false" action="#{credenciamentoController.inscreverAtividade()}" />
             </p:panelGrid>
             <p:dataTable value="#{credenciamentoController.inscricao.itens}" var="item"
                          paginator="false" rows="30"  lazy="true" >  
@@ -63,7 +71,7 @@
                     <p:commandButton value="Cancelar" ajax="false" action="#{credenciamentoController.cancelar(item)}" />
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="Confirmar" ajax="false" action="#{credenciamentoController.credenciar()}" />
+            <p:commandButton rendered="#{credenciamentoController.inscricao.pendente}" value="Confirmar" ajax="false" action="#{credenciamentoController.credenciar()}" />
             <p:commandButton value="Voltar para busca" ajax="false" action="credenciamentoBusca.xhtml" />
         </h:form>
     </h:body>

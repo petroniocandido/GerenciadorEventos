@@ -2,28 +2,30 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="165"/>
+	<property name="ireport.y" value="386"/>
 	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
 	<field name="inscricao.pessoa.nome" class="java.lang.String"/>
 	<field name="inscricao.pessoa.cpf" class="java.lang.String"/>
 	<field name="inscricao.evento.nome" class="java.lang.String"/>
-	<field name="id" class="java.lang.Long"/>
-	<field name="atividade.nome" class="java.lang.String"/>
-	<field name="atividade.inicio" class="java.util.Date"/>
-	<field name="atividade.termino" class="java.util.Date"/>
-	<field name="atividade.local" class="java.lang.Object"/>
-	<field name="ordem" class="java.lang.Integer"/>
 	<field name="inscricao.evento.inicio" class="java.util.Date"/>
 	<field name="inscricao.evento.termino" class="java.util.Date"/>
 	<field name="inscricao.evento.local" class="java.lang.Object"/>
 	<field name="inscricao.evento.valorInscricao" class="java.math.BigDecimal"/>
-	<field name="atividade.valorInscricao" class="java.math.BigDecimal"/>
+	<field name="inscricao.evento.mensagemInscricao" class="java.lang.String"/>
 	<field name="inscricao.status" class="java.lang.Object"/>
-	<field name="status" class="java.lang.Object"/>
-	<field name="categoria" class="java.lang.Object"/>
 	<field name="inscricao.valorTotal" class="java.math.BigDecimal"/>
 	<field name="inscricao.categoria" class="java.lang.Object"/>
+	<field name="inscricao.id" class="java.lang.Long"/>
+	<field name="atividade.nome" class="java.lang.String"/>
+	<field name="atividade.inicio" class="java.util.Date"/>
+	<field name="atividade.termino" class="java.util.Date"/>
+	<field name="atividade.local" class="java.lang.Object"/>
+	<field name="atividade.mensagemInscricao" class="java.lang.String"/>
+	<field name="atividade.valorInscricao" class="java.math.BigDecimal"/>
+	<field name="ordem" class="java.lang.Integer"/>
+	<field name="status" class="java.lang.Object"/>
+	<field name="categoria" class="java.lang.Object"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
@@ -49,7 +51,7 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="141" splitType="Stretch">
+		<band height="132" splitType="Stretch">
 			<staticText>
 				<reportElement x="1" y="2" width="67" height="20" uuid="52f6b3ee-1ee1-4753-ad55-e742e4030e53"/>
 				<box>
@@ -102,7 +104,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{inscricao.id}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="400" y="2" width="51" height="20" uuid="a21d848c-4022-45fa-85a7-61c02a9924d3"/>
@@ -237,7 +239,7 @@
 				<textFieldExpression><![CDATA[""+$F{inscricao.evento.local}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="108" width="551" height="33" uuid="5c67d36e-0dd2-47d4-ac27-a0d0568df68d"/>
+				<reportElement x="3" y="99" width="551" height="33" uuid="5c67d36e-0dd2-47d4-ac27-a0d0568df68d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
@@ -321,7 +323,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="105" splitType="Stretch">
+		<band height="131" splitType="Stretch">
 			<textField>
 				<reportElement x="67" y="1" width="486" height="20" uuid="eeca44a9-c71f-412e-8b38-a90a131ec883"/>
 				<box>
@@ -530,76 +532,87 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{atividade.valorInscricao}]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="87" width="552" height="33" uuid="591c2d5a-1f36-4475-8e5a-715506a2561a"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$F{atividade.mensagemInscricao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="22" splitType="Stretch"/>
+		<band height="35" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="52">
+		<band height="102">
 			<elementGroup>
 				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="442" y="29" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
-					<textElement>
+					<reportElement positionType="FixRelativeToBottom" x="442" y="70" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
+					<textElement verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
-					<reportElement positionType="FixRelativeToBottom" x="515" y="29" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
-					<textElement>
+					<reportElement positionType="FixRelativeToBottom" x="511" y="70" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
+					<textElement verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 			</elementGroup>
 			<staticText>
-				<reportElement x="400" y="32" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
+				<reportElement x="400" y="72" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[Página]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="487" y="27" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
+				<reportElement x="481" y="70" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
+				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="32" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
+				<reportElement x="1" y="69" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data de Impressão:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="154" y="32" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
+				<reportElement x="154" y="69" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="14" y="0" width="153" height="20" uuid="22c74d86-3023-4f94-ba7b-c25bb76c277c"/>
-				<textElement textAlignment="Center">
+				<reportElement x="14" y="0" width="108" height="20" uuid="22c74d86-3023-4f94-ba7b-c25bb76c277c"/>
+				<textElement verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VALOR TOTAL:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="168" y="0" width="147" height="20" uuid="3817fe71-0cd5-4000-80ad-53957982b4cb"/>
+				<reportElement x="125" y="0" width="147" height="20" uuid="3817fe71-0cd5-4000-80ad-53957982b4cb"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="12"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{inscricao.valorTotal}]]></textFieldExpression>
 			</textField>
+			<componentElement>
+				<reportElement x="354" y="2" width="200" height="50" uuid="5e394571-6b1c-4c39-a185-d5062c8e57ba"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="2of7" drawText="true" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{inscricao.id}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch">
-			<staticText>
-				<reportElement x="4" y="6" width="551" height="36" uuid="9304cbb5-54e0-40eb-96a3-57d3667f367f"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[O recolhimento da taxa de inscrição será realizado durante o credenciamento do evento!]]></text>
-			</staticText>
+		<band height="333" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="555" height="235" uuid="cfc2e33f-c6f4-453f-aa26-e2ab119b218c"/>
+				<textElement markup="html"/>
+				<textFieldExpression><![CDATA[$F{inscricao.evento.mensagemInscricao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</summary>
 </jasperReport>

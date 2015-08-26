@@ -18,8 +18,8 @@
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.DomainModel.Mensagem;
+import br.edu.ifnmg.DomainModel.MensagemPerfil;
 import br.edu.ifnmg.DomainModel.Services.MensagemRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import java.util.List;
 import javax.ejb.Singleton;
 
@@ -33,7 +33,7 @@ public class MensagemDAO
     implements MensagemRepositorio {
 
     public MensagemDAO(){
-        super(Alocacao.class);
+        super(Mensagem.class);
     }
     
     @Override
@@ -42,6 +42,12 @@ public class MensagemDAO
                 .IgualA("assunto", filtro.getAssunto())
                 .Buscar();
                
+    } 
+    
+    @Override
+    public List<Mensagem> porPerfil(MensagemPerfil perfil) {
+         return IgualA("perfil", perfil)
+                .Buscar();
     }
     
     

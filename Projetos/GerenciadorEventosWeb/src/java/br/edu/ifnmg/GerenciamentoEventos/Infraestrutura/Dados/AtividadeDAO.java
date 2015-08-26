@@ -162,9 +162,11 @@ public class AtividadeDAO
 
     @Override
     public List<Atividade> Responsavel(Evento e, Pessoa obj) {
-        return Join("responsaveis","r")
-                .IgualA("evento", e)
-                .IgualA("r.id", obj.getId())
-                .Buscar();
+        Query q = daoTipo.getManager()
+                .createNamedQuery("atividades.responsavel")
+                .setParameter("evento", e)
+                .setParameter("idUsuario", obj.getId())
+                .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
+        return q.getResultList();
     }
 }

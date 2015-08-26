@@ -50,8 +50,14 @@
                                 <p:inputText id="txtID" size="50" value="#{inscricaoController.filtro.id}">
                                     <f:convertNumber integerOnly="true" />
                                 </p:inputText> 
+                                <h:outputText value="Situação: " />
+                                <h:selectOneMenu value="#{inscricaoController.filtro.status}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
+                                    <f:selectItems value="#{inscricaoController.status}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Categoria: " />
                                 <h:selectOneMenu value="#{inscricaoController.filtro.categoria}">
+                                    <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                                     <f:selectItems value="#{inscricaoController.categorias}" />
                                 </h:selectOneMenu>
                             </p:panelGrid>

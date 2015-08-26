@@ -17,7 +17,6 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
-import br.edu.ifnmg.DataAccess.DAOGenerico;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
@@ -26,6 +25,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.Singleton;
+import javax.persistence.Query;
 
 /**
  *
@@ -69,8 +69,10 @@ public class EventoDAO
     
     @Override
     public List<Evento> Responsavel(Pessoa obj){
-        return Join("responsaveis","r")
-                .IgualA("r.id", obj.getId())
-                .Buscar();
+        Query q =getManager()
+                .createNamedQuery("eventos.responsavel")
+                .setParameter("idUsuario", obj.getId())
+                .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
+        return q.getResultList();
     }
 }

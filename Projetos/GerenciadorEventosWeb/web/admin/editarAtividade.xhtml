@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -62,9 +62,8 @@
                                 <h:outputText value="Gera certificado?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.geraCertificado}" />
                                 <h:outputText value="Carga Horária: " />
-                                <pe:inputNumber value="#{atividadeController.entidade.cargaHoraria}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{atividadeController.entidade.cargaHoraria}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{atividadeController.entidade.inicio}"  pattern="dd/MM/yyyy HH:mm" 
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!" />
@@ -93,25 +92,40 @@
                                 <h:outputText value="Necessita de Inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Valor da Inscrição: " />                                
-                                <pe:inputNumber symbol="R$ " value="#{atividadeController.entidade.valorInscricao}" >
+                                <pe:inputNumber symbol="R$ " thousandSeparator=""  value="#{atividadeController.entidade.valorInscricao}" >
                                     <f:convertNumber currencyCode="pt-BR" />                                    
                                 </pe:inputNumber>
                                 <h:outputText value="Número de vagas: " />
-                                <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>                                
+                                <pe:inputNumber value="#{atividadeController.entidade.numeroVagas}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Início do período de inscrições: " />
                                 <p:calendar value="#{atividadeController.entidade.inicioInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Término do período de inscrições: " />
                                 <p:calendar value="#{atividadeController.entidade.terminoInscricao}"  pattern="dd/MM/yyyy HH:mm"  />
                                 <h:outputText value="Formulário de Inscrição: " />
-                                <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50" id="customPojo3" 
+                                <p:autoComplete value="#{atividadeController.entidade.questionario}" size="50"
                                                 completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
                                                 var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  
                                     <p:column>  
                                         #{p.titulo}  
                                     </p:column>                                
                                 </p:autoComplete>
+                                <h:outputText value="Formulário de Avaliação: " />
+                                <p:autoComplete value="#{atividadeController.entidade.avaliacao}" size="50" 
+                                                completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
+                                                var="p" itemLabel="#{p.titulo}" itemValue="#{p}" converter="#{questionarioConverter}" >  
+                                    <p:column>  
+                                        #{p.titulo}  
+                                    </p:column>                                
+                                </p:autoComplete>
+                                <h:outputText value="Mensagem de inscrição: " />
+                                <p:editor value="#{atividadeController.entidade.mensagemInscricao}" width="600"/>
+                                <h:outputText value="Total de inscritos: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.controle.quantidadeGeral}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                <h:outputText value="Lista de Espera: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.controle.quantidadeListaEspera}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                             </h:panelGrid>
                         </p:tab>
                         <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Responsáveis">  
@@ -185,7 +199,7 @@
                                         <f:selectItems value="#{atividadeController.statusAlocacao}" />
                                     </h:selectOneMenu>
                                 </p:column>
-                                
+
                                 <p:column >
                                     <p:commandButton value="Remover" ajax="false" action="#{atividadeController.removeAlocacao}" >
                                         <f:setPropertyActionListener target="#{atividadeController.alocacao}" value="#{item}" />

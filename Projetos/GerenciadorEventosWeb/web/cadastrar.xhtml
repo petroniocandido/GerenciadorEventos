@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -26,7 +26,7 @@
         <ui:composition template="./TemplateExterno.xhtml">
             <ui:define name="content">
                 <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="1">
-                    
+
                     <f:facet name="header">
                         Dados do Usuário
                     </f:facet>
@@ -34,6 +34,12 @@
                         <h:outputText value="Nome: " />
                         <p:inputText id="txtNome" value="#{autenticacaoController.usuario.nome}" 
                                      required="true" requiredMessage="O campo nome é obrigatório" />
+                        <h:outputText value="Sexo: " />
+                        <h:selectOneMenu value="#{autenticacaoController.usuario.sexo}"
+                                         required="true" requiredMessage="O campo sexo é obrigatório">
+                            <f:selectItem itemLabel="Escolha o sexo" noSelectionOption="true" />
+                            <f:selectItems value="#{usuarioController.sexos}" />
+                        </h:selectOneMenu>
                         <h:outputText value="CPF: " />
                         <p:inputMask id="txtCpf" value="#{autenticacaoController.usuario.cpf}" mask="999.999.999-99" 
                                      required="true" requiredMessage="O campo cpf é obrigatório" 

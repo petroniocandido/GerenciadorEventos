@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -56,9 +56,8 @@
                         <p:tab id="tabDetalhes" title="Detalhes">  
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Carga Horária: " />
-                                <pe:inputNumber value="#{eventoController.entidade.cargaHoraria}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{eventoController.entidade.cargaHoraria}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Início: " />
                                 <p:calendar value="#{eventoController.entidade.inicio}" pattern="dd/MM/yyyy HH:mm"
                                             required="true" requiredMessage="A campo Início é de preenchimento obrigatório!"/>
@@ -79,11 +78,10 @@
                                 <h:outputText value="Necessita inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{eventoController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Número de vagas: " />
-                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{eventoController.entidade.numeroVagas}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <h:outputText value="Valor Inscrição: " />
-                                <pe:inputNumber value="#{eventoController.entidade.valorInscricao}" >
+                                <pe:inputNumber symbol="R$ " thousandSeparator="" value="#{eventoController.entidade.valorInscricao}" >
                                     <f:convertNumber currencyCode="pt-BR" />
                                 </pe:inputNumber>
                                 <h:outputText value="Início Inscriçães: " />
@@ -91,7 +89,7 @@
                                 <h:outputText value="Término Inscriçães: " />
                                 <p:calendar value="#{eventoController.entidade.terminoInscricao}"  pattern="dd/MM/yyyy HH:mm" />
                                 <h:outputText value="Formulário de Inscrição: " />
-                                <p:autoComplete value="#{eventoController.entidade.questionario}" size="50" id="customPojo3" 
+                                <p:autoComplete value="#{eventoController.entidade.questionario}" size="50"  
                                                 completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
                                                 var="p" itemLabel="#{p.titulo}" itemValue="#{p}" 
                                                 converter="#{questionarioConverter}" >  
@@ -99,6 +97,27 @@
                                         #{p.titulo}  
                                     </p:column>                                
                                 </p:autoComplete>
+                                <h:outputText value="Formulário de Avaliação: " />
+                                <p:autoComplete value="#{eventoController.entidade.avaliacao}" size="50"  
+                                                completeMethod="#{questionarioConverter.autoCompleteQuestionario}"  
+                                                var="p" itemLabel="#{p.titulo}" itemValue="#{p}" 
+                                                converter="#{questionarioConverter}" >  
+                                    <p:column>  
+                                        #{p.titulo}  
+                                    </p:column>                                
+                                </p:autoComplete>
+                                <h:outputText value="Perfil de envio de e-mails:: " />
+                                <h:selectOneMenu value="#{eventoController.entidade.mensagemPerfil}" converter="#{mensagemPerfilConverter}" >
+                                    <f:selectItems value="#{mensagemPerfilController.listagemGeral}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Mensagem de inscrição: " />
+                                <p:editor value="#{eventoController.entidade.mensagemInscricao}" width="600"/>
+                                <h:outputText value="Total de inscritos: " />
+                                <pe:inputNumber value="#{eventoController.entidade.controle.quantidadeGeral}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                <h:outputText value="Lista de Espera: " />
+                                <pe:inputNumber value="#{eventoController.entidade.controle.quantidadeListaEspera}" 
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Responsáveis">  
@@ -172,6 +191,7 @@
                                 </ui:include>
                             </h:panelGrid>
                         </p:tab>
+                        
                         <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Limites de Inscrição por Atividade">  
                             <h:panelGrid columns="5" cellpadding="3"> 
                                 <h:outputText value="Atividade: " />
@@ -180,9 +200,8 @@
                                     <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
                                 </p:selectOneMenu>>
                                 <h:outputText value="Limite: " />
-                                <pe:inputNumber value="#{eventoController.limite}" decimalPlaces="0">
-                                    <f:convertNumber integerOnly="true" />
-                                </pe:inputNumber>
+                                <pe:inputNumber value="#{eventoController.limite}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
                                 <p:commandButton value="Adicionar" action="#{eventoController.addLimite()}" update="tblLimites" />
                             </h:panelGrid>
                             <p:dataTable id="tblLimites" value="#{eventoController.limitesAtividades}" var="item"
@@ -202,6 +221,55 @@
                                 </p:column>
                             </p:dataTable>
                         </p:tab>
+                        
+                        <p:tab rendered="#{eventoController.entidade.id gt 0}" title="Recursos">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Recurso: " />
+                                <p:autoComplete converter="#{recursoConverter}" value="#{eventoController.alocacao.recurso}"
+                                                completeMethod="#{recursoConverter.autoCompleteRecurso}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    <p:column headerText="Recurso"  >
+                                        #{item.nome}                            
+                                    </p:column>
+                                    <p:column headerText="Contato"  >
+                                        #{item.contato}                            
+                                    </p:column>
+                                </p:autoComplete>
+                                <h:outputText value="Responsável: " />
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{eventoController.alocacao.responsavel}"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <p:growl id="msglocal" />
+                                <p:commandButton value="Adicionar" action="#{eventoController.addAlocacao}"  update="tblRecursos msglocal"  />
+                            </h:panelGrid>
+                            <p:dataTable id="tblRecursos" value="#{eventoController.entidade.recursos}" var="item" 
+                                         lazy="true" >  
+
+                                <p:column headerText="Recurso"  >
+                                    #{item.recurso}                            
+                                </p:column>
+                                <p:column headerText="Contato" >
+                                    #{item.recurso.contato}                            
+                                </p:column>
+                                <p:column headerText="Responsável" >
+                                    #{item.responsavel}                            
+                                </p:column>
+                                <p:column headerText="Status" >
+                                    <h:selectOneMenu value="#{item.status}"  >
+                                        <f:selectItems value="#{atividadeController.statusAlocacao}" />
+                                    </h:selectOneMenu>
+                                </p:column>
+
+                                <p:column >
+                                    <p:commandButton value="Remover" ajax="false" action="#{eventoController.removeAlocacao}" >
+                                        <f:setPropertyActionListener target="#{eventoController.alocacao}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{eventoController}"  />
                         </ui:include>

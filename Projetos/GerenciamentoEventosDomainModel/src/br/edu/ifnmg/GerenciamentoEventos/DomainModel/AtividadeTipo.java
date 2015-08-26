@@ -57,6 +57,9 @@ public class AtividadeTipo implements Entidade, Serializable {
     @Column(length = 100, unique = true, nullable = false)
     private String nome;
     
+    @Column(length = 120, unique = true, nullable = false)
+    private String nomePlural;
+    
     @Column(length = 500)
     private String descricao;
     
@@ -83,6 +86,16 @@ public class AtividadeTipo implements Entidade, Serializable {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public String getNomePlural() {
+        return nomePlural;
+    }
+
+    public void setNomePlural(String nomePlural) {
+        this.nomePlural = nomePlural;
+    }
+    
+    
 
     public String getDescricao() {
         return descricao;

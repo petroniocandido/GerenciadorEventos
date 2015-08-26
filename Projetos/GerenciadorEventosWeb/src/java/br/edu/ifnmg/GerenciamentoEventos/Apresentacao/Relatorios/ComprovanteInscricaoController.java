@@ -21,9 +21,11 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +71,10 @@ public class ComprovanteInscricaoController
 
     @Override
     public List<InscricaoItem> getDados() {
-        List<InscricaoItem> tmp = inscricao.getItens();
+        List<InscricaoItem> tmp = new ArrayList<>();
+        for(InscricaoItem i : inscricao.getItens())
+            if(i.getCategoria() == InscricaoCategoria.Normal)
+                tmp.add(i);
         return tmp;
     }
 

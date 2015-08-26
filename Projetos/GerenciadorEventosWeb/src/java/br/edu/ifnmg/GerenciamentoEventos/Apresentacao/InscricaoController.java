@@ -28,6 +28,8 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
@@ -89,6 +91,8 @@ public class InscricaoController
             filtro.setId(tmp != null ? Long.parseLong(tmp) : null);
             tmp = getSessao("insctrl_cat");
             filtro.setCategoria((tmp != null) ? InscricaoCategoria.valueOf(getSessao("insctrl_cat")) : null);
+            tmp = getSessao("insctrl_sta");
+            filtro.setStatus((tmp != null) ? InscricaoStatus.valueOf(getSessao("insctrl_sta")) : null);
         }
         return filtro;
     }
@@ -101,6 +105,7 @@ public class InscricaoController
             setSessao("insctrl_evento", filtro.getEvento());
             setSessao("insctrl_id", filtro.getId() != null ? filtro.getId().toString() : null);
             setSessao("insctrl_cat", filtro.getCategoria()!= null ? filtro.getCategoria().name() : null);
+            setSessao("insctrl_sta", filtro.getStatus()!= null ? filtro.getStatus().name() : null);
         }
     }
     
@@ -199,4 +204,26 @@ public class InscricaoController
         
         return pessoas;
     }
+    
+    List<Inscricao> credenciamento;
+    
+    public List<Inscricao> getCredenciamentoListagem() {
+        if(credenciamento == null)
+            credenciamento = dao.IgualA("evento", getFiltro().getEvento())
+                .IgualA("tipo", InscricaoTipo.Inscricao)
+                .IgualA("categoria", getFiltro().getCategoria())
+                .IgualA("status", InscricaoStatus.Criada)
+                .Join("pessoa", "p")
+                .Ordenar("p.nome", "ASC")
+                .MaximoResultados(100)
+                .Buscar();
+        
+        return credenciamento;
+    }
+    
+    public GenericDataModel getCredenciamentoDataModel() {
+        return new GenericDataModel<>(getCredenciamentoListagem(), repositorio);
+    }
+    
+    
 }

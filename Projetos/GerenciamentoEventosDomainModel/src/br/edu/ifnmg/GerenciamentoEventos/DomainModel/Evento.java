@@ -20,6 +20,7 @@ import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.ValidacaoException;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.DomainModel.Entidade;
+import br.edu.ifnmg.DomainModel.MensagemPerfil;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -45,6 +46,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -60,6 +63,9 @@ import javax.persistence.Version;
 @Cacheable(true)
 @Entity
 @Table(name = "eventos")
+@NamedQueries({
+    @NamedQuery(name = "eventos.responsavel", query = "SELECT e FROM Evento e join e.responsaveis r where r.id = :idResponsavel"),
+    })
 public class Evento implements Entidade, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -111,12 +117,18 @@ public class Evento implements Entidade, Serializable {
 
     @ManyToOne
     Questionario questionario;
+    
+    @ManyToOne
+    Questionario avaliacao;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Atividade> atividades;
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private List<EventoInscricaoCategoria> inscricoesCategorias;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "eventosresponsaveis")
@@ -129,6 +141,9 @@ public class Evento implements Entidade, Serializable {
 
     @Column(length = 512)
     private String certificadoTextoAssinatura2;
+    
+    @Lob
+    private String mensagemInscricao;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Arquivo certificadoFundo;
@@ -147,10 +162,21 @@ public class Evento implements Entidade, Serializable {
     @MapKeyJoinColumn(name = "atividadeTipo", referencedColumnName = "id")
     @Column(name = "quantidadeInscricoes")
     private Map<AtividadeTipo, Integer> inscricoesPorAtividade;
+    
+    @ElementCollection
+    @CollectionTable(name = "eventos_inscricoesPorCategoria",
+            joinColumns = @JoinColumn(name = "evento"))
+    @MapKeyJoinColumn(name = "eventoInscricaoCategoria", referencedColumnName = "id")
+    @Column(name = "quantidadeInscricoes")
+    private Map<EventoInscricaoCategoria, Integer> inscricoesPorCategoria;
+    
+    @ManyToOne
+    private MensagemPerfil mensagemPerfil;
 
     public Evento() {
         recursos = new ArrayList<>();
         responsaveis = new ArrayList<>();
+        inscricoesCategorias = new ArrayList<>();
         numeroVagas = 0;
         controle = new Controle(this, 0, 0);
         status = Status.Pendente;
@@ -160,6 +186,7 @@ public class Evento implements Entidade, Serializable {
         termino = new Date();
         cargaHoraria = 0;
         inscricoesPorAtividade = new HashMap<>();
+        inscricoesPorCategoria = new HashMap<>();
     }
 
     public void atualizaCargaHoraria() {
@@ -177,6 +204,14 @@ public class Evento implements Entidade, Serializable {
         }
     }
     
+    public int getLimiteInscricoes(EventoInscricaoCategoria a){
+        if(inscricoesPorCategoria.containsKey(a)){
+            return inscricoesPorCategoria.get(a).intValue();
+        } else {
+            return 0;
+        }
+    }
+    
     public void addLimite(AtividadeTipo a, int l){
         if(inscricoesPorAtividade.containsKey(a)){
             inscricoesPorAtividade.remove(a);
@@ -186,6 +221,17 @@ public class Evento implements Entidade, Serializable {
     
     public void removeLimite(AtividadeTipo a){
         inscricoesPorAtividade.remove(a);        
+    }
+    
+    public void addLimite(EventoInscricaoCategoria a, int l){
+        if(inscricoesPorCategoria.containsKey(a)){
+            inscricoesPorCategoria.remove(a);
+        }
+        inscricoesPorCategoria.put(a, l);
+    }
+    
+    public void removeLimite(EventoInscricaoCategoria a){
+        inscricoesPorCategoria.remove(a);        
     }
 
     public boolean podeEditar(Pessoa obj) {
@@ -256,6 +302,31 @@ public class Evento implements Entidade, Serializable {
     public void remove(Pessoa responsavel) {
         if (responsaveis.contains(responsavel)) {
             responsaveis.remove(responsavel);
+        }
+    }
+    
+    public void add(Alocacao recurso){
+        recurso.setEvento(this);
+        if(!recursos.contains(recurso)){            
+            recursos.add(recurso);
+        }
+    }
+    public void remove(Alocacao recurso){
+        if(recursos.contains(recurso)){
+            recursos.remove(recurso);
+            recurso.setStatus(AlocacaoStatus.Cancelado);
+        }
+    }
+    
+    public void add(EventoInscricaoCategoria cat) {
+        if (!inscricoesCategorias.contains(cat)) {
+            inscricoesCategorias.add(cat);
+        }
+    }
+
+    public void remove(EventoInscricaoCategoria cat) {
+        if (inscricoesCategorias.contains(cat)) {
+            inscricoesCategorias.remove(cat);
         }
     }
 
@@ -468,7 +539,7 @@ public class Evento implements Entidade, Serializable {
         if (atividadesPublicasComInscricao == null) {
             atividadesPublicasComInscricao = new ArrayList<>();
             for (Atividade a : atividades) {
-                if (a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && !a.isNecessitaInscricao()) {
+                if (a.isGeraCertificado() && a.getTipo().getPublico() && a.getStatus() != Status.Cancelado && a.isNecessitaInscricao()) {
                     atividadesPublicasComInscricao.add(a);
                 }
             }
@@ -546,6 +617,46 @@ public class Evento implements Entidade, Serializable {
 
     public void setInscricoesPorAtividade(Map<AtividadeTipo, Integer> inscricoesPorAtividade) {
         this.inscricoesPorAtividade = inscricoesPorAtividade;
+    }
+
+    public MensagemPerfil getMensagemPerfil() {
+        return mensagemPerfil;
+    }
+
+    public void setMensagemPerfil(MensagemPerfil mensagemPerfil) {
+        this.mensagemPerfil = mensagemPerfil;
+    }
+
+    public Questionario getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(Questionario avaliacao) {
+        this.avaliacao = avaliacao;
+    }
+
+    public List<EventoInscricaoCategoria> getInscricoesCategorias() {
+        return inscricoesCategorias;
+    }
+
+    public void setInscricoesCategorias(List<EventoInscricaoCategoria> inscricoesCategorias) {
+        this.inscricoesCategorias = inscricoesCategorias;
+    }
+
+    public Map<EventoInscricaoCategoria, Integer> getInscricoesPorCategoria() {
+        return inscricoesPorCategoria;
+    }
+
+    public void setInscricoesPorCategoria(Map<EventoInscricaoCategoria, Integer> inscricoesPorCategoria) {
+        this.inscricoesPorCategoria = inscricoesPorCategoria;
+    }
+
+    public String getMensagemInscricao() {
+        return mensagemInscricao;
+    }
+
+    public void setMensagemInscricao(String mensagemInscricao) {
+        this.mensagemInscricao = mensagemInscricao;
     }
     
     

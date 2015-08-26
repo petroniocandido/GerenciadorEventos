@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificado Evento" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="74"/>
+	<property name="ireport.y" value="73"/>
 	<subDataset name="Table Dataset 1" uuid="dca93a84-d0b0-46ec-a7f7-0ee30ec12a1b">
 		<field name="nome" class="java.lang.String"/>
 		<field name="tipo" class="java.lang.Object"/>
@@ -24,7 +24,7 @@
 	<field name="evento.certificadoTextoAssinatura2" class="java.lang.String"/>
 	<field name="evento.certificadoCidade" class="java.lang.String"/>
 	<variable name="texto" class="java.lang.String">
-		<variableExpression><![CDATA["participou do evento <b>" + $F{evento.nome} +"</b> realizado no " +$F{evento.local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{evento.inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{evento.termino}) +" com carga horária total de " +$F{evento.cargaHoraria}.toString()+" horas."]]></variableExpression>
+		<variableExpression><![CDATA["Certificamos que <b>" + $F{pessoa.nome} +"</b> participou do evento <b>" + $F{evento.nome} +"</b> realizado no " +$F{evento.local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{evento.inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{evento.termino}) +" perfazendo carga horária total de " +$F{evento.cargaHoraria}.toString()+" horas."]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -36,71 +36,57 @@
 				<imageExpression><![CDATA[$P{background}]]></imageExpression>
 			</image>
 			<textField isStretchWithOverflow="true" evaluationTime="Report">
-				<reportElement positionType="Float" x="117" y="199" width="681" height="77" uuid="af102d61-47d7-4b7e-81fb-de248b0844f9"/>
+				<reportElement positionType="Float" x="123" y="136" width="675" height="140" uuid="af102d61-47d7-4b7e-81fb-de248b0844f9"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
 					<font size="16"/>
-					<paragraph lineSpacing="Double"/>
+					<paragraph lineSpacing="1_1_2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{texto}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="108" y="366" width="201" height="1" uuid="39e0d790-41af-4852-97ef-1317248c9f1b"/>
+				<reportElement x="123" y="366" width="289" height="1" uuid="39e0d790-41af-4852-97ef-1317248c9f1b"/>
 			</line>
 			<line>
-				<reportElement x="542" y="370" width="201" height="1" uuid="5cdea1be-d2e2-481c-a564-1ae0e140455e"/>
+				<reportElement x="536" y="370" width="261" height="1" uuid="5cdea1be-d2e2-481c-a564-1ae0e140455e"/>
 			</line>
 			<textField pattern="dd&apos; de &apos;MMMMM&apos; de &apos;yyyy">
-				<reportElement x="429" y="284" width="369" height="26" uuid="b9e1ccfd-7000-4849-a2b5-deac8b1fc95e"/>
+				<reportElement x="458" y="284" width="342" height="26" uuid="b9e1ccfd-7000-4849-a2b5-deac8b1fc95e"/>
 				<textElement>
 					<font size="16"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="28" y="136" width="770" height="26" uuid="15d4d911-b523-4f35-be5e-218ad6f1f5c4"/>
-				<textElement textAlignment="Center">
-					<font size="16" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Certificamos que ]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="28" y="168" width="770" height="25" uuid="7ef79fd7-9e51-43cc-a554-4cabe1db8e80"/>
-				<textElement textAlignment="Center">
-					<font size="16" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{pessoa.nome}]]></textFieldExpression>
-			</textField>
-			<image>
-				<reportElement x="166" y="314" width="91" height="50" uuid="6634fdc1-5147-4e4b-9646-258485c0fc4c"/>
+			<image hAlign="Center" vAlign="Bottom">
+				<reportElement x="123" y="314" width="289" height="50" uuid="6634fdc1-5147-4e4b-9646-258485c0fc4c"/>
 				<imageExpression><![CDATA[$P{assinatura1}]]></imageExpression>
 			</image>
-			<image>
-				<reportElement x="592" y="314" width="91" height="50" uuid="8f8d581d-9fe2-439b-a42f-acf90e1195d7"/>
+			<image hAlign="Center" vAlign="Bottom">
+				<reportElement x="536" y="310" width="261" height="50" uuid="8f8d581d-9fe2-439b-a42f-acf90e1195d7"/>
 				<imageExpression><![CDATA[$P{assinatura2}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="108" y="371" width="201" height="44" uuid="31705a74-5285-4106-b8a5-82c585d84c3f"/>
+				<reportElement x="123" y="371" width="289" height="44" uuid="31705a74-5285-4106-b8a5-82c585d84c3f"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{evento.certificadoTextoAssinatura1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="542" y="371" width="201" height="44" uuid="ed3b269a-ae3d-47f1-aa0e-135522eca484"/>
+				<reportElement x="536" y="377" width="261" height="44" uuid="ed3b269a-ae3d-47f1-aa0e-135522eca484"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{evento.certificadoTextoAssinatura2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="108" y="284" width="311" height="25" uuid="e58f7a06-bccd-45c6-89bc-982a07a281a7"/>
+				<reportElement x="137" y="284" width="311" height="25" uuid="e58f7a06-bccd-45c6-89bc-982a07a281a7"/>
 				<textElement textAlignment="Right">
 					<font size="16"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{evento.certificadoCidade}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="424" y="286" width="0" height="26" uuid="710c7fe1-de4e-46d6-a907-813c59d0bf9d"/>
+				<reportElement x="453" y="286" width="0" height="26" uuid="710c7fe1-de4e-46d6-a907-813c59d0bf9d"/>
 				<textElement>
 					<font size="18"/>
 				</textElement>

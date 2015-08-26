@@ -25,7 +25,7 @@ import javax.persistence.Persistence;
 public class ConnectionFactory {
     private  EntityManager manager;
     private ConnectionFactory() {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("GerenciadorMensagensPU"); //, getProperties());
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("GerenciadorMensagensPU", getProperties());
         manager = factory.createEntityManager();
     }
     

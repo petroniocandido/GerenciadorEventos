@@ -31,6 +31,7 @@ public class AtividadeCSVExporter extends CSVExporter<Atividade> {
     
     @Override
     protected StringBuilder gerarLinha(Atividade obj) {
+        try {
         return new StringBuilder(limparTexto(obj.getNome())).append(";")
                 .append(obj.getDescricao()!= null ? limparTexto(obj.getDescricao()) : "").append(";")
                 .append(obj.getTipo()!= null ? limparTexto(obj.getTipo().getNome()): "").append(";")
@@ -43,6 +44,10 @@ public class AtividadeCSVExporter extends CSVExporter<Atividade> {
                 .append(obj.getInicioInscricao()!= null ? df.format(obj.getInicioInscricao() ) : "").append(";")
                 .append(obj.getTerminoInscricao()!= null ? df.format(obj.getTerminoInscricao()) : "").append(";")
                 .append(obj.getResponsavelPrincipal()!= null ? obj.getResponsavelPrincipal().getNome() : "").append(";");
+        }
+        catch(Exception ex){
+            return new StringBuilder(obj.toString());
+        }
     }
 
     @Override

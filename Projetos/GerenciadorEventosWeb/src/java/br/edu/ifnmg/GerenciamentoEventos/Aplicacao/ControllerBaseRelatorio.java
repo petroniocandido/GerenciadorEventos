@@ -18,8 +18,6 @@ package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import br.edu.ifnmg.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +57,6 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
 
     Evento evento;
     
-
     private List<T> dados;
 
     protected abstract Map<String, Object> carregaParametros();
@@ -68,7 +65,7 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
 
     public Map<String, Object> getParametrosComuns() throws MalformedURLException {
         HashMap<String, Object> par = new HashMap<>();
-        String tmp = getConfiguracao("DIRETORIO_ARQUIVOS") + evento.getBanner().getUri();
+        String tmp = getConfiguracao("DIRETORIO_ARQUIVOS") + getEvento().getBanner().getUri();
         par.put("banner", tmp);
         par.put(JRParameter.REPORT_LOCALE, new Locale("pt", "BR"));  
         return par;
@@ -89,10 +86,14 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
             httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + getArquivoSaida() + ".pdf");
             ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
             JasperExportManager.exportReportToPdfStream(jasperPrint, servletOutputStream);
-            FacesContext.getCurrentInstance().responseComplete();
+            FacesContext.getCurrentInstance().responseComplete();            
 
         } catch (JRException ex) {
-            Logger.getLogger(ControllerBaseRelatorio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ControllerBaseRelatorio.class.getName()).log(Level.SEVERE, null, ex);            
+        } finally {
+            if(reportStream != null)
+                reportStream.close();
+            
         }
     }
 
@@ -122,12 +123,5 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
 
     public List<Evento> getEventosDoUsuario() {
         return daoEvento.Responsavel(getUsuarioCorrente());
-    }
-        
-    @PostConstruct
-    public void checaEventoPadrao() {
-        String evt = getConfiguracao("EVENTO_PADRAO");
-        evento = daoEvento.Abrir(Long.parseLong(evt));
-    }
-
+    }    
 }

@@ -43,8 +43,8 @@
             <p:menubar >
                 <p:menuitem value="Dados Pessoais"  url="editarDadosPessoais.xhtml" />
                 <p:menuitem rendered="#{not empty publicoController.evento}" value="Site do Evento"  url="#{publicoController.evento.site}"  />
-                <p:menuitem value="Inscrição"  url="inscricao.xhtml" />
-                <p:menuitem value="Certificados" url="certificados.xhtml" />                
+                <p:menuitem rendered="#{not empty publicoController.evento}" value="Inscrição"  url="inscricao.xhtml" />
+                <p:menuitem rendered="#{not empty publicoController.evento}" value="Certificados" url="certificados.xhtml" />                
                 <p:menuitem rendered="#{autenticacaoController.autorizacao('admin')}" value="Área Administrativa" url="../admin/index.xhtml" />
                 <p:menuitem value="Fale Conosco" url="faleConosco.xhtml" />
                 <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />

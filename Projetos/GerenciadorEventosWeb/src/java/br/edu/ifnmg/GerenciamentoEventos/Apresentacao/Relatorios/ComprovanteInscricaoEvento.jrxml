@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="111"/>
+	<property name="ireport.y" value="157"/>
 	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
 	<field name="pessoa.nome" class="java.lang.String"/>
@@ -17,6 +17,7 @@
 	<field name="categoria" class="java.lang.Object"/>
 	<field name="evento.valorInscricao" class="java.math.BigDecimal"/>
 	<field name="valorTotal" class="java.math.BigDecimal"/>
+	<field name="evento.mensagemInscricao" class="java.lang.String"/>
 	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
 		<initialValueExpression><![CDATA[1]]></initialValueExpression>
 	</variable>
@@ -45,7 +46,7 @@
 		<band height="23" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="100" splitType="Stretch">
+		<band height="257" splitType="Stretch">
 			<textField>
 				<reportElement x="450" y="0" width="105" height="20" uuid="42b14487-62f3-428f-9995-79d0758d8046"/>
 				<box>
@@ -309,23 +310,28 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{evento.valorInscricao}]]></textFieldExpression>
 			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="81" width="554" height="49" uuid="fed3b3d7-1a50-412b-a335-cbe60f558cb6"/>
+				<textElement textAlignment="Justified" markup="html"/>
+				<textFieldExpression><![CDATA[$F{evento.mensagemInscricao}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="75" splitType="Stretch"/>
+		<band height="32" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="67">
+		<band height="97">
 			<elementGroup>
 				<textField>
-					<reportElement positionType="FixRelativeToBottom" x="441" y="47" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
+					<reportElement positionType="FixRelativeToBottom" x="441" y="72" width="36" height="20" uuid="947977a5-4bdc-477e-9142-c53e904e637f"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 				</textField>
 				<textField evaluationTime="Report">
-					<reportElement positionType="FixRelativeToBottom" x="516" y="47" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
+					<reportElement positionType="FixRelativeToBottom" x="516" y="72" width="39" height="20" uuid="f18fab49-0d7c-4631-86ab-875cb09d25b3"/>
 					<textElement>
 						<font size="12"/>
 					</textElement>
@@ -333,52 +339,50 @@
 				</textField>
 			</elementGroup>
 			<staticText>
-				<reportElement x="399" y="47" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
+				<reportElement x="399" y="72" width="42" height="20" uuid="e3e2ba65-f37f-41c3-930b-99b1f809f1d3"/>
 				<text><![CDATA[Página]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="488" y="47" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
+				<reportElement x="488" y="72" width="28" height="20" uuid="4126c4c6-a583-4b0a-991d-8d30eeace9bb"/>
 				<text><![CDATA[de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="47" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
+				<reportElement x="0" y="72" width="153" height="20" uuid="26d32ad9-4c6d-4086-a531-f362fbe74faf"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data de Impressão:]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement x="153" y="47" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
+				<reportElement x="153" y="72" width="130" height="20" uuid="778e00cd-dd17-4502-9f18-e407c816ecc4"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="4" y="16" width="153" height="20" uuid="812c3dec-f83e-44e9-9e6f-fa5918f98b9c"/>
-				<textElement textAlignment="Center">
+				<reportElement x="4" y="16" width="105" height="20" uuid="812c3dec-f83e-44e9-9e6f-fa5918f98b9c"/>
+				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[VALOR TOTAL:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="157" y="16" width="100" height="20" uuid="654e3354-5b43-4890-a4cd-6aa3423ba79c"/>
+				<reportElement x="109" y="16" width="120" height="20" uuid="654e3354-5b43-4890-a4cd-6aa3423ba79c"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorTotal}]]></textFieldExpression>
 			</textField>
+			<componentElement>
+				<reportElement x="354" y="0" width="200" height="50" uuid="f3cd013d-1101-408a-bd59-b15bcfb1cc15"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="2of7" drawText="true" checksumRequired="false">
+					<jr:codeExpression><![CDATA[$F{id}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch">
-			<staticText>
-				<reportElement x="3" y="3" width="551" height="36" uuid="8e67ebf9-c4e6-4e77-93e9-c35446740de3"/>
-				<textElement textAlignment="Center">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[O recolhimento da taxa de inscrição será realizado durante o credenciamento do evento!]]></text>
-			</staticText>
-		</band>
+		<band height="42" splitType="Stretch"/>
 	</summary>
 </jasperReport>

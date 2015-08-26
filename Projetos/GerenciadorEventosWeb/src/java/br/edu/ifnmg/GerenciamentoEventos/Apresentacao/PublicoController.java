@@ -34,7 +34,6 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositor
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
@@ -106,9 +105,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     }
 
     public List<Evento> getEventos() {
-        Evento filtro = new Evento();
-        filtro.setStatus(Status.EmExecucao);
-        return eventoDAO.Buscar(filtro);
+        return eventoDAO.Ordenar("inicio", "DESC").Buscar();
     }
 
     public List<AtividadeTipo> getAtividadesTipos() {
@@ -129,7 +126,9 @@ public class PublicoController extends ControllerBase implements Serializable {
     public Inscricao getInscricao() {
         if (inscricao == null) {
             inscricao = (Inscricao) getSessao("inscricao", inscricaoDAO);
-            if (inscricao == null && getEvento() != null) {
+            if (inscricao != null)
+                return inscricao;
+            else if (inscricao == null && getEvento() != null) {
                 setInscricao(inscricaoDAO.Abrir(getEvento(), getUsuarioCorrente()));
                 return inscricao;
             } else {
@@ -364,7 +363,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     @Override
     public void enviarMensagem() {
         String tmp = getMensagem();
-        List<Pessoa> admin = new ArrayList<Pessoa>();
+        List<Pessoa> admin = new ArrayList<>();
 
         tmp = tmp + "\n" + getUsuarioCorrente().toString();
 
@@ -396,6 +395,25 @@ public class PublicoController extends ControllerBase implements Serializable {
     public List<Atividade> getAtividadesPublicas() {
         return atividadeDAO.Join("tipo", "t")
                 .IgualA("t.publico", true)
+                .IgualA("evento", getEvento())
+                .Ordenar("nome", "ASC")
+                .Buscar();
+    }
+    
+    public List<Atividade> getResponsavelPorAtividades() {
+        return atividadeDAO
+                .IgualA("geraCertificado", true)
+                .IgualA("responsavelPrincipal", getUsuarioCorrente())
+                .IgualA("evento", getEvento())
+                .Ordenar("nome", "ASC")
+                .Buscar();
+    }
+    
+    public List<Atividade> getEquipeDeAtividades() {
+        return atividadeDAO
+                .IgualA("geraCertificado", true)
+                .Join("responsaveis", "r")
+                .IgualA("r.id", getUsuarioCorrente().getId())
                 .IgualA("evento", getEvento())
                 .Ordenar("nome", "ASC")
                 .Buscar();
