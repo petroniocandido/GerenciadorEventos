@@ -119,6 +119,7 @@ public class Inscricao implements Entidade, Serializable {
         dataInscricao = new Date();
         categoria = InscricaoCategoria.Normal; 
         status = InscricaoStatus.Criada;
+        this.pago = false;
     }
     
     public boolean isPendente() {
@@ -260,6 +261,7 @@ public class Inscricao implements Entidade, Serializable {
             texto = texto + " e inscrição nas atividades " + tmp;
         l.setDescricao( texto );
         setLancamento(l);
+        setPago(false);
         return l;
     }
     

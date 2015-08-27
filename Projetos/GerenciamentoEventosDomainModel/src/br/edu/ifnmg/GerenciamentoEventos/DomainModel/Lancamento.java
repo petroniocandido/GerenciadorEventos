@@ -309,6 +309,14 @@ public class Lancamento implements Entidade, Serializable {
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
     }
+
+    public String getTransacaoPagSeguro() {
+        return transacaoPagSeguro;
+    }
+
+    public void setTransacaoPagSeguro(String transacaoPagSeguro) {
+        this.transacaoPagSeguro = transacaoPagSeguro;
+    }
     
     
 

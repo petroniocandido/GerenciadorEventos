@@ -34,8 +34,8 @@
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
-                                <h:outputText value="Nome: " />
-                                <p:inputText id="txtNome" size="50" value="#{pagSeguroPerfilController.filtro.nome}"/>                                 
+                                <h:outputText value="E-mail: " />
+                                <p:inputText id="txtNome" size="50" value="#{pagSeguroPerfilController.filtro.email}"/>                                 
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{pagSeguroPerfilController}"  />

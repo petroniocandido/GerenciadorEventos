@@ -40,7 +40,13 @@
                                              required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="Token: " />
                                 <p:inputText value="#{pagSeguroPerfilController.entidade.token}" 
-                                             required="true" requiredMessage="O campo token é obrigatório" />                                
+                                             required="true" requiredMessage="O campo token é obrigatório" />
+                                <h:outputText value="Token Sandbox: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.tokenSandbox}"  />
+                                <h:outputText value="AppID: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.appID}"  />
+                                <h:outputText value="AppKey: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.appKey}"  />
                             </h:panelGrid> 
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">

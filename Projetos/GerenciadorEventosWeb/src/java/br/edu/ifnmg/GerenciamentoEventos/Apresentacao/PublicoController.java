@@ -39,6 +39,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
+import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.PagSeguroService;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -84,6 +85,9 @@ public class PublicoController extends ControllerBase implements Serializable {
 
     @EJB
     ArquivoRepositorio arqDAO;
+    
+    @EJB
+    PagSeguroService pagseguro;
 
     Evento evento;
 
@@ -184,6 +188,19 @@ public class PublicoController extends ControllerBase implements Serializable {
         } else {
             return "";
         }
+
+    }
+    
+    public void efetuarPagamento() {
+        inscricao = inscricaoDAO.Refresh(getInscricao());
+        try {
+            String redirect = pagseguro.Enviar(inscricao);
+            Redirect(redirect);
+        } catch (Exception ex) {
+            AppendLog(ex.getMessage());
+            Mensagem("Erro", "falha ao iniciar processo de pagamento!");
+        }
+        
 
     }
 

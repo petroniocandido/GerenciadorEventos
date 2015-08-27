@@ -38,6 +38,12 @@ public class PagSeguroPerfil implements Entidade, Serializable  {
     
     @Column(unique = true)
     private String token;
+    
+    private String tokenSandbox;
+    
+    private String appID;
+    
+    private String appKey;
 
     @Override
     public Long getId() {
@@ -64,6 +70,32 @@ public class PagSeguroPerfil implements Entidade, Serializable  {
     public void setToken(String token) {
         this.token = token;
     }
+
+    public String getTokenSandbox() {
+        return tokenSandbox;
+    }
+
+    public void setTokenSandbox(String tokenSandbox) {
+        this.tokenSandbox = tokenSandbox;
+    }
+
+    public String getAppID() {
+        return appID;
+    }
+
+    public void setAppID(String appID) {
+        this.appID = appID;
+    }
+
+    public String getAppKey() {
+        return appKey;
+    }
+
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
+    }
+    
+    
 
     @Override
     public int hashCode() {

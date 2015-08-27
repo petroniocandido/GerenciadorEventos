@@ -22,7 +22,8 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
  * @author petronio
  */
 public enum LancamentoStatus {
-    Aberto,
-    Baixado,
-    Cancelado
+    Aberto,             // Ainda não foi gerada orde de pagamento
+    Baixado,            // Pagamento confirmado
+    Cancelado,          
+    AguardandoConfirmacao   // Gerada ordem de pagamento, mas o pagamento ainda não foi confirmado
 }
