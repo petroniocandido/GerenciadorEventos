@@ -43,6 +43,15 @@ public class InscricaoConfirmacaoService {
     @EJB
     LogRepositorio daoLog;
 
+    public boolean confirmarPresenca(Inscricao i) {
+        try {
+            i.setCompareceu(true);
+            return daoInsc.Salvar(i);
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
     public boolean confirmar(Inscricao i, Pessoa p) {
         try {
             Lancamento l = i.pagar(p);

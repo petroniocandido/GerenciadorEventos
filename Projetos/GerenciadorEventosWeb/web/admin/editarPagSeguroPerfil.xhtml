@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <body>
+
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+
+                    <f:facet name="header">
+                        Editar Perfil do PagSeguro
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="E-mail: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.email}" 
+                                             required="true" requiredMessage="O campo nome é obrigatório" />
+                                <h:outputText value="Token: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.token}" 
+                                             required="true" requiredMessage="O campo token é obrigatório" />
+                                <h:outputText value="Token Sandbox: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.tokenSandbox}"  />
+                                <h:outputText value="AppID: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.appID}"  />
+                                <h:outputText value="AppKey: " />
+                                <p:inputText value="#{pagSeguroPerfilController.entidade.appKey}"  />
+                            </h:panelGrid> 
+                        </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{pagSeguroPerfilController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{pagSeguroPerfilController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -97,6 +97,22 @@ public class CredenciamentoController
         return dao.Buscar(getEvento(), query);
     }
     
+    public void confirmarPresenca(){
+        if(getInscricao() == null){
+            MensagemErro("ERRO", "Inscrição não encontrada!");
+            return;
+        } 
+        
+        if(serv.confirmarPresenca(getInscricao())){
+            Mensagem("Sucesso!", "Presença confirmada com êxito!");
+        }
+    }
+    
+    public void credenciarPresenca(){
+        credenciar();
+        confirmarPresenca();
+    }
+     
     public void credenciar(){
         if(getInscricao() == null){
             MensagemErro("ERRO", "Inscrição não encontrada!");

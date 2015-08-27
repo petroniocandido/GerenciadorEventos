@@ -15,25 +15,17 @@
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
+package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
+
+import br.edu.ifnmg.DomainModel.Services.Repositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PagSeguroPerfil;
+import javax.ejb.Local;
 
 /**
  *
  * @author petronio
  */
-public enum LancamentoStatus {
-    Aberto("Pagamento pendente"),             // Ainda não foi gerada orde de pagamento
-    Baixado("Pagamento confirmado"),            // Pagamento confirmado
-    Cancelado("Pagamento cancelado"),          
-    AguardandoConfirmacao("Aguardando confirmação do pagamento");   // Gerada ordem de pagamento, mas o pagamento ainda não foi confirmado
+@Local
+public interface PagSeguroPerfilRepositorio extends Repositorio<PagSeguroPerfil> {
     
-    private String descricao;
-    
-    private LancamentoStatus(String d){
-        this.descricao = d;
-    }
-    
-    public String getDescricao() {
-        return descricao;
-    }
 }

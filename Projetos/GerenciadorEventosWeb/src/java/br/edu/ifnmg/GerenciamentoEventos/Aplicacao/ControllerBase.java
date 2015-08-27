@@ -95,7 +95,7 @@ public abstract class ControllerBase {
     }
 
     protected void AppendLog(String desc) {
-        log.Append(desc);
+        log.Append(desc);        
     }
     
     protected void Redirect(String url){

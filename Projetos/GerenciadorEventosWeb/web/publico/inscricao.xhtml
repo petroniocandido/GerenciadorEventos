@@ -66,6 +66,11 @@
                                                 Nº Inscrição
                                                 <h:outputText value="#{publicoController.inscricao.id}" />                                                    
                                             </c:if>
+                                            
+                                            <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricao.lancamento}">
+                                                Pagamento
+                                                <h:outputText value="#{publicoController.inscricao.lancamento.status.descricao}" />                                                    
+                                            </c:if>
 
                                         </c:when>                                        
                                         <c:otherwise>
@@ -85,8 +90,8 @@
                                 </c:otherwise>
                             </c:choose>                                
                         </p:panelGrid>
-                        <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />
-                        <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
+                        <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />                        
+                        <p:commandButton rendered="#{not empty publicoController.inscricao and publicoController.inscricao.isNaoPago()}" value="Pagar Inscrição" onclick="msgPagar.show();"  />
                         <c:if test="#{not empty publicoController.inscricao}">
                             <c:choose>
                                 <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
@@ -103,6 +108,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
+                        <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
                     </p:tab>
                     <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
                         <c:if test="#{not empty publicoController.evento.questionario and not empty publicoController.inscricao}">
@@ -210,6 +216,13 @@
 
                     <p:commandButton ajax="false" value="Confirmar Cancelamento" action="#{publicoController.cancelarInscricaoEvento}" />  
                     <p:commandButton value="Voltar" onclick="msgCancelar.hide();" type="button" />   
+                </p:confirmDialog>
+                <p:confirmDialog id="pagarInscricao" rendered="#{not empty publicoController.inscricao}" message="O pagamento on-line da inscrição só deverá ser realizado após a inscrição de todas as atividades. 
+                                 Deseja realmente continuar?"
+                                 header="Confirmação" severity="alert" widgetVar="msgPagar">  
+
+                    <p:commandButton ajax="false" value="Efetuar pagamento" action="#{publicoController.efetuarPagamento}" />  
+                    <p:commandButton value="Voltar" onclick="msgPagar.hide();" type="button" />   
                 </p:confirmDialog>
                 <p:commandButton value="Selecionar outro evento" action="selecionaEvento.xhtml" />
             </ui:define>

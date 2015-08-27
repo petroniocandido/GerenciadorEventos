@@ -97,8 +97,10 @@ public class Lancamento implements Entidade, Serializable {
     @ManyToOne
     private LancamentoCategoria categoria;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lancamento")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "lancamento")
     private List<Inscricao> inscricoes;
+    
+    private String transacaoPagSeguro;
 
     public Lancamento() {
         valorOriginal = new BigDecimal("0.00");
@@ -306,6 +308,14 @@ public class Lancamento implements Entidade, Serializable {
 
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
+    }
+
+    public String getTransacaoPagSeguro() {
+        return transacaoPagSeguro;
+    }
+
+    public void setTransacaoPagSeguro(String transacaoPagSeguro) {
+        this.transacaoPagSeguro = transacaoPagSeguro;
     }
     
     
