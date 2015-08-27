@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -167,6 +167,30 @@
                             </p:accordionPanel>
 
                         </p:tab>
+                        <p:tab rendered="#{not empty inscricaoController.entidade.lancamento}" title="Pagamento">
+                            <h:panelGrid columns="2" cellpadding="3">
+                                Cód: 
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.id}" />
+                                Status: 
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.status}" />
+                                Tipo
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.tipo}" />
+                                Categoria: 
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.categoria}" />
+                                Valor Total: 
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.valorTotal}" />
+                                Data inscrição:
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.criacao}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:m" />
+                                </h:outputText>
+                                Data baixa:
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.baixa}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy hh:m" />
+                                </h:outputText>
+                                Cód. PagSeguro: 
+                                <h:outputText value="#{inscricaoController.entidade.lancamento.transacaoPagSeguro}" />
+                            </h:panelGrid>
+                        </p:tab> 
 
                         <p:tab id="tabObservacoes" title="Observações">
                             <p:inputTextarea value="#{inscricaoController.entidade.observacoes}" cols="150" rows="20" />

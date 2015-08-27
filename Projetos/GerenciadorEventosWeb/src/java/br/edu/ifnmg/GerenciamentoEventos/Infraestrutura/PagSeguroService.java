@@ -6,7 +6,6 @@
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura;
 
 import br.com.uol.pagseguro.domain.AccountCredentials;
-import br.com.uol.pagseguro.domain.ApplicationCredentials;
 import br.com.uol.pagseguro.domain.checkout.Checkout;
 import br.com.uol.pagseguro.enums.Currency;
 import br.com.uol.pagseguro.enums.DocumentType;
@@ -38,31 +37,25 @@ public class PagSeguroService {
 
     @EJB
     LogService log;
-   
 
     public String Enviar(Inscricao i) throws PagSeguroServiceException, Exception {
-        if(i.getEvento().getPagSeguroPerfil() == null)
+        if (i.getEvento().getPagSeguroPerfil() == null) {
             throw new Exception("Evento sem perfil de PagSeguro configurado!");
-        
-              
+        }
+
         AccountCredentials cred = new AccountCredentials(
                 i.getEvento().getPagSeguroPerfil().getEmail(),
                 i.getEvento().getPagSeguroPerfil().getToken(),
                 i.getEvento().getPagSeguroPerfil().getTokenSandbox());
-        
-        /*ApplicationCredentials cred = new ApplicationCredentials(null, null, 
-                i.getEvento().getPagSeguroPerfil().getAppID(), 
-                i.getEvento().getPagSeguroPerfil().getAppID());
-        */
-        
-        if(i.getLancamento() == null){
-            lancamentoDAO.Salvar(i.criarLancamento(i.getPessoa()));            
-        } else if(i.getLancamento().getId() == null) {
+
+        if (i.getLancamento() == null) {
+            lancamentoDAO.Salvar(i.criarLancamento(i.getPessoa()));
+        } else if (i.getLancamento().getId() == null) {
             lancamentoDAO.Salvar(i.getLancamento());
         }
-        
+
         Lancamento lanc = i.getLancamento();
-        
+
         Checkout checkout = new Checkout();
 
         checkout.addItem(i.getId().toString(), i.getEvento().getNome(), 1, i.getEvento().getValorInscricao(),
@@ -83,30 +76,28 @@ public class PagSeguroService {
         );
 
         checkout.setCurrency(Currency.BRL);
-        
+
         checkout.setReference(lanc.getId().toString());
 
         checkout.setRedirectURL("http://sge.ifnmg.edu.br/GerenciamentoEventos/publico/PagSeguroRetorno.xhtml");
 
         checkout.setNotificationURL("http://sge.ifnmg.edu.br/GerenciamentoEventos/PagSeguroRetorno");
-        
+
         checkout.setMaxAge(BigInteger.valueOf(172800l)); // 2 dias 
 
-        boolean onlyCheckoutCode = false;
-        
-        String response = checkout.register(cred, onlyCheckoutCode);
-        
-        lanc.setTransacaoPagSeguro(checkout.getReference());
+        String response = checkout.register(cred, true);
+        lanc.setTransacaoPagSeguro(response);
         lanc.setStatus(LancamentoStatus.AguardandoConfirmacao);
-        lancamentoDAO.Salvar(lanc);
+        //lancamentoDAO.Salvar(lanc);
         
-        return response;
+        inscDAO.Salvar(i);
+
+        return "https://pagseguro.uol.com.br/v2/checkout/payment.html?code="+ response;
 
     }
 
     private boolean Receber(String l) {
         return false;
     }
-    
-    
+
 }

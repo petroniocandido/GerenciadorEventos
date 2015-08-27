@@ -69,7 +69,7 @@
                                             
                                             <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricao.lancamento}">
                                                 Pagamento
-                                                <h:outputText value="#{publicoController.inscricao.lancamento.status}" />                                                    
+                                                <h:outputText value="#{publicoController.inscricao.lancamento.status.descricao}" />                                                    
                                             </c:if>
 
                                         </c:when>                                        
@@ -90,9 +90,8 @@
                                 </c:otherwise>
                             </c:choose>                                
                         </p:panelGrid>
-                        <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />
-                        <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
-                        <p:commandButton rendered="#{not empty publicoController.inscricao and not publicoController.inscricao.pago}" value="Pagar Inscrição" onclick="msgPagar.show();"  />
+                        <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />                        
+                        <p:commandButton rendered="#{not empty publicoController.inscricao and publicoController.inscricao.isNaoPago()}" value="Pagar Inscrição" onclick="msgPagar.show();"  />
                         <c:if test="#{not empty publicoController.inscricao}">
                             <c:choose>
                                 <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">
@@ -109,6 +108,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </c:if>
+                        <p:commandButton rendered="#{not empty publicoController.inscricao}" value="Cancelar Inscrição" onclick="msgCancelar.show();"  />
                     </p:tab>
                     <c:if test="#{not empty publicoController.inscricao or not atividade.necessitaInscricao}">
                         <c:if test="#{not empty publicoController.evento.questionario and not empty publicoController.inscricao}">
