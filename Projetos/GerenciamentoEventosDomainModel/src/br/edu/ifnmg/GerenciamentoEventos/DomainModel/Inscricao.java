@@ -14,12 +14,12 @@
  *   You should have received a copy of the GNU General Public License
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.DomainModel.Entidade;
+import com.sun.faces.util.MessageFactory;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -55,199 +55,216 @@ import javax.persistence.Version;
  * @author petronio
  */
 @Entity
-@Inheritance(strategy= InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "DTYPE")
 @Table(name = "inscricoes")
 @Cacheable(false)
 public class Inscricao implements Entidade, Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Pessoa pessoa;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Evento evento;
-    
+
     @ManyToOne(fetch = FetchType.EAGER, optional = true)
     private EventoInscricaoCategoria eventoInscricaoCategoria;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataInscricao;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataPagamento;
-    
+
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     QuestionarioResposta resposta;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "DTYPE")
     protected InscricaoTipo tipo;
-    
+
     @Enumerated(EnumType.STRING)
     protected InscricaoCategoria categoria;
-    
+
     @Enumerated(EnumType.STRING)
     protected InscricaoStatus status;
-    
+
     @Lob
     private String observacoes;
-    
+
     private boolean pago;
-    
+
     private boolean compareceu;
-    
+
     private int ordem;
-    
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "inscricao")
     private List<InscricaoItem> itens;
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
     private Lancamento lancamento;
-    
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "inscricoesarquivos")
     private List<Arquivo> arquivos;
-    
+
     public Inscricao() {
         arquivos = new ArrayList<>();
         itens = new ArrayList<>();
         tipo = InscricaoTipo.Inscricao;
         dataInscricao = new Date();
-        categoria = InscricaoCategoria.Normal; 
+        categoria = InscricaoCategoria.Normal;
         status = InscricaoStatus.Criada;
         this.pago = false;
     }
-    
+
     public boolean isPendente() {
         return status == InscricaoStatus.Criada || status == InscricaoStatus.Aceita;
     }
     
+    public boolean isNaoPago() {
+        return isPendente() && !pago && (getLancamento() == null || getLancamento().getStatus() == LancamentoStatus.Aberto);
+    }
+
     public boolean isCancelada() {
         return status == InscricaoStatus.Cancelada || status == InscricaoStatus.Recusada;
     }
-    
-    public void cancelar(){
-        
-        for(InscricaoItem i : itens){
+
+    public void cancelar() {
+
+        for (InscricaoItem i : itens) {
             i.setStatus(InscricaoStatus.Cancelada);
         }
-        
-        if(lancamento != null)
+
+        if (lancamento != null) {
             lancamento.cancelar(pessoa);
+        }
     }
-    
-    public void recusar(){
-        
-        for(InscricaoItem i : itens){
+
+    public void recusar() {
+
+        for (InscricaoItem i : itens) {
             i.setStatus(InscricaoStatus.Recusada);
         }
-        
-        if(lancamento != null)
+
+        if (lancamento != null) {
             lancamento.cancelar(pessoa);
+        }
     }
-    
+
     public Lancamento pagar(Pessoa operador) {
-        if(pago)
+        if (pago) {
             return getLancamento();
-               
-        setCompareceu(true);
+        }
+
         setDataPagamento(new Date());
         setPago(true);
         setStatus(InscricaoStatus.Confirmada);
-        
-        Lancamento l = criarLancamento(operador);
-        setLancamento(l);
-        l.baixar(operador);
-        
-        for(InscricaoItem i : itens){
-            i.setPago(true);
-            if(i.getStatus() == InscricaoStatus.Criada)
-                i.setStatus(InscricaoStatus.Confirmada);
+
+        Lancamento l = getLancamento();
+
+        if (l == null) {
+            l = criarLancamento(operador);
+            setLancamento(l);
         }
-        if(status == InscricaoStatus.Criada)
-            setStatus(InscricaoStatus.Confirmada);
         
+        l.baixar(operador);
+
+        for (InscricaoItem i : itens) {
+            i.setPago(true);
+            if (i.getStatus() == InscricaoStatus.Criada) {
+                i.setStatus(InscricaoStatus.Confirmada);
+            }
+        }
+        if (status == InscricaoStatus.Criada) {
+            setStatus(InscricaoStatus.Confirmada);
+        }
+
         return l;
     }
-    
+
     public void pagar(Lancamento l, Pessoa operador) {
         setLancamento(l);
-        setCompareceu(true);
         setDataPagamento(new Date());
         setPago(true);
         setStatus(InscricaoStatus.Confirmada);
-        
-        for(InscricaoItem i : itens){
+
+        for (InscricaoItem i : itens) {
             i.setPago(true);
-            if(i.getStatus() == InscricaoStatus.Criada)
+            if (i.getStatus() == InscricaoStatus.Criada) {
                 i.setStatus(InscricaoStatus.Confirmada);
+            }
         }
-        if(status == InscricaoStatus.Criada)
+        if (status == InscricaoStatus.Criada) {
             setStatus(InscricaoStatus.Confirmada);
-        
+        }
+
     }
-    
-    
-    
-    public boolean add(InscricaoItem item){
+
+    public boolean add(InscricaoItem item) {
         item.setInscricao(this);
-        if(!itens.contains(item)){
+        if (!itens.contains(item)) {
             return itens.add(item);
-        } else
+        } else {
             return false;
+        }
     }
-    
-    public boolean remove(InscricaoItem item){
-        if(itens.contains(item)){
+
+    public boolean remove(InscricaoItem item) {
+        if (itens.contains(item)) {
             itens.remove(item);
-            item.setInscricao(null);            
+            item.setInscricao(null);
             return true;
-        } else
+        } else {
             return false;
+        }
     }
-    
-    public void add(Arquivo arquivo){
-        if(!arquivos.contains(arquivo)){
+
+    public void add(Arquivo arquivo) {
+        if (!arquivos.contains(arquivo)) {
             arquivos.add(arquivo);
         }
     }
-    
-    public void remove(Arquivo arquivo){
-        if(arquivos.contains(arquivo)){
+
+    public void remove(Arquivo arquivo) {
+        if (arquivos.contains(arquivo)) {
             arquivos.remove(arquivo);
         }
     }
-    
-    public InscricaoItem getItem(Atividade a){
-        for(InscricaoItem i : getItens()){
-            if(i.getAtividade().equals(a))
+
+    public InscricaoItem getItem(Atividade a) {
+        for (InscricaoItem i : getItens()) {
+            if (i.getAtividade().equals(a)) {
                 return i;
+            }
         }
         return null;
     }
-    
+
     public BigDecimal getValorTotal() {
         BigDecimal valor = new BigDecimal("0.00");
         valor = valor.add(this.getEvento().getValorInscricao());
-        for(InscricaoItem i : getItens()){
-            if(i.getStatus() != InscricaoStatus.Cancelada && i.getStatus() != InscricaoStatus.Recusada
-                    && i.getCategoria() == InscricaoCategoria.Normal)
+        for (InscricaoItem i : getItens()) {
+            if (i.getStatus() != InscricaoStatus.Cancelada && i.getStatus() != InscricaoStatus.Recusada
+                    && i.getCategoria() == InscricaoCategoria.Normal) {
                 valor = valor.add(i.getAtividade().getValorInscricao());
+            }
         }
         return valor;
     }
-    
+
     public Lancamento criarLancamento(Pessoa p) {
         Lancamento l = new Lancamento();
         l.add(this);
         l.setEvento(evento);
         l.setTipo(LancamentoTipo.Credito);
         String tmp = "";
-        for(InscricaoItem i : getItens()){
+        for (InscricaoItem i : getItens()) {
             tmp += (tmp.length() > 0) ? "," : "";
             tmp += i.getAtividade().getNome();
         }
@@ -257,21 +274,23 @@ public class Inscricao implements Entidade, Serializable {
         l.setValorOriginal(getValorTotal());
         l.setValorTotal(getValorTotal());
         String texto = "pagamento da inscrição " + id.toString();
-        if(tmp.length() > 0)
+        if (tmp.length() > 0) {
             texto = texto + " e inscrição nas atividades " + tmp;
-        l.setDescricao( texto );
+        }
+        l.setDescricao(texto);
         setLancamento(l);
         setPago(false);
         return l;
     }
-    
+
     @Transient
     protected Boolean prontoParaCertificado = null;
-    
+
     public boolean isProntoParaCertificado() {
-     if(prontoParaCertificado == null)
+        if (prontoParaCertificado == null) {
             prontoParaCertificado = getEvento().getStatus() == Status.Concluido && isPago() && isCompareceu();
-        
+        }
+
         return prontoParaCertificado;
     }
 
@@ -394,12 +413,14 @@ public class Inscricao implements Entidade, Serializable {
     }
 
     public void setStatus(InscricaoStatus status) {
-        if(status == InscricaoStatus.Cancelada && this.status != null && this.status != InscricaoStatus.Cancelada)
+        if (status == InscricaoStatus.Cancelada && this.status != null && this.status != InscricaoStatus.Cancelada) {
             cancelar();
-        
-        if(status == InscricaoStatus.Recusada && this.status != null && this.status != InscricaoStatus.Recusada)
+        }
+
+        if (status == InscricaoStatus.Recusada && this.status != null && this.status != InscricaoStatus.Recusada) {
             recusar();
-        
+        }
+
         this.status = status;
     }
 
@@ -418,8 +439,6 @@ public class Inscricao implements Entidade, Serializable {
     public void setEventoInscricaoCategoria(EventoInscricaoCategoria eventoInscricaoCategoria) {
         this.eventoInscricaoCategoria = eventoInscricaoCategoria;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -431,7 +450,7 @@ public class Inscricao implements Entidade, Serializable {
 
     @Override
     public boolean equals(Object obj) {
-         if (obj == null) {
+        if (obj == null) {
             return false;
         }
         if (getClass() != obj.getClass()) {
@@ -444,30 +463,29 @@ public class Inscricao implements Entidade, Serializable {
         if (!Objects.equals(this.evento, other.evento)) {
             return false;
         }
-    
+
         return true;
     }
-    
+
     @Override
     public String toString() {
         return id.toString();
     }
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCriacao;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa ultimoAlterador;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataUltimaAlteracao;
-    
+
     @Version
     private Long versao;
-    
 
     @Override
     public Pessoa getCriador() {

@@ -22,8 +22,18 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
  * @author petronio
  */
 public enum LancamentoStatus {
-    Aberto,             // Ainda não foi gerada orde de pagamento
-    Baixado,            // Pagamento confirmado
-    Cancelado,          
-    AguardandoConfirmacao   // Gerada ordem de pagamento, mas o pagamento ainda não foi confirmado
+    Aberto("Pagamento pendente"),             // Ainda não foi gerada orde de pagamento
+    Baixado("Pagamento confirmado"),            // Pagamento confirmado
+    Cancelado("Pagamento cancelado"),          
+    AguardandoConfirmacao("Aguardando confirmação do pagamento");   // Gerada ordem de pagamento, mas o pagamento ainda não foi confirmado
+    
+    private String descricao;
+    
+    private LancamentoStatus(String d){
+        this.descricao = d;
+    }
+    
+    public String getDescricao() {
+        return descricao;
+    }
 }

@@ -97,7 +97,7 @@ public class Lancamento implements Entidade, Serializable {
     @ManyToOne
     private LancamentoCategoria categoria;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lancamento")
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "lancamento")
     private List<Inscricao> inscricoes;
     
     private String transacaoPagSeguro;
