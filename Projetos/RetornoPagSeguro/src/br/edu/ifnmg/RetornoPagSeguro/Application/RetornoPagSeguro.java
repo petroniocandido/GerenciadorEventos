@@ -40,14 +40,11 @@ public class RetornoPagSeguro {
     }
 
     public static void main(String[] args) {
-        br.edu.ifnmg.DomainModel.Services.LogService log = new LogServiceImpl();
-        LancamentoRepositorio lancDAO = new LancamentoDAO();
-        InscricaoRepositorio inscDAO = new InscricaoDAO();
         PagSeguroService pagseguro = new PagSeguroService();
         while (true) {            
             int total = 0, totalConfirmado = 0, totalCancelado = 0, totalErro = 0;
             try {
-                Date d = HojeMenos5();
+        /*        Date d = HojeMenos5();
                 List<Lancamento> lancamentos = lancDAO
                         .MaiorOuIgualA("criacao", d)
                         .IgualA("status", LancamentoStatus.AguardandoConfirmacao)
@@ -58,35 +55,7 @@ public class RetornoPagSeguro {
                     total++;
                     try {
                         LancamentoStatus status = pagseguro.receber(l);
-                        switch (status) {
-                            case AguardandoConfirmacao:
-                                break;
-                            case Baixado:
-                                totalConfirmado++;
-                                l.baixar(l.getCliente());
-                                for (Inscricao i : l.getInscricoes()) {
-                                    i.setStatus(InscricaoStatus.Confirmada);
-                                    i.setPago(true);
-                                    for (InscricaoItem it : i.getItens()) {
-                                        i.setStatus(InscricaoStatus.Confirmada);
-                                        i.setPago(true);
-                                    }
-                                    inscDAO.Salvar(i);
-                                }
-                            case Cancelado:
-                                totalCancelado++;
-                                l.cancelar(l.getCliente());
-                                for (Inscricao i : l.getInscricoes()) {
-                                    i.setStatus(InscricaoStatus.Criada);
-                                    i.setPago(false);
-                                    for (InscricaoItem it : i.getItens()) {
-                                        i.setStatus(InscricaoStatus.Criada);
-                                        i.setPago(false);
-                                    }
-                                    inscDAO.Salvar(i);
-                                }
-
-                        }
+                        
                     } catch (Exception ex) {
                         totalErro++;
                         String msg = ex.getMessage();
@@ -95,20 +64,15 @@ public class RetornoPagSeguro {
                         log.Append("Erro no retorno do PagSeguro do lançamento " + l.getId().toString() + ":" + msg);
                     }
                 }
+            */
+                pagseguro.Sincronizar(HojeMenos5());
 
             } catch (Exception ex) {
                 String msg = ex.getMessage();
                         if(msg == null)
                             msg = "";
-                log.Append("Erro no retorno do PagSeguro do lançamento:" + msg);
             }
-            log.Append("Término da execução do Retorno do PagSeguro: " + total + " transações, "
-                        + totalConfirmado + " confirmadas, " + totalCancelado + " canceladas, "
-                        + totalErro + " erros.");
-                System.out.println("Término da execução do Retorno do PagSeguro: " + total + " transações, "
-                        + totalConfirmado + " confirmadas, " + totalCancelado + " canceladas, "
-                        + totalErro + " erros.");
-            int minutos = 60;
+            int minutos = 15;
             try {
                 Thread.sleep(1000 * 60 * minutos);
             } catch (InterruptedException ex) {
