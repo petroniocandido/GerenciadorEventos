@@ -5,19 +5,9 @@
  */
 package br.edu.ifnmg.RetornoPagSeguro.Application;
 
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
-import br.edu.ifnmg.RetornoPagSeguro.DataAccess.InscricaoDAO;
-import br.edu.ifnmg.RetornoPagSeguro.DataAccess.LancamentoDAO;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,11 +20,19 @@ public class RetornoPagSeguro {
     /**
      * @param args the command line arguments
      */
-    protected static Date HojeMenos5() {
+    protected static Date HojeMenos5Dias() {
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.DAY_OF_YEAR, -5);
+        cal.add(Calendar.DAY_OF_YEAR, -4);
         cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        return cal.getTime();
+    }
+    
+    protected static Date HojeMenos5Horas() {
+        Calendar cal = GregorianCalendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.HOUR, -5);
         cal.set(Calendar.MINUTE, 0);
         return cal.getTime();
     }
@@ -44,7 +42,7 @@ public class RetornoPagSeguro {
         while (true) {            
             int total = 0, totalConfirmado = 0, totalCancelado = 0, totalErro = 0;
             try {
-        /*        Date d = HojeMenos5();
+        /*        Date d = HojeMenos5Dias();
                 List<Lancamento> lancamentos = lancDAO
                         .MaiorOuIgualA("criacao", d)
                         .IgualA("status", LancamentoStatus.AguardandoConfirmacao)
@@ -65,17 +63,19 @@ public class RetornoPagSeguro {
                     }
                 }
             */
-                pagseguro.Sincronizar(HojeMenos5());
+                pagseguro.Sincronizar(new Date(), HojeMenos5Dias());
 
             } catch (Exception ex) {
                 String msg = ex.getMessage();
                         if(msg == null)
                             msg = "";
+                System.out.println(msg);
             }
             int minutos = 15;
             try {
                 Thread.sleep(1000 * 60 * minutos);
             } catch (InterruptedException ex) {
+                System.out.println(ex.getMessage());
                 Logger.getLogger(RetornoPagSeguro.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

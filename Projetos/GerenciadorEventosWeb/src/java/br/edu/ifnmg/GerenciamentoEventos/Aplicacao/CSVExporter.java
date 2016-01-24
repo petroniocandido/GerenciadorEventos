@@ -14,7 +14,6 @@
  *   You should have received a copy of the GNU General Public License
  *   along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
 import java.util.Collection;
@@ -24,23 +23,31 @@ import java.util.Iterator;
  *
  * @author petronio
  */
-public abstract class CSVExporter<T> {    
-    protected abstract StringBuilder gerarLinha(T obj);    
+public abstract class CSVExporter<T> {
+
+    protected abstract StringBuilder gerarLinha(T obj);
+
     protected abstract StringBuilder gerarCabecalho(T obj);
-    
-    protected String limparTexto(String input){
-        return "\"" + input.replace(";", ".").replace("\"", "") + "\"" ;
-    } 
-    
-    public String gerarCSV(Collection<T> colecao){
+
+    protected String limparTexto(String input) {
+        return "\"" + input.replace(";", ".").replace("\"", "") + "\"";
+    }
+
+    public String gerarCSV(Collection<T> colecao) {
         StringBuilder sb = new StringBuilder();
+
         Iterator<T> it = colecao.iterator();
         T obj = it.next();
         sb.append(gerarCabecalho(obj)).append('\n');
         sb.append(gerarLinha(obj)).append('\n');
-        while(it.hasNext()){
-            sb.append(gerarLinha(it.next())).append('\n');
+        while (it.hasNext()) {
+            try {
+                sb.append(gerarLinha(it.next())).append('\n');
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
+
         return sb.toString();
     }
 }

@@ -37,7 +37,7 @@ public class PagSeguroService {
     InscricaoRepositorio inscDAO = new InscricaoDAO();
     LogServiceImpl log = new LogServiceImpl();
 
-    public void Sincronizar(Date d) throws PagSeguroServiceException {
+    public void Sincronizar(Date dataInicio, Date dataFim) throws PagSeguroServiceException {
         PagSeguroPerfilRepositorio perfDAO = new PagSeguroPerfilDAO();
 
         List<PagSeguroPerfil> perfis = perfDAO.Buscar();
@@ -48,18 +48,28 @@ public class PagSeguroService {
                     perfil.getToken(),
                     perfil.getTokenSandbox());
 
-            TransactionSearchResult res = TransactionSearchService.searchByDate(cred, d, new Date(), 1, 5000);
+            TransactionSearchResult res = TransactionSearchService.searchByDate(cred, dataFim, dataInicio, 1, 5000);
             for (TransactionSummary t : res.getTransactionSummaries()) {
-                Long id = Long.parseLong(t.getReference());
-                Lancamento l = lancDAO.Abrir(id);
-                if (l != null) {
-                    if (l.getStatus() == LancamentoStatus.AguardandoConfirmacao || l.getStatus() == LancamentoStatus.Aberto) {
-                        l.setTransacaoPagSeguro(t.getCode());
-                        LancamentoStatus s = ConverteStatus(t.getStatus());
-                        AtualizaLancamento(l, s);
-                        lancDAO.Salvar(l);
-                        log.Append("Atualizando lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
+                try {
+                    Long id = Long.parseLong(t.getReference());
+                    Lancamento l = lancDAO.Abrir(id);
+                    if (l != null) {
+                        if (l.getStatus() == LancamentoStatus.AguardandoConfirmacao || l.getStatus() == LancamentoStatus.Aberto) {
+                            l.setTransacaoPagSeguro(t.getCode());
+                            LancamentoStatus s = ConverteStatus(t.getStatus());
+                            l = AtualizaLancamento(l, s);
+                            if (lancDAO.Salvar(l)) {
+                                System.out.println("Atualizando lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
+                                log.Append("Atualizando lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
+                            } else {
+                                System.out.println("Falha ao atualizar lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
+                                log.Append("Falha ao atualizar lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
+                            }
+                        }
                     }
+                } catch(Exception e){
+                    System.out.println("Falha ao atualizar lançamento " + t.getReference() + ", " + t.getPaymentLink());
+                    log.Append("Falha ao atualizar lançamento " + t.getReference() + ", " + t.getPaymentLink());
                 }
             }
         }
@@ -100,10 +110,11 @@ public class PagSeguroService {
         }
     }
 
-    protected void AtualizaLancamento(Lancamento l, LancamentoStatus s) {
+    protected Lancamento AtualizaLancamento(Lancamento l, LancamentoStatus s) {
         switch (s) {
+            default:
             case AguardandoConfirmacao:
-                return;
+                return l;
             case Baixado:
                 l.baixar(l.getCliente());
                 for (Inscricao i : l.getInscricoes()) {
@@ -115,7 +126,7 @@ public class PagSeguroService {
                     }
                     inscDAO.Salvar(i);
                 }
-                return;
+                return l;
             case Cancelado:
                 l.cancelar(l.getCliente());
                 for (Inscricao i : l.getInscricoes()) {
@@ -127,8 +138,7 @@ public class PagSeguroService {
                     }
                     inscDAO.Salvar(i);
                 }
-                return;
-
+                return l;
         }
     }
 }

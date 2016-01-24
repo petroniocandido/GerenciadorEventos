@@ -19,7 +19,6 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.DomainModel.Entidade;
-import com.sun.faces.util.MessageFactory;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -112,8 +111,12 @@ public class Inscricao implements Entidade, Serializable {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "inscricoesarquivos")
     private List<Arquivo> arquivos;
+    
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Submissao> submissoes;
 
     public Inscricao() {
+        submissoes = new ArrayList<>();
         arquivos = new ArrayList<>();
         itens = new ArrayList<>();
         tipo = InscricaoTipo.Inscricao;
@@ -302,6 +305,14 @@ public class Inscricao implements Entidade, Serializable {
     @Override
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Submissao> getSubmissoes() {
+        return submissoes;
+    }
+
+    public void setSubmissoes(List<Submissao> submissoes) {
+        this.submissoes = submissoes;
     }
 
     public InscricaoCategoria getCategoria() {

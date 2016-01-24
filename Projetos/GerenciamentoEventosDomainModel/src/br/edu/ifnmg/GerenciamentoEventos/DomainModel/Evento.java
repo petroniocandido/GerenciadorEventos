@@ -120,7 +120,7 @@ public class Evento implements Entidade, Serializable {
     
     @ManyToOne
     Questionario avaliacao;
-
+    
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "evento")
     private List<Alocacao> recursos;
 

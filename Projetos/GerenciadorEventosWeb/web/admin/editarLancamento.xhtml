@@ -82,6 +82,8 @@
                                                  required="true" requiredMessage="O campo Histórico é obrigatório!"
                                                  rows="4" cols="100" 
                                                  disabled="#{not lancamentoController.editavel}" />
+                                <h:outputText value="Transação PagSeguro: " />
+                                <p:inputText value="#{lancamentoController.entidade.transacaoPagSeguro}" />
                                 <h:outputText value="Data Criação:" />
                                 <h:outputText value="#{lancamentoController.entidade.criacao}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy hh:mm" />

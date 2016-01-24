@@ -40,7 +40,6 @@ public class GerenciadorMensagens {
             } catch (Exception ex) {
 
             }
-            Thread.sleep(1000 * 60 * minutos);
             int total = 0, totalEnviado = 0, totalNaoEnviado = 0, totalErro = 0;
             br.edu.ifnmg.DomainModel.Services.LogService log = new LogServiceImpl();
             MailService mail = new MailServiceImpl();
@@ -80,6 +79,7 @@ public class GerenciadorMensagens {
             } catch (Exception ex) {
                 System.out.println("Erro no Gerenciador de Mensagens: " + ex.getMessage());
             }
+            Thread.sleep(1000 * 60 * minutos);
         }
     }
 

@@ -28,6 +28,9 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PessoaComparator;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
@@ -35,6 +38,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioL
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -147,13 +152,21 @@ public class csvExporterController
     public void exportaPessoasEvento() {
         ServletOutputStream servletOutputStream = null;
         CSVExporter csv = new PessoaCSVExporter();
-        List<Pessoa> dados = daoP.Buscar(padrao);
+        List<Inscricao> insc = daoI.IgualA("evento", padrao)
+                .IgualA("tipo", InscricaoTipo.Inscricao)
+                .IgualA("status", InscricaoStatus.Confirmada)
+                .Buscar();
+        List<Pessoa> tmp = new ArrayList<>();
+        for(Inscricao i : insc){
+            tmp.add(i.getPessoa());
+        }
+        Collections.sort(tmp, new PessoaComparator());
         try {
             String arq = padrao.getNome().replace(" ", "");
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + arq + ".csv");
             servletOutputStream = httpServletResponse.getOutputStream();
-            servletOutputStream.print(csv.gerarCSV(dados));
+            servletOutputStream.print(csv.gerarCSV(tmp));
             FacesContext.getCurrentInstance().responseComplete();
         } catch (IOException ex) {
             Logger.getLogger(csvExporterController.class.getName()).log(Level.SEVERE, null, ex);

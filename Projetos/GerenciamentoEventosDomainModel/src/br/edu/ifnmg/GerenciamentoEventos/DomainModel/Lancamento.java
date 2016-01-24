@@ -113,7 +113,7 @@ public class Lancamento implements Entidade, Serializable {
     }
     
     public boolean editavel(){
-        return status == LancamentoStatus.Aberto;
+        return status == LancamentoStatus.Aberto || status == LancamentoStatus.AguardandoConfirmacao;
     }
 
     public void add(Inscricao i){

@@ -38,6 +38,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -60,6 +62,7 @@ import javax.persistence.Version;
 @Cacheable(true)
 @Entity
 @Table(name = "atividades")
+@Inheritance(strategy= InheritanceType.JOINED)
 @NamedQueries({
     @NamedQuery(name = "atividades.porTipoEvento", query = "SELECT a FROM Atividade a where a.tipo = :tipo and a.evento = :evento and (a.status = :pendente or a.status = :emexecucao) order by a.inicio, a.termino"),
     @NamedQuery(name = "atividades.ativasUsuario", query = "SELECT a FROM Atividade a join a.responsaveis r where r.id = :idUsuario and a.termino <= :termino and a.status <> :cancelado and a.status <> :concluido"),
