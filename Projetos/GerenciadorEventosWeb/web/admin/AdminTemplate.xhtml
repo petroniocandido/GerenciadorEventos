@@ -35,6 +35,7 @@
             <p:menubar>
                 <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/index.xhtml')}" value="Home"  url="index.xhtml" />
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Cadastros')}" label="Cadastros">
+                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemCampus.xhtml')}" value="Campus" url="listagemCampus.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAtividadeTipos.xhtml')}" value="Tipos de Atividades" url="listagemAtividadeTipos.xhtml" />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentoCategorias.xhtml')}" value="Categorias de Lançamentos" url="listagemLancamentoCategorias.xhtml" />
                     <p:submenu label="Recursos">
@@ -42,6 +43,7 @@
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAlocacoes.xhtml')}" value="Alocações" url="listagemAlocacoes.xhtml"   />
                     </p:submenu>
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemArquivos.xhtml')}" value="Arquivos" url="listagemArquivos.xhtml"   />
+                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAreasConhecimento.xhtml')}" value="Áreas de Conhecimento CNPQ" url="listagemAreasConhecimento.xhtml" />
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Eventos')}" label="Eventos">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemEventos.xhtml')}" value="Eventos" url="listagemEventos.xhtml" />

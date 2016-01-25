@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -25,28 +25,69 @@
 
         <ui:composition template="./PublicTemplate.xhtml">
             <ui:define name="content">
-                    <p:panel>
+                <p:panel>
 
-                        <f:facet name="header">
-                            Editar dados pessoais do usuário
-                        </f:facet>
-                        <ui:include src="../comum/camposPessoa.xhtml">
-                            <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
-                            <ui:param name="senha" value="#{autenticacaoController.senha}"  />
-                            <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
-                        </ui:include>
-                        <f:facet name="footer">
-                            <p:commandButton id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();" />
-                            <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
-                                             header="Confirmação" severity="alert" widgetVar="msgSalvar">  
-                                <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{autenticacaoController.salvar}" />  
-                                <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
-                            </p:confirmDialog>
-                        </f:facet>
+                    <f:facet name="header">
+                        Editar dados pessoais do usuário
+                    </f:facet>
+                    <p:tabView>
+                        <p:tab title="Dados Gerais">
+                            <ui:include src="../comum/camposPessoa.xhtml">
+                                <ui:param name="pessoa" value="#{autenticacaoController.usuario}"  />
+                                <ui:param name="senha" value="#{autenticacaoController.senha}"  />
+                                <ui:param name="senhaconferencia" value="#{autenticacaoController.senhaconferencia}"  />
+                            </ui:include>
+                        </p:tab>
+                        <p:tab title="Dados Acadêmicos">
+                            <p:outputLabel value="Campus onde trabalha:" />           
+                            <p:selectOneMenu value="#{autenticacaoController.usuario.campus}"
+                                             converter="#{campusConverter}" required="false" >
+                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                                <f:selectItems value="#{campusConverter.listagem}"/>
+                            </p:selectOneMenu>
 
-                    </p:panel>    
+                            <p:outputLabel value="Curriculum Lattes:" />
+                            <p:inputText value="#{autenticacaoController.usuario.lattes}" style="width: 200%" required="false"/> 
 
-                </ui:define>
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Area de Conhecimento:" />           
+                                <p:autoComplete  id="txtAreaConhecimento"
+                                                 converter="#{areaConhecimentoConverter}" value="#{autenticacaoController.areaConhecimento}"
+                                                 completeMethod="#{areaConhecimentoConverter.autoCompleteAreaConhecimento}" size="140"
+                                                 var="item" itemLabel="#{item}" itemValue="#{item}">
+                                    #{item}
+                                </p:autoComplete>
+                                <p:commandButton value="Adicionar" icon="ui-icon-check" 
+                                                 update="tblAreaConhecimento txtAreaConhecimento" action="#{autenticacaoController.addAreaConhecimento()}" style="margin:0"/>
+
+                            </p:panelGrid> 
+
+                            <p:dataTable id="tblAreaConhecimento"  value="#{autenticacaoController.usuario.areasConhecimento}" var="item" >
+                                <p:column sortBy="nome" headerText="Nome" >
+                                    #{item.nome}
+                                </p:column>                                                     
+
+                                <p:column sortBy="remover" headerText="Remover" >
+                                    <p:commandButton ajax="false" value="Remover"  action="#{autenticacaoController.removeAreaConhecimento()}">
+                                        <f:setPropertyActionListener target="#{autenticacaoController.areaConhecimento}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+
+                        </p:tab>
+                    </p:tabView>
+                    <f:facet name="footer">
+                        <p:commandButton id="btnSalvar" value="Salvar" icon="ui-icon-pencil" onclick="msgSalvar.show();" />
+                        <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações?"  
+                                         header="Confirmação" severity="alert" widgetVar="msgSalvar">  
+                            <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{autenticacaoController.salvar}" />  
+                            <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
+                        </p:confirmDialog>
+                    </f:facet>
+
+                </p:panel>    
+
+            </ui:define>
 
         </ui:composition>
 

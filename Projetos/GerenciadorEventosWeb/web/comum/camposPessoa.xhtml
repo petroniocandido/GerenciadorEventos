@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
- -->
+-->
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
@@ -44,6 +44,12 @@
                      mask="(99) 9999-9999" />
         <h:outputText value="Data de Nascimento: " />
         <p:calendar id="txtDataNascimento" value="#{pessoa.dataNascimento}" pattern="dd/MM/yyyy"/>
+        <h:outputLabel value="Campus do IFNMG:" />           
+        <p:selectOneMenu value="#{pessoa.campus}" label="Campus" 
+                         converter="#{campusConverter}" required="false" >
+            <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+            <f:selectItems value="#{campusConverter.listagem}"/>
+        </p:selectOneMenu>
         <h:outputText value="Senha: " />
         <p:password id="txtSenha" value="#{senha}" 
                     required="true" requiredMessage="O campo senha é obrigatório!"

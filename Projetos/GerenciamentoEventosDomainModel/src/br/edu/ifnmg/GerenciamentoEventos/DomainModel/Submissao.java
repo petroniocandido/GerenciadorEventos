@@ -15,18 +15,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -35,7 +40,9 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
+@Cacheable(false)
 @Entity
+@Table(name="submissoes")
 public class Submissao implements Entidade, Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,7 +73,10 @@ public class Submissao implements Entidade, Serializable {
     @Lob
     private String descricao;
     
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @ElementCollection
+    @CollectionTable(name = "submissoespalavraschave",
+            joinColumns = @JoinColumn(name = "submissao"))
+    @Column(name = "palavrachave")
     private List<String> palavraschave;
     
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)

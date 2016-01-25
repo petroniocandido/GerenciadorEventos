@@ -92,6 +92,9 @@ public class Atividade implements Entidade, Serializable {
     @Column(nullable = true)
     private boolean necessitaInscricao;
     
+    @Column(nullable = true)
+    private boolean aceitaSubmissoes;
+    
     private boolean geraCertificado;
         
     @Column(nullable = true, precision = 10, scale = 2)
@@ -292,9 +295,15 @@ public class Atividade implements Entidade, Serializable {
     public void setResponsavelPrincipal(Pessoa responsavelPrincipal) {
         this.responsavelPrincipal = responsavelPrincipal;
     }
-    
-    
 
+    public boolean isAceitaSubmissoes() {
+        return aceitaSubmissoes;
+    }
+
+    public void setAceitaSubmissoes(boolean aceitaSubmissoes) {
+        this.aceitaSubmissoes = aceitaSubmissoes;
+    }
+    
     @Override
     public Long getId() {
         return id;

@@ -34,6 +34,11 @@
     <class>br.edu.ifnmg.DomainModel.MensagemPerfil</class>
     <class>br.edu.ifnmg.GerenciamentoEventos.DomainModel.EventoInscricaoCategoria</class>
     <class>br.edu.ifnmg.GerenciamentoEventos.DomainModel.PagSeguroPerfil</class>
+    <class>br.edu.ifnmg.DomainModel.AreaConhecimento</class>
+    <class>br.edu.ifnmg.DomainModel.Campus</class>
+    <class>br.edu.ifnmg.DomainModel.Endereco</class>
+    <class>br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao</class>
+    <class>br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoAvaliacao</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>DISABLE_SELECTIVE</shared-cache-mode>
     <properties>

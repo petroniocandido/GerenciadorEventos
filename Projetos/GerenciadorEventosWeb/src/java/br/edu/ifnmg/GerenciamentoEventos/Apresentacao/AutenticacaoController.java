@@ -16,13 +16,13 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ValidadorCPF;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.AutorizacaoService;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.DomainModel.Services.PerfilRepositorio;
-import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.IOException;
 import javax.inject.Named;
@@ -60,6 +60,8 @@ public class AutenticacaoController
     PerfilRepositorio perfilDAO;
     @Inject
     AutorizacaoService autorizacao;
+    
+    AreaConhecimento areaConhecimento;
 
     private String login, senha, senhaconferencia;
     Pessoa usuario;
@@ -214,6 +216,28 @@ public class AutenticacaoController
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
+    }
+
+    public AreaConhecimento getAreaConhecimento() {
+        return areaConhecimento;
+    }
+
+    public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
+        this.areaConhecimento = areaConhecimento;
+    }
+    
+    
+    
+    public void addAreaConhecimento() {
+        getUsuario().add(areaConhecimento);
+        dao.Salvar(usuario);
+        areaConhecimento = null; 
+    }
+
+    public void removeAreaConhecimento() {
+        getUsuario().remove(areaConhecimento);
+        dao.Salvar(usuario);
+        areaConhecimento = null; 
     }
 
 }
