@@ -39,40 +39,13 @@
                             </ui:include>
                         </p:tab>
                         <p:tab title="Dados Acadêmicos">
-                            <p:outputLabel value="Campus onde trabalha:" />           
-                            <p:selectOneMenu value="#{autenticacaoController.usuario.campus}"
-                                             converter="#{campusConverter}" required="false" >
-                                <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
-                                <f:selectItems value="#{campusConverter.listagem}"/>
-                            </p:selectOneMenu>
-
                             <p:outputLabel value="Curriculum Lattes:" />
                             <p:inputText value="#{autenticacaoController.usuario.lattes}" style="width: 200%" required="false"/> 
 
-                            <p:panelGrid columns="2">
-                                <p:outputLabel value="Area de Conhecimento:" />           
-                                <p:autoComplete  id="txtAreaConhecimento"
-                                                 converter="#{areaConhecimentoConverter}" value="#{autenticacaoController.areaConhecimento}"
-                                                 completeMethod="#{areaConhecimentoConverter.autoCompleteAreaConhecimento}" size="140"
-                                                 var="item" itemLabel="#{item}" itemValue="#{item}">
-                                    #{item}
-                                </p:autoComplete>
-                                <p:commandButton value="Adicionar" icon="ui-icon-check" 
-                                                 update="tblAreaConhecimento txtAreaConhecimento" action="#{autenticacaoController.addAreaConhecimento()}" style="margin:0"/>
-
-                            </p:panelGrid> 
-
-                            <p:dataTable id="tblAreaConhecimento"  value="#{autenticacaoController.usuario.areasConhecimento}" var="item" >
-                                <p:column sortBy="nome" headerText="Nome" >
-                                    #{item.nome}
-                                </p:column>                                                     
-
-                                <p:column sortBy="remover" headerText="Remover" >
-                                    <p:commandButton ajax="false" value="Remover"  action="#{autenticacaoController.removeAreaConhecimento()}">
-                                        <f:setPropertyActionListener target="#{autenticacaoController.areaConhecimento}" value="#{item}" />
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
+                            <ui:include src="../comum/areasConhecimento.xhtml">
+                                <ui:param name="controller" value="#{autenticacaoController}"  />
+                                <ui:param name="colecao" value="#{autenticacaoController.usuario.areasConhecimento}"  />
+                            </ui:include>
 
                         </p:tab>
                     </p:tabView>

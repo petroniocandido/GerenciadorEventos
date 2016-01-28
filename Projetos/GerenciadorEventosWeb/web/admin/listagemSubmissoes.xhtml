@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+        <ui:composition template="./AdminTemplate.xhtml">
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Listagem de Submissões
+                    </f:facet>
+                    <p:accordionPanel styleClass="teste">
+                        <p:tab title="Filtros">
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="Status:" />
+                                <h:selectOneMenu value="#{submissaoController.filtro.status}" >
+                                    <f:selectItems value="#{submissaoController.status}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="Título:" />
+                                <h:inputText value="#{submissaoController.filtro.titulo}" />
+                                <h:outputLabel value="Autor 1:" />
+                                <h:inputText value="#{submissaoController.filtro.autor1}" />
+                                <h:outputLabel value="Autor 2:" />
+                                <h:inputText value="#{submissaoController.filtro.autor2}" />
+                            </p:panelGrid>
+                            <ui:include src="./comum/botoesListagem.xhtml">
+                                <ui:param name="controller" value="#{submissaoController}"  />
+                                <ui:param name="campos" value=""  />
+                            </ui:include>
+                        </p:tab>
+                    </p:accordionPanel>
+
+                    <p:dataTable value="#{submissaoController.dataModel}" var="item" selectionMode="single"
+                                 paginator="true" rows="30"  lazy="true" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+
+                        <p:ajax event="rowSelect" listener="#{submissaoController.onRowSelect}" />
+                        <p:column headerText="Título">
+                            #{item.titulo}
+                        </p:column>
+                        <p:column headerText="Autor 1">
+                            #{item.autor1}
+                        </p:column>
+                        <p:column headerText="Autor 2">
+                            #{item.autor2}
+                        </p:column>
+                        <p:column headerText="Status">
+                            #{item.status}
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>

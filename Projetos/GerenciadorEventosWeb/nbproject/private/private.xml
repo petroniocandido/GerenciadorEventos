@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/WEB-INF/web.xml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/listagemSubmissoes.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/SubmissaoController.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/editarSubmissao.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/editarInscricao.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/src/conf/persistence.xml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/listagemMensagens.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/src/java/br/edu/ifnmg/GerenciamentoEventos/Infraestrutura/Dados/SubmissaoDAO.java</file>
         </group>
     </open-files>
 </project-private>

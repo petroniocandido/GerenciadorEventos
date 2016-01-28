@@ -95,6 +95,12 @@ public class Atividade implements Entidade, Serializable {
     @Column(nullable = true)
     private boolean aceitaSubmissoes;
     
+    @Column(nullable = true)
+    private int quantidadeArquivos;
+    
+    @Column(nullable = true)
+    private int quantidadeAutores;
+    
     private boolean geraCertificado;
         
     @Column(nullable = true, precision = 10, scale = 2)
@@ -181,6 +187,9 @@ public class Atividade implements Entidade, Serializable {
         valorInscricao = new BigDecimal("0.00");        
         controle = new Controle(this, 0, 0);
         cargaHoraria = 0;
+        aceitaSubmissoes = false;
+        quantidadeArquivos = 0;
+        quantidadeAutores = 1;
     }
     
     public boolean podeEditar(Pessoa obj) {
@@ -538,6 +547,22 @@ public class Atividade implements Entidade, Serializable {
 
     public void setMensagemInscricao(String mensagemInscricao) {
         this.mensagemInscricao = mensagemInscricao;
+    }
+
+    public int getQuantidadeArquivos() {
+        return quantidadeArquivos;
+    }
+
+    public void setQuantidadeArquivos(int quantidadearquivos) {
+        this.quantidadeArquivos = quantidadearquivos;
+    }
+
+    public int getQuantidadeAutores() {
+        return quantidadeAutores;
+    }
+
+    public void setQuantidadeAutores(int quantidadeAutores) {
+        this.quantidadeAutores = quantidadeAutores;
     }
     
     

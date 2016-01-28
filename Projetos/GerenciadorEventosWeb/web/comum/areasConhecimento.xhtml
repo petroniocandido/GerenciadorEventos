@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+    This file is part of SGEA - Sistema de Gestão de Eventos Acadêmicos - TADS IFNMG Campus Januária.
+ 
+    SGEA is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+ 
+    SGEA is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+ 
+    You should have received a copy of the GNU General Public License
+    along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <p:panelGrid columns="3">
+        <p:outputLabel value="Area de Conhecimento:" />           
+        <p:autoComplete  id="txtAreaConhecimento"
+                         converter="#{areaConhecimentoConverter}" value="#{controller.areaConhecimento}"
+                         completeMethod="#{areaConhecimentoConverter.autoCompleteAreaConhecimento}" size="140"
+                         var="item" itemLabel="#{item}" itemValue="#{item}">
+            #{item}
+        </p:autoComplete>
+        <p:commandButton value="Adicionar" update="txtAreaConhecimento tblAreaConhecimento" action="#{controller.addAreaConhecimento}" />
+
+    </p:panelGrid> 
+
+    <p:dataTable id="tblAreaConhecimento"  value="#{colecao}" var="item" >
+        <p:column headerText="Área de Conhecimento" >
+            #{item}
+        </p:column>                                                     
+
+        <p:column sortBy="remover" headerText="Remover" >
+            <p:commandButton ajax="false" value="Remover"  action="#{controller.removeAreaConhecimento}">
+                <f:setPropertyActionListener target="#{controller.areaConhecimento}" value="#{item}" />
+            </p:commandButton>
+        </p:column>
+    </p:dataTable>
+</ui:composition>
+

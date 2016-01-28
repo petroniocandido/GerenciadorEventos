@@ -70,11 +70,11 @@ public class Submissao implements Entidade, Serializable {
     @Column(nullable = false)
     private String titulo;
     
-    @Lob
-    private String descricao;
+    @Lob()
+    private String resumo;
     
     @ElementCollection
-    @CollectionTable(name = "submissoespalavraschave",
+    @CollectionTable(name = "submissoes_palavraschave",
             joinColumns = @JoinColumn(name = "submissao"))
     @Column(name = "palavrachave")
     private List<String> palavraschave;
@@ -85,16 +85,16 @@ public class Submissao implements Entidade, Serializable {
     @Column(nullable = false)
     private String autor1;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String autor2;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String autor3;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String autor4;
     
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String autor5;
     
     @Enumerated()
@@ -104,9 +104,14 @@ public class Submissao implements Entidade, Serializable {
     private List<AreaConhecimento> areasConhecimento;
 
     public Submissao() {
+        this.palavraschave = new ArrayList<>();
+        this.avaliacoes = new ArrayList<>();
         this.areasConhecimento = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
         this.status = SubmissaoStatus.Pendente;
+        this.autor3 = "";
+        this.autor4 = "";
+        this.autor5 = "";
     }
      
     public void add(SubmissaoAvaliacao avaliacao) {
@@ -133,6 +138,55 @@ public class Submissao implements Entidade, Serializable {
         if (areasConhecimento.contains(a)) {
             areasConhecimento.remove(a);
         }
+    }
+    
+    public void add(String a) {
+        if(a == null) return;
+        if (!palavraschave.contains(a)) {
+            palavraschave.add(a);
+        }
+    }
+
+    public void remove(String a) {
+        if(a == null) return;
+        if (palavraschave.contains(a)) {
+            palavraschave.remove(a);
+        }
+    }
+    
+    public boolean hasPalavrasChave() {
+        return ! this.palavraschave.isEmpty();
+    }
+    
+    public boolean hasAreaConhecimento() {
+        return ! this.areasConhecimento.isEmpty();
+    }
+    
+    public boolean hasMinimoDeAutores() {
+        return countAutores() >=  ((InscricaoItem)getInscricao()).getAtividade().getQuantidadeAutores();
+    }
+    
+    public boolean hasMinimoDeArquivos() {
+        return countArquivos()>=  ((InscricaoItem)getInscricao()).getAtividade().getQuantidadeArquivos();
+    }
+    
+    public int countAutores() {
+        int tmp = 0;
+        if(autor1 != null && !autor1.isEmpty()) tmp++;
+        if(autor2 != null && !autor2.isEmpty()) tmp++;
+        if(autor3 != null && !autor3.isEmpty()) tmp++;
+        if(autor4 != null && !autor4.isEmpty()) tmp++;
+        if(autor5 != null && !autor5.isEmpty()) tmp++;
+        return tmp;
+    }
+    
+    public int countArquivos() {
+        int tmp = 0;
+        if(arquivo1 != null ) tmp++;
+        if(arquivo2 != null ) tmp++;
+        if(arquivo3 != null ) tmp++;
+        if(arquivo4 != null ) tmp++;
+        return tmp;
     }
 
     @Override
@@ -217,12 +271,12 @@ public class Submissao implements Entidade, Serializable {
         this.titulo = titulo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getResumo() {
+        return resumo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setResumo(String descricao) {
+        this.resumo = descricao;
     }
 
     public List<String> getPalavraschave() {

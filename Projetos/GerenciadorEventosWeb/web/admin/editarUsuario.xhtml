@@ -68,6 +68,17 @@
 
                             </h:panelGrid> 
                         </p:tab>
+                        <p:tab title="Dados Acadêmicos">
+                            
+                            <p:outputLabel value="Curriculum Lattes:" />
+                            <p:inputText value="#{usuarioController.entidade.lattes}" size="100" required="false" /> 
+
+                            <ui:include src="../comum/areasConhecimento.xhtml">
+                                <ui:param name="controller" value="#{usuarioController}"  />
+                                <ui:param name="colecao" value="#{usuarioController.entidade.areasConhecimento}"  />
+                            </ui:include>
+
+                        </p:tab>
                         <p:tab rendered="#{autenticacaoController.autorizacao('admin/tabSenha')}" id="tabSenha" title="Senha">
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Senha: " />

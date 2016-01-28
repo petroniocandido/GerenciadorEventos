@@ -16,6 +16,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
@@ -60,6 +61,8 @@ public class PessoaController
     Sexo[] sexos;
 
     String senha1, senha2;
+    
+    AreaConhecimento areaConhecimento;
 
     @PostConstruct
     public void init() {
@@ -152,7 +155,29 @@ public class PessoaController
             sexos = Sexo.values();
         return sexos;
     }
+
+    public AreaConhecimento getAreaConhecimento() {
+        return areaConhecimento;
+    }
+
+    public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
+        this.areaConhecimento = areaConhecimento;
+    }
     
-    
+     
+    public void addAreaConhecimento() {
+        getEntidade().add(areaConhecimento);
+        if(dao.Salvar(entidade))
+            Mensagem("Salvo com sucesso", "Salvo com sucesso");
+        else
+            Mensagem("Falha", "Falha ao salvar!");
+        areaConhecimento = null; 
+    }
+
+    public void removeAreaConhecimento() {
+        getEntidade().remove(areaConhecimento);
+        dao.Salvar(entidade);
+        areaConhecimento = null; 
+    }
 
 }

@@ -89,6 +89,15 @@
                         <p:tab rendered="#{atividadeController.entidade.id gt 0}"  
                                title="Inscrições">  
                             <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="É submissão?: " />
+                                <p:selectBooleanCheckbox value="#{atividadeController.entidade.aceitaSubmissoes}" />
+                                <h:outputText value="Quantidade de arquivos da submissão: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.quantidadeArquivos}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                <h:outputText value="Quantidade de autores da submissão: " />
+                                <pe:inputNumber value="#{atividadeController.entidade.quantidadeAutores}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                
                                 <h:outputText value="Necessita de Inscrição?: " />
                                 <p:selectBooleanCheckbox value="#{atividadeController.entidade.necessitaInscricao}" />
                                 <h:outputText value="Valor da Inscrição: " />                                
@@ -126,6 +135,7 @@
                                 <h:outputText value="Lista de Espera: " />
                                 <pe:inputNumber value="#{atividadeController.entidade.controle.quantidadeListaEspera}" 
                                                 thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                
                             </h:panelGrid>
                         </p:tab>
                         <p:tab rendered="#{atividadeController.entidade.id gt 0}" title="Responsáveis">  
