@@ -190,5 +190,11 @@ public class PessoaController
         dao.Salvar(entidade);
         areaConhecimento = null; 
     }
+    
+   
+    @Override
+    public List<Pessoa> getListagem() {
+        return dao.BuscarTexto(getFiltro());
+    }
 
 }

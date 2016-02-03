@@ -45,8 +45,6 @@ public class EventoConverter
     }
     
      public List<Evento> autoCompleteEvento(String query) {
-        Evento i = new Evento();
-        i.setNome(query);
-        return dao.Buscar(i);
+        return dao.BuscarTexto(query);
     }
 }

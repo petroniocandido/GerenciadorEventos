@@ -44,5 +44,14 @@ public class RecursoDAO
         }
         return Ordenar("nome", "asc"). Buscar();
     }
+    
+    @Override
+    public List<Recurso> BuscarTexto(String filtro) {
+        List<Recurso> list = getManager()
+                .createNativeQuery("SELECT * FROM recursos WHERE MATCH(nome,descricao) AGAINST(? IN BOOLEAN MODE)", Recurso.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
 
 }

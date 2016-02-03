@@ -39,9 +39,7 @@ public class AtividadeTipoConverter implements Converter, Serializable {
     private AtividadeRepositorio repositorio;
 
      public List<AtividadeTipo> autoCompleteAtividadeTipo(String query) {
-        AtividadeTipo i = new AtividadeTipo();
-        i.setNome(query);
-        return repositorio.BuscarTipo(i);
+       return repositorio.BuscarTextoTipo(query);
     }
     
 

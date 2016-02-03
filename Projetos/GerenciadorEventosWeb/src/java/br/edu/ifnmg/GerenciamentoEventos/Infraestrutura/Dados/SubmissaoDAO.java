@@ -32,6 +32,15 @@ public class SubmissaoDAO
                 .Ordenar("titulo", "ASC")
                 .Buscar();
     }
+    
+    @Override
+    public List<Submissao> BuscarTexto(String filtro) {
+        List<Submissao> list = getManager()
+                .createNativeQuery("SELECT * FROM submissoes WHERE MATCH(titulo,resumo,autor1,autor2,autor3,autor4,autor5) AGAINST(? IN BOOLEAN MODE)", Submissao.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
 
    
 }

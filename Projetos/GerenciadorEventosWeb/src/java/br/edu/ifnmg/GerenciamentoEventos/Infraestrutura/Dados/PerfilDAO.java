@@ -66,5 +66,14 @@ public class PerfilDAO
                 .Buscar();
 
     }
+    
+    @Override
+    public List<Perfil> BuscarTexto(String filtro) {
+        List<Perfil> list = getManager()
+                .createNativeQuery("SELECT * FROM perfis WHERE MATCH(nome) AGAINST(? IN BOOLEAN MODE)", Perfil.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
 
 }

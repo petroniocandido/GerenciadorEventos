@@ -97,5 +97,14 @@ public class LancamentoDAO
     public List<LancamentoCategoria> listagemCategorias() {
         return daoCategoria.Ordenar("nome", "ASC").Buscar();
     }
+    
+    @Override
+    public List<Lancamento> BuscarTexto(String filtro) {
+        List<Lancamento> list = getManager()
+                .createNativeQuery("SELECT * FROM lancamentos WHERE MATCH(descricao) AGAINST(? IN BOOLEAN MODE)", Lancamento.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
 
 }

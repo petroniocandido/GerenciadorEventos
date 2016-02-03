@@ -75,4 +75,13 @@ public class EventoDAO
                 .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
         return q.getResultList();
     }
+    
+    @Override
+    public List<Evento> BuscarTexto(String filtro) {
+        List<Evento> list = getManager()
+                .createNativeQuery("SELECT * FROM eventos WHERE MATCH(nome,descricao) AGAINST(? IN BOOLEAN MODE)", Evento.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
 }

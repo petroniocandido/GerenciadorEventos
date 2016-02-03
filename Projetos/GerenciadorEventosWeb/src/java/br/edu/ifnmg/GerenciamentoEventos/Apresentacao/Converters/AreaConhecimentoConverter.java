@@ -34,6 +34,6 @@ public class AreaConhecimentoConverter
     }
     
     public List<AreaConhecimento> autoCompleteAreaConhecimento(String query) {
-       return dao.BuscarPorNome(query);
+       return dao.BuscarTexto(query);
     }
 }

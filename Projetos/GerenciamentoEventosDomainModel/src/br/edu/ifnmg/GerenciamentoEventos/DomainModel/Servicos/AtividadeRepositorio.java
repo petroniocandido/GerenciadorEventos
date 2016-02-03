@@ -40,4 +40,5 @@ public interface AtividadeRepositorio extends Repositorio<Atividade> {
     public List<AtividadeTipo> BuscarAtividadesTiposPorEvento(Evento e);
     public List<Atividade> Responsavel(Pessoa obj);
     public List<Atividade> Responsavel(Evento e, Pessoa obj);
+    public List<AtividadeTipo> BuscarTextoTipo(String filtro);
 }

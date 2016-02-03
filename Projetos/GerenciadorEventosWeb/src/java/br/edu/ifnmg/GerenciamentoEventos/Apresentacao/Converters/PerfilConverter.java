@@ -45,6 +45,6 @@ public class PerfilConverter
     }
     
      public List<Perfil> autoCompletePerfil(String query) {
-        return dao.Like("nome", query).Buscar();
+        return dao.BuscarTexto(query);
     }
 }

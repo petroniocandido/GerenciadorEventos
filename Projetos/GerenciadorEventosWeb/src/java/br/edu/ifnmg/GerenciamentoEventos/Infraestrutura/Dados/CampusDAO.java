@@ -34,5 +34,14 @@ public class CampusDAO
     public Campus Abrir(String sigla) {
         return IgualA("sigla", sigla).Abrir();
     }
+    
+    @Override
+    public List<Campus> BuscarTexto(String filtro) {
+        List<Campus> list = getManager()
+                .createNativeQuery("SELECT * FROM campus WHERE MATCH(nome,sigla) AGAINST(? IN BOOLEAN MODE)", Campus.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
 
 }

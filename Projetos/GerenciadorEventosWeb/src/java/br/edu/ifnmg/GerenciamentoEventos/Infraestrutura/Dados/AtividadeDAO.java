@@ -17,6 +17,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.DataAccess.DAOGenerico;
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
@@ -168,5 +169,23 @@ public class AtividadeDAO
                 .setParameter("idUsuario", obj.getId())
                 .setHint("eclipselink.QUERY_RESULTS_CACHE", "TRUE");
         return q.getResultList();
+    }
+    
+    @Override
+    public List<Atividade> BuscarTexto(String filtro) {
+        List<Atividade> list = getManager()
+                .createNativeQuery("SELECT * FROM atividades WHERE MATCH(nome,descricao) AGAINST(? IN BOOLEAN MODE)", Atividade.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
+    
+    
+    public List<AtividadeTipo> BuscarTextoTipo(String filtro) {
+        List<AtividadeTipo> list = getManager()
+                .createNativeQuery("SELECT * FROM atividadestipos WHERE MATCH(nome,descricao) AGAINST(? IN BOOLEAN MODE)", Atividade.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
     }
 }

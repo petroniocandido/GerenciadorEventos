@@ -31,9 +31,9 @@ public class AreaConhecimentoDAO
     }
 
     @Override
-    public List<AreaConhecimento> BuscarPorNome(String nome) {
+    public List<AreaConhecimento> BuscarTexto(String nome) {
         List<AreaConhecimento> list = getManager()
-                .createNativeQuery("SELECT * FROM areasconhecimento WHERE MATCH(nome) AGAINST(? IN BOOLEAN MODE)", AreaConhecimento.class)
+                .createNativeQuery("SELECT * FROM areasconhecimento WHERE MATCH(nome,numerocnpq) AGAINST(? IN BOOLEAN MODE)", AreaConhecimento.class)
                 .setParameter(1, nome+"*")
                 .getResultList();
         return list;

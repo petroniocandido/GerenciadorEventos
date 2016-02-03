@@ -20,5 +20,5 @@ import javax.ejb.Local;
 @Local
 public interface PessoaRepositorioLocal extends PessoaRepositorio {
     public List<Pessoa> Buscar(Evento e);
-    public List<Pessoa> Buscar(Atividade a);
+    public List<Pessoa> Buscar(Atividade a);    
 }

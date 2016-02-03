@@ -55,5 +55,14 @@ public class PermissaoDAO
             return null;
         }
     }
+    
+    @Override
+    public List<Permissao> BuscarTexto(String filtro) {
+        List<Permissao> list = getManager()
+                .createNativeQuery("SELECT * FROM permissoes WHERE MATCH(nome,uri) AGAINST(? IN BOOLEAN MODE)", Permissao.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
 
 }

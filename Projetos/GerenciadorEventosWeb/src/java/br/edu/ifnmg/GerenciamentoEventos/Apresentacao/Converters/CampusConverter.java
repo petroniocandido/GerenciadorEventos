@@ -35,9 +35,7 @@ public class CampusConverter
     }
     
     public List<Campus> autoCompleteCampus(String query) {
-        Campus i = new Campus();
-        i.setNome(query);
-        return dao.Buscar(i);
+        return dao.BuscarTexto(query);
     }
     
     public List<Campus> getListagem() {

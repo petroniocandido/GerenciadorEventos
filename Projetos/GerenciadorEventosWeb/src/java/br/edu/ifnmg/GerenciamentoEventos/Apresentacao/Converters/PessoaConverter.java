@@ -46,8 +46,6 @@ public class PessoaConverter
     }
     
     public List<Pessoa> autoCompletePessoa(String query) {
-        Pessoa i = new Pessoa();
-        i.setNome(query);
-        return dao.Buscar(i);
+        return dao.BuscarTexto(query);
     }
 }

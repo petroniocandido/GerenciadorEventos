@@ -45,8 +45,6 @@ public class PermissaoConverter
     }
     
      public List<Permissao> autoCompletePermissao(String query) {
-        Permissao i = new Permissao();
-        i.setUri(query);
-        return dao.Buscar(i);
+        return dao.BuscarTexto(query);
     }
 }

@@ -73,5 +73,30 @@ public class PessoaDAO
     public Pessoa AbrirPorCPF(String cpf) {
         return IgualA("cpf", cpf).Abrir();
     }
+    
+    @Override
+    public List<Pessoa> BuscarTexto(String filtro) {
+        List<Pessoa> list = getManager()
+                .createNativeQuery("SELECT * FROM pessoas WHERE MATCH(nome,cpf,email) AGAINST(? IN BOOLEAN MODE)", Pessoa.class)
+                .setParameter(1, filtro+"*")
+                .getResultList();
+        return list;
+    }
+    
+    @Override
+    public List<Pessoa> BuscarTexto(Pessoa filtro) {
+        String f = "";
+        if(filtro.getNome() != null)
+            f = f + filtro.getNome()+"* ";
+        if(filtro.getCpf()!= null)
+            f = f + filtro.getCpf()+"* ";
+        if(filtro.getEmail()!= null)
+            f = f + filtro.getEmail()+"* ";
+        List<Pessoa> list = getManager()
+                .createNativeQuery("SELECT * FROM pessoas WHERE MATCH(nome,cpf,email) AGAINST(? IN BOOLEAN MODE)", Pessoa.class)
+                .setParameter(1, f)
+                .getResultList();
+        return list;
+    }
 
 }
