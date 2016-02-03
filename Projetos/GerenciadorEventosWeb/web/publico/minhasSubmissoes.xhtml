@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./PublicTemplate.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="content">
+        <p:panel>
+
+            <f:facet name="header">
+                Submissões de #{publicoController.atividade}
+            </f:facet>
+
+            <p:dataTable value="#{submissaoController.publicoDataModel}" var="item" selectionMode="single"
+                         paginator="true" rows="30"  lazy="true" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+
+                <p:ajax event="rowSelect" listener="#{submissaoController.onPublicoRowSelect}" />
+                <p:column headerText="Título">
+                    #{item.titulo}
+                </p:column>
+                <p:column headerText="Autor 1">
+                    #{item.autor1}
+                </p:column>
+                <p:column headerText="Autor 2">
+                    #{item.autor2}
+                </p:column>
+                <p:column headerText="Status">
+                    #{item.status}
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="inscricaoAtividade.xhtml" />                
+            </f:facet>
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
