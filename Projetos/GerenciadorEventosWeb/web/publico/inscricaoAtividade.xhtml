@@ -104,6 +104,8 @@
 
                         </p:panelGrid>
                         <p:commandButton rendered="#{publicoController.atividade.inscricaoAberto and not empty publicoController.inscricao and empty publicoController.inscricaoItem}" value="Inscrever" onclick="msgSalvar.show()" />
+                        <p:commandButton rendered="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem and publicoController.atividade.aceitaSubmissoes}" value="Cadastrar Nova Submissão" action="#{submissaoController.criaSubmissaoAtividade()}"  />
+                        <p:commandButton rendered="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem and publicoController.atividade.aceitaSubmissoes}" value="Visualizar Submissões" action="/publico/minhasSubmissoes.xhtml"  />
                         <p:commandButton rendered="#{not empty publicoController.inscricao and not empty publicoController.inscricaoItem}" value="Cancelar Inscrição" onclick="msgCancelar.show()" />
                     </p:tab>
                     <c:if test="#{not empty publicoController.atividade.questionario and not empty publicoController.inscricaoItem}">

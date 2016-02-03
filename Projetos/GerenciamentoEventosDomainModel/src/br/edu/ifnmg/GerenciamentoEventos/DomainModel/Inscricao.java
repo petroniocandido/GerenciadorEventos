@@ -112,7 +112,7 @@ public class Inscricao implements Entidade, Serializable {
     @JoinTable(name = "inscricoesarquivos")
     private List<Arquivo> arquivos;
     
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Submissao> submissoes;
 
     public Inscricao() {
@@ -239,6 +239,23 @@ public class Inscricao implements Entidade, Serializable {
             arquivos.remove(arquivo);
         }
     }
+    
+    public boolean add(Submissao item) {
+        if (!submissoes.contains(item)) {
+            return submissoes.add(item);
+        } else {
+            return false;
+        }
+    }
+
+    public boolean remove(Submissao item) {
+        if (submissoes.contains(item)) {
+            submissoes.remove(item);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public InscricaoItem getItem(Atividade a) {
         for (InscricaoItem i : getItens()) {
@@ -284,6 +301,14 @@ public class Inscricao implements Entidade, Serializable {
         setLancamento(l);
         setPago(false);
         return l;
+    }
+    
+    public Submissao criarSubmissao() {
+        Submissao submissao = new Submissao();
+        submissao.setInscricao(this);
+        submissao.setResposta(resposta);
+        this.add(submissao);
+        return submissao;
     }
 
     @Transient

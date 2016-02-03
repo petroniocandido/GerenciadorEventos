@@ -23,6 +23,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.DomainModel.PessoaTipo;
 import br.edu.ifnmg.DomainModel.PronomeTratamento;
 import br.edu.ifnmg.DomainModel.Sexo;
+import br.edu.ifnmg.DomainModel.Titulacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -59,6 +60,8 @@ public class PessoaController
     PronomeTratamento[] tratamentos;
     
     Sexo[] sexos;
+    
+    Titulacao[] titulacoes;
 
     String senha1, senha2;
     
@@ -155,6 +158,14 @@ public class PessoaController
             sexos = Sexo.values();
         return sexos;
     }
+
+    public Titulacao[] getTitulacoes() {
+        if(titulacoes == null)
+            titulacoes = Titulacao.values();
+        return titulacoes;
+    }
+    
+    
 
     public AreaConhecimento getAreaConhecimento() {
         return areaConhecimento;

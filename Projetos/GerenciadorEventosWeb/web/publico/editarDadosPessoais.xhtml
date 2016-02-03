@@ -19,7 +19,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
 
@@ -39,9 +40,15 @@
                             </ui:include>
                         </p:tab>
                         <p:tab title="Dados Acadêmicos">
-                            <p:outputLabel value="Curriculum Lattes:" />
-                            <p:inputText value="#{autenticacaoController.usuario.lattes}" style="width: 200%" required="false"/> 
-
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Titulação: " />
+                                <h:selectOneMenu value="#{autenticacaoController.usuario.titulacaoMaxima}">
+                                    <f:selectItem itemLabel="Escolha a titulação" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.titulacoes}" />
+                                </h:selectOneMenu>
+                                <p:outputLabel value="Curriculum Lattes:" />
+                                <p:inputText value="#{autenticacaoController.usuario.lattes}" size="150" required="false"/> 
+                            </p:panelGrid>
                             <ui:include src="../comum/areasConhecimento.xhtml">
                                 <ui:param name="controller" value="#{autenticacaoController}"  />
                                 <ui:param name="colecao" value="#{autenticacaoController.usuario.areasConhecimento}"  />
@@ -56,6 +63,7 @@
                             <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{autenticacaoController.salvar}" />  
                             <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
                         </p:confirmDialog>
+                        <p:commandButton value="Voltar" ajax="false" immediate="true"  action="selecionaEvento.xhtml" />
                     </f:facet>
 
                 </p:panel>    

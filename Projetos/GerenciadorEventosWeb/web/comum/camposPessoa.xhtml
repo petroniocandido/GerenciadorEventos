@@ -28,6 +28,11 @@
             <f:selectItem itemLabel="Escolha o sexo" noSelectionOption="true" />
             <f:selectItems value="#{usuarioController.sexos}" />
         </h:selectOneMenu>
+        <h:outputText value="Tratamento: " />
+        <h:selectOneMenu value="#{pessoa.tratamento}">
+            <f:selectItem itemLabel="Escolha o tratamento" noSelectionOption="true" />
+            <f:selectItems value="#{usuarioController.tratamentos}" />
+        </h:selectOneMenu>
         <h:outputText value="Nome: " />
         <p:inputText id="txtNome" value="#{pessoa.nome}" 
                      required="true" requiredMessage="O campo nome é obrigatório" />

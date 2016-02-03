@@ -39,6 +39,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
 import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.PagSeguroService;
 import java.io.IOException;
 import java.io.Serializable;
@@ -100,6 +101,8 @@ public class PublicoController extends ControllerBase implements Serializable {
     Questao questao;
 
     Questionario questionario;
+    
+    Submissao submissao;
 
     /**
      * Creates a new instance of PublicoController
@@ -170,6 +173,8 @@ public class PublicoController extends ControllerBase implements Serializable {
         setInscricaoItem(null);
     }
 
+    
+    
     public void inscreverEvento() throws IOException {
         setInscricao(inscricaoservice.inscrever(getEvento(), getUsuarioCorrente()));
 
@@ -240,6 +245,8 @@ public class PublicoController extends ControllerBase implements Serializable {
             MensagemErro("Limite excedido!", "Só é possível realizar " + ex.getLimite() + " inscrições para " + ex.getTipo().getNome());
         }
     }
+    
+    
 
     public String cancelarInscricaoAtividade() {
         inscricao = inscricaoDAO.Refresh(getInscricao());

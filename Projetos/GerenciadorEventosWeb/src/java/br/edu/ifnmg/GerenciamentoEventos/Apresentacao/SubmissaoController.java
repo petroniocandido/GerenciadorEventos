@@ -9,15 +9,22 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
+import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -36,6 +43,9 @@ public class SubmissaoController
     
     @EJB
     SubmissaoRepositorio dao;
+    
+    @EJB
+    InscricaoRepositorio daoInsc;
     
     AreaConhecimento areaConhecimento;
     
@@ -69,6 +79,22 @@ public class SubmissaoController
         setPaginaListagem("listagemSubmissoes.xhtml");
     }
     
+    InscricaoItem inscricaoItem;
+    public InscricaoItem getInscricao(){
+        if(inscricaoItem == null){
+            inscricaoItem = (InscricaoItem) getSessao("inscricaoItem", daoInsc);
+        }
+        return inscricaoItem;
+    }
+    
+    public String criaSubmissaoAtividade() {
+         
+        if(getInscricao() == null)
+            return "inscricaoAtividade.xhtml";
+         
+        return "submissao.xhtml";
+    }
+    
     @Override
     public void limpar() {
         setEntidade(new Submissao());
@@ -84,6 +110,12 @@ public class SubmissaoController
     
     @Override
     public void salvar(){
+        
+        if(entidade.getInscricao() == null)
+            entidade.setInscricao(getInscricao());
+        
+        super.salvar();
+        
       if(!entidade.hasAreaConhecimento())  {
           Mensagem("Falha", "Você precisa adicionar pelo menos uma Área de conhecimento!");
           return;
@@ -108,7 +140,9 @@ public class SubmissaoController
       
       }
        
-      super.salvar();
+      
+        setEntidade(entidade);
+      
     }    
     
     public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
@@ -178,6 +212,29 @@ public class SubmissaoController
             Mensagem("Falha", "Falha ao anexar o arquivo!");
             AppendLog("Erro ao anexar o arquivo " + tmp + " a submissão " + entidade + ":" + dao.getErro());
         }        
+    }
+    
+    public GenericDataModel getPublicoDataModel() {
+        return new GenericDataModel<>(getPublicoListagem(), repositorio);
+    }
+    
+    public List<Submissao> getPublicoListagem(){
+        InscricaoItem inscricaoItem = (InscricaoItem) getSessao("inscricaoItem", daoInsc);
+        if(inscricaoItem == null)
+            return null;
+        
+        return dao.IgualA("inscricao", inscricaoItem).Buscar();
+    }
+    
+     public void onPublicoRowSelect(SelectEvent event) {
+        try {
+            Submissao obj = (Submissao) event.getObject();
+            setId(obj.getId());
+            FacesContext.getCurrentInstance().getExternalContext().redirect("submissao.xhtml");
+        } catch (IOException ex) {
+            Mensagem("Falha", "Falha ao abrir submissão!");
+            AppendLog("Falha ao abrir submissão:" + ex);
+        }
     }
 }
 

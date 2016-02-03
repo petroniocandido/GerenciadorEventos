@@ -5,6 +5,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Converters;
 
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Campus;
 import br.edu.ifnmg.DomainModel.Services.CampusRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericConverter;
@@ -37,5 +38,9 @@ public class CampusConverter
         Campus i = new Campus();
         i.setNome(query);
         return dao.Buscar(i);
+    }
+    
+    public List<Campus> getListagem() {
+        return dao.Ordenar("nome", "asc").Buscar();
     }
 }

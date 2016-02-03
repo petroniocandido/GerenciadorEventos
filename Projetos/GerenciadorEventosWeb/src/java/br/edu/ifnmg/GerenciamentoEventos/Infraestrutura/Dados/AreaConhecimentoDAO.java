@@ -31,6 +31,15 @@ public class AreaConhecimentoDAO
     }
 
     @Override
+    public List<AreaConhecimento> BuscarPorNome(String nome) {
+        List<AreaConhecimento> list = getManager()
+                .createNativeQuery("SELECT * FROM areasconhecimento WHERE MATCH(nome) AGAINST(? IN BOOLEAN MODE)", AreaConhecimento.class)
+                .setParameter(1, nome+"*")
+                .getResultList();
+        return list;
+    }
+
+    @Override
     public AreaConhecimento Abrir(String numeroCNPQ) {
         return IgualA("numeroCNPQ", numeroCNPQ).Abrir();
     }
