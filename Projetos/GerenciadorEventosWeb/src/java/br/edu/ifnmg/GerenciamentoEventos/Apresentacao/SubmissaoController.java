@@ -111,39 +111,49 @@ public class SubmissaoController
     @Override
     public void salvar(){
         
-        if(entidade.getInscricao() == null)
-            entidade.setInscricao(getInscricao());
-        
         super.salvar();
         
-      if(!entidade.hasAreaConhecimento())  {
-          Mensagem("Falha", "Você precisa adicionar pelo menos uma Área de conhecimento!");
-          return;
-      }
-      
-      if(entidade.hasPalavrasChave())  {
-          Mensagem("Falha", "Você precisa adicionar pelo menos uma Palavra-Chave!");
-          return;
-      }
-      
-      if(entidade.getInscricao() != null){
-      
-          if(!entidade.hasMinimoDeArquivos() ){
-              Mensagem("Falha", "Você precisa adicionar arquivos!");
-              return;
-          }
-          
-          if(!entidade.hasMinimoDeAutores() ){
-              Mensagem("Falha", "Você precisa adicionar autores!");
-              return;
-          }
-      
-      }
-       
+        checagem();       
       
         setEntidade(entidade);
       
     }    
+    
+    public String concluir() {
+        
+        if(checagem()){
+            entidade.pendente();
+            super.salvar();
+            return "minhasSubmissoes.xhtml";
+        } else {
+            return "";
+        }
+        
+    }
+    
+    public boolean checagem() {
+        if(!entidade.hasAreaConhecimento())  {
+          Mensagem("Falha", "Você precisa adicionar pelo menos uma Área de conhecimento!");
+          return false;
+      }
+      
+      if(!entidade.hasPalavrasChave())  {
+          Mensagem("Falha", "Você precisa adicionar pelo menos uma Palavra-Chave!");
+          return false;
+      }
+      
+          if(!entidade.hasMinimoDeArquivos() ){
+              Mensagem("Falha", "Você precisa adicionar arquivos!");
+              return false;
+          }
+          
+          if(!entidade.hasMinimoDeAutores() ){
+              Mensagem("Falha", "Você precisa adicionar autores!");
+              return false;
+          }
+      
+      return true;
+    }
     
     public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
         this.areaConhecimento = areaConhecimento;

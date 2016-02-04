@@ -108,7 +108,7 @@ public class Submissao implements Entidade, Serializable {
         this.avaliacoes = new ArrayList<>();
         this.areasConhecimento = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
-        this.status = SubmissaoStatus.Pendente;
+        this.status = SubmissaoStatus.EmEdicao;
         this.autor3 = "";
         this.autor4 = "";
         this.autor5 = "";
@@ -168,6 +168,15 @@ public class Submissao implements Entidade, Serializable {
     
     public boolean hasMinimoDeArquivos() {
         return countArquivos()>=  ((InscricaoItem)getInscricao()).getAtividade().getQuantidadeArquivos();
+    }
+    
+    public boolean pendente() {
+        if(getStatus() == SubmissaoStatus.EmEdicao && hasPalavrasChave() && hasAreaConhecimento() && hasMinimoDeAutores() && hasMinimoDeArquivos()){
+            setStatus(SubmissaoStatus.Pendente);
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public int countAutores() {

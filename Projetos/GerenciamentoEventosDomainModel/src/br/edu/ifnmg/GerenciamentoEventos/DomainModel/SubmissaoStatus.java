@@ -11,7 +11,8 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
  * @author petronio
  */
 public enum SubmissaoStatus  {
-    Pendente(false,"Pendente"),
+    EmEdicao(false,"Em Edição"),
+    Pendente(false,"Avaliação Pendente"),
     PrimeiraAvaliacao(false,"1ª Avaliação"),
     SegundaAvaliacao(false,"2ª Avaliação"),
     Divergencia(false,"Divergência entre as avaliações"),
