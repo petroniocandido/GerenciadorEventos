@@ -28,18 +28,33 @@
                 Submissão de #{publicoController.atividade}
             </f:facet>
 
-            <ui:include src="../comum/submissao.xhtml">
-            </ui:include>
+            <p:tabView >
+                <p:tab title="Dados do Trabalho">
+                    <ui:include src="../comum/submissao.xhtml">
+                    </ui:include>
+                </p:tab>
+                <p:tab title="Formulário Inscrição" rendered="#{ not empty publicoController.atividade.questionario }">
+                    <p:tabView>
+                        <ui:include src="../comum/questionario.xhtml">
+                            <ui:param name="controller" value="#{submissaoController}"  />
+                            <ui:param name="questionario" value="#{publicoController.atividade.questionario}"  />
+                            <ui:param name="inscricao" value="#{publicoController.inscricaoItem}"  />
+                            <ui:param name="inscricaotipo" value="item"  />
+                        </ui:include>
+                    </p:tabView>
+                    <p:commandButton value="Salvar" ajax="false" action="#{submissaoController.processaQuestionario}" />
+                </p:tab>
+            </p:tabView>
 
             <f:facet name="footer">
-                <p:commandButton id="btnSalvar" value="Salvar" icon="ui-icon-pencil" action="#{submissaoController.salvar()}" />
-                <p:commandButton id="btnSalvar" value="Concluir" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
-                <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="inscricaoAtividade.xhtml" />                
+                <p:commandButton value="Salvar" rendered="#{submissaoController.entidade.emEdicao}" ajax="false"  icon="ui-icon-pencil" action="#{submissaoController.salvar()}" />
+                <p:commandButton value="Concluir"  rendered="#{submissaoController.entidade.emEdicao}" icon="ui-icon-pencil" onclick="msgSalvar.show();"  />
+                <p:commandButton value="Voltar" ajax="false" immediate="true" icon="ui-icon-arrowreturnthick-1-w" action="inscricaoAtividade.xhtml" />
             </f:facet>
             <p:confirmDialog id="confirmaSalvar" message="Deseja realmente salvar as alterações? Após a conclusão do processo não será possível fazer modificações!"  
                              header="Confirmação" severity="alert" widgetVar="msgSalvar">  
-                <p:commandButton ajax="false" id="simSalvar" value="SIM"  />  
-                <p:commandButton id="naoSalvar" value="NÃO" onclick="msgSalvar.hide();" type="button" />   
+                <p:commandButton ajax="false" id="simSalvar" value="SIM" action="#{submissaoController.concluir()}"  />  
+                <p:commandButton value="NÃO" onclick="msgSalvar.hide();" type="button" />   
             </p:confirmDialog>  
 
         </p:panel>

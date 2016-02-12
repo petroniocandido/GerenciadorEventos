@@ -27,32 +27,32 @@
         <p:tab title="Geral">
             <p:panelGrid columns="2">
                 <h:outputLabel value="Título:" />
-                <p:inputText value="#{submissaoController.entidade.titulo}" size="150"
+                <p:inputText value="#{submissaoController.entidade.titulo}" size="150" disabled="#{not submissaoController.entidade.emEdicao}"
                              required="true" requiredMessage="O campo título é de preenchimento obrigatório!"/>
                 <h:outputLabel value="Resumo:" />
-                <p:inputTextarea value="#{submissaoController.entidade.resumo}" rows="5" cols="150"
+                <p:inputTextarea value="#{submissaoController.entidade.resumo}" rows="5" cols="150" disabled="#{not submissaoController.entidade.emEdicao}"
                                  required="true" requiredMessage="O campo Resumo é de preenchimento obrigatório!"/>
             </p:panelGrid>
         </p:tab>
         <p:tab id="tabAutores" title="Autores">
             <p:panelGrid columns="2">
                 <h:outputLabel value="Autor 1" />
-                <p:inputText value="#{submissaoController.entidade.autor1}" size="150"
+                <p:inputText value="#{submissaoController.entidade.autor1}" size="150" disabled="#{not submissaoController.entidade.emEdicao}"
                              required="true"  requiredMessage="O campo Autor 1 é de preenchimento obrigatório!"/>                      
                 <h:outputLabel value="Autor 2 (ou Orientador)" />
-                <p:inputText value="#{submissaoController.entidade.autor2}" size="150"
+                <p:inputText value="#{submissaoController.entidade.autor2}" size="150" disabled="#{not submissaoController.entidade.emEdicao}"
                              required="true"  requiredMessage="O campo Autor 2 (ou Orientador) é de preenchimento obrigatório!"/>                      
                 <h:outputLabel value="Autor 3" />
-                <p:inputText value="#{submissaoController.entidade.autor3}" size="150" />
+                <p:inputText value="#{submissaoController.entidade.autor3}" size="150" disabled="#{not submissaoController.entidade.emEdicao}" />
                 <h:outputLabel value="Autor 4" />
-                <p:inputText value="#{submissaoController.entidade.autor4}" size="150" />
+                <p:inputText value="#{submissaoController.entidade.autor4}" size="150" disabled="#{not submissaoController.entidade.emEdicao}" />
             </p:panelGrid>
         </p:tab>
-        <p:tab title="Palavras Chave">
+        <p:tab title="Palavras Chave" rendered="#{submissaoController.entidade.id gt 0}">
             <p:panelGrid columns="3">
                 <p:outputLabel value="Palavra Chave:" />           
                 <p:inputText id="txtPalavraChave" size="50" value="#{submissaoController.palavraChave}" />
-                <p:commandButton value="Adicionar" update="txtPalavraChave tblPalavraChave" action="#{submissaoController.addPalavraChave}" />
+                <p:commandButton value="Adicionar"  disabled="#{not submissaoController.entidade.emEdicao}" update="txtPalavraChave tblPalavraChave" action="#{submissaoController.addPalavraChave}" />
             </p:panelGrid>
             <p:dataTable id="tblPalavraChave"  value="#{submissaoController.entidade.palavraschave}" var="item" >
                 <p:column headerText="Palavra Chave" >
@@ -60,19 +60,19 @@
                 </p:column>                                                     
 
                 <p:column sortBy="remover" headerText="Remover" >
-                    <p:commandButton ajax="false" value="Remover"  action="#{submissaoController.removePalavraChave()}">
+                    <p:commandButton ajax="false" value="Remover"   disabled="#{not submissaoController.entidade.emEdicao}" action="#{submissaoController.removePalavraChave()}">
                         <f:setPropertyActionListener target="#{submissaoController.palavraChave}" value="#{item}" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
         </p:tab>  
-        <p:tab title="Áreas de Conhecimento">
+        <p:tab title="Áreas de Conhecimento"  rendered="#{submissaoController.entidade.id gt 0}">
             <ui:include src="areasConhecimento.xhtml">
                 <ui:param name="controller" value="#{submissaoController}"  />
                 <ui:param name="colecao" value="#{submissaoController.entidade.areasConhecimento}"  />
             </ui:include>
         </p:tab>  
-        <p:tab id="tabArquivos" title="Arquivos">
+        <p:tab id="tabArquivos" title="Arquivos" rendered="#{submissaoController.entidade.id gt 0}">
             <p:panelGrid columns="2" >
                 <ui:include src="enviarArquivo.xhtml">
                     <ui:param name="nome" value="Arquivo Identificado"  />

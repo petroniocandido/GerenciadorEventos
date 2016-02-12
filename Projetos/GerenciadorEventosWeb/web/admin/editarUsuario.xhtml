@@ -69,15 +69,16 @@
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab title="Dados Acadêmicos">
-                            <h:outputText value="Titulação: " />
-                            <h:selectOneMenu value="#{usuarioController.entidade.titulacaoMaxima}">
-                                <f:selectItem itemLabel="Escolha a titulação" noSelectionOption="true" />
-                                <f:selectItems value="#{usuarioController.titulacoes}" />
-                            </h:selectOneMenu>
-                            
-                            <p:outputLabel value="Curriculum Lattes:" />
-                            <p:inputText value="#{usuarioController.entidade.lattes}" size="100" required="false" /> 
+                            <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Titulação: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.titulacaoMaxima}">
+                                    <f:selectItem itemLabel="Escolha a titulação" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioController.titulacoes}" />
+                                </h:selectOneMenu>
 
+                                <p:outputLabel value="Curriculum Lattes:" />
+                                <p:inputText value="#{usuarioController.entidade.lattes}" size="100" required="false" /> 
+                            </h:panelGrid>
                             <ui:include src="../comum/areasConhecimento.xhtml">
                                 <ui:param name="controller" value="#{usuarioController}"  />
                                 <ui:param name="colecao" value="#{usuarioController.entidade.areasConhecimento}"  />

@@ -43,12 +43,12 @@
                     #{item.autor2}
                 </p:column>
                 <p:column headerText="Status">
-                    #{item.status}
+                    #{item.status.descricao}
                 </p:column>
             </p:dataTable>
 
             <f:facet name="footer">
-                <p:commandButton ajax="false" id="btnVoltar" value="Voltar"  immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="inscricaoAtividade.xhtml" />                
+                <p:commandButton ajax="false" value="Voltar" immediate="true"  icon="ui-icon-arrowreturnthick-1-w" action="inscricaoAtividade.xhtml" />
             </f:facet>
         </p:panel>
     </ui:define>

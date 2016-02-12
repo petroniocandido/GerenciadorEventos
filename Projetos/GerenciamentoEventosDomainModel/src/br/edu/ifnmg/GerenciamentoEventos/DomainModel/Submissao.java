@@ -179,6 +179,10 @@ public class Submissao implements Entidade, Serializable {
         }
     }
     
+    public boolean isEmEdicao() {
+        return getStatus() == SubmissaoStatus.EmEdicao;
+    }
+    
     public int countAutores() {
         int tmp = 0;
         if(autor1 != null && !autor1.isEmpty()) tmp++;
@@ -377,7 +381,30 @@ public class Submissao implements Entidade, Serializable {
         }
         return true;
     }
-
+    
+    String pl = null;
+    public String palavrasChave(){
+        if(pl == null){
+            pl = "";
+            for(String p : getPalavraschave()){
+                if(!pl.isEmpty()) pl = pl + ",";
+                pl = pl + p;
+            }
+        }
+        return pl;
+    }
+    
+    String ac = null;
+    public String areasConhecimento(){
+        if(ac == null){
+            ac = "";
+            for(AreaConhecimento a : getAreasConhecimento()){
+                if(!ac.isEmpty()) ac = ac + ",";
+                ac = ac + a.toString();
+            }
+        }
+        return ac;
+    }
     
 
     @Override

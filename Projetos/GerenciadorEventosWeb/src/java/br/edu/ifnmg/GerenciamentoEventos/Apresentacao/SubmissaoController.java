@@ -10,8 +10,15 @@ import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
@@ -19,9 +26,11 @@ import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.SelectEvent;
@@ -46,6 +55,12 @@ public class SubmissaoController
     
     @EJB
     InscricaoRepositorio daoInsc;
+    
+    @EJB
+    QuestionarioRepositorio questionarioDAO;
+
+    @EJB
+    QuestionarioRespostaRepositorio respostaDAO;
     
     AreaConhecimento areaConhecimento;
     
@@ -91,7 +106,9 @@ public class SubmissaoController
          
         if(getInscricao() == null)
             return "inscricaoAtividade.xhtml";
-         
+        
+        novo();
+        
         return "submissao.xhtml";
     }
     
@@ -110,6 +127,10 @@ public class SubmissaoController
     
     @Override
     public void salvar(){
+        
+        if(getInscricao() != null){
+            getEntidade().setInscricao(getInscricao());
+        }
         
         super.salvar();
         
@@ -246,5 +267,67 @@ public class SubmissaoController
             AppendLog("Falha ao abrir submissão:" + ex);
         }
     }
+     
+    public String abreAvaliacao() {
+        setSessao("inscricaoItem", getEntidade().getInscricao());
+        return "submissaoAvaliar.xhtml";
+    }
+     
+    public void processaQuestionario() {
+
+        //i = inscricaoDAO.Refresh(i);
+        QuestionarioResposta resposta = getEntidade().getResposta();
+
+        if (resposta == null) {
+            Questionario qr = ((InscricaoItem)getEntidade().getInscricao()).getAtividade().getQuestionario();
+            
+            resposta = new QuestionarioResposta(getUsuarioCorrente(), qr);
+        } else {
+            resposta = respostaDAO.Refresh(resposta);
+        }
+
+        FacesContext fc = FacesContext.getCurrentInstance();
+
+        ExternalContext ec = fc.getExternalContext();
+        Map<String, String> req = ec.getRequestParameterMap();
+        for (String key : req.keySet()) {
+            if (key.contains("valor-")) {
+
+                String idQuestao = key.substring(key.lastIndexOf("-") + 1);
+
+                if (idQuestao.contains("_focus")) {
+                    continue;
+                }
+
+                if (idQuestao.contains("_input")) {
+                    idQuestao = idQuestao.replace("_input", "");
+                }
+
+                Long id = Long.parseLong(idQuestao);
+                Questao q = questionarioDAO.AbrirQuestao(id);
+                QuestaoResposta r = resposta.RespostaDeQuestao(q);
+                String valor = req.get(key);
+
+                if (r == null) {
+                    r = new QuestaoResposta();
+                }
+
+                r.setQuestao(q);
+                r.setValor(valor);
+                Rastrear(r);
+                resposta.add(r);
+            }
+        }
+
+        Rastrear(resposta);
+        respostaDAO.Salvar(resposta);
+
+        getEntidade().setResposta(resposta);
+
+        Rastrear(getEntidade());
+        dao.Salvar(getEntidade());
+
+    }
+
 }
 

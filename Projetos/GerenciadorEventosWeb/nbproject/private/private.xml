@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/editarEvento.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/submissoesParaAvaliacao.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/comum/submissao.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/src/java/br/edu/ifnmg/GerenciamentoEventos/Apresentacao/SubmissaoController.java</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/editarUsuario.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/editarResposta.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/comum/camposPessoa.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/publico/editarDadosPessoais.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/index.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/WEB-INF/glassfish-web.xml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/admin/AdminTemplate.xhtml</file>
+            <file>file:/home/petronio/dados/NetBeansProjects/GerenciadorEventos/Projetos/GerenciadorEventosWeb/web/publico/submissao.xhtml</file>
+        </group>
     </open-files>
 </project-private>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <body>
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Avaliar Trabalho Submetivo
+                    </f:facet>
+                    <p:tabView>
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Título:" />
+                                <p:outputLabel value="#{submissaoController.entidade.titulo}" />
+                                <p:outputLabel value="Resumo:" />
+                                <p:outputLabel value="#{submissaoController.entidade.resumo}" />
+                                <p:outputLabel value="Palavras Chave:" />
+                                <p:dataTable value="#{submissaoController.entidade.palavraschave}" var="val">
+                                    <p:column  >
+                                        #{val}                            
+                                    </p:column>
+                                </p:dataTable>
+                                <h:outputLabel value="Áreas Conhecimento:" />
+                                <p:dataTable value="#{submissaoController.entidade.areasConhecimento}" var="val">
+                                    <p:column >
+                                        #{val}                            
+                                    </p:column>
+                                </p:dataTable>
+                                <c:if test="#{submissaoController.entidade.arquivo2 ne  null}">
+                                    <h:outputText value="Arquivo do Trabalho: " />
+                                    <h:outputLink value="../arquivos/#{submissaoController.entidade.arquivo2.uri}">Baixar</h:outputLink>
+                                </c:if>
+                            </p:panelGrid>
+                        </p:tab>
+
+                    </p:tabView>
+                    <f:facet name="footer">
+                        <p:commandButton value="Avaliar" onclick="msgAvaliar.show();" />
+                        <p:commandButton value="Voltar" ajax="false" immediate="true" action="submissoesParaAvaliacao.xhtml" />
+                    </f:facet>
+                </p:panel>
+                <p:confirmDialog message="Preencha o formulário abaixo:"  
+                                 header="Avaliação" severity="alert" widgetVar="msgAvaliar">  
+                    <p:scrollPanel mode="native" style="width:600px;height:400px">
+                        <c:if test="#{not empty publicoController.atividade.avaliacao}">
+
+                            <p:outputLabel value="Preencha o formulário abaixo para confirmar a avaliação." style="font-weight: bold" />
+                            <p:tabView>
+                                <ui:include src="../comum/questionario.xhtml">
+                                    <ui:param name="controller" value="#{submissaoController}"  />
+                                    <ui:param name="questionario" value="#{publicoController.atividade.avaliacao}"  />
+                                    <ui:param name="inscricao" value="#{publicoController.inscricaoItem}"  />
+                                    <ui:param name="inscricaotipo" value="item"  />
+                                </ui:include>
+                            </p:tabView>
+                        </c:if>
+                    </p:scrollPanel>
+                    <p:commandButton value="Avaliar" onclick="msgSalvar.hide();" />  
+                    <p:commandButton value="Cancelar" onclick="msgSalvar.hide();" type="button" />   
+                </p:confirmDialog> 
+            </ui:define>
+        </ui:composition>
+    </body>
+</html>
