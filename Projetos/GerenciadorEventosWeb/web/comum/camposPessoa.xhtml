@@ -21,32 +21,32 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets" >
-    <h:panelGrid columns="2" cellpadding="3">
+    <p:panelGrid columns="2" >
         <h:outputText value="Sexo: " />
-        <h:selectOneMenu value="#{pessoa.sexo}"
+        <p:selectOneMenu value="#{pessoa.sexo}"
                          required="true" requiredMessage="O campo sexo é obrigatório">
             <f:selectItem itemLabel="Escolha o sexo" noSelectionOption="true" />
-            <f:selectItems value="#{usuarioController.sexos}" />
-        </h:selectOneMenu>
+            <f:selectItems value="#{usuarioConverter.sexos}" />
+        </p:selectOneMenu>
         <h:outputText value="Tratamento: " />
-        <h:selectOneMenu value="#{pessoa.tratamento}">
+        <p:selectOneMenu value="#{pessoa.tratamento}">
             <f:selectItem itemLabel="Escolha o tratamento" noSelectionOption="true" />
-            <f:selectItems value="#{usuarioController.tratamentos}" />
-        </h:selectOneMenu>
+            <f:selectItems value="#{usuarioConverter.tratamentos}" />
+        </p:selectOneMenu>
         <h:outputText value="Nome: " />
         <p:inputText id="txtNome" value="#{pessoa.nome}" 
-                     required="true" requiredMessage="O campo nome é obrigatório" />
+                     required="true"   size="100" requiredMessage="O campo nome é obrigatório" />
         <h:outputText value="CPF: " />
         <p:inputMask id="txtCpf" value="#{pessoa.cpf}" mask="999.999.999-99" 
                      required="true" requiredMessage="O campo cpf é obrigatório" 
                      validator="#{autenticacaoController.validaCPF}" />
         <h:outputText value="E-Mail: " />
         <p:inputText id="txtEmail" value="#{pessoa.email}" 
-                     required="true" requiredMessage="O campo e-mail é obrigatório" 
+                     required="true"   size="100" requiredMessage="O campo e-mail é obrigatório" 
                      validator="#{autenticacaoController.validaEmail}"/>
         <h:outputText value="Telefone: " />
         <p:inputMask id="txtTelefone" value="#{pessoa.telefone}" 
-                     mask="(99) 9999-9999" />
+                     mask="(99) 99999-9999" />
         <h:outputText value="Data de Nascimento: " />
         <p:calendar id="txtDataNascimento" value="#{pessoa.dataNascimento}" pattern="dd/MM/yyyy"/>
         <h:outputLabel value="Campus do IFNMG:" />           
@@ -55,6 +55,12 @@
             <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
             <f:selectItems value="#{campusConverter.listagem}"/>
         </p:selectOneMenu>
+        <h:outputText value="Outra instituição: " />
+        <p:inputText value="#{pessoa.outraInstituicao}"   size="100" maxlength="200" />
+        <h:outputText value="Portador de necessidades específicas?: " />
+        <p:selectBooleanCheckbox value="#{pessoa.necessidadesEspecificas}" />
+        <h:outputText value="Descreva as necessidades específicas : " />
+        <p:inputText value="#{pessoa.descricaoNecessidadesEspecificas}"   size="100" maxlength="200" />
         <h:outputText value="Senha: " />
         <p:password id="txtSenha" value="#{senha}" 
                     required="true" requiredMessage="O campo senha é obrigatório!"
@@ -66,6 +72,6 @@
                     feedback="true" promptLabel="Insira uma senha" 
                     weakLabel="Fraca"  goodLabel="Boa" strongLabel="Fraca"
                     />
-    </h:panelGrid> 
+    </p:panelGrid> 
 </ui:composition>
 

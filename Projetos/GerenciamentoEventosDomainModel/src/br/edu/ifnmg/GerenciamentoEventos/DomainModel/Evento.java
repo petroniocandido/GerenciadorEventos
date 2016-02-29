@@ -191,6 +191,10 @@ public class Evento implements Entidade, Serializable {
         inscricoesPorAtividade = new HashMap<>();
         inscricoesPorCategoria = new HashMap<>();
     }
+    
+    public boolean requerPagamento(){
+        return this.valorInscricao.compareTo(new BigDecimal("0.00")) > 0;
+    }
 
     public void atualizaCargaHoraria() {
         cargaHoraria = 0;

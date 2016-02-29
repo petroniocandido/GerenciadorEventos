@@ -16,8 +16,13 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Converters;
 
+import br.edu.ifnmg.DomainModel.Atuacao;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.DomainModel.PessoaTipo;
+import br.edu.ifnmg.DomainModel.PronomeTratamento;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
+import br.edu.ifnmg.DomainModel.Sexo;
+import br.edu.ifnmg.DomainModel.Titulacao;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericConverter;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import java.io.Serializable;
@@ -39,6 +44,46 @@ public class PessoaConverter
 
     @EJB
     PessoaRepositorioLocal dao;
+    
+    PessoaTipo[] tipos;
+    
+    Atuacao[] atuacoes;
+    
+    PronomeTratamento[] tratamentos;
+    
+    Sexo[] sexos;
+    
+    Titulacao[] titulacoes;
+    
+    public PessoaTipo[] getTipos() {
+        if(tipos == null)
+            tipos = PessoaTipo.values();
+        return tipos;
+    }
+
+    public PronomeTratamento[] getTratamentos() {
+        if(tratamentos == null)
+            tratamentos = PronomeTratamento.values();
+        return tratamentos;
+    }
+
+    public Sexo[] getSexos() {
+        if(sexos == null)
+            sexos = Sexo.values();
+        return sexos;
+    }
+
+    public Titulacao[] getTitulacoes() {
+        if(titulacoes == null)
+            titulacoes = Titulacao.values();
+        return titulacoes;
+    }
+    
+    public Atuacao[] getAtuacoes() {
+        if(atuacoes == null)
+            atuacoes = Atuacao.values();
+        return atuacoes;
+    }
 
     @PostConstruct
     public void init() {

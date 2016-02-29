@@ -25,34 +25,62 @@
     <body>
         <ui:composition template="./TemplateExterno.xhtml">
             <ui:define name="content">
-                <p:panelGrid style="position: relative; top: 40%; left: 40%" columns="1">
+                <p:panelGrid style="position: relative; top: 40%; left: 20%" columns="1">
 
                     <f:facet name="header">
                         Dados do Usuário
                     </f:facet>
                     <h:panelGrid columns="2" cellpadding="3">
-                        <h:outputText value="Nome: " />
-                        <p:inputText id="txtNome" value="#{autenticacaoController.usuario.nome}" 
-                                     required="true" requiredMessage="O campo nome é obrigatório" />
                         <h:outputText value="Sexo: " />
                         <h:selectOneMenu value="#{autenticacaoController.usuario.sexo}"
                                          required="true" requiredMessage="O campo sexo é obrigatório">
                             <f:selectItem itemLabel="Escolha o sexo" noSelectionOption="true" />
-                            <f:selectItems value="#{usuarioController.sexos}" />
+                            <f:selectItems value="#{usuarioConverter.sexos}" />
                         </h:selectOneMenu>
+                        <h:outputText value="Tratamento: " />
+                        <p:selectOneMenu value="#{autenticacaoController.usuario.tratamento}">
+                            <f:selectItem itemLabel="Escolha o tratamento" noSelectionOption="true" />
+                            <f:selectItems value="#{usuarioConverter.tratamentos}" />
+                        </p:selectOneMenu>
+                        <h:outputText value="Nome: " />
+                        <p:inputText id="txtNome" value="#{autenticacaoController.usuario.nome}" 
+                                     required="true" size="100" requiredMessage="O campo nome é obrigatório" />
+
                         <h:outputText value="CPF: " />
                         <p:inputMask id="txtCpf" value="#{autenticacaoController.usuario.cpf}" mask="999.999.999-99" 
                                      required="true" requiredMessage="O campo cpf é obrigatório" 
                                      validator="#{autenticacaoController.validaCPF}" />
                         <h:outputText value="E-Mail: " />
                         <p:inputText id="txtEmail" value="#{autenticacaoController.usuario.email}" 
-                                     required="true" requiredMessage="O campo e-mail é obrigatório" 
+                                     required="true"  size="100" requiredMessage="O campo e-mail é obrigatório" 
                                      validator="#{autenticacaoController.validaEmail}"/>
                         <h:outputText value="Telefone: " />
                         <p:inputMask id="txtTelefone" value="#{autenticacaoController.usuario.telefone}" 
-                                     mask="(99) 9999-9999" />
+                                     mask="(99) 99999-9999" />
                         <h:outputText value="Data de Nascimento: " />
                         <p:calendar id="txtDataNascimento" value="#{autenticacaoController.usuario.dataNascimento}" pattern="dd/MM/yyyy"/>
+                        <h:outputLabel value="Campus do IFNMG:" />           
+                        <p:selectOneMenu value="#{autenticacaoController.usuario.campus}" label="Campus" 
+                                         converter="#{campusConverter}" required="false" >
+                            <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                            <f:selectItems value="#{campusConverter.listagem}"/>
+                        </p:selectOneMenu>
+                        <h:outputText value="Outra instituição: " />
+                        <p:inputText value="#{autenticacaoController.usuario.outraInstituicao}"    size="100" maxlength="200" />
+                        <h:outputText value="Atuação: " />
+                        <p:selectOneMenu value="#{autenticacaoController.usuario.atuacao}" >
+                            <f:selectItem itemLabel="Escolha a área de atuação" noSelectionOption="true" />
+                            <f:selectItems value="#{usuarioConverter.atuacoes}" />
+                        </p:selectOneMenu>
+                        <h:outputText value="Titulação: " />
+                        <p:selectOneMenu value="#{autenticacaoController.usuario.titulacaoMaxima}" >
+                            <f:selectItem itemLabel="Escolha a titulação" noSelectionOption="true" />
+                            <f:selectItems value="#{usuarioConverter.titulacoes}" />
+                        </p:selectOneMenu>
+                        <h:outputText value="Portador de necessidades específicas?: " />
+                        <p:selectBooleanCheckbox value="#{autenticacaoController.usuario.necessidadesEspecificas}" />
+                        <h:outputText value="Descreva as necessidades específicas : " />
+                        <p:inputText value="#{autenticacaoController.usuario.descricaoNecessidadesEspecificas}"  size="100" maxlength="200" />
                     </h:panelGrid> 
                     <f:facet name="footer">
                         <p:commandButton value="Cadastrar" action="#{autenticacaoController.cadastrar()}" 

@@ -17,6 +17,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
+import br.edu.ifnmg.DomainModel.Atuacao;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
@@ -55,14 +56,6 @@ public class PessoaController
     @Inject
     HashService hash;
     
-    PessoaTipo[] tipos;
-    
-    PronomeTratamento[] tratamentos;
-    
-    Sexo[] sexos;
-    
-    Titulacao[] titulacoes;
-
     String senha1, senha2;
     
     AreaConhecimento areaConhecimento;
@@ -141,30 +134,6 @@ public class PessoaController
         return tmp;
     }
 
-    public PessoaTipo[] getTipos() {
-        if(tipos == null)
-            tipos = PessoaTipo.values();
-        return tipos;
-    }
-
-    public PronomeTratamento[] getTratamentos() {
-        if(tratamentos == null)
-            tratamentos = PronomeTratamento.values();
-        return tratamentos;
-    }
-
-    public Sexo[] getSexos() {
-        if(sexos == null)
-            sexos = Sexo.values();
-        return sexos;
-    }
-
-    public Titulacao[] getTitulacoes() {
-        if(titulacoes == null)
-            titulacoes = Titulacao.values();
-        return titulacoes;
-    }
-    
     
 
     public AreaConhecimento getAreaConhecimento() {

@@ -54,7 +54,7 @@ public class AtividadeController
      * Creates a new instance of FuncionarioBean
      */
     public AtividadeController() {
-        getFiltro().setStatus(null);
+
         alocacao = new Alocacao();
         responsavel = new Pessoa();
     }
@@ -76,6 +76,7 @@ public class AtividadeController
 
     @PostConstruct
     public void init() {
+        getFiltro().setStatus(null);
         setRepositorio(dao);
         checaEventoPadrao();
         setPaginaEdicao("editarAtividade.xhtml");

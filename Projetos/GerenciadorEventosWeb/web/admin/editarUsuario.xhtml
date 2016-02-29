@@ -34,46 +34,65 @@
                     <p:tabView id="tabView">  
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2" cellpadding="3">
-                                <h:outputText value="Tratamento: " />
-                                <h:selectOneMenu value="#{usuarioController.entidade.tratamento}">
-                                    <f:selectItem itemLabel="Escolha o tratamento" noSelectionOption="true" />
-                                    <f:selectItems value="#{usuarioController.tratamentos}" />
-                                </h:selectOneMenu>
-                                <h:outputText value="Nome: " />
-                                <p:inputText value="#{usuarioController.entidade.nome}" 
-                                             required="true" requiredMessage="O campo nome é obrigatório" />
                                 <h:outputText value="Tipo: " />
                                 <h:selectOneMenu value="#{usuarioController.entidade.tipo}"
                                                  required="true" requiredMessage="O campo tipo é obrigatório">
                                     <f:selectItem itemLabel="Escolha o tipo" noSelectionOption="true" />
-                                    <f:selectItems value="#{usuarioController.tipos}" />
+                                    <f:selectItems value="#{usuarioConverter.tipos}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Sexo: " />
                                 <h:selectOneMenu value="#{usuarioController.entidade.sexo}"
                                                  required="true" requiredMessage="O campo sexo é obrigatório">
                                     <f:selectItem itemLabel="Escola o sexo" noSelectionOption="true" />
-                                    <f:selectItems value="#{usuarioController.sexos}" />
+                                    <f:selectItems value="#{usuarioConverter.sexos}" />
                                 </h:selectOneMenu>
+                                <h:outputText value="Tratamento: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.tratamento}">
+                                    <f:selectItem itemLabel="Escolha o tratamento" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioConverter.tratamentos}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Nome: " />
+                                <p:inputText value="#{usuarioController.entidade.nome}" 
+                                             required="true"   size="100" requiredMessage="O campo nome é obrigatório" />                               
+
                                 <h:outputText value="CPF: " />
                                 <p:inputMask value="#{usuarioController.entidade.cpf}" mask="999.999.999-99" 
                                              required="true" requiredMessage="O campo cpf é obrigatório" />
                                 <h:outputText value="E-Mail: " />
                                 <p:inputText value="#{usuarioController.entidade.email}" 
-                                             required="true" requiredMessage="O campo e-mail é obrigatório" />
+                                             required="true"   size="100" requiredMessage="O campo e-mail é obrigatório" />
                                 <h:outputText value="Telefone: " />
                                 <p:inputMask value="#{usuarioController.entidade.telefone}" 
-                                             mask="(99) 9999-9999" />
+                                             mask="(99) 99999-9999" />
                                 <h:outputText value="Data de Nascimento: " />
-                                <p:calendar value="#{usuarioController.entidade.dataNascimento}" />
+                                <p:calendar value="#{usuarioController.entidade.dataNascimento}"  pattern="dd/MM/yyyy" />
+                                <h:outputLabel value="Campus do IFNMG:" />           
+                                <h:selectOneMenu value="#{usuarioController.entidade.campus}" label="Campus" 
+                                                 converter="#{campusConverter}" required="false" >
+                                    <f:selectItem itemLabel="Selecione..." noSelectionOption="true"/>
+                                    <f:selectItems value="#{campusConverter.listagem}"/>
+                                </h:selectOneMenu>
+                                <h:outputText value="Outra instituição: " />
+                                <p:inputText value="#{usuarioController.entidade.outraInstituicao}"   size="100" maxlength="200" />
+                                <h:outputText value="Portador de necessidades específicas?: " />
+                                <p:selectBooleanCheckbox value="#{usuarioController.entidade.necessidadesEspecificas}" />
+                                <h:outputText value="Descreva as necessidades específicas : " />
+                                <p:inputText value="#{usuarioController.entidade.descricaoNecessidadesEspecificas}"   size="100" maxlength="200" />
 
                             </h:panelGrid> 
                         </p:tab>
                         <p:tab title="Dados Acadêmicos">
+
                             <h:panelGrid columns="2" cellpadding="3">
+                                <h:outputText value="Atuação: " />
+                                <h:selectOneMenu value="#{usuarioController.entidade.atuacao}" >
+                                    <f:selectItem itemLabel="Escolha a área de atuação" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioConverter.atuacoes}" />
+                                </h:selectOneMenu>
                                 <h:outputText value="Titulação: " />
                                 <h:selectOneMenu value="#{usuarioController.entidade.titulacaoMaxima}">
                                     <f:selectItem itemLabel="Escolha a titulação" noSelectionOption="true" />
-                                    <f:selectItems value="#{usuarioController.titulacoes}" />
+                                    <f:selectItems value="#{usuarioConverter.titulacoes}" />
                                 </h:selectOneMenu>
 
                                 <p:outputLabel value="Curriculum Lattes:" />

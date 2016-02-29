@@ -41,19 +41,23 @@
                         </p:tab>
                         <p:tab title="Dados Acadêmicos">
                             <p:panelGrid columns="2">
+                                <h:outputText value="Atuação: " />
+                                <p:selectOneMenu value="#{autenticacaoController.usuario.atuacao}" >
+                                    <f:selectItem itemLabel="Escolha a área de atuação" noSelectionOption="true" />
+                                    <f:selectItems value="#{usuarioConverter.atuacoes}" />
+                                </p:selectOneMenu>
                                 <h:outputText value="Titulação: " />
-                                <h:selectOneMenu value="#{autenticacaoController.usuario.titulacaoMaxima}">
+                                <p:selectOneMenu value="#{autenticacaoController.usuario.titulacaoMaxima}" >
                                     <f:selectItem itemLabel="Escolha a titulação" noSelectionOption="true" />
-                                    <f:selectItems value="#{usuarioController.titulacoes}" />
-                                </h:selectOneMenu>
+                                    <f:selectItems value="#{usuarioConverter.titulacoes}" />
+                                </p:selectOneMenu>
                                 <p:outputLabel value="Curriculum Lattes:" />
-                                <p:inputText value="#{autenticacaoController.usuario.lattes}" size="150" required="false"/> 
+                                <p:inputText value="#{autenticacaoController.usuario.lattes}" size="150" maxlength="200" required="false"/> 
                             </p:panelGrid>
                             <ui:include src="../comum/areasConhecimento.xhtml">
                                 <ui:param name="controller" value="#{autenticacaoController}"  />
                                 <ui:param name="colecao" value="#{autenticacaoController.usuario.areasConhecimento}"  />
                             </ui:include>
-
                         </p:tab>
                     </p:tabView>
                     <f:facet name="footer">
