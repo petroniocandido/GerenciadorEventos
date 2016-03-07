@@ -17,6 +17,7 @@
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
+import br.edu.ifnmg.DomainModel.Perfil;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ValidadorCPF;
 import br.edu.ifnmg.DomainModel.Pessoa;
@@ -104,6 +105,46 @@ public class AutenticacaoController
             AppendLog("Cadastro do usuário " + usuario.getEmail());
         } else {
             AppendLog("Erro ao cadastrar usuário: " + dao.getErro().toString());
+        }
+    }
+    
+    public void cadastrarAvaliador() {
+        
+        Pessoa tmp = dao.Abrir(getUsuario().getEmail());
+        
+        if(tmp != null && autenticacao.getUsuarioCorrente() == null){
+            MensagemErro("Falha!", "O e-mail informado já está cadastrado no sistema! Efetue login e volte à página de cadastro de avaliador!");
+            return;
+        }
+        
+        if(tmp != null && autenticacao.getUsuarioCorrente() != null && !autenticacao.getUsuarioCorrente().getEmail().equals(tmp.getEmail())){
+            MensagemErro("Falha!", "O e-mail informado é diferente do usuário logado no sistema!");
+            return;
+        }
+        
+        if(getUsuario().getAreasConhecimento().isEmpty()){
+            MensagemErro("Falha!", "Você precisa cadastrar pelo menos uma área de conhecimento!");
+            return;
+        }
+        
+        Perfil avaliador = perfilDAO.Abrir( Long.parseLong( getConfiguracao("PERFILSELECAOAVALIADOR") ) );
+        
+        getUsuario().setPerfil(avaliador);
+        
+        if(tmp == null) usuario.setSenha(java.util.UUID.randomUUID().toString());
+        if (dao.Salvar(usuario)) {
+            if(tmp == null) {
+                autenticacao.redefinirSenha(usuario.getEmail());            
+                AppendLog("Cadastro do usuário " + usuario.getEmail());
+            } else {
+                AppendLog("Cadastro do usuário " + usuario.getEmail() + "como avaliador");
+            }
+            
+            Mensagem("Sucesso!","O seu cadastro será submetido a uma avaliação de perfil. Em breve entraremos em contato!");
+            
+        } else {
+            AppendLog("Erro ao cadastrar usuário: " + dao.getErro().toString());
+            MensagemErro("Falha!","Erro ao cadastrar usuário! Entre em contato com o administrador.");
         }
     }
 

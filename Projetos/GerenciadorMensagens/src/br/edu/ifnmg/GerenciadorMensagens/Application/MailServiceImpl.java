@@ -124,7 +124,7 @@ public class MailServiceImpl implements MailService {
             Transport.send(message);
             return true;
         } catch (MessagingException mex) {
-            //log.Append("Falha ao enviar e-mail para: " + destinatario + ". " + mex.getMessage());
+            log.Append("Falha ao enviar e-mail para: " + destinatario + ". " + mex.getMessage());
             System.out.println("Erro ao enviar e-mail:" + mex.getMessage());
             return false;
         }
