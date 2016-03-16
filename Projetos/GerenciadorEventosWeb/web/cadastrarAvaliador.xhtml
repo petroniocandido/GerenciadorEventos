@@ -28,7 +28,7 @@
                 <p:panelGrid columns="1">
 
                     <f:facet name="header">
-                        Dados do Usuário
+                        DADOS DO AVALIADOR
                     </f:facet>
                     <h:panelGrid columns="2" cellpadding="3">
                         <h:outputText value="Sexo*: " />
@@ -95,7 +95,7 @@
                         <ui:param name="colecao" value="#{autenticacaoController.usuario.areasConhecimento}"  />
                     </ui:include>
                     <f:facet name="footer">
-                        <p:commandButton value="Cadastrar" ajax="false" action="#{autenticacaoController.cadastrarAvaliador()}" />
+                        <p:commandButton value="Cadastrar " ajax="false" action="#{autenticacaoController.cadastrarAvaliador()}" />
                         <p:commandButton value="Voltar" immediate="true" ajax="false" action="login.xhtml"/>
                     </f:facet>
                 </p:panelGrid>

@@ -17,14 +17,11 @@
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
-import br.edu.ifnmg.DomainModel.Atuacao;
+import br.edu.ifnmg.DomainModel.Perfil;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
-import br.edu.ifnmg.DomainModel.PessoaTipo;
-import br.edu.ifnmg.DomainModel.PronomeTratamento;
-import br.edu.ifnmg.DomainModel.Sexo;
-import br.edu.ifnmg.DomainModel.Titulacao;
+import br.edu.ifnmg.DomainModel.Services.PerfilRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -53,6 +50,8 @@ public class PessoaController
 
     @EJB
     PessoaRepositorioLocal dao;
+    @EJB
+    PerfilRepositorio daoP;
     @Inject
     HashService hash;
     
@@ -71,6 +70,7 @@ public class PessoaController
     public Pessoa getFiltro() {
         if (filtro == null) {
             filtro = new Pessoa();
+            filtro.setPerfil((Perfil)getSessao("pctrl_perfil", daoP));
             filtro.setNome(getSessao("pctrl_nome"));
             filtro.setCpf(getSessao("pctrl_cpf"));
             filtro.setEmail(getSessao("pctrl_email"));
@@ -82,6 +82,7 @@ public class PessoaController
     public void setFiltro(Pessoa filtro) {
         this.filtro = filtro;
         if (filtro != null) {
+            setSessao("pctrl_perfil", filtro.getPerfil());
             setSessao("pctrl_nome", filtro.getNome());
             setSessao("pctrl_cpf", filtro.getCpf());
             setSessao("pctrl_email", filtro.getEmail());
@@ -163,7 +164,10 @@ public class PessoaController
    
     @Override
     public List<Pessoa> getListagem() {
-        return dao.BuscarTexto(getFiltro());
+        if(getFiltro().getPerfil() != null)
+            return dao.Buscar(getFiltro());
+        else
+            return dao.BuscarTexto(getFiltro());
     }
 
 }

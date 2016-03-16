@@ -28,6 +28,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioL
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
@@ -110,18 +112,17 @@ public class AutenticacaoController
     
     public void cadastrarAvaliador() {
         
-        Pessoa tmp = dao.Abrir(getUsuario().getEmail());
-        
-        if(tmp != null && autenticacao.getUsuarioCorrente() == null){
-            MensagemErro("Falha!", "O e-mail informado já está cadastrado no sistema! Efetue login e volte à página de cadastro de avaliador!");
+        if(getSessao("usuarioAutenticado", dao) == null){
+            try {
+                FacesContext.getCurrentInstance().getExternalContext()
+                        .redirect("../login.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(AutenticacaoController.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }
             return;
         }
-        
-        if(tmp != null && autenticacao.getUsuarioCorrente() != null && !autenticacao.getUsuarioCorrente().getEmail().equals(tmp.getEmail())){
-            MensagemErro("Falha!", "O e-mail informado é diferente do usuário logado no sistema!");
-            return;
-        }
-        
+               
         if(getUsuario().getAreasConhecimento().isEmpty()){
             MensagemErro("Falha!", "Você precisa cadastrar pelo menos uma área de conhecimento!");
             return;
@@ -131,15 +132,8 @@ public class AutenticacaoController
         
         getUsuario().setPerfil(avaliador);
         
-        if(tmp == null) usuario.setSenha(java.util.UUID.randomUUID().toString());
         if (dao.Salvar(usuario)) {
-            if(tmp == null) {
-                autenticacao.redefinirSenha(usuario.getEmail());            
-                AppendLog("Cadastro do usuário " + usuario.getEmail());
-            } else {
-                AppendLog("Cadastro do usuário " + usuario.getEmail() + "como avaliador");
-            }
-            
+            AppendLog("Cadastro do usuário " + usuario.getEmail() + "como avaliador");
             Mensagem("Sucesso!","O seu cadastro será submetido a uma avaliação de perfil. Em breve entraremos em contato!");
             
         } else {

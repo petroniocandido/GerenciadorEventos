@@ -7,7 +7,10 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.DomainModel.Services.Repositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
+import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -16,5 +19,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface SubmissaoRepositorio extends Repositorio<Submissao> {
-    
+    public List<Submissao> Buscar(Submissao filtro, Evento e, Atividade a);
 }

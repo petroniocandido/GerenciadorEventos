@@ -40,6 +40,7 @@ public class PessoaDAO
     public List<Pessoa> Buscar(Pessoa filtro) {
         if (filtro != null) {
             IgualA("id", filtro.getId())
+                    .IgualA("perfil", filtro.getPerfil())
                     .Like("nome", filtro.getNome())
                     .Like("cpf", filtro.getCpf())
                     .Like("email", filtro.getEmail());

@@ -16,16 +16,25 @@
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
+                                <h:outputText value="Evento: " />
+                                <p:autoComplete converter="#{eventoConverter}" value="#{submissaoController.evento}"
+                                                completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
+                                <h:outputText value="Atividade: " />
+                                <p:autoComplete converter="#{atividadeConverter}" value="#{submissaoController.atividade}"
+                                                completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete> 
                                 <h:outputLabel value="Status:" />
                                 <h:selectOneMenu value="#{submissaoController.filtro.status}" >
+                                    <f:selectItem noSelectionOption="true" />
                                     <f:selectItems value="#{submissaoController.status}" />
                                 </h:selectOneMenu>
-                                <h:outputLabel value="Título:" />
-                                <h:inputText value="#{submissaoController.filtro.titulo}" />
-                                <h:outputLabel value="Autor 1:" />
-                                <h:inputText value="#{submissaoController.filtro.autor1}" />
-                                <h:outputLabel value="Autor 2:" />
-                                <h:inputText value="#{submissaoController.filtro.autor2}" />
+                                <h:outputLabel value="Título e autores:" />
+                                <h:inputText value="#{submissaoController.filtro.titulo}" />                                
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{submissaoController}"  />
@@ -39,14 +48,21 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:ajax event="rowSelect" listener="#{submissaoController.onRowSelect}" />
-                        <p:column headerText="Título">
-                            #{item.titulo}
+                        <f:facet name="header">
+                            Total: #{submissaoController.dataModel.rowCount} submissões
+                        </f:facet>
+                        <p:column headerText="Título e Autores">
+                            <h:outputText value="#{item.titulo}" style="font-weight: bold" />
+                            <br />
+                            #{item.autores()}
+                            
                         </p:column>
-                        <p:column headerText="Autor 1">
-                            #{item.autor1}
+
+                        <p:column headerText="Palavras-Chave">
+                            #{item.palavrasChave()}
                         </p:column>
-                        <p:column headerText="Autor 2">
-                            #{item.autor2}
+                        <p:column headerText="Áreas de Conhecimento">
+                            #{item.areasConhecimento()}
                         </p:column>
                         <p:column headerText="Status">
                             #{item.status}

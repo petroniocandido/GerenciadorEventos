@@ -50,6 +50,9 @@ public class Submissao implements Entidade, Serializable {
     private Long id;
     
     @ManyToOne(fetch = FetchType.EAGER)
+    private Evento evento;
+    
+    @ManyToOne(fetch = FetchType.EAGER)
     private Inscricao inscricao;
     
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -404,6 +407,22 @@ public class Submissao implements Entidade, Serializable {
             }
         }
         return ac;
+    }
+    
+    String au = null;
+    public String autores(){
+        if(au == null){
+            au = "";
+            if(this.autor1 != null && !this.autor1.isEmpty())
+                au = this.autor1;
+            if(this.autor2 != null && !this.autor2.isEmpty())
+                au = au + "," + this.autor2;
+            if(this.autor3 != null && !this.autor3.isEmpty())
+                au = au + "," + this.autor3;
+            if(this.autor4 != null && !this.autor4.isEmpty())
+                au = au + "," + this.autor4;
+        }
+        return au;
     }
     
 

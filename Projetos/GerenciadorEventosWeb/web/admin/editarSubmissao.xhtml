@@ -19,6 +19,22 @@
                             <ui:include src="../comum/submissao.xhtml">
                             </ui:include>
                         </p:tab>  
+                        <p:tab title="Administrativo">
+                            <p:panelGrid columns="2">
+                                Status:
+                                <p:selectOneMenu value="#{submissaoController.entidade.status}">
+                                    <f:selectItems value="#{submissaoController.status}" />
+                                </p:selectOneMenu>
+                                Inscrição:
+                                <p:commandLink value="#{submissaoController.entidade.inscricao}" action="#{inscricaoItemController.abrir()}">
+                                    <f:setPropertyActionListener target="#{inscricaoItemController.entidade}" value="#{submissaoController.entidade.inscricao}" />
+                                </p:commandLink>
+                                Autor:
+                                <p:commandLink value="#{submissaoController.entidade.criador}" action="#{usuarioController.abrir()}">
+                                    <f:setPropertyActionListener target="#{usuarioController.entidade}" value="#{submissaoController.entidade.criador}" />
+                                </p:commandLink>
+                            </p:panelGrid>
+                        </p:tab>  
                         <p:tab id="tabFormulario" title="Formulário">
                             <c:if test="#{submissaoController.entidade.resposta ne null}">
                                 <h:outputText value="Respostas: " />

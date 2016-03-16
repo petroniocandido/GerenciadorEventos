@@ -10,12 +10,15 @@ import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
@@ -57,6 +60,12 @@ public class SubmissaoController
     InscricaoRepositorio daoInsc;
     
     @EJB
+    EventoRepositorio daoEvt;
+    
+    @EJB
+    AtividadeRepositorio daoAtiv;
+    
+    @EJB
     QuestionarioRepositorio questionarioDAO;
 
     @EJB
@@ -66,10 +75,17 @@ public class SubmissaoController
     
     String palavraChave;
     
+    Evento evento;
+    
+    Atividade atividade;
+    
     @Override
     public Submissao getFiltro() {
         if (filtro == null) {
             filtro = new Submissao();
+            String stat = getSessao("sbctrl_status");
+            if(stat != null)
+                filtro.setStatus( SubmissaoStatus.valueOf( stat ));
             filtro.setTitulo(getSessao("sbctrl_titulo"));
             filtro.setAutor1(getSessao("sbctrl_autor1"));
             filtro.setAutor2(getSessao("sbctrl_autor2"));
@@ -81,6 +97,7 @@ public class SubmissaoController
     public void setFiltro(Submissao filtro) {
         this.filtro = filtro;
         if (filtro != null) {
+            setSessao("sbctrl_status",filtro.getStatus().toString());
             setSessao("sbctrl_titulo",filtro.getTitulo());
             setSessao("sbctrl_autor1",filtro.getAutor1());
             setSessao("sbctrl_autor2",filtro.getAutor2());
@@ -110,6 +127,14 @@ public class SubmissaoController
         novo();
         
         return "submissao.xhtml";
+    }
+    
+    @Override
+    public List<Submissao> getListagem(){
+        if(getFiltro().getStatus() != null || getEvento() != null || getAtividade() != null)
+            return dao.Buscar(getFiltro(),getEvento(),getAtividade());
+        else
+            return dao.BuscarTexto(getFiltro().getTitulo());
     }
     
     @Override
@@ -328,6 +353,32 @@ public class SubmissaoController
         dao.Salvar(getEntidade());
 
     }
+
+    public Evento getEvento() {
+        if(evento == null){
+            evento = (Evento)getSessao("sbctrl_evt",daoEvt);
+        }
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+        setSessao("sbctrl_evt",evento);
+    }
+
+    public Atividade getAtividade() {
+        if(atividade == null){
+            atividade = (Atividade)getSessao("sbctrl_ativ",daoAtiv);
+        }
+        return atividade;
+    }
+
+    public void setAtividade(Atividade atividade) {
+        this.atividade = atividade;
+        setSessao("sbctrl_ativ",atividade);
+    }
+    
+    
 
 }
 
