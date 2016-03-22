@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='ISO-8859-1' ?>
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -17,9 +17,13 @@
                         <p:tab id="tabDados" title="Dados Gerais">  
                             <h:panelGrid columns="2">
                                 <h:outputLabel value="Nome*:" />
-                                <p:inputText size="35" value="${areaConhecimentoController.entidade.nome}" required="true" style="width: 150%"/>                      
+                                <p:inputText size="35" value="#{areaConhecimentoController.entidade.nome}" required="true" style="width: 150%"/>                      
                                 <h:outputLabel value="Código do CNPQ*:" />
-                                <p:inputText size="35" value="${areaConhecimentoController.entidade.numeroCNPQ}" required="true"/>                      
+                                <p:inputText size="35" value="#{areaConhecimentoController.entidade.numeroCNPQ}" required="true"/>                      
+                                <h:outputLabel value="Grande Área:" />
+                                <h:outputLabel value="#{areaConhecimentoController.entidade.getGrandeArea()}" />
+                                <h:outputLabel value="Área:" />
+                                <h:outputLabel value="#{areaConhecimentoController.entidade.area}" />
                             </h:panelGrid>
                         </p:tab>
                      <ui:include src="./comum/tabSeguranca.xhtml">

@@ -34,6 +34,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 /**
@@ -48,10 +49,7 @@ public class Submissao implements Entidade, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Evento evento;
-    
+      
     @ManyToOne(fetch = FetchType.EAGER)
     private Inscricao inscricao;
     
@@ -385,6 +383,7 @@ public class Submissao implements Entidade, Serializable {
         return true;
     }
     
+    @Transient
     String pl = null;
     public String palavrasChave(){
         if(pl == null){
@@ -397,6 +396,7 @@ public class Submissao implements Entidade, Serializable {
         return pl;
     }
     
+    @Transient
     String ac = null;
     public String areasConhecimento(){
         if(ac == null){
@@ -409,6 +409,7 @@ public class Submissao implements Entidade, Serializable {
         return ac;
     }
     
+    @Transient
     String au = null;
     public String autores(){
         if(au == null){
@@ -421,6 +422,8 @@ public class Submissao implements Entidade, Serializable {
                 au = au + "," + this.autor3;
             if(this.autor4 != null && !this.autor4.isEmpty())
                 au = au + "," + this.autor4;
+            if(this.autor5 != null && !this.autor4.isEmpty())
+                au = au + "," + this.autor5;
         }
         return au;
     }

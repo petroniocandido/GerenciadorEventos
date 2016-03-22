@@ -35,9 +35,8 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
                         <p:column headerText="Título">
-                            #{item.titulo}
-                        </p:column>
-                        <p:column headerText="Palavras Chave">
+                            <h:outputText value="#{item.titulo}" style="font-weight: bold" />
+                            <br />
                             #{item.palavrasChave()}
                         </p:column>
                         <p:column headerText="Áreas de Conhecimento">
@@ -46,7 +45,7 @@
                         <p:column headerText="Status">
                             #{item.status.descricao}
                         </p:column>
-                        <p:column >
+                        <p:column    >
                             <p:commandButton value="Avaliar" action="#{submissaoController.abreAvaliacao()}">
                                 <f:setPropertyActionListener target="#{submissaoController.entidade}" value="#{item}" />
                             </p:commandButton>

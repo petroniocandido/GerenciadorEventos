@@ -25,7 +25,7 @@
 
     <c:if test="#{arquivo ne  null}">
         <h:outputText value="#{nome}: " />
-        <h:outputLink value="arquivos/#{arquivo.uri}">Arquivo Atual</h:outputLink>
+        <h:outputLink value="#{request.contextPath}/arquivos/#{arquivo.uri}">Arquivo Atual</h:outputLink>
     </c:if>
     <h:outputText value="Enviar novo #{nome}: " />
     <p:fileUpload  fileUploadListener="#{controller.fileUploadListener}"  mode="advanced"

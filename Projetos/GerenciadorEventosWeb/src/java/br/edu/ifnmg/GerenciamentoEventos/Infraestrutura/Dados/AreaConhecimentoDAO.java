@@ -43,5 +43,19 @@ public class AreaConhecimentoDAO
     public AreaConhecimento Abrir(String numeroCNPQ) {
         return IgualA("numeroCNPQ", numeroCNPQ).Abrir();
     }
+    
+    @Override
+    public List<AreaConhecimento> GrandesAreas() {
+        return Like("numeroCNPQ", "_.00.00.00-_")
+                .Ordenar("numeroCNPQ", "ASC")
+                .Buscar();
+    }
+    
+    @Override
+    public List<AreaConhecimento> Areas() {
+        return Like("numeroCNPQ", "_.__.00.00-_")
+                .Ordenar("numeroCNPQ", "ASC")
+                .Buscar();
+    }
 
 }

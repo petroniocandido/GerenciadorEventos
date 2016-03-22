@@ -4,8 +4,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Arquivo;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
@@ -45,47 +43,48 @@ import org.primefaces.event.SelectEvent;
 @Named(value = "submissaoController")
 @RequestScoped
 public class SubmissaoController
-    extends ControllerBaseEntidade<Submissao> implements Serializable {
+        extends ControllerBaseEntidade<Submissao> implements Serializable {
 
     /**
      * Creates a new instance of SubmissaoController
      */
-    public SubmissaoController() {        
+    public SubmissaoController() {
     }
-    
+
     @EJB
     SubmissaoRepositorio dao;
-    
+
     @EJB
     InscricaoRepositorio daoInsc;
-    
+
     @EJB
     EventoRepositorio daoEvt;
-    
+
     @EJB
     AtividadeRepositorio daoAtiv;
-    
+
     @EJB
     QuestionarioRepositorio questionarioDAO;
 
     @EJB
     QuestionarioRespostaRepositorio respostaDAO;
-    
+
     AreaConhecimento areaConhecimento;
-    
+
     String palavraChave;
-    
+
     Evento evento;
-    
+
     Atividade atividade;
-    
+
     @Override
     public Submissao getFiltro() {
         if (filtro == null) {
             filtro = new Submissao();
             String stat = getSessao("sbctrl_status");
-            if(stat != null)
-                filtro.setStatus( SubmissaoStatus.valueOf( stat ));
+            if (stat != null) {
+                filtro.setStatus(SubmissaoStatus.valueOf(stat));
+            }
             filtro.setTitulo(getSessao("sbctrl_titulo"));
             filtro.setAutor1(getSessao("sbctrl_autor1"));
             filtro.setAutor2(getSessao("sbctrl_autor2"));
@@ -97,10 +96,10 @@ public class SubmissaoController
     public void setFiltro(Submissao filtro) {
         this.filtro = filtro;
         if (filtro != null) {
-            setSessao("sbctrl_status",filtro.getStatus().toString());
-            setSessao("sbctrl_titulo",filtro.getTitulo());
-            setSessao("sbctrl_autor1",filtro.getAutor1());
-            setSessao("sbctrl_autor2",filtro.getAutor2());
+            setSessao("sbctrl_status", filtro.getStatus().toString());
+            setSessao("sbctrl_titulo", filtro.getTitulo());
+            setSessao("sbctrl_autor1", filtro.getAutor1());
+            setSessao("sbctrl_autor2", filtro.getAutor2());
         }
     }
 
@@ -110,116 +109,123 @@ public class SubmissaoController
         setPaginaEdicao("editarSubmissao.xhtml");
         setPaginaListagem("listagemSubmissoes.xhtml");
     }
-    
+
     InscricaoItem inscricaoItem;
-    public InscricaoItem getInscricao(){
-        if(inscricaoItem == null){
+
+    public InscricaoItem getInscricao() {
+        if (inscricaoItem == null) {
             inscricaoItem = (InscricaoItem) getSessao("inscricaoItem", daoInsc);
         }
         return inscricaoItem;
     }
-    
+
     public String criaSubmissaoAtividade() {
-         
-        if(getInscricao() == null)
+
+        if (getInscricao() == null) {
             return "inscricaoAtividade.xhtml";
-        
+        }
+
         novo();
-        
+
         return "submissao.xhtml";
     }
-    
+
     @Override
-    public List<Submissao> getListagem(){
-        if(getFiltro().getStatus() != null || getEvento() != null || getAtividade() != null)
-            return dao.Buscar(getFiltro(),getEvento(),getAtividade());
-        else
+    public List<Submissao> getListagem() {
+        if (getFiltro().getStatus() != null || getEvento() != null || getAtividade() != null) {
+            return dao.Buscar(getFiltro(), getEvento(), getAtividade());
+        } else {
             return dao.BuscarTexto(getFiltro().getTitulo());
+        }
     }
-    
+
     @Override
     public void limpar() {
         setEntidade(new Submissao());
     }
-    
+
     public SubmissaoStatus[] getStatus() {
         return SubmissaoStatus.values();
     }
-    
+
     public AreaConhecimento getAreaConhecimento() {
         return areaConhecimento;
     }
-    
+
     @Override
-    public void salvar(){
-        
-        if(getInscricao() != null){
+    public void salvar() {
+
+        if (getInscricao() != null) {
             getEntidade().setInscricao(getInscricao());
         }
-        
+
         super.salvar();
-        
-        checagem();       
-      
+
+        checagem();
+
         setEntidade(entidade);
-      
-    }    
-    
+
+    }
+
     public String concluir() {
-        
-        if(checagem()){
+
+        if (checagem()) {
             entidade.pendente();
             super.salvar();
             return "minhasSubmissoes.xhtml";
         } else {
             return "";
         }
-        
+
     }
-    
+
     public boolean checagem() {
-        if(!entidade.hasAreaConhecimento())  {
-          Mensagem("Falha", "Você precisa adicionar pelo menos uma Área de conhecimento!");
-          return false;
-      }
-      
-      if(!entidade.hasPalavrasChave())  {
-          Mensagem("Falha", "Você precisa adicionar pelo menos uma Palavra-Chave!");
-          return false;
-      }
-      
-          if(!entidade.hasMinimoDeArquivos() ){
-              Mensagem("Falha", "Você precisa adicionar arquivos!");
-              return false;
-          }
-          
-          if(!entidade.hasMinimoDeAutores() ){
-              Mensagem("Falha", "Você precisa adicionar autores!");
-              return false;
-          }
-      
-      return true;
+        if (!entidade.hasAreaConhecimento()) {
+            Mensagem("Falha", "Você precisa adicionar pelo menos uma Área de conhecimento!");
+            return false;
+        }
+
+        if (!entidade.hasPalavrasChave()) {
+            Mensagem("Falha", "Você precisa adicionar pelo menos uma Palavra-Chave!");
+            return false;
+        }
+
+        if (!entidade.hasMinimoDeArquivos()) {
+            Mensagem("Falha", "Você precisa adicionar arquivos!");
+            return false;
+        }
+
+        if (!entidade.hasMinimoDeAutores()) {
+            Mensagem("Falha", "Você precisa adicionar autores!");
+            return false;
+        }
+
+        return true;
     }
-    
+
     public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
         this.areaConhecimento = areaConhecimento;
     }
-        
+
     public void addAreaConhecimento() {
-        getEntidade().add(areaConhecimento);
-        if(dao.Salvar(entidade)){
-            Mensagem("Sucesso", "Área de conhecimento adicionada com êxito!");
+        if (getEntidade().getAreasConhecimento().size() <= 2) {
+            getEntidade().add(areaConhecimento);
+            if (dao.Salvar(entidade)) {
+                Mensagem("Sucesso", "Área de conhecimento adicionada com êxito!");
+            } else {
+                Mensagem("Falha", "Falha ao adicionar Área de conhecimento!");
+                AppendLog("Erro ao anexar a Área de conhecimento " + String.valueOf(areaConhecimento) + " a submissão " + entidade + ":" + dao.getErro());
+            }
+            areaConhecimento = null;
         } else {
-            Mensagem("Falha", "Falha ao adicionar Área de conhecimento!");
-            AppendLog("Erro ao anexar a Área de conhecimento " + String.valueOf( areaConhecimento ) + " a submissão " + entidade + ":" + dao.getErro());
+            Mensagem("Atenção", "Devem ser cadastradas no máximo duas áreas de conhecimento!");
         }
-        areaConhecimento = null; 
     }
 
     public void removeAreaConhecimento() {
         getEntidade().remove(areaConhecimento);
         dao.Salvar(entidade);
-        areaConhecimento = null; 
+        areaConhecimento = null;
     }
 
     public String getPalavraChave() {
@@ -229,30 +235,33 @@ public class SubmissaoController
     public void setPalavraChave(String palavraChave) {
         this.palavraChave = palavraChave;
     }
-    
+
     public void addPalavraChave() {
-        getEntidade().add(palavraChave);
-        if(dao.Salvar(entidade)){
-            Mensagem("Sucesso", "Palavra chave adicionada com êxito!");
+        if (getEntidade().getPalavraschave().size() <= 5) {
+            getEntidade().add(palavraChave);
+            if (dao.Salvar(entidade)) {
+                Mensagem("Sucesso", "Palavra chave adicionada com êxito!");
+            } else {
+                Mensagem("Falha", "Falha ao adicionar palavra chave!");
+                AppendLog("Erro ao anexar a palavra chave " + String.valueOf(palavraChave) + " a submissão " + entidade + ":" + dao.getErro());
+            }
+            palavraChave = null;
         } else {
-            Mensagem("Falha", "Falha ao adicionar palavra chave!");
-            AppendLog("Erro ao anexar a palavra chave " + String.valueOf( palavraChave ) + " a submissão " + entidade + ":" + dao.getErro());
+            Mensagem("Atenção", "Devem ser cadastradas no máximo 5 palavras-chave!");
         }
-        palavraChave = null; 
     }
 
     public void removePalavraChave() {
         getEntidade().remove(palavraChave);
         dao.Salvar(entidade);
-        palavraChave = null; 
+        palavraChave = null;
     }
-    
-    
-    public void fileUploadListener(FileUploadEvent event) {  
+
+    public void fileUploadListener(FileUploadEvent event) {
         entidade = dao.Refresh(getEntidade());
         Arquivo tmp = criaArquivo(event.getFile());
-        String arq = (String)event.getComponent().getAttributes().get("arquivo");
-        switch(arq){
+        String arq = (String) event.getComponent().getAttributes().get("arquivo");
+        switch (arq) {
             case "Arquivo Identificado":
                 entidade.setArquivo1(tmp);
                 break;
@@ -260,29 +269,30 @@ public class SubmissaoController
                 entidade.setArquivo2(tmp);
                 break;
         }
-        
-        if(dao.Salvar(entidade)){
+
+        if (dao.Salvar(entidade)) {
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             AppendLog("Anexou o arquivo " + tmp + " a submissão " + entidade);
         } else {
             Mensagem("Falha", "Falha ao anexar o arquivo!");
             AppendLog("Erro ao anexar o arquivo " + tmp + " a submissão " + entidade + ":" + dao.getErro());
-        }        
+        }
     }
-    
+
     public GenericDataModel getPublicoDataModel() {
         return new GenericDataModel<>(getPublicoListagem(), repositorio);
     }
-    
-    public List<Submissao> getPublicoListagem(){
+
+    public List<Submissao> getPublicoListagem() {
         InscricaoItem inscricaoItem = (InscricaoItem) getSessao("inscricaoItem", daoInsc);
-        if(inscricaoItem == null)
+        if (inscricaoItem == null) {
             return null;
-        
+        }
+
         return dao.IgualA("inscricao", inscricaoItem).Buscar();
     }
-    
-     public void onPublicoRowSelect(SelectEvent event) {
+
+    public void onPublicoRowSelect(SelectEvent event) {
         try {
             Submissao obj = (Submissao) event.getObject();
             setId(obj.getId());
@@ -292,20 +302,20 @@ public class SubmissaoController
             AppendLog("Falha ao abrir submissão:" + ex);
         }
     }
-     
+
     public String abreAvaliacao() {
         setSessao("inscricaoItem", getEntidade().getInscricao());
         return "submissaoAvaliar.xhtml";
     }
-     
+
     public void processaQuestionario() {
 
         //i = inscricaoDAO.Refresh(i);
         QuestionarioResposta resposta = getEntidade().getResposta();
 
         if (resposta == null) {
-            Questionario qr = ((InscricaoItem)getEntidade().getInscricao()).getAtividade().getQuestionario();
-            
+            Questionario qr = ((InscricaoItem) getEntidade().getInscricao()).getAtividade().getQuestionario();
+
             resposta = new QuestionarioResposta(getUsuarioCorrente(), qr);
         } else {
             resposta = respostaDAO.Refresh(resposta);
@@ -355,30 +365,27 @@ public class SubmissaoController
     }
 
     public Evento getEvento() {
-        if(evento == null){
-            evento = (Evento)getSessao("sbctrl_evt",daoEvt);
+        if (evento == null) {
+            evento = (Evento) getSessao("sbctrl_evt", daoEvt);
         }
         return evento;
     }
 
     public void setEvento(Evento evento) {
         this.evento = evento;
-        setSessao("sbctrl_evt",evento);
+        setSessao("sbctrl_evt", evento);
     }
 
     public Atividade getAtividade() {
-        if(atividade == null){
-            atividade = (Atividade)getSessao("sbctrl_ativ",daoAtiv);
+        if (atividade == null) {
+            atividade = (Atividade) getSessao("sbctrl_ativ", daoAtiv);
         }
         return atividade;
     }
 
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
-        setSessao("sbctrl_ativ",atividade);
+        setSessao("sbctrl_ativ", atividade);
     }
-    
-    
 
 }
-

@@ -22,24 +22,23 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets" >
     <p:panelGrid columns="3">
-        <p:outputLabel value="Area de Conhecimento:" />           
-        <p:autoComplete  id="txtAreaConhecimento"
-                         converter="#{areaConhecimentoConverter}" value="#{controller.areaConhecimento}"
-                         completeMethod="#{areaConhecimentoConverter.autoCompleteAreaConhecimento}" size="140"
-                         var="item" itemLabel="#{item}" itemValue="#{item}">
-            #{item}
-        </p:autoComplete>
-        <p:commandButton value="Adicionar" update="txtAreaConhecimento tblAreaConhecimento" action="#{controller.addAreaConhecimento}" />
+        <p:outputLabel value="Area de Conhecimento:" />  
+        <p:selectOneMenu converter="#{areaConhecimentoConverter}" value="#{controller.areaConhecimento}">
+            <f:selectItem itemLabel="Escolha a área de conhecimento" noSelectionOption="true" />
+            <f:selectItems value="#{areaConhecimentoConverter.areas}" />
+        </p:selectOneMenu>
+   
+        <p:commandButton value="Adicionar" update="tblAreaConhecimento" action="#{controller.addAreaConhecimento()}" />
 
     </p:panelGrid> 
 
     <p:dataTable id="tblAreaConhecimento"  value="#{colecao}" var="item" >
         <p:column headerText="Área de Conhecimento" >
             #{item}
-        </p:column>                                                     
+        </p:column>
 
         <p:column sortBy="remover" headerText="Remover" >
-            <p:commandButton ajax="false" value="Remover"  action="#{controller.removeAreaConhecimento}">
+            <p:commandButton ajax="false" value="Remover"  action="#{controller.removeAreaConhecimento()}">
                 <f:setPropertyActionListener target="#{controller.areaConhecimento}" value="#{item}" />
             </p:commandButton>
         </p:column>

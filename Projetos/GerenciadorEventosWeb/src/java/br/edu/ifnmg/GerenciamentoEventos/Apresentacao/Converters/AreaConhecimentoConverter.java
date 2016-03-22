@@ -28,6 +28,8 @@ public class AreaConhecimentoConverter
     @EJB
     AreaConhecimentoRepositorio dao;
 
+    List<AreaConhecimento> areas;
+    
     @PostConstruct
     public void init() {
         setRepositorio(dao);
@@ -35,5 +37,11 @@ public class AreaConhecimentoConverter
     
     public List<AreaConhecimento> autoCompleteAreaConhecimento(String query) {
        return dao.BuscarTexto(query);
+    }
+    
+    public List<AreaConhecimento> getAreas() {
+        if(areas == null)
+            areas = dao.Areas();
+       return areas;
     }
 }

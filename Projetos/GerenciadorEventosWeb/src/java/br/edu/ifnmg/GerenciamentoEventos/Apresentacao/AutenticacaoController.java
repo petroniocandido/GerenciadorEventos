@@ -264,9 +264,13 @@ public class AutenticacaoController
     
     
     public void addAreaConhecimento() {
-        getUsuario().add(areaConhecimento);
-        dao.Salvar(usuario);
-        areaConhecimento = null; 
+        if(getUsuario().getAreasConhecimento().size() <= 3) {
+            getUsuario().add(areaConhecimento);
+            dao.Salvar(usuario);
+            areaConhecimento = null; 
+        } else {
+            Mensagem("Atenção!", "Devem ser cadastradas no máximo 3 áreas de conhecimento! ");
+        }
     }
 
     public void removeAreaConhecimento() {
