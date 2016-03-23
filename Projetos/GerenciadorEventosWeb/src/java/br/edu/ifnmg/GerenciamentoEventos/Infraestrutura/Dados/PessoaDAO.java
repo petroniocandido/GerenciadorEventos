@@ -16,6 +16,8 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
+import br.edu.ifnmg.DomainModel.Perfil;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.*;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
@@ -98,6 +100,16 @@ public class PessoaDAO
                 .setParameter(1, f)
                 .getResultList();
         return list;
+    }
+    
+    @Override
+    public List<AreaConhecimento> AvaliadoresPorAreas(Perfil p) {
+        Query query = getManager()
+                .createQuery("Select ac from Pessoa p join p.areasConhecimento ac where p.perfil =:perfil "
+                        + "order by ac.numeroCNPQ");
+        query.setParameter("perfil", p);
+        
+        return query.getResultList();        
     }
 
 }

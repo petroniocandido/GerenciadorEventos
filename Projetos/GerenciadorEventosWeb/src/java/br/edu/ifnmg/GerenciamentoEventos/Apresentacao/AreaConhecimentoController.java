@@ -59,5 +59,19 @@ public class AreaConhecimentoController
     public void limpar() {
         setEntidade(new AreaConhecimento());
     }
+    
+    public void reindexar() {
+        for(AreaConhecimento ac : dao.Buscar()){
+            if(!ac.isGrandeArea()) {
+                ac.setGrandeArea(dao.Abrir(ac.getGrandeAreaCodigo()));
+                ac.setSuperArea(dao.Abrir(ac.getPaiCodigo()));
+            }
+            
+            if(!ac.isArea())
+                ac.setArea(dao.Abrir(ac.getAreaCodigo()));
+            
+            dao.Salvar(ac);
+        }
+    }
 }
 

@@ -4,12 +4,14 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
 import java.util.List;
 import javax.ejb.Singleton;
+import javax.persistence.Query;
 
 /**
  *
@@ -35,10 +37,10 @@ public class SubmissaoDAO
                 .Ordenar("titulo", "ASC")
                 .Buscar();
     }
-    
+
     @Override
     public List<Submissao> Buscar(Submissao filtro, Evento e, Atividade a) {
-        Join("inscricao","i");
+        Join("inscricao", "i");
         return IgualA("id", filtro.getId())
                 .IgualA("inscricao", filtro.getInscricao())
                 .IgualA("status", filtro.getStatus())
@@ -50,16 +52,27 @@ public class SubmissaoDAO
                 .Ordenar("titulo", "ASC")
                 .Buscar();
     }
-    
-              
+
+    @Override
+    public List<AreaConhecimento> AreasPorEvento(Evento e) {
+        Query query = getManager()
+                .createQuery("Select ac from Submissao s "
+                        + "join s.inscricao i join s.areasConhecimento ac "
+                        + "where i.evento =:evento "
+                        + "order by ac.numeroCNPQ");
+        query.setParameter("evento", e);
+        
+        return query.getResultList();
+        
+    }
+
     @Override
     public List<Submissao> BuscarTexto(String filtro) {
         List<Submissao> list = getManager()
                 .createNativeQuery("SELECT * FROM submissoes WHERE MATCH(titulo,resumo,autor1,autor2,autor3,autor4,autor5) AGAINST(? IN BOOLEAN MODE)", Submissao.class)
-                .setParameter(1, filtro+"*")
+                .setParameter(1, filtro + "*")
                 .getResultList();
         return list;
     }
 
-   
 }

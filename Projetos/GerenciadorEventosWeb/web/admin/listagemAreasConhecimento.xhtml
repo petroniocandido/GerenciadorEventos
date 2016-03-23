@@ -19,12 +19,13 @@
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
                                 <h:outputLabel id="txtNome" value="Nome:" />
-                                <p:inputText value="${areaConhecimentoController.filtro.nome}"/>  
+                                <p:inputText value="#{areaConhecimentoController.filtro.nome}"/>  
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{areaConhecimentoController}"  />
                                 <ui:param name="campos" value="txtNome"  />
                             </ui:include>
+                            <p:commandButton value="Reindexar" ajax="false" action="#{areaConhecimentoController.reindexar()}" />
                         </p:tab>
                     </p:accordionPanel>
 

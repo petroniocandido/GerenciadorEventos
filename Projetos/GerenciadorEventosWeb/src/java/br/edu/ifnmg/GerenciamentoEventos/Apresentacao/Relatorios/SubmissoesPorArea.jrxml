@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Submissões por Área" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="28"/>
+	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="titulo" class="java.lang.String"/>
+	<parameter name="data" class="java.util.Date"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="numeroCNPQ" class="java.lang.String"/>
+	<variable name="contador" class="java.lang.Integer" resetType="Group" resetGroup="Area de Conhecimento" calculation="Count">
+		<variableExpression><![CDATA[$F{numeroCNPQ}]]></variableExpression>
+	</variable>
+	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<group name="Area de Conhecimento">
+		<groupExpression><![CDATA[$F{numeroCNPQ}]]></groupExpression>
+		<groupFooter>
+			<band height="27">
+				<textField>
+					<reportElement x="4" y="0" width="100" height="20" uuid="af3eb5d4-32f4-494a-ba6e-fbf8e284f642"/>
+					<textFieldExpression><![CDATA[$F{numeroCNPQ}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="104" y="0" width="350" height="20" uuid="ff2a64dc-257a-4949-b067-75b2ef0a1e75"/>
+					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="455" y="0" width="100" height="20" uuid="8b809804-25ee-4582-b072-f9771ee4ad7a"/>
+					<textFieldExpression><![CDATA[$V{contador}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="215" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="152" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="440" y="190" width="114" height="23" uuid="ddc5275f-6c74-4095-8a0a-a3961bb69a95"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="190" width="439" height="23" uuid="9acac1ba-47d8-4411-a848-9c9dd47ffa83"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Área de Conhecimento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="153" width="555" height="37" uuid="7879af7e-d140-46d2-bbd9-0df54fcc0e83"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{titulo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnFooter>
+		<band height="24" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="41">
+			<elementGroup/>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="442" y="10" width="36" height="20" uuid="8773bf20-a1c2-4029-944b-05578110e551"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="10" width="42" height="20" uuid="23556b8b-d083-49a8-aed0-85cc5898732e"/>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement positionType="FixRelativeToBottom" x="517" y="10" width="39" height="20" uuid="544f5262-abe0-4f5a-85f4-2de3dc68121e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="154" y="10" width="130" height="20" uuid="2c1b81ae-906f-4980-990e-a672f984e0ed"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="10" width="153" height="20" uuid="862da493-3a7e-4118-8c76-1d1a6b91922a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Impressão:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="10" width="28" height="20" uuid="4bf975e1-0c26-4477-b74e-cb8abdb8f173"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

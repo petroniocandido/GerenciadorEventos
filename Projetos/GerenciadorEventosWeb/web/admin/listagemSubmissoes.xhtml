@@ -34,7 +34,8 @@
                                     <f:selectItems value="#{submissaoController.status}" />
                                 </h:selectOneMenu>
                                 <h:outputLabel value="Título e autores:" />
-                                <h:inputText value="#{submissaoController.filtro.titulo}" />                                
+                                <h:inputText value="#{submissaoController.filtro.titulo}" /> 
+                                <p:commandButton value="Reindexar" ajax="false" action="#{submissaoController.reindexarAreasConhecimento()}" />
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{submissaoController}"  />

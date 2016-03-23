@@ -25,7 +25,7 @@
         <p:outputLabel value="Area de Conhecimento:" />  
         <p:selectOneMenu converter="#{areaConhecimentoConverter}" value="#{controller.areaConhecimento}">
             <f:selectItem itemLabel="Escolha a área de conhecimento" noSelectionOption="true" />
-            <f:selectItems value="#{areaConhecimentoConverter.areas}" />
+            <f:selectItems value="#{areaConhecimentoConverter.areas}"  />
         </p:selectOneMenu>
    
         <p:commandButton value="Adicionar" update="tblAreaConhecimento" action="#{controller.addAreaConhecimento()}" />

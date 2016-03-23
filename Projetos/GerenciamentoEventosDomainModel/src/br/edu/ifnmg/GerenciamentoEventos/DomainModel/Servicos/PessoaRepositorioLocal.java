@@ -6,6 +6,8 @@
 
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
+import br.edu.ifnmg.DomainModel.Perfil;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.PessoaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
@@ -20,5 +22,6 @@ import javax.ejb.Local;
 @Local
 public interface PessoaRepositorioLocal extends PessoaRepositorio {
     public List<Pessoa> Buscar(Evento e);
-    public List<Pessoa> Buscar(Atividade a);    
+    public List<Pessoa> Buscar(Atividade a); 
+    public List<AreaConhecimento> AvaliadoresPorAreas(Perfil p);
 }

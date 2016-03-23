@@ -17,11 +17,16 @@
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
+import br.edu.ifnmg.DomainModel.Campus;
 import br.edu.ifnmg.DomainModel.Perfil;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.DomainModel.Services.AreaConhecimentoRepositorio;
+import br.edu.ifnmg.DomainModel.Services.CampusRepositorio;
 import br.edu.ifnmg.DomainModel.Services.HashService;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.DomainModel.Services.PerfilRepositorio;
+import br.edu.ifnmg.DomainModel.Titulacao;
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -52,6 +57,11 @@ public class PessoaController
     PessoaRepositorioLocal dao;
     @EJB
     PerfilRepositorio daoP;
+    @EJB
+    CampusRepositorio daoC;
+    @EJB
+    AreaConhecimentoRepositorio daoAC;
+    
     @Inject
     HashService hash;
     
@@ -74,6 +84,9 @@ public class PessoaController
             filtro.setNome(getSessao("pctrl_nome"));
             filtro.setCpf(getSessao("pctrl_cpf"));
             filtro.setEmail(getSessao("pctrl_email"));
+            filtro.setCampus((Campus)getSessao("pctrl_campus",daoC));
+            if(getSessao("pctrl_titulacao") != null && !getSessao("pctrl_titulacao").isEmpty())
+                filtro.setTitulacaoMaxima(Titulacao.valueOf(getSessao("pctrl_titulacao")));
         }
         return filtro;
     }
@@ -86,6 +99,9 @@ public class PessoaController
             setSessao("pctrl_nome", filtro.getNome());
             setSessao("pctrl_cpf", filtro.getCpf());
             setSessao("pctrl_email", filtro.getEmail());
+            setSessao("pctrl_campus", filtro.getCampus());
+            if(filtro.getTitulacaoMaxima() != null)
+                setSessao("pctrl_titulacao", filtro.getTitulacaoMaxima().name());
         }
     }
 
@@ -138,10 +154,13 @@ public class PessoaController
     
 
     public AreaConhecimento getAreaConhecimento() {
+        if(areaConhecimento == null)
+            areaConhecimento = (AreaConhecimento)getSessao("pctrl_ac",daoAC);
         return areaConhecimento;
     }
 
     public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
+        setSessao("pctrl_ac", areaConhecimento);
         this.areaConhecimento = areaConhecimento;
     }
     
@@ -168,6 +187,48 @@ public class PessoaController
             return dao.Buscar(getFiltro());
         else
             return dao.BuscarTexto(getFiltro());
+    }
+    
+    public List<Pessoa> getListagemAvaliadores() {
+        return dao
+                .IgualA("perfil", daoP.Abrir( Long.parseLong( getConfiguracao("PERFILSELECAOAVALIADOR") ) ))
+                .Like("nome", getFiltro().getNome())
+                .IgualA("campus", getFiltro().getCampus())
+                .IgualA("titulacaoMaxima", getFiltro().getTitulacaoMaxima())
+                .Join("areasConhecimento", "ac")
+                .IgualA("ac.id", areaConhecimento)
+                .Buscar();
+    }
+    
+    public GenericDataModel getAvaliadoresDataModel() {
+        return new GenericDataModel<>(getListagemAvaliadores(), repositorio);
+    }
+    
+    public void reindexarAreasConhecimento() {
+        for (Pessoa s : dao
+                .IgualA("perfil", daoP.Abrir( Long.parseLong( getConfiguracao("PERFILSELECAOAVALIADOR") ) ))
+                .Buscar()) {
+            if (!s.getAreasConhecimento().isEmpty()) {
+                List<AreaConhecimento> remover = new ArrayList<>();
+                List<AreaConhecimento> adicionar = new ArrayList<>();
+                for (AreaConhecimento a : s.getAreasConhecimento()) {
+                    if (!a.isArea() && !a.isGrandeArea()) {
+                        remover.add(a);
+                        AreaConhecimento tmp = daoAC.Abrir(a.getAreaCodigo());
+                        adicionar.add(tmp);
+                    }
+                }
+                for (AreaConhecimento c : remover) {
+                    s.remove(c);
+                }
+                for (AreaConhecimento c : adicionar) {
+                    s.add(c);
+                }
+                if (!dao.Salvar(s)) {
+                    AppendLog(dao.getErro().getMessage());
+                }
+            }
+        }
     }
 
 }

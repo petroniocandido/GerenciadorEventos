@@ -6,6 +6,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Arquivo;
+import br.edu.ifnmg.DomainModel.Services.AreaConhecimentoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
@@ -26,6 +27,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -62,6 +64,9 @@ public class SubmissaoController
 
     @EJB
     AtividadeRepositorio daoAtiv;
+
+    @EJB
+    AreaConhecimentoRepositorio daoArea;
 
     @EJB
     QuestionarioRepositorio questionarioDAO;
@@ -386,6 +391,31 @@ public class SubmissaoController
     public void setAtividade(Atividade atividade) {
         this.atividade = atividade;
         setSessao("sbctrl_ativ", atividade);
+    }
+
+    public void reindexarAreasConhecimento() {
+        for (Submissao s : dao.Buscar()) {
+            if (!s.getAreasConhecimento().isEmpty()) {
+                List<AreaConhecimento> remover = new ArrayList<>();
+                List<AreaConhecimento> adicionar = new ArrayList<>();
+                for (AreaConhecimento a : s.getAreasConhecimento()) {
+                    if (!a.isArea() && !a.isGrandeArea()) {
+                        remover.add(a);
+                        AreaConhecimento tmp = daoArea.Abrir(a.getAreaCodigo());
+                        adicionar.add(tmp);
+                    }
+                }
+                for (AreaConhecimento c : remover) {
+                    s.remove(c);
+                }
+                for (AreaConhecimento c : adicionar) {
+                    s.add(c);
+                }
+                if (!dao.Salvar(s)) {
+                    AppendLog(dao.getErro().getMessage());
+                }
+            }
+        }
     }
 
 }

@@ -52,7 +52,11 @@
                     <p:submenu label="Inscrições">
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoes.xhtml')}" value="Inscrições no Evento" url="listagemInscricoes.xhtml"  />
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemInscricoesAtividade.xhtml')}" value="Inscrições Por Atividade" url="listagemInscricoesAtividade.xhtml"  />
-                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemSubmissoes.xhtml')}" value="Submissões" url="listagemSubmissoes.xhtml"  />
+                        
+                    </p:submenu>
+                    <p:submenu label="Submissões">
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemSubmissoes.xhtml')}" value="Listagem" url="listagemSubmissoes.xhtml"  />
+                        <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAvaliadores.xhtml')}" value="Avaliadores" url="listagemAvaliadores.xhtml"  />
                     </p:submenu>
                     <p:submenu label="Credenciamento">
                         <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/credenciamentoBusca.xhtml')}" value="Individual "  url="credenciamentoBusca.xhtml"  />
@@ -61,7 +65,7 @@
                     </p:submenu>
                     
                 </p:submenu>
-                <p:menuitem  value="Avaliação de Trabalhos" url="submissoesParaAvaliacao.xhtml"  />
+                
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Financeiro')}" label="Financeiro">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemPagSeguroPerfis.xhtml')}"  value="Perfis do PagSeguro" url="listagemPagSeguroPerfis.xhtml" />                    
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemLancamentos.xhtml')}"  value="Lançamentos" url="listagemLancamentos.xhtml" />                    
@@ -79,6 +83,10 @@
                     <p:submenu label="Financeiro">
                         <p:menuitem  value="Resumo de Lançamentos por Evento" url="relatorioLancamentosCategoriaSintese.xhtml"  />
                         <p:menuitem  value="Lançamentos" url="relatorioLancamentos.xhtml"  />
+                    </p:submenu>
+                    <p:submenu label="Submissões">
+                        <p:menuitem  value="Submissões por Área" url="relatorioSubmissoesPorArea.xhtml"  />
+                        <p:menuitem  value="Avaliadores por Área" ajax="false" action="#{avaliadoresPorAreaController.executaRelatorioPDF}"   />
                     </p:submenu>
                     <p:menuitem  value="Alocações" url="relatorioAlocacoesPorEvento.xhtml"  />
                     <p:menuitem  value="Atividades" url="relatorioAtividadesEvento.xhtml"  />

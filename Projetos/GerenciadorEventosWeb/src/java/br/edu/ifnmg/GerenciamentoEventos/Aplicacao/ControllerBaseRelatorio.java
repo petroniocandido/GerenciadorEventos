@@ -16,19 +16,18 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Aplicacao;
 
-import br.edu.ifnmg.DomainModel.Entidade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletOutputStream;
@@ -46,7 +45,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  * @author petronio
  * @param <T>
  */
-public abstract class ControllerBaseRelatorio<T extends Entidade> extends ControllerBase {
+public abstract class ControllerBaseRelatorio<T> extends ControllerBase {
 
     @EJB
     EventoRepositorio daoEvento;
@@ -57,11 +56,11 @@ public abstract class ControllerBaseRelatorio<T extends Entidade> extends Contro
 
     Evento evento;
     
-    private List<T> dados;
+    private Collection<T> dados;
 
     protected abstract Map<String, Object> carregaParametros();
 
-    public abstract List<T> getDados();
+    public abstract Collection<T> getDados();
 
     public Map<String, Object> getParametrosComuns() throws MalformedURLException {
         HashMap<String, Object> par = new HashMap<>();
