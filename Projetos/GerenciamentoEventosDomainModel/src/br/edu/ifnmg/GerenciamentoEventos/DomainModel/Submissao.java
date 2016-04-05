@@ -103,18 +103,36 @@ public class Submissao implements Entidade, Serializable {
     
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = AreaConhecimento.class)
     private List<AreaConhecimento> areasConhecimento;
+    
+    @ManyToMany(targetEntity = Pessoa.class)
+    private List<Pessoa> avaliadores;
 
     public Submissao() {
         this.palavraschave = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
         this.areasConhecimento = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
+        this.avaliadores = new ArrayList<>();
         this.status = SubmissaoStatus.EmEdicao;
         this.autor3 = "";
         this.autor4 = "";
         this.autor5 = "";
     }
-     
+    
+    public void add(Pessoa avaliador) {
+        if(avaliador == null) return;
+        if (!avaliadores.contains(avaliador)) {
+            avaliadores.add(avaliador);
+        }
+    }
+
+    public void remove(Pessoa avaliador) {
+        if(avaliador == null) return;
+        if (avaliadores.contains(avaliador)) {
+            avaliadores.remove(avaliador);
+        }
+    }
+    
     public void add(SubmissaoAvaliacao avaliacao) {
         if (!avaliacoes.contains(avaliacao)) {
             avaliacoes.add(avaliacao);
@@ -349,6 +367,16 @@ public class Submissao implements Entidade, Serializable {
         this.status = status;
     }
 
+    public List<Pessoa> getAvaliadores() {
+        return avaliadores;
+    }
+
+    public void setAvaliadores(List<Pessoa> avaliadores) {
+        this.avaliadores = avaliadores;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -431,7 +459,7 @@ public class Submissao implements Entidade, Serializable {
 
     @Override
     public String toString() {
-        return id.toString();
+        return (titulo != null ? titulo + "(": "(") + id.toString() + ")";
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

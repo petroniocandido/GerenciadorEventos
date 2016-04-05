@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Submissões por Área" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="28"/>
+	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="data" class="java.util.Date"/>
+	<field name="nome" class="java.lang.Object"/>
+	<variable name="contador" class="java.lang.Integer" resetType="Group" resetGroup="Campus" calculation="Count">
+		<variableExpression><![CDATA[$F{nome}]]></variableExpression>
+	</variable>
+	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<group name="Campus">
+		<groupExpression><![CDATA[$F{nome}]]></groupExpression>
+		<groupFooter>
+			<band height="27">
+				<textField>
+					<reportElement x="460" y="7" width="100" height="20" uuid="c631ed54-6162-415a-9073-299632006287"/>
+					<textFieldExpression><![CDATA[$V{contador}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="4" y="7" width="338" height="20" uuid="468d1867-dab7-4eee-8cee-51da669631b3"/>
+					<textFieldExpression><![CDATA[""+$F{nome}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="215" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="152" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="4" y="168" width="551" height="35" uuid="56019bcc-16c5-4795-a33a-22f05c7b7506"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Submissões por Campus]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnFooter>
+		<band height="24" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="41">
+			<elementGroup/>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="442" y="10" width="36" height="20" uuid="8773bf20-a1c2-4029-944b-05578110e551"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="10" width="42" height="20" uuid="23556b8b-d083-49a8-aed0-85cc5898732e"/>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement positionType="FixRelativeToBottom" x="517" y="10" width="39" height="20" uuid="544f5262-abe0-4f5a-85f4-2de3dc68121e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="154" y="10" width="130" height="20" uuid="2c1b81ae-906f-4980-990e-a672f984e0ed"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="10" width="153" height="20" uuid="862da493-3a7e-4118-8c76-1d1a6b91922a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Impressão:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="10" width="28" height="20" uuid="4bf975e1-0c26-4477-b74e-cb8abdb8f173"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

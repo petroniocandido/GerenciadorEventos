@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Listagem de Avaliadores" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="28"/>
+	<parameter name="banner" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="data" class="java.util.Date"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="campus" class="java.lang.Object"/>
+	<field name="tratamento.descricao" class="java.lang.String"/>
+	<field name="titulacaoMaxima.descricao" class="java.lang.String"/>
+	<field name="atuacao.descricao" class="java.lang.String"/>
+	<field name="areasConhecimento" class="java.util.Collection"/>
+	<variable name="pagina" class="java.lang.Integer" incrementType="Page" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="193" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="4" y="1" width="551" height="152" uuid="8a50d38c-5c74-43e6-a438-ed64d0be1bfa"/>
+				<imageExpression><![CDATA[$P{banner}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="4" y="153" width="550" height="37" uuid="1302f5fe-06cf-42b6-af8f-01722d1b86e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Listagem de Avaliadores]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20"/>
+	</columnHeader>
+	<detail>
+		<band height="88">
+			<textField>
+				<reportElement x="2" y="0" width="57" height="20" uuid="bc04ea44-ddc6-4415-99db-a859a4bf9535"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tratamento.descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="61" y="0" width="493" height="20" uuid="05e637e0-5a48-4b8c-946d-9c7e811cc1ba"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="21" width="154" height="20" uuid="77af6c22-9550-4473-8bd7-8f814d3651f0"/>
+				<textFieldExpression><![CDATA[""+$F{campus}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="21" width="140" height="20" uuid="11a16447-1814-4496-bf93-1a39c13f45c9"/>
+				<textFieldExpression><![CDATA[$F{atuacao.descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="21" width="241" height="20" uuid="73fe25f7-351e-4db3-885c-6683da661e3d"/>
+				<textFieldExpression><![CDATA[$F{titulacaoMaxima.descricao}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="70" width="552" height="1" uuid="d069b5b6-f4c8-455c-b5a0-df44fe1178c8"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="43" width="554" height="20" uuid="5d9815e2-af70-4597-9397-9945e8cd7123"/>
+				<textFieldExpression><![CDATA[""+$F{areasConhecimento}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="24" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="41">
+			<elementGroup/>
+			<textField>
+				<reportElement positionType="FixRelativeToBottom" x="442" y="10" width="36" height="20" uuid="8773bf20-a1c2-4029-944b-05578110e551"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="400" y="10" width="42" height="20" uuid="23556b8b-d083-49a8-aed0-85cc5898732e"/>
+				<text><![CDATA[Página]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement positionType="FixRelativeToBottom" x="517" y="10" width="39" height="20" uuid="544f5262-abe0-4f5a-85f4-2de3dc68121e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="154" y="10" width="130" height="20" uuid="2c1b81ae-906f-4980-990e-a672f984e0ed"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{data}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="10" width="153" height="20" uuid="862da493-3a7e-4118-8c76-1d1a6b91922a"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Data de Impressão:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="489" y="10" width="28" height="20" uuid="4bf975e1-0c26-4477-b74e-cb8abdb8f173"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

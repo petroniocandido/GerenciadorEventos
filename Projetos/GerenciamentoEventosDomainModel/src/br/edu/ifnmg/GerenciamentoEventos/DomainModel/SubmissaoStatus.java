@@ -13,6 +13,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 public enum SubmissaoStatus  {
     EmEdicao(false,"Em Edição"),
     Pendente(false,"Avaliação Pendente"),
+    Atribuido(false,"Distribuído para avaliação"),
     PrimeiraAvaliacao(false,"1ª Avaliação"),
     SegundaAvaliacao(false,"2ª Avaliação"),
     Divergencia(false,"Divergência entre as avaliações"),

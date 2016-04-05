@@ -35,6 +35,30 @@
                                 </p:commandLink>
                             </p:panelGrid>
                         </p:tab>  
+                        <p:tab title="Avaliadores">
+                            <p:panelGrid columns="2">
+                                Avaliador
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{submissaoController.avaliador}"
+                                                completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
+                                                itemLabel="#{item.nome}" itemValue="#{item}">
+                                    #{item.nome}
+                                </p:autoComplete>
+
+                                <p:commandButton value="Adicionar" ajax="false" action="#{submissaoController.addAvaliador()}" />
+                            </p:panelGrid>
+                            <p:dataTable id="tblAvaliadores"  value="#{submissaoController.entidade.avaliadores}" var="item" >
+                                <p:column headerText="Avaliador" >
+                                    #{item.nome} <br />
+                                    #{item.areasConhecimento()}
+                                </p:column>
+
+                                <p:column sortBy="remover" headerText="Remover" >
+                                    <p:commandButton ajax="false" value="Remover"  action="#{submissaoController.removeAvaliador()}">
+                                        <f:setPropertyActionListener target="#{submissaoController.avaliador}" value="#{item}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>  
                         <p:tab id="tabFormulario" title="Formulário">
                             <c:if test="#{submissaoController.entidade.resposta ne null}">
                                 <h:outputText value="Respostas: " />

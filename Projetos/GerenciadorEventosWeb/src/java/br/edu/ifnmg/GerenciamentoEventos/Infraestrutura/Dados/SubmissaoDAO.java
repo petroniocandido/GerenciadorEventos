@@ -5,10 +5,12 @@
 package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
+import br.edu.ifnmg.DomainModel.Campus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
 import java.util.List;
 import javax.ejb.Singleton;
 import javax.persistence.Query;
@@ -65,6 +67,18 @@ public class SubmissaoDAO
         return query.getResultList();
         
     }
+    
+    @Override
+    public List<Campus> CampusPorEvento(Evento e, SubmissaoStatus s){
+         Query query = getManager()
+                .createQuery("Select c from Submissao s "
+                        + "join s.inscricao i join i.pessoa p join p.campus c "
+                        + "where i.evento =:evento and s.status =:status "
+                        + "order by c.nome");
+        query.setParameter("evento", e).setParameter("status", s);
+        
+        return query.getResultList();
+    }
 
     @Override
     public List<Submissao> BuscarTexto(String filtro) {
@@ -73,6 +87,17 @@ public class SubmissaoDAO
                 .setParameter(1, filtro + "*")
                 .getResultList();
         return list;
+    }
+    
+    @Override
+    public List<Submissao> Buscar(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a){
+        Join("inscricao", "i").Join("areasConhecimento", "ac");
+        return IgualA("status", status)
+                .IgualA("i.evento", e)
+                .IgualA("i.atividade", at)
+                .IgualA("ac.id", a.getId())
+                .Ordenar("titulo", "ASC")
+                .Buscar();
     }
 
 }

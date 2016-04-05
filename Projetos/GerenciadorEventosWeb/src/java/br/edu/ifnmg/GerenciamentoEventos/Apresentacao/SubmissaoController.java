@@ -6,6 +6,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Arquivo;
+import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.AreaConhecimentoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.GenericDataModel;
@@ -81,6 +82,8 @@ public class SubmissaoController
     Evento evento;
 
     Atividade atividade;
+    
+    Pessoa avaliador;
 
     @Override
     public Submissao getFiltro() {
@@ -415,6 +418,32 @@ public class SubmissaoController
                     AppendLog(dao.getErro().getMessage());
                 }
             }
+        }
+    }
+
+    public Pessoa getAvaliador() {
+        return avaliador;
+    }
+
+    public void setAvaliador(Pessoa avaliador) {
+        this.avaliador = avaliador;
+    }
+    
+    public void addAvaliador() {
+        getEntidade().add(avaliador);
+        if(dao.Salvar(getEntidade())){
+            Mensagem("Sucesso!", "Avaliador adicionado com êxito!");
+        } else {
+            Mensagem("Falha!", "Falha ao adicionar avaliador!");
+        }
+    }
+    
+    public void removeAvaliador() {
+        getEntidade().remove(avaliador);
+        if(dao.Salvar(getEntidade())){
+            Mensagem("Sucesso!", "Avaliador removido com êxito!");
+        } else {
+            Mensagem("Falha!", "Falha ao remover avaliador!");
         }
     }
 

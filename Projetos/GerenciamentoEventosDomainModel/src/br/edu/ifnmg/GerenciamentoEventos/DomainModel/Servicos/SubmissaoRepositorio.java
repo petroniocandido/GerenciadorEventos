@@ -7,11 +7,12 @@
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
+import br.edu.ifnmg.DomainModel.Campus;
 import br.edu.ifnmg.DomainModel.Services.Repositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
-import java.util.HashMap;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -23,4 +24,6 @@ import javax.ejb.Local;
 public interface SubmissaoRepositorio extends Repositorio<Submissao> {
     public List<Submissao> Buscar(Submissao filtro, Evento e, Atividade a);
     public List<AreaConhecimento> AreasPorEvento(Evento e);
+    public List<Campus> CampusPorEvento(Evento e, SubmissaoStatus s);
+    public List<Submissao> Buscar(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a);
 }

@@ -85,7 +85,9 @@
                         <p:menuitem  value="Lançamentos" url="relatorioLancamentos.xhtml"  />
                     </p:submenu>
                     <p:submenu label="Submissões">
+                        <p:menuitem  value="Submissões por Campus" url="relatorioSubmissoesPorCampus.xhtml"  />
                         <p:menuitem  value="Submissões por Área" url="relatorioSubmissoesPorArea.xhtml"  />
+                        <p:menuitem  value="Listagem de Avaliadores" ajax="false" action="#{listagemAvaliadoresController.executaRelatorioPDF}"   />
                         <p:menuitem  value="Avaliadores por Área" ajax="false" action="#{avaliadoresPorAreaController.executaRelatorioPDF}"   />
                     </p:submenu>
                     <p:menuitem  value="Alocações" url="relatorioAlocacoesPorEvento.xhtml"  />

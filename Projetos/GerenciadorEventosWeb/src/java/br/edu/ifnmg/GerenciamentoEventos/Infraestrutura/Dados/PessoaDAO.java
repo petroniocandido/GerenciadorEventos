@@ -111,5 +111,14 @@ public class PessoaDAO
         
         return query.getResultList();        
     }
+    
+    @Override
+    public List<Pessoa> BuscarAvaliadores(Perfil p, AreaConhecimento a) {
+        return Join("areasConhecimento", "ac")
+                .IgualA("perfil", p)
+                .IgualA("ac.id", a.getId())
+                .Buscar();
+        
+    }
 
 }

@@ -24,4 +24,5 @@ public interface PessoaRepositorioLocal extends PessoaRepositorio {
     public List<Pessoa> Buscar(Evento e);
     public List<Pessoa> Buscar(Atividade a); 
     public List<AreaConhecimento> AvaliadoresPorAreas(Perfil p);
+    public List<Pessoa> BuscarAvaliadores(Perfil p, AreaConhecimento a);
 }
