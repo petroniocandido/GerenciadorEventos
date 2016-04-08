@@ -88,7 +88,39 @@
                             </c:if>
                         </p:tab>                        
                         <p:tab id="tabAvaliacoes" title="Avaliações">
-
+                            <p:accordionPanel id="tblItens">
+                                <c:forEach items="#{submissaoController.entidade.avaliacoes}" var="item">
+                                    <p:tab title="#{item.avaliador}">
+                                        <h:panelGrid columns="2" cellpadding="3">
+                                            <c:if test="#{item.resposta ne null}">
+                                                <h:outputText value="Avaliação: " />
+                                                <h:outputText value="#{item.status}" />
+                                                <h:outputText value="Respostas: " />
+                                                <p:dataTable value="#{item.resposta.respostas}" var="item2">                                                
+                                                    <p:column sortBy="#{item2.questao.secao.ordem}"> 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Seção"/> 
+                                                        </f:facet> 
+                                                        #{item2.questao.secao.nome}
+                                                    </p:column>
+                                                    <p:column sortBy="#{item2.questao.ordem}"> 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Questão"/> 
+                                                        </f:facet> 
+                                                        #{item2.questao.enunciado}
+                                                    </p:column>                                     
+                                                    <p:column > 
+                                                        <f:facet name="header"> 
+                                                            <h:outputText value="Resposta"/> 
+                                                        </f:facet>
+                                                        #{item2.valor}
+                                                    </p:column>                            
+                                                </p:dataTable>
+                                            </c:if>
+                                        </h:panelGrid>
+                                    </p:tab>
+                                </c:forEach>
+                            </p:accordionPanel>
                         </p:tab>
                         <ui:include src="./comum/tabSeguranca.xhtml">
                             <ui:param name="controller" value="#{submissaoController}"  />

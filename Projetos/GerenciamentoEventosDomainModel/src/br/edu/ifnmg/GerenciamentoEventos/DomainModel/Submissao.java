@@ -80,7 +80,7 @@ public class Submissao implements Entidade, Serializable {
     @Column(name = "palavrachave")
     private List<String> palavraschave;
     
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubmissaoAvaliacao> avaliacoes;
     
     @Column(nullable = false)
@@ -111,7 +111,6 @@ public class Submissao implements Entidade, Serializable {
         this.palavraschave = new ArrayList<>();
         this.avaliacoes = new ArrayList<>();
         this.areasConhecimento = new ArrayList<>();
-        this.avaliacoes = new ArrayList<>();
         this.avaliadores = new ArrayList<>();
         this.status = SubmissaoStatus.EmEdicao;
         this.autor3 = "";
@@ -134,15 +133,28 @@ public class Submissao implements Entidade, Serializable {
     }
     
     public void add(SubmissaoAvaliacao avaliacao) {
+        if(getStatus() != SubmissaoStatus.Atribuido && getStatus() != SubmissaoStatus.Avaliado)
+            return;
+        
         if (!avaliacoes.contains(avaliacao)) {
+            avaliacao.setSubmissao(this);
             avaliacoes.add(avaliacao);
+            if(getStatus() == SubmissaoStatus.Atribuido)
+                setStatus(SubmissaoStatus.Avaliado);                        
         }
     }
 
     public void remove(SubmissaoAvaliacao avaliacao) {
+        if(getStatus() != SubmissaoStatus.Avaliado)
+            return;
+        
         if (avaliacoes.contains(avaliacao)) {
             avaliacoes.remove(avaliacao);
         }
+        
+        if(avaliacoes.isEmpty())
+            setStatus(SubmissaoStatus.Pendente);
+        
     }
     
     public void add(AreaConhecimento a) {
@@ -200,6 +212,10 @@ public class Submissao implements Entidade, Serializable {
     
     public boolean isEmEdicao() {
         return getStatus() == SubmissaoStatus.EmEdicao;
+    }
+    
+    public boolean isEmAvaliacao() {
+        return getStatus() == SubmissaoStatus.Atribuido;
     }
     
     public int countAutores() {

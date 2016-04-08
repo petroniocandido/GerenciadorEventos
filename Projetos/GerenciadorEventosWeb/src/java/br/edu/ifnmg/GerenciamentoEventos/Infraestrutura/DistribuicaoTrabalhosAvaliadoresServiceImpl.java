@@ -64,8 +64,13 @@ public class DistribuicaoTrabalhosAvaliadoresServiceImpl implements Distribuicao
             List<Submissao> submissoes = daoSub.Buscar(SubmissaoStatus.Pendente, e, null, area);
             List<Pessoa> avaliadores = daoPes.BuscarAvaliadores(perfil, area);
             
+            int tcount = 0;
+            int tfalha = 0;
             int count = 0;
             int numaval = avaliadores.size();
+            
+            if(numaval == 0 || submissoes.isEmpty())
+                continue;
             
             for(Submissao s : submissoes){
                 
@@ -88,17 +93,26 @@ public class DistribuicaoTrabalhosAvaliadoresServiceImpl implements Distribuicao
                     }
                 }
                 
+                count = count + 1;
+                
+                if(check)
+                    continue;
+                
                 s.add(avaliador);
                 s.setStatus(SubmissaoStatus.Atribuido);
                 
                 if(daoSub.Salvar(s)) {
                     String tmp = textoMensagem.replace("###TITULO###", s.getTitulo());
-                    mail.enviar(avaliador.getEmail(), "[" + e.getNome() + "] Trabalho disponível para avaliação", codperfil);
+                    mail.enviar(avaliador.getEmail(), "[" + e.getNome() + "] Trabalho disponível para avaliação",tmp);
                     log.Append("Falha ao atribuir a submissão " + s.toString() + " ao avaliador " + avaliador.toString() );
+                    tcount++;
                 } else {
                     log.Append("Falha ao atribuir a submissão " + s.toString() + " ao avaliador " + avaliador.toString() + ". " + daoSub.getErro().getMessage());
+                    tfalha++;
                 }
             }
+            
+            log.Append("Atribuídas submissões para " + area.getNome() + ": Sucesso - " + tcount + " - Falha " + tfalha);
             
         }
         

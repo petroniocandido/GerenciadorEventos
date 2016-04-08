@@ -8,6 +8,7 @@ package br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Campus;
+import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.Repositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
@@ -26,4 +27,5 @@ public interface SubmissaoRepositorio extends Repositorio<Submissao> {
     public List<AreaConhecimento> AreasPorEvento(Evento e);
     public List<Campus> CampusPorEvento(Evento e, SubmissaoStatus s);
     public List<Submissao> Buscar(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a);
+    public List<Submissao> PorAvaliador(SubmissaoStatus status, Evento e, Pessoa p);
 }

@@ -7,30 +7,13 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
     <body>
-        <ui:composition template="./AdminTemplate.xhtml">
+        <ui:composition template="./PublicTemplate.xhtml">
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
                         Listagem de Submissões
                     </f:facet>
-                    <p:accordionPanel styleClass="teste">
-                        <p:tab title="Filtros">
-                            <p:panelGrid columns="2">
-                                <h:outputLabel value="Status:" />
-                                <h:selectOneMenu value="#{submissaoController.filtro.status}" >
-                                    <f:selectItems value="#{submissaoController.status}" />
-                                </h:selectOneMenu>
-                                <h:outputLabel value="Título:" />
-                                <h:inputText value="#{submissaoController.filtro.titulo}" />
-                            </p:panelGrid>
-                            <ui:include src="./comum/botoesListagem.xhtml">
-                                <ui:param name="controller" value="#{submissaoController}"  />
-                                <ui:param name="campos" value=""  />
-                            </ui:include>
-                        </p:tab>
-                    </p:accordionPanel>
-
-                    <p:dataTable value="#{submissaoController.dataModel}" var="item"
+                    <p:dataTable value="#{submissaoController.avaliadorDataModel}" var="item"
                                  paginator="true" rows="30"  lazy="true" 
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
@@ -46,7 +29,7 @@
                             #{item.status.descricao}
                         </p:column>
                         <p:column    >
-                            <p:commandButton value="Avaliar" action="#{submissaoController.abreAvaliacao()}">
+                            <p:commandButton value="VISUALIZAR E AVALIAR" action="#{submissaoController.abreAvaliacao()}">
                                 <f:setPropertyActionListener target="#{submissaoController.entidade}" value="#{item}" />
                             </p:commandButton>
                         </p:column>

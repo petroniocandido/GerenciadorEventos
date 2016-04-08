@@ -42,7 +42,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Table(name="questionariossecoes")
-@Cacheable(true)
+//@Cacheable(true)
 public class QuestionarioSecao implements Serializable,Entidade {
     private static final long serialVersionUID = 1L;
     @Id

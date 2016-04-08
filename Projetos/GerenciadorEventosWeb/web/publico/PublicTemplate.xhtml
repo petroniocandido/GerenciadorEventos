@@ -45,8 +45,9 @@
                 <p:menuitem rendered="#{not empty publicoController.evento}" value="Site do Evento"  url="#{publicoController.evento.site}"  />
                 <p:menuitem rendered="#{not empty publicoController.evento}" value="Inscrição"  url="inscricao.xhtml" />
                 <p:menuitem rendered="#{not empty publicoController.evento}" value="Certificados" url="certificados.xhtml" />                
+                <p:menuitem rendered="#{not empty publicoController.evento and autenticacaoController.autorizacao('publico/submissoesParaAvaliacao.xhtml')}" 
+                            value="Avaliação de Trabalhos" action="" url="submissoesParaAvaliacao.xhtml"  />
                 <p:menuitem rendered="#{autenticacaoController.autorizacao('admin')}" value="Área Administrativa" url="../admin/index.xhtml" />
-                <p:menuitem value="Avaliação de Trabalhos" rendered="#{autenticacaoController.autorizacao('publico/submissoesParaAvaliacao.xhtml')}" url="submissoesParaAvaliacao.xhtml"  />
                 <p:menuitem value="Fale Conosco" url="faleConosco.xhtml" />
                 <p:menuitem ajax="false" immediate="true" value="Sair" action="#{autenticacaoController.logout()}"  />
             </p:menubar>

@@ -18,12 +18,14 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.DistribuicaoTrabalhosAvaliadoresService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRespostaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoAvaliacao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
 import java.io.IOException;
 import javax.inject.Named;
@@ -74,6 +76,9 @@ public class SubmissaoController
 
     @EJB
     QuestionarioRespostaRepositorio respostaDAO;
+    
+    @EJB
+    DistribuicaoTrabalhosAvaliadoresService distribuicao;
 
     AreaConhecimento areaConhecimento;
 
@@ -116,6 +121,15 @@ public class SubmissaoController
         setRepositorio(dao);
         setPaginaEdicao("editarSubmissao.xhtml");
         setPaginaListagem("listagemSubmissoes.xhtml");
+        checaEventoPadrao();
+    }
+    
+     public void checaEventoPadrao() {
+        String evt = getConfiguracao("EVENTO_PADRAO");
+        if (evt != null ) {
+            Evento padrao = daoEvt.Abrir(Long.parseLong(evt));
+            setEvento(padrao);
+        }
     }
 
     InscricaoItem inscricaoItem;
@@ -290,6 +304,10 @@ public class SubmissaoController
     public GenericDataModel getPublicoDataModel() {
         return new GenericDataModel<>(getPublicoListagem(), repositorio);
     }
+    
+    public GenericDataModel getAvaliadorDataModel() {
+        return new GenericDataModel<>(getAvaliadorListagem(), repositorio);
+    }
 
     public List<Submissao> getPublicoListagem() {
         InscricaoItem inscricaoItem = (InscricaoItem) getSessao("inscricaoItem", daoInsc);
@@ -298,6 +316,10 @@ public class SubmissaoController
         }
 
         return dao.IgualA("inscricao", inscricaoItem).Buscar();
+    }
+    
+    public List<Submissao> getAvaliadorListagem() {
+        return dao.PorAvaliador(SubmissaoStatus.Atribuido, getEvento(), getUsuarioCorrente());
     }
 
     public void onPublicoRowSelect(SelectEvent event) {
@@ -316,7 +338,7 @@ public class SubmissaoController
         return "submissaoAvaliar.xhtml";
     }
 
-    public void processaQuestionario() {
+    public QuestionarioResposta processaQuestionario() {
 
         //i = inscricaoDAO.Refresh(i);
         QuestionarioResposta resposta = getEntidade().getResposta();
@@ -363,12 +385,9 @@ public class SubmissaoController
         }
 
         Rastrear(resposta);
-        respostaDAO.Salvar(resposta);
+        //respostaDAO.Salvar(resposta);
 
-        getEntidade().setResposta(resposta);
-
-        Rastrear(getEntidade());
-        dao.Salvar(getEntidade());
+        return resposta;
 
     }
 
@@ -445,6 +464,38 @@ public class SubmissaoController
         } else {
             Mensagem("Falha!", "Falha ao remover avaliador!");
         }
+    }
+    
+    public void distribuir() {
+        distribuicao.Distribuir(getEvento());
+    }
+    
+    private void processar(SubmissaoStatus status){
+        QuestionarioResposta resposta = processaQuestionario();
+        
+        SubmissaoAvaliacao avaliacao = new SubmissaoAvaliacao();
+        avaliacao.setAvaliador(getUsuarioCorrente());
+        avaliacao.setStatus(status);
+        avaliacao.setSubmissao(getEntidade());
+        avaliacao.setResposta(resposta);
+        
+        getEntidade().add(avaliacao);
+        
+        if(dao.Salvar(getEntidade())){
+            Mensagem("Sucesso!", "Avaliação registrada com êxito!");
+            AppendLog("Avaliação registrada:" + getEntidade().getTitulo() + " - " + status);
+        } else {
+            Mensagem("Falha!", "Avaliação não registrada!");
+            AppendLog("Avaliação não registrada:" + getEntidade().getTitulo() + " - " + status + " = " + dao.getErro());
+        }
+    }
+    
+    public void aprovar() {
+        processar(SubmissaoStatus.Aprovado);        
+    }
+    
+    public void reprovar() {
+        processar(SubmissaoStatus.Reprovado); 
     }
 
 }

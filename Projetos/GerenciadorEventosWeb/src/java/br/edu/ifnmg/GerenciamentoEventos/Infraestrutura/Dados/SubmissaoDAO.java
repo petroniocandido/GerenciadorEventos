@@ -6,6 +6,7 @@ package br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.Dados;
 
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Campus;
+import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
@@ -96,6 +97,16 @@ public class SubmissaoDAO
                 .IgualA("i.evento", e)
                 .IgualA("i.atividade", at)
                 .IgualA("ac.id", a.getId())
+                .Ordenar("titulo", "ASC")
+                .Buscar();
+    }
+    
+    @Override
+    public List<Submissao> PorAvaliador(SubmissaoStatus status, Evento e, Pessoa p){
+        Join("inscricao", "i").Join("avaliadores", "a");
+        return IgualA("status", status)
+                .IgualA("i.evento", e)
+                .IgualA("a.id", p.getId())
                 .Ordenar("titulo", "ASC")
                 .Buscar();
     }

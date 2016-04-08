@@ -42,7 +42,7 @@ import javax.persistence.Version;
  *
  * @author petronio
  */
-@Cacheable(true)
+//@Cacheable(true)
 @Entity
 @Table(name="questionarios")
 public class Questionario implements Serializable, Entidade {

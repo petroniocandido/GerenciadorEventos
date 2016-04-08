@@ -36,12 +36,12 @@
                     <p:inputTextarea  id="valor-#{q.id}" rows="7" cols="150"  />
                 </c:if>
                 <c:if test="#{q.tipo == 'Inteiro'}">
-                    <p:spinner  id="valor-#{q.id}" min="1">
+                    <p:spinner  id="valor-#{q.id}" min="#{q.minimo}" max="#{q.maximo}">
                         <f:convertNumber type="number" integerOnly="true" />
                     </p:spinner>
                 </c:if>
                 <c:if test="#{q.tipo == 'Real'}">
-                    <p:spinner  id="valor-#{q.id}" min="1">
+                    <p:spinner  id="valor-#{q.id}" min="#{q.minimo}" max="#{q.maximo}">
                         <f:convertNumber type="number" integerOnly="false" />
                     </p:spinner>
                 </c:if>
