@@ -35,6 +35,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,37 +49,38 @@ import javax.persistence.Version;
 @Table(name = "questionariosrespostas")
 @Cacheable(false)
 public class QuestionarioResposta implements Serializable, Entidade {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Pessoa pessoa;
-   
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Questionario questionario;
-    
-    @OneToMany(cascade= CascadeType.ALL, mappedBy="resposta")
-    private List<QuestaoResposta> respostas;
-    
-    @Transient
-    private Map<Questao,QuestaoResposta> maps;
 
-    public QuestionarioResposta(){
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "resposta")
+    private List<QuestaoResposta> respostas;
+
+    @Transient
+    private Map<Questao, QuestaoResposta> maps;
+
+    public QuestionarioResposta() {
         this.id = 0L;
         this.respostas = new LinkedList<>();
         this.maps = new HashMap<>();
     }
-    
-    public QuestionarioResposta(Pessoa p, Questionario q){
+
+    public QuestionarioResposta(Pessoa p, Questionario q) {
         this.id = 0L;
         this.respostas = new LinkedList<>();
         this.maps = new HashMap<>();
         this.pessoa = p;
         this.questionario = q;
     }
-    
+
     @Override
     public Long getId() {
         return id;
@@ -88,34 +90,49 @@ public class QuestionarioResposta implements Serializable, Entidade {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    public void add(QuestaoResposta m){
+
+    public void add(QuestaoResposta m) {
         m.setResposta(this);
-        if(!respostas.contains(m)){
+        if (!respostas.contains(m)) {
             respostas.add(m);
         }
     }
-    
-    public void remove(QuestaoResposta m){
-        if(respostas.contains(m)){
+
+    public void remove(QuestaoResposta m) {
+        if (respostas.contains(m)) {
             respostas.remove(m);
             m.setResposta(null);
         }
     }
-    
-    public QuestaoResposta RespostaDeQuestao(Questao q){  
-        if(!maps.containsKey(q))
+
+    @Transient
+    private int total = 0;
+
+    public int getTotal() {
+        if (total == 0) {
+            for (QuestaoResposta r : getRespostas()) {
+                if (r.getQuestao().getTipo() == QuestaoTipo.Inteiro) {
+                    total = total + r.getInteiro();
+                }
+            }
+        }
+        return total;
+    }
+
+    public QuestaoResposta RespostaDeQuestao(Questao q) {
+        if (!maps.containsKey(q)) {
             criaMapaQuestoes();
-        
+        }
+
         return maps.get(q);
     }
-    
+
     private void criaMapaQuestoes() {
-        for(QuestaoResposta r : respostas){
+        for (QuestaoResposta r : respostas) {
             maps.put(r.getQuestao(), r);
         }
     }
-   
+
     public Pessoa getPessoa() {
         return pessoa;
     }
@@ -135,11 +152,11 @@ public class QuestionarioResposta implements Serializable, Entidade {
     public List<QuestaoResposta> getRespostas() {
         return respostas;
     }
-    
+
     public void setRespostas(List<QuestaoResposta> respostas) {
         this.respostas = respostas;
     }
-        
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -162,9 +179,9 @@ public class QuestionarioResposta implements Serializable, Entidade {
 
     @Override
     public String toString() {
-        return  id.toString() ;
+        return id.toString();
     }
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Pessoa criador;
 

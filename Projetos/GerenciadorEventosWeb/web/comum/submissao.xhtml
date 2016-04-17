@@ -26,6 +26,8 @@
     <p:accordionPanel>
         <p:tab title="Geral">
             <p:panelGrid columns="2">
+                 Status do Trabalho:
+                <h:outputLabel value="#{submissaoController.entidade.status.descricao}" />
                 <h:outputLabel value="Título:" />
                 <p:inputText value="#{submissaoController.entidade.titulo}" size="150" disabled="#{not submissaoController.entidade.emEdicao}"
                              required="true" requiredMessage="O campo título é de preenchimento obrigatório!"/>

@@ -18,7 +18,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questionario;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositorio;
-import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.DistribuicaoTrabalhosAvaliadoresService;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.QuestionarioRepositorio;
@@ -78,7 +78,7 @@ public class SubmissaoController
     QuestionarioRespostaRepositorio respostaDAO;
     
     @EJB
-    DistribuicaoTrabalhosAvaliadoresService distribuicao;
+    SubmissaoService service;
 
     AreaConhecimento areaConhecimento;
 
@@ -467,7 +467,7 @@ public class SubmissaoController
     }
     
     public void distribuir() {
-        distribuicao.Distribuir(getEvento());
+        service.Distribuir(getEvento());
     }
     
     private void processar(SubmissaoStatus status){
@@ -496,6 +496,26 @@ public class SubmissaoController
     
     public void reprovar() {
         processar(SubmissaoStatus.Reprovado); 
+    }
+    
+    public void verificarStatus(){
+        service.VerificarStatus(getEvento());
+    }
+    
+    public List<Pessoa> getAutores() {
+        List<Pessoa> tmp = new ArrayList<>();
+        for(Submissao s : getListagem()){
+            tmp.add(s.getInscricao().getPessoa());
+        }
+        return tmp;
+    }
+    
+    public List<Pessoa> getAvaliadores() {
+        List<Pessoa> tmp = new ArrayList<>();
+        for(Submissao s : getListagem()){
+            tmp.addAll(s.getAvaliadores());
+        }
+        return tmp;
     }
 
 }

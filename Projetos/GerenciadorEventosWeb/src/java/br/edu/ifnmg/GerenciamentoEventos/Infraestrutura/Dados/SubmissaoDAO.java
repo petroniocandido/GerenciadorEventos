@@ -57,13 +57,13 @@ public class SubmissaoDAO
     }
 
     @Override
-    public List<AreaConhecimento> AreasPorEvento(Evento e) {
+    public List<AreaConhecimento> AreasPorEvento(Evento e, SubmissaoStatus status) {
         Query query = getManager()
                 .createQuery("Select ac from Submissao s "
                         + "join s.inscricao i join s.areasConhecimento ac "
-                        + "where i.evento =:evento "
+                        + "where i.evento =:evento and s.status =:status "
                         + "order by ac.numeroCNPQ");
-        query.setParameter("evento", e);
+        query.setParameter("evento", e).setParameter("status", status);
         
         return query.getResultList();
         

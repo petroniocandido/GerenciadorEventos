@@ -37,6 +37,8 @@
                                 <h:inputText value="#{submissaoController.filtro.titulo}" /> 
                                 <p:commandButton value="Distribuir" ajax="false" 
                                                  action="#{submissaoController.distribuir()}" />
+                                <p:commandButton value="Atualizar Status" ajax="false" 
+                                                 action="#{submissaoController.verificarStatus()}" />
                             </p:panelGrid>
                             <ui:include src="./comum/botoesListagem.xhtml">
                                 <ui:param name="controller" value="#{submissaoController}"  />
@@ -45,31 +47,45 @@
                         </p:tab>
                     </p:accordionPanel>
 
-                    <p:dataTable value="#{submissaoController.dataModel}" var="item" selectionMode="single"
-                                 paginator="true" rows="30"  lazy="true" 
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
+                    <p:tabView id="tabView">
+                        <p:tab title="Listagem">
+                            <p:dataTable value="#{submissaoController.dataModel}" var="item" selectionMode="single"
+                                         paginator="true" rows="30"  lazy="true" 
+                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" >  
 
-                        <p:ajax event="rowSelect" listener="#{submissaoController.onRowSelect}" />
-                        <f:facet name="header">
-                            Total: #{submissaoController.dataModel.rowCount} submissões
-                        </f:facet>
-                        <p:column headerText="Título e Autores">
-                            <h:outputText value="#{item.titulo}" style="font-weight: bold" />
-                            <br />
-                            #{item.autores()}
-                            
-                        </p:column>
+                                <p:ajax event="rowSelect" listener="#{submissaoController.onRowSelect}" />
+                                <f:facet name="header">
+                                    Total: #{submissaoController.dataModel.rowCount} submissões
+                                </f:facet>
+                                <p:column headerText="Título e Autores">
+                                    <h:outputText value="#{item.titulo}" style="font-weight: bold" />
+                                    <br />
+                                    #{item.autores()}
 
-                        <p:column headerText="Palavras-Chave">
-                            #{item.palavrasChave()}
-                        </p:column>
-                        <p:column headerText="Áreas de Conhecimento">
-                            #{item.areasConhecimento()}
-                        </p:column>
-                        <p:column headerText="Status">
-                            #{item.status}
-                        </p:column>
-                    </p:dataTable>
+                                </p:column>
+
+                                <p:column headerText="Palavras-Chave">
+                                    #{item.palavrasChave()}
+                                </p:column>
+                                <p:column headerText="Áreas de Conhecimento">
+                                    #{item.areasConhecimento()}
+                                </p:column>
+                                <p:column headerText="Status">
+                                    #{item.status}
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
+                            <ui:param name="cabecalho" value="Autores"  />
+                            <ui:param name="controller" value="#{submissaoController}"  />
+                            <ui:param name="destinatarios" value="#{submissaoController.autores}"  />
+                        </ui:include>
+                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
+                            <ui:param name="cabecalho" value="Avaliadores"  />
+                            <ui:param name="controller" value="#{submissaoController}"  />
+                            <ui:param name="destinatarios" value="#{submissaoController.avaliadores}"  />
+                        </ui:include>
+                    </p:tabView>
                 </p:panel>
             </ui:define>
         </ui:composition>

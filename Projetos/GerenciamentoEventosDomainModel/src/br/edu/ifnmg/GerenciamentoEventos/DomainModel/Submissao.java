@@ -98,6 +98,8 @@ public class Submissao implements Entidade, Serializable {
     @Column(nullable = true)
     private String autor5;
     
+    private double total;
+    
     @Enumerated()
     private SubmissaoStatus status;
     
@@ -390,8 +392,62 @@ public class Submissao implements Entidade, Serializable {
     public void setAvaliadores(List<Pessoa> avaliadores) {
         this.avaliadores = avaliadores;
     }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
     
+    public void verificarStatus(){
+        switch(getStatus()){
+            case EmEdicao:
+                if(!((InscricaoItem)getInscricao()).getAtividade().isInscricaoAberto())
+                      setStatus(SubmissaoStatus.Cancelado);
+                break;
+                
+            case Avaliado:
+                concluirAvaliacao();
+                break;
+                
+        }
+    }
     
+    private void concluirAvaliacao() {
+        boolean aprovado = false;
+        boolean reprovado = false;
+        boolean desclassificado = false;
+        
+        int valores = 0;
+        int count = 0;
+        
+        for(SubmissaoAvaliacao aval : getAvaliacoes()){
+            if(aval.getStatus() == SubmissaoStatus.Aprovado)
+                aprovado = true;
+            else if(aval.getStatus() == SubmissaoStatus.Reprovado)
+                reprovado = true;
+            else if(aval.getStatus() == SubmissaoStatus.Desclassificado)
+                desclassificado = true;
+            if(getResposta() != null){
+                count = count + 1;
+                valores = valores + getResposta().getTotal();
+            }
+        }
+        if(aprovado && !reprovado && !desclassificado){
+            setStatus(SubmissaoStatus.Aprovado);
+        } else if(!aprovado && reprovado && !desclassificado){
+            setStatus(SubmissaoStatus.Reprovado);
+        } else if(!aprovado && !reprovado && desclassificado){
+            setStatus(SubmissaoStatus.Desclassificado);
+        } else {
+            setStatus(SubmissaoStatus.Divergencia);
+        }
+        
+        if(count>0)
+            setTotal(valores/count);
+    }
 
     @Override
     public int hashCode() {

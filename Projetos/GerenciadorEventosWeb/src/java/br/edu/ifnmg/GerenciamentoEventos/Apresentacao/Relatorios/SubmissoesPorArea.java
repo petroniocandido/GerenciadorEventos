@@ -23,6 +23,7 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -60,6 +61,8 @@ public class SubmissoesPorArea
     @EJB
     EventoRepositorio daoE;
     
+    SubmissaoStatus status;
+    
     @PostConstruct
     public void init() {
         checaEventoPadrao();
@@ -90,8 +93,18 @@ public class SubmissoesPorArea
     @Override
     public Collection<AreaConhecimento> getDados() {
                 
-        Collection<AreaConhecimento> tmp = dao.AreasPorEvento(getEvento());
+        Collection<AreaConhecimento> tmp = dao.AreasPorEvento(getEvento(),getStatus());
         
         return tmp;
     }
+
+    public SubmissaoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SubmissaoStatus status) {
+        this.status = status;
+    }
+    
+    
 }
