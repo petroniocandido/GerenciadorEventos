@@ -75,16 +75,28 @@
                                 </p:column>
                             </p:dataTable>
                         </p:tab>
-                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
-                            <ui:param name="cabecalho" value="Autores"  />
-                            <ui:param name="controller" value="#{submissaoController}"  />
-                            <ui:param name="destinatarios" value="#{submissaoController.autores}"  />
-                        </ui:include>
-                        <ui:include src="./comum/tabEnviarMensagem.xhtml">
-                            <ui:param name="cabecalho" value="Avaliadores"  />
-                            <ui:param name="controller" value="#{submissaoController}"  />
-                            <ui:param name="destinatarios" value="#{submissaoController.avaliadores}"  />
-                        </ui:include>
+                        <p:tab title="Enviar Mensagem Autores">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Assunto:" /> 
+                                <p:inputText value="#{submissaoController.assunto}" />
+                                <p:outputLabel value="Mensagem:" /> 
+                                <p:editor value="#{submissaoController.mensagem}" />            
+                            </p:panelGrid>
+                            <p:commandButton value="Enviar" ajax="false" action="#{submissaoController.enviarMensagem()}"  >
+                                <f:setPropertyActionListener target="#{submissaoController.destinatarios}" value="#{submissaoController.autores}" />
+                            </p:commandButton>
+                        </p:tab>
+                        <p:tab title="Enviar Mensagem Avaliadores">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Assunto:" /> 
+                                <p:inputText value="#{submissaoController.assunto}" />
+                                <p:outputLabel value="Mensagem:" /> 
+                                <p:editor value="#{submissaoController.mensagem}" />            
+                            </p:panelGrid>
+                            <p:commandButton value="Enviar" ajax="false" action="#{submissaoController.enviarMensagem()}"  >
+                                <f:setPropertyActionListener target="#{submissaoController.destinatarios}" value="#{submissaoController.avaliadores}" />
+                            </p:commandButton>
+                        </p:tab>
                     </p:tabView>
                 </p:panel>
             </ui:define>

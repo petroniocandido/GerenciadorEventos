@@ -5,6 +5,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Atividade;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
@@ -12,6 +13,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositor
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.SubmissaoStatus;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -33,7 +36,7 @@ public class LivroEletronicoController extends ControllerBase {
 
     @EJB
     AtividadeRepositorio daoAtiv;
-
+    
     @EJB
     SubmissaoRepositorio daoSub;
 
@@ -54,13 +57,22 @@ public class LivroEletronicoController extends ControllerBase {
     public List<Atividade> getAtividades() {
         return daoAtiv
                 .IgualA("evento", getEvento())
+                .DiferenteDe("status", br.edu.ifnmg.GerenciamentoEventos.DomainModel.Status.Cancelado)
                 .IgualA("aceitaSubmissoes", true)
                 .Ordenar("nome", "ASC")
                 .Buscar();
     }
+    
+     public List<AreaConhecimento> buscarAreasConhecimento(Atividade a) {
+        List<AreaConhecimento> tmp = new ArrayList<>();
+        for(AreaConhecimento ac : daoSub.AreasPorAtividade(a, SubmissaoStatus.Aprovado))
+            if(!tmp.contains(ac))
+                tmp.add(ac);
+        return tmp;
+    }
 
-    public List<Submissao> buscarPorAtividade(Atividade a) {
-        return null;
+    public List<Submissao> buscarSubmissoes(Atividade a, AreaConhecimento ac) {
+        return daoSub.Buscar(SubmissaoStatus.Aprovado, evento, a, ac);
     }
 
     public Evento getEvento() {

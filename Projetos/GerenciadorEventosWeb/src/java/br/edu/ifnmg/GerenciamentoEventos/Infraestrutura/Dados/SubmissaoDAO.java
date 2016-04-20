@@ -70,6 +70,19 @@ public class SubmissaoDAO
     }
     
     @Override
+    public List<AreaConhecimento> AreasPorAtividade(Atividade a, SubmissaoStatus status) {
+        Query query = getManager()
+                .createQuery("Select ac from Submissao s "
+                        + "join TREAT(s.inscricao AS InscricaoItem) i join s.areasConhecimento ac "
+                        + "where i.atividade =:atividade and s.status =:status "
+                        + "order by ac.numeroCNPQ");
+        query.setParameter("atividade", a).setParameter("status", status);
+        
+        return query.getResultList();
+        
+    }
+    
+    @Override
     public List<Campus> CampusPorEvento(Evento e, SubmissaoStatus s){
          Query query = getManager()
                 .createQuery("Select c from Submissao s "
@@ -92,12 +105,9 @@ public class SubmissaoDAO
     
     @Override
     public List<Submissao> Buscar(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a){
-        Join("inscricao", "i").Join("areasConhecimento", "ac");
-        return IgualA("status", status)
-                .IgualA("i.evento", e)
-                .IgualA("i.atividade", at)
-                .IgualA("ac.id", a.getId())
-                .Ordenar("titulo", "ASC")
+                return Join("TREAT(o.inscricao AS InscricaoItem)","i").Join("o.areasConhecimento", "ac").
+                IgualA("i.evento", e).IgualA("i.atividade", at).IgualA("status", status).IgualA("ac.id", a.getId()).
+                Ordenar("titulo", "ASC")
                 .Buscar();
     }
     
