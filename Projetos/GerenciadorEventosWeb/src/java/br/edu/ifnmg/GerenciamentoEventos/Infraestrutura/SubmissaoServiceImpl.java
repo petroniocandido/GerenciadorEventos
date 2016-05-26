@@ -63,10 +63,8 @@ public class SubmissaoServiceImpl implements SubmissaoService {
         for(AreaConhecimento area : areas){
             if (processarArea(e, area, perfil, textoMensagem)) {
                 continue;
-            }
-            
-        }
-        
+            }            
+        }        
     }
 
     protected boolean processarArea(Evento e, AreaConhecimento area, Perfil perfil, String textoMensagem) {

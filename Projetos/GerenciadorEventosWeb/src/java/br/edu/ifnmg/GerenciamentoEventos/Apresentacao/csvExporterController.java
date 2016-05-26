@@ -28,6 +28,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.SubmissaoCSVExporter;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.PessoaComparator;
@@ -35,6 +36,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.AtividadeRepositor
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.SubmissaoRepositorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
 import java.io.IOException;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -63,7 +66,7 @@ public class csvExporterController
      * Creates a new instance of FuncionarioBean
      */
     public csvExporterController() {
-        
+
     }
 
     @EJB
@@ -71,19 +74,23 @@ public class csvExporterController
 
     @EJB
     AtividadeRepositorio daoA;
-    
+
     @EJB
     InscricaoRepositorio daoI;
-    
+
     @EJB
     PessoaRepositorioLocal daoP;
+
+    @EJB
+    SubmissaoRepositorio daoS;
 
     Evento padrao;
 
     Atividade atividade;
-    
+
     AtividadeTipo tipo;
 
+    InscricaoStatus inscricaoStatus;
 
     public Evento getPadrao() {
         return padrao;
@@ -124,7 +131,7 @@ public class csvExporterController
             }
         }
     }
-    
+
     public void exportaEvento() {
         ServletOutputStream servletOutputStream = null;
         Inscricao tmp = new Inscricao();
@@ -148,16 +155,16 @@ public class csvExporterController
             }
         }
     }
-    
+
     public void exportaPessoasEvento() {
         ServletOutputStream servletOutputStream = null;
         CSVExporter csv = new PessoaCSVExporter();
         List<Inscricao> insc = daoI.IgualA("evento", padrao)
                 .IgualA("tipo", InscricaoTipo.Inscricao)
-                .IgualA("status", InscricaoStatus.Confirmada)
+                .IgualA("status", getInscricaoStatus())
                 .Buscar();
         List<Pessoa> tmp = new ArrayList<>();
-        for(Inscricao i : insc){
+        for (Inscricao i : insc) {
             tmp.add(i.getPessoa());
         }
         Collections.sort(tmp, new PessoaComparator());
@@ -178,7 +185,7 @@ public class csvExporterController
             }
         }
     }
-    
+
     public void exportaPessoasAtividade() {
         ServletOutputStream servletOutputStream = null;
         CSVExporter csv = new PessoaCSVExporter();
@@ -200,7 +207,7 @@ public class csvExporterController
             }
         }
     }
-    
+
     public void exportaAtividades() {
         ServletOutputStream servletOutputStream = null;
         CSVExporter csv = new AtividadeCSVExporter();
@@ -223,6 +230,36 @@ public class csvExporterController
         }
     }
 
+    public void exportaSubmissoes() {
+        ServletOutputStream servletOutputStream = null;
+        CSVExporter csv = new SubmissaoCSVExporter();
+        List<Submissao> dados = daoS.Join("inscricao", "i").IgualA("i.evento", padrao).Buscar();
+        try {
+            String arq = "Submissoes" + padrao.getNome().replace(" ", "");
+            HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+            httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + arq + ".csv");
+            servletOutputStream = httpServletResponse.getOutputStream();
+            servletOutputStream.print(csv.gerarCSV(dados));
+            FacesContext.getCurrentInstance().responseComplete();
+        } catch (IOException ex) {
+            Logger.getLogger(csvExporterController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                servletOutputStream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(csvExporterController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public InscricaoStatus getInscricaoStatus() {
+        return inscricaoStatus;
+    }
+
+    public void setInscricaoStatus(InscricaoStatus inscricaoStatus) {
+        this.inscricaoStatus = inscricaoStatus;
+    }
+
     public AtividadeTipo getTipo() {
         return tipo;
     }
@@ -230,5 +267,5 @@ public class csvExporterController
     public void setTipo(AtividadeTipo tipo) {
         this.tipo = tipo;
     }
-    
+
 }

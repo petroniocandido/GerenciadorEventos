@@ -25,11 +25,14 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-        <title>Livro Eletrônico de Resumos do #{livroEletronicoController.evento.nome}</title>
+        <title>Livro Eletrônico de Resumos - #{livroEletronicoController.evento.nome}</title>
     </h:head>
     <h:body>
-        <h:graphicImage value="/arquivos/#{livroEletronicoController.evento.banner.uri}" />
-        <h1>Livro Eletrônico de Resumos do #{livroEletronicoController.evento.nome}</h1>
+        <h:graphicImage value="/arquivos/#{livroEletronicoController.evento.banner.uri}"
+                        style="display: block; margin-left: auto; margin-right: auto" />
+        <h1 style="text-align: center"> #{livroEletronicoController.evento.nome}</h1>
+        <h1 style="text-align: center">Livro Eletrônico de Resumos </h1>
+        
         
         <h2>Índice</h2>
         <ol>

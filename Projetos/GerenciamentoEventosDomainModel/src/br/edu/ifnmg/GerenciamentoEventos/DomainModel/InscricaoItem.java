@@ -61,9 +61,14 @@ public class InscricaoItem extends Inscricao implements Serializable {
        
     @Override
     public boolean isProntoParaCertificado() {
-        if(prontoParaCertificado == null)
-            prontoParaCertificado = atividade.isGeraCertificado() && atividade.getStatus() == Status.Concluido && isPago() && isCompareceu();
-        
+        if(prontoParaCertificado == null){
+            prontoParaCertificado = getEvento().requerPagamento() ?  isPago() : true;
+            
+            prontoParaCertificado = prontoParaCertificado 
+                    && atividade.isGeraCertificado() 
+                    && atividade.getStatus() == Status.Concluido 
+                    && isCompareceu();
+        }
         return prontoParaCertificado;
     }
     

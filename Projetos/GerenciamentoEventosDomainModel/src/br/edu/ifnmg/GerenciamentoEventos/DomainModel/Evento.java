@@ -16,9 +16,11 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.DomainModel;
 
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.ValidacaoException;
 import br.edu.ifnmg.DomainModel.Arquivo;
+import br.edu.ifnmg.DomainModel.Campus;
 import br.edu.ifnmg.DomainModel.Entidade;
 import br.edu.ifnmg.DomainModel.MensagemPerfil;
 import java.io.Serializable;
@@ -91,6 +93,9 @@ public class Evento implements Entidade, Serializable {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "evento")
     private Controle controle;
 
+    @ManyToOne 
+    Campus campus;
+    
     @ManyToOne
     private Recurso local;
 
@@ -175,6 +180,12 @@ public class Evento implements Entidade, Serializable {
     
     @ManyToOne
     private PagSeguroPerfil pagSeguroPerfil;
+    
+    @ManyToMany(fetch = FetchType.EAGER, targetEntity = AreaConhecimento.class)
+    private List<AreaConhecimento> areasConhecimento;
+    
+    @ManyToMany(targetEntity = Pessoa.class)
+    private List<Pessoa> avaliadores;
 
     public Evento() {
         recursos = new ArrayList<>();
@@ -190,6 +201,8 @@ public class Evento implements Entidade, Serializable {
         cargaHoraria = 0;
         inscricoesPorAtividade = new HashMap<>();
         inscricoesPorCategoria = new HashMap<>();
+        this.areasConhecimento = new ArrayList<>();
+        this.avaliadores = new ArrayList<>();
     }
     
     public boolean requerPagamento(){
@@ -239,6 +252,34 @@ public class Evento implements Entidade, Serializable {
     
     public void removeLimite(EventoInscricaoCategoria a){
         inscricoesPorCategoria.remove(a);        
+    }
+    
+    public void addAvaliador(Pessoa avaliador) {
+        if(avaliador == null) return;
+        if (!avaliadores.contains(avaliador)) {
+            avaliadores.add(avaliador);
+        }
+    }
+
+    public void removeAvaliador(Pessoa avaliador) {
+        if(avaliador == null) return;
+        if (avaliadores.contains(avaliador)) {
+            avaliadores.remove(avaliador);
+        }
+    }
+    
+    public void addAreaConhecimento(AreaConhecimento a) {
+        if(a == null) return;
+        if (!areasConhecimento.contains(a)) {
+            areasConhecimento.add(a);
+        }
+    }
+
+    public void removeAreaConhecimento(AreaConhecimento a) {
+        if(a == null) return;
+        if (areasConhecimento.contains(a)) {
+            areasConhecimento.remove(a);
+        }
     }
 
     public boolean podeEditar(Pessoa obj) {
@@ -673,6 +714,32 @@ public class Evento implements Entidade, Serializable {
     public void setPagSeguroPerfil(PagSeguroPerfil pagSeguroPerfil) {
         this.pagSeguroPerfil = pagSeguroPerfil;
     }
+
+    public Campus getCampus() {
+        return campus;
+    }
+
+    public void setCampus(Campus campus) {
+        this.campus = campus;
+    }
+
+    public List<AreaConhecimento> getAreasConhecimento() {
+        return areasConhecimento;
+    }
+
+    public void setAreasConhecimento(List<AreaConhecimento> areasConhecimento) {
+        this.areasConhecimento = areasConhecimento;
+    }
+
+    public List<Pessoa> getAvaliadores() {
+        return avaliadores;
+    }
+
+    public void setAvaliadores(List<Pessoa> avaliadores) {
+        this.avaliadores = avaliadores;
+    }
+    
+    
     
     @Override
     public int hashCode() {

@@ -38,7 +38,11 @@
                                         itemLabel="#{item.nome}" itemValue="#{item}">
                             #{item.nome}
                         </p:autoComplete>
-                        
+                        <h:outputLabel value="Status:" />
+                        <h:selectOneMenu value="#{submissoesPorCampusController.status}" >
+                            <f:selectItem noSelectionOption="true" />
+                            <f:selectItems value="#{submissaoController.status}" />
+                        </h:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton value="Gerar Relatório" ajax="false"  action="#{submissoesPorCampusController.executaRelatorioPDF}" />
                 </p:panel>

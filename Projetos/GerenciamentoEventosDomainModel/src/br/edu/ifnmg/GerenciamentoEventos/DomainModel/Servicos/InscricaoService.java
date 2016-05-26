@@ -26,6 +26,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -191,6 +192,8 @@ public class InscricaoService {
         i.setDataInscricao(new Date());
         i.setCategoria(c);
         i.setOrdem(c == InscricaoCategoria.Normal ? ctl.getQuantidadeGeral() : ctl.getQuantidadeListaEspera());
+        if(!e.requerPagamento()) i.setStatus(InscricaoStatus.Confirmada);
+        
         if(inscricaoDAO.Salvar(i)){  
             if(i.getCategoria() == InscricaoCategoria.Normal)
                 ctl.setQuantidadeGeral(ctl.getQuantidadeGeral() + 1);
@@ -216,6 +219,7 @@ public class InscricaoService {
         i.add(it);
         i.setDataUltimaAlteracao(new Date());
         i.setUltimoAlterador(p);
+        if(!e.requerPagamento()) it.setStatus(InscricaoStatus.Confirmada);
         
         if(inscricaoDAO.Salvar(it)){  
             if(c == InscricaoCategoria.Normal)

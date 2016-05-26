@@ -25,8 +25,10 @@ import javax.ejb.Local;
 public interface SubmissaoRepositorio extends Repositorio<Submissao> {
     public List<Submissao> Buscar(Submissao filtro, Evento e, Atividade a);
     public List<AreaConhecimento> AreasPorEvento(Evento e, SubmissaoStatus status);
+    public List<AreaConhecimento> GrandesAreasPorAtividade(Atividade a, SubmissaoStatus status);
     public List<Campus> CampusPorEvento(Evento e, SubmissaoStatus s);
     public List<AreaConhecimento> AreasPorAtividade(Atividade a, SubmissaoStatus status);
     public List<Submissao> Buscar(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a);
+    public List<Submissao> BuscarGrandeArea(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a);
     public List<Submissao> PorAvaliador(SubmissaoStatus status, Evento e, Pessoa p);
 }

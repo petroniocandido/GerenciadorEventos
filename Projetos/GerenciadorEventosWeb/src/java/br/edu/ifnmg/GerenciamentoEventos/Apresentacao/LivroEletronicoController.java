@@ -65,14 +65,14 @@ public class LivroEletronicoController extends ControllerBase {
     
      public List<AreaConhecimento> buscarAreasConhecimento(Atividade a) {
         List<AreaConhecimento> tmp = new ArrayList<>();
-        for(AreaConhecimento ac : daoSub.AreasPorAtividade(a, SubmissaoStatus.Aprovado))
+        for(AreaConhecimento ac : daoSub.GrandesAreasPorAtividade(a, SubmissaoStatus.Aprovado))
             if(!tmp.contains(ac))
                 tmp.add(ac);
         return tmp;
     }
 
     public List<Submissao> buscarSubmissoes(Atividade a, AreaConhecimento ac) {
-        return daoSub.Buscar(SubmissaoStatus.Aprovado, evento, a, ac);
+        return daoSub.BuscarGrandeArea(SubmissaoStatus.Aprovado, evento, a, ac);
     }
 
     public Evento getEvento() {

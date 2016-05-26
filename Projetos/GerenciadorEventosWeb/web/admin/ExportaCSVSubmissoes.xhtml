@@ -15,7 +15,7 @@
  
     You should have received a copy of the GNU General Public License
     along with SGEA.  If not, see <http://www.gnu.org/licenses/>.
--->
+ -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
@@ -29,21 +29,18 @@
             <ui:define name="content">
                 <p:panel>
                     <f:facet name="header">
-                        Relatório de Submissões Por Área
+                        Exportação de Atividades
                     </f:facet>
                     <p:panelGrid columns="2">
                         <h:outputText value="Evento: " />
-                        <p:autoComplete converter="#{eventoConverter}" value="#{submissoesPorAreaController.evento}"
+                        <p:autoComplete converter="#{eventoConverter}" value="#{csvExporterController.padrao}"
                                         completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
                                         itemLabel="#{item.nome}" itemValue="#{item}">
                             #{item.nome}
                         </p:autoComplete>
-                        <h:outputLabel value="Status:" />
-                        <h:selectOneMenu value="#{submissoesPorAreaController.status}" >
-                            <f:selectItems value="#{submissaoController.status}" />
-                        </h:selectOneMenu>
+                        
                     </p:panelGrid>
-                    <p:commandButton value="Gerar Relatório" ajax="false"  action="#{submissoesPorAreaController.executaRelatorioPDF}" />
+                    <p:commandButton value="Exportar" ajax="false"  action="#{csvExporterController.exportaSubmissoes()}" />
                 </p:panel>
             </ui:define>
 

@@ -21,6 +21,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.DomainModel.Pessoa;
 import br.edu.ifnmg.DomainModel.Services.LogRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import java.util.Date;
 import java.util.List;
@@ -54,8 +55,12 @@ public class InscricaoConfirmacaoService {
 
     public boolean confirmar(Inscricao i, Pessoa p) {
         try {
-            Lancamento l = i.pagar(p);
-            l.setCategoria(daoLanc.CategoriaPadrao());
+            if (i.getEvento().requerPagamento()) {
+                Lancamento l = i.pagar(p);
+                l.setCategoria(daoLanc.CategoriaPadrao());
+            } else {
+                i.setStatus(InscricaoStatus.Confirmada);
+            }
             return daoInsc.Salvar(i);
         } catch (Exception ex) {
             Log l = new Log();

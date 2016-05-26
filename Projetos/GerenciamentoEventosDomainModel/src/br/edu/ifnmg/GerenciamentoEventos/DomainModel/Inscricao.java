@@ -316,7 +316,10 @@ public class Inscricao implements Entidade, Serializable {
 
     public boolean isProntoParaCertificado() {
         if (prontoParaCertificado == null) {
-            prontoParaCertificado = getEvento().getStatus() == Status.Concluido && isPago() && isCompareceu();
+            
+            prontoParaCertificado = getEvento().requerPagamento() ?  isPago() : true;
+            
+            prontoParaCertificado = prontoParaCertificado && getEvento().getStatus() == Status.Concluido && isCompareceu();
         }
 
         return prontoParaCertificado;

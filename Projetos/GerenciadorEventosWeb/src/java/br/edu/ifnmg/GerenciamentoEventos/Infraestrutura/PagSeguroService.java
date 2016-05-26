@@ -62,7 +62,8 @@ public class PagSeguroService {
                 0L, new BigDecimal("0.00"));
 
         for (InscricaoItem it : i.getItens()) {
-            checkout.addItem(it.getId().toString(), it.getAtividade().getNome(), 1, it.getAtividade().getValorInscricao(),
+            if(it.getAtividade().requerPagamento())
+                checkout.addItem(it.getId().toString(), it.getAtividade().getNome(), 1, it.getAtividade().getValorInscricao(),
                     0L, new BigDecimal("0.00"));
         }
 

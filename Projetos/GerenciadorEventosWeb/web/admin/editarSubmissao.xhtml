@@ -21,6 +21,10 @@
                         </p:tab>  
                         <p:tab title="Administrativo">
                             <p:panelGrid columns="2">
+                                Atividade:
+                                <p:commandLink value="#{submissaoController.entidade.inscricao.atividade}"  action="#{atividadeController.abrir()}">
+                                    <f:setPropertyActionListener target="#{atividadeController.entidade}" value="#{submissaoController.entidade.inscricao.atividade}" />
+                                </p:commandLink>
                                 Status:
                                 <p:selectOneMenu value="#{submissaoController.entidade.status}">
                                     <f:selectItems value="#{submissaoController.status}" />

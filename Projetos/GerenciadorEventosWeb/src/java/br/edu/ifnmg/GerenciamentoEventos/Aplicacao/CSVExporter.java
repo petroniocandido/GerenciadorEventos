@@ -32,6 +32,10 @@ public abstract class CSVExporter<T> {
     protected String limparTexto(String input) {
         return "\"" + input.replace(";", ".").replace("\"", "") + "\"";
     }
+    
+    protected String checknull(String input) {
+        return input == null ? "" : input;
+    }
 
     public String gerarCSV(Collection<T> colecao) {
         StringBuilder sb = new StringBuilder();

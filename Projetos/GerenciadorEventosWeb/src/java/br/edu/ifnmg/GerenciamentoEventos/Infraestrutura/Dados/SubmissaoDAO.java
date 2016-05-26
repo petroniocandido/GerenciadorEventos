@@ -83,6 +83,19 @@ public class SubmissaoDAO
     }
     
     @Override
+    public List<AreaConhecimento> GrandesAreasPorAtividade(Atividade a, SubmissaoStatus status) {
+        Query query = getManager()
+                .createQuery("Select ga from Submissao s "
+                        + "join TREAT(s.inscricao AS InscricaoItem) i join s.areasConhecimento ac join ac.grandeArea ga "
+                        + "where i.atividade =:atividade and s.status =:status "
+                        + "order by ac.numeroCNPQ");
+        query.setParameter("atividade", a).setParameter("status", status);
+        
+        return query.getResultList();
+        
+    }
+    
+    @Override
     public List<Campus> CampusPorEvento(Evento e, SubmissaoStatus s){
          Query query = getManager()
                 .createQuery("Select c from Submissao s "
@@ -105,8 +118,21 @@ public class SubmissaoDAO
     
     @Override
     public List<Submissao> Buscar(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a){
-                return Join("TREAT(o.inscricao AS InscricaoItem)","i").Join("o.areasConhecimento", "ac").
+                return Unico().Join("TREAT(o.inscricao AS InscricaoItem)","i").Join("o.areasConhecimento", "ac").
                 IgualA("i.evento", e).IgualA("i.atividade", at).IgualA("status", status).IgualA("ac.id", a.getId()).
+                Ordenar("titulo", "ASC")
+                .Buscar();
+    }
+    
+    @Override
+    public List<Submissao> BuscarGrandeArea(SubmissaoStatus status, Evento e, Atividade at, AreaConhecimento a){
+                return Unico().Join("TREAT(o.inscricao AS InscricaoItem)","i")
+                        .Join("o.areasConhecimento", "ac")
+                        .Join("ac.grandeArea", "ga")
+                                .IgualA("i.evento", e)
+                                .IgualA("i.atividade", at)
+                                .IgualA("status", status)
+                                .IgualA("ga.id", a.getId()).
                 Ordenar("titulo", "ASC")
                 .Buscar();
     }

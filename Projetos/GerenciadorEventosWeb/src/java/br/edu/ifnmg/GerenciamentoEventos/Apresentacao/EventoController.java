@@ -16,8 +16,7 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao;
 
-
-
+import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseEntidade;
@@ -59,22 +58,26 @@ public class EventoController
      */
     public EventoController() {
     }
-    
+
     @EJB
     EventoRepositorio dao;
-    
+
     @EJB
     AlocacaoRepositorio alocDAO;
-    
+
     UploadedFile arquivo;
-    
+
     AtividadeTipo atividadeTipo;
-    
+
     Integer limite;
-    
+
     Alocacao alocacao;
-    
+
     EventoInscricaoCategoria categoria;
+
+    AreaConhecimento areaConhecimento;
+
+    Pessoa avaliador;
 
     public UploadedFile getArquivo() {
         return arquivo;
@@ -83,7 +86,7 @@ public class EventoController
     public void setArquivo(UploadedFile arquivo) {
         this.arquivo = arquivo;
     }
-        
+
     @PostConstruct
     public void init() {
         setRepositorio(dao);
@@ -91,12 +94,12 @@ public class EventoController
         setPaginaListagem("listagemEventos.xtml");
         alocacao = new Alocacao();
     }
-    
+
     @Override
     public List<Evento> getListagem() {
         return repositorio.Ordenar("inicio", "DESC").Buscar(getFiltro());
     }
-    
+
     @Override
     public Evento getFiltro() {
         if (filtro == null) {
@@ -109,8 +112,9 @@ public class EventoController
     @Override
     public void setFiltro(Evento filtro) {
         this.filtro = filtro;
-        if(filtro != null)
+        if (filtro != null) {
             setSessao("evtctrl_nome", filtro.getNome());
+        }
     }
 
     @Override
@@ -122,17 +126,17 @@ public class EventoController
         setConfiguracao("EVENTO_PADRAO", entidade.getId().toString());
         Mensagem("Sucesso", "Configuração global alterada com êxito!");
     }
-    
+
     public void configurarEventoUsuario() {
         setConfiguracao(getUsuarioCorrente(), "EVENTO_PADRAO", entidade.getId().toString());
         Mensagem("Sucesso", "Configuração do usuário alterada com êxito!");
     }
-    
-    public void fileUploadListener(FileUploadEvent event) {  
+
+    public void fileUploadListener(FileUploadEvent event) {
         entidade = dao.Refresh(getEntidade());
         Arquivo tmp = criaArquivo(event.getFile());
-        String arq = (String)event.getComponent().getAttributes().get("arquivo");
-        switch(arq){
+        String arq = (String) event.getComponent().getAttributes().get("arquivo");
+        switch (arq) {
             case "banner":
                 entidade.setBanner(tmp);
                 break;
@@ -149,23 +153,23 @@ public class EventoController
                 entidade.setCertificadoAssinatura2(tmp);
                 break;
         }
-        
-        if(dao.Salvar(entidade)){
+
+        if (dao.Salvar(entidade)) {
             Mensagem("Sucesso", "Arquivo anexado com êxito!");
             AppendLog("Anexou o arquivo " + entidade.getLogo() + " ao evento " + entidade);
         } else {
             Mensagem("Falha", "Falha ao anexar o arquivo!");
             AppendLog("Erro ao anexar o arquivo " + entidade.getLogo() + " ao evento " + entidade + ":" + dao.getErro());
-        }        
+        }
     }
-    
-     public Status[] getStatus() {
+
+    public Status[] getStatus() {
         return Status.values();
     }
-     
-     Pessoa responsavel;
-     
-     public void addResponsavel() {
+
+    Pessoa responsavel;
+
+    public void addResponsavel() {
         entidade = dao.Refresh(getEntidade());
         entidade.add(responsavel);
         SalvarAgregado(responsavel);
@@ -178,7 +182,7 @@ public class EventoController
         RemoverAgregado(responsavel);
         responsavel = new Pessoa();
     }
-    
+
     public void addCategoria() {
         entidade = dao.Refresh(getEntidade());
         entidade.add(categoria);
@@ -192,7 +196,7 @@ public class EventoController
         RemoverAgregado(categoria);
         categoria = new EventoInscricaoCategoria();
     }
-    
+
     public void addLimite() {
         entidade = dao.Refresh(getEntidade());
         entidade.addLimite(atividadeTipo, limite);
@@ -206,7 +210,7 @@ public class EventoController
         RemoverAgregado(atividadeTipo);
         atividadeTipo = new AtividadeTipo();
     }
-    
+
     public void addLimiteCategoria() {
         entidade = dao.Refresh(getEntidade());
         entidade.addLimite(categoria, limite);
@@ -244,11 +248,11 @@ public class EventoController
     public void setLimite(Integer limite) {
         this.limite = limite;
     }
-    
+
     public List<Entry<AtividadeTipo, Integer>> getLimitesAtividades() {
         return new ArrayList<Entry<AtividadeTipo, Integer>>(entidade.getInscricoesPorAtividade().entrySet());
     }
-    
+
     public void addAlocacao() {
         entidade = dao.Refresh(getEntidade());
         Rastrear(alocacao);
@@ -278,9 +282,9 @@ public class EventoController
 
         List<Alocacao> conflitos = alocDAO.conflitos(tmp);
 
-        if (!conflitos.isEmpty() && !conflitos.get(0).getAtividade().equals(entidade) ) {
-             FacesMessage msg
-                    = new FacesMessage("Conflito de Horário", "O recurso "+ value +" já está alocado para este horário na atividade " + conflitos.get(0).getAtividade() +"!");
+        if (!conflitos.isEmpty() && !conflitos.get(0).getAtividade().equals(entidade)) {
+            FacesMessage msg
+                    = new FacesMessage("Conflito de Horário", "O recurso " + value + " já está alocado para este horário na atividade " + conflitos.get(0).getAtividade() + "!");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
@@ -307,6 +311,56 @@ public class EventoController
     public void setCategoria(EventoInscricaoCategoria categoria) {
         this.categoria = categoria;
     }
+
+    public Pessoa getAvaliador() {
+        return avaliador;
+    }
+
+    public void setAvaliador(Pessoa avaliador) {
+        this.avaliador = avaliador;
+    }
+
+    public void addAvaliador() {
+        getEntidade().addAvaliador(avaliador);
+        if (dao.Salvar(getEntidade())) {
+            Mensagem("Sucesso!", "Avaliador adicionado com êxito!");
+        } else {
+            Mensagem("Falha!", "Falha ao adicionar avaliador!");
+        }
+    }
+
+    public void removeAvaliador() {
+        getEntidade().removeAvaliador(avaliador);
+        if (dao.Salvar(getEntidade())) {
+            Mensagem("Sucesso!", "Avaliador removido com êxito!");
+        } else {
+            Mensagem("Falha!", "Falha ao remover avaliador!");
+        }
+    }
     
-    
+    public AreaConhecimento getAreaConhecimento() {
+        return areaConhecimento;
+    }
+
+    public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
+        this.areaConhecimento = areaConhecimento;
+    }
+
+    public void addAreaConhecimento() {
+        getEntidade().addAreaConhecimento(areaConhecimento);
+        if (dao.Salvar(entidade)) {
+            Mensagem("Sucesso", "Área de conhecimento adicionada com êxito!");
+        } else {
+            Mensagem("Falha", "Falha ao adicionar Área de conhecimento!");
+            AppendLog("Erro ao anexar a Área de conhecimento " + String.valueOf(areaConhecimento) + " a submissão " + entidade + ":" + dao.getErro());
+        }
+        areaConhecimento = null;
+    }
+
+    public void removeAreaConhecimento() {
+        getEntidade().removeAreaConhecimento(areaConhecimento);
+        dao.Salvar(entidade);
+        areaConhecimento = null;
+    }
+
 }

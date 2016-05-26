@@ -62,6 +62,8 @@ public class SubmissoesPorCampus
     @EJB
     EventoRepositorio daoE;
     
+    SubmissaoStatus status;
+    
     @PostConstruct
     public void init() {
         checaEventoPadrao();
@@ -91,8 +93,18 @@ public class SubmissoesPorCampus
     @Override
     public Collection<Campus> getDados() {
                 
-        Collection<Campus> tmp = dao.CampusPorEvento(getEvento(), SubmissaoStatus.Pendente);
+        Collection<Campus> tmp = dao.CampusPorEvento(getEvento(), getStatus());
         
         return tmp;
     }
+
+    public SubmissaoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SubmissaoStatus status) {
+        this.status = status;
+    }
+    
+    
 }

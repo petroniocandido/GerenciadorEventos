@@ -170,10 +170,6 @@ public class SubmissaoController
         return SubmissaoStatus.values();
     }
 
-    public AreaConhecimento getAreaConhecimento() {
-        return areaConhecimento;
-    }
-
     @Override
     public void salvar() {
 
@@ -225,6 +221,10 @@ public class SubmissaoController
         return true;
     }
 
+    public AreaConhecimento getAreaConhecimento() {
+        return areaConhecimento;
+    }
+    
     public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
         this.areaConhecimento = areaConhecimento;
     }

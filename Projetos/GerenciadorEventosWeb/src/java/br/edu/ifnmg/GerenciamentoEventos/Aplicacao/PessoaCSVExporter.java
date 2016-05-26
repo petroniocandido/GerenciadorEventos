@@ -30,18 +30,44 @@ public class PessoaCSVExporter extends CSVExporter<Pessoa> {
     
     @Override
     protected StringBuilder gerarLinha(Pessoa obj) {
+        
+        String sx = "";
+        if(obj.getSexo() != null)
+            sx = obj.getSexo().name();
+        
+        String tr = "";
+        if(obj.getTratamento() != null)
+            sx = obj.getTratamento().getDescricao();
+        
+        String cp = "";
+        if(obj.getCampus() != null)
+            cp = obj.getCampus().getNome();
+        
+        String tm = "";
+        if(obj.getTitulacaoMaxima() != null)
+            tm = obj.getTitulacaoMaxima().getDescricao();
+        
+        String at = "";
+        if(obj.getAtuacao() != null)
+            at = obj.getAtuacao().getDescricao();
+        
         return new StringBuilder(limparTexto(obj.getNome())).append(";")
                 .append(obj.getCpf() != null ? limparTexto(obj.getCpf()) : "").append(";")
                 .append(obj.getTelefone() != null ? limparTexto(obj.getTelefone()): "").append(";")
                 .append(obj.getEmail() != null ? limparTexto(obj.getEmail()) : "").append(";")
                 .append(obj.getDataNascimento() != null ? df.format(obj.getDataNascimento()) : "").append(";")
                 .append(obj.getPerfil() != null ? limparTexto(obj.getPerfil().getId().toString()) : "").append(";")
-                .append(obj.getTipo() != null ? limparTexto(obj.getTipo().name()) : "").append(";");
+                .append(obj.getTipo() != null ? limparTexto(obj.getTipo().name()) : "").append(";")
+                .append(limparTexto(sx)).append(";")
+                .append(limparTexto(tr)).append(";")
+                .append(limparTexto(cp)).append(";")
+                .append(limparTexto(tm)).append(";")
+                .append(limparTexto(at)).append(";");
     }
 
     @Override
     protected StringBuilder gerarCabecalho(Pessoa obj) {
-        return new StringBuilder("nome;cpf;telefone;email;dataNascimento;perfil;tipo;");
+        return new StringBuilder("nome;cpf;telefone;email;dataNascimento;perfil;tipo;sexo;tratamento;campus;titulacao;atuacao;");
         
     }
     

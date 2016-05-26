@@ -424,8 +424,9 @@ public class Submissao implements Entidade, Serializable {
         int count = 0;
         
         for(SubmissaoAvaliacao aval : getAvaliacoes()){
-            if(aval.getStatus() == SubmissaoStatus.Aprovado)
+            if(aval.getStatus() == SubmissaoStatus.Aprovado){
                 aprovado = true;
+            }
             else if(aval.getStatus() == SubmissaoStatus.Reprovado)
                 reprovado = true;
             else if(aval.getStatus() == SubmissaoStatus.Desclassificado)
@@ -437,10 +438,13 @@ public class Submissao implements Entidade, Serializable {
         }
         if(aprovado && !reprovado && !desclassificado){
             setStatus(SubmissaoStatus.Aprovado);
+            getInscricao().setStatus(InscricaoStatus.Confirmada);
         } else if(!aprovado && reprovado && !desclassificado){
             setStatus(SubmissaoStatus.Reprovado);
+            getInscricao().setStatus(InscricaoStatus.Recusada);
         } else if(!aprovado && !reprovado && desclassificado){
             setStatus(SubmissaoStatus.Desclassificado);
+            getInscricao().setStatus(InscricaoStatus.Cancelada);
         } else {
             setStatus(SubmissaoStatus.Divergencia);
         }

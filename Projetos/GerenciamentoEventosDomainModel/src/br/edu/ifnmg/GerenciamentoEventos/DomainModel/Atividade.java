@@ -191,6 +191,10 @@ public class Atividade implements Entidade, Serializable {
         quantidadeAutores = 1;
     }
     
+    public boolean requerPagamento(){
+        return this.valorInscricao.compareTo(new BigDecimal("0.00")) > 0;
+    }
+    
     public boolean podeEditar(Pessoa obj) {
         return id == 0 ||  criador.equals(obj) || responsaveis.contains(obj);
     }
