@@ -91,7 +91,8 @@
                             </c:choose>                                
                         </p:panelGrid>
                         <p:commandButton rendered="#{empty publicoController.inscricao}" value="Inscrever" onclick="msgSalvar.show()" />                        
-                        <p:commandButton rendered="#{not empty publicoController.inscricao and publicoController.evento.requerPagamento() and publicoController.inscricao.isNaoPago()}" value="Pagar Inscrição" onclick="msgPagar.show();"  />
+                        <p:commandButton rendered="#{not empty publicoController.inscricao and publicoController.evento.requerPagamento() and publicoController.inscricao.isNaoPago()}" 
+                                         value="Pagar Inscrição" onclick="msgPagar.show();"  />
                         <c:if test="#{not empty publicoController.inscricao}">
                             <c:choose>
                                 <c:when test="#{not empty publicoController.inscricao.itens and publicoController.inscricao.itens.size() gt 0}">

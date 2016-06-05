@@ -16,8 +16,6 @@
  */
 package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
-
-
 import br.edu.ifnmg.DomainModel.AreaConhecimento;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
@@ -54,32 +52,34 @@ public class SubmissoesPorArea
         setArquivoSaida("SubmissoesPorArea");
         setRelatorio("SubmissoesPorArea.jasper");
     }
-    
+
     @EJB
     SubmissaoRepositorio dao;
-    
+
     @EJB
     EventoRepositorio daoE;
-    
+
     SubmissaoStatus status;
-    
+
     @PostConstruct
     public void init() {
         checaEventoPadrao();
     }
-    
-     public void checaEventoPadrao() {
-        String evt = getConfiguracao("EVENTO_PADRAO");
-        if (evt != null ) {
-            Evento padrao = daoE.Abrir(Long.parseLong(evt));
-            setEvento(padrao);
+
+    public void checaEventoPadrao() {
+        if (getEvento() == null) {
+            String evt = getConfiguracao("EVENTO_PADRAO");
+            if (evt != null) {
+                Evento padrao = daoE.Abrir(Long.parseLong(evt));
+                setEvento(padrao);
+            }
         }
     }
-            
+
     @Override
     protected Map<String, Object> carregaParametros() {
         try {
-            
+
             Map<String, Object> tmp = getParametrosComuns();
             tmp.put("data", new Date());
             tmp.put("titulo", "Submissões de Trabalhos Por Área");
@@ -92,9 +92,9 @@ public class SubmissoesPorArea
 
     @Override
     public Collection<AreaConhecimento> getDados() {
-                
-        Collection<AreaConhecimento> tmp = dao.AreasPorEvento(getEvento(),getStatus());
-        
+
+        Collection<AreaConhecimento> tmp = dao.AreasPorEvento(getEvento(), getStatus());
+
         return tmp;
     }
 
@@ -105,6 +105,5 @@ public class SubmissoesPorArea
     public void setStatus(SubmissaoStatus status) {
         this.status = status;
     }
-    
-    
+
 }

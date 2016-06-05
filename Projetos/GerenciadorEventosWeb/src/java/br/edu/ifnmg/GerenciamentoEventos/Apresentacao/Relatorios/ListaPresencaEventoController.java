@@ -21,9 +21,11 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.InscricaoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoTipo;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.net.MalformedURLException;
@@ -33,6 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
@@ -55,10 +58,28 @@ public class ListaPresencaEventoController
     }
     
     @EJB
+    EventoRepositorio daoE;
+    
+    @EJB
     InscricaoRepositorio daoInscricao;
     
     InscricaoStatus status;
     InscricaoCategoria categoria;
+    
+    @PostConstruct
+    public void init() {
+        checaEventoPadrao();
+    }
+
+    public void checaEventoPadrao() {
+        if (getEvento() == null) {
+            String evt = getConfiguracao("EVENTO_PADRAO");
+            if (evt != null) {
+                Evento padrao = daoE.Abrir(Long.parseLong(evt));
+                setEvento(padrao);
+            }
+        }
+    }
             
     @Override
     protected Map<String, Object> carregaParametros() {

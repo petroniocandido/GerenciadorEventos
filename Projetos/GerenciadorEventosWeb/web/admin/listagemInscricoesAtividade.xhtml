@@ -44,13 +44,15 @@
                                 <p:autoComplete converter="#{atividadeConverter}" value="#{inscricaoItemController.filtro.atividade}"
                                                 completeMethod="#{atividadeConverter.autoCompleteAtividade}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
-                                    #{item.nome}
+                                    <p:column>#{item.nome}</p:column>
+                                    <p:column>#{item.evento}</p:column>
                                 </p:autoComplete> 
                                  <h:outputText value="Participante: " />
                                  <p:autoComplete converter="#{usuarioConverter}" value="#{inscricaoItemController.filtro.pessoa}"
                                                  completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
-                                    #{item.nome}
+                                    <p:column>#{item.nome}</p:column>
+                                    <p:column>#{item.email}</p:column>
                                 </p:autoComplete>
                                 <h:outputText value="Categoria: " />
                                 <h:selectOneMenu value="#{inscricaoItemController.filtro.categoria}">

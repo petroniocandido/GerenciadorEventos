@@ -115,7 +115,7 @@ public class csvExporterController
         tmp.setAtividade(atividade);
         List<InscricaoItem> dados = daoI.Buscar(tmp);
         try {
-            String arq = atividade.getNome().replace(" ", "");
+            String arq = atividade.getNome().replace(" ", "").replace("/", "").replace("(", "").replace(")", "");
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
             httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + arq + ".csv");
             servletOutputStream = httpServletResponse.getOutputStream();

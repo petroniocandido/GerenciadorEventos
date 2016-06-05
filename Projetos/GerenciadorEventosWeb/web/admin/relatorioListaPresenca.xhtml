@@ -43,6 +43,7 @@
                                         completeMethod="#{atividadeConverter.autoCompleteAtividade}" 
                                         var="item" itemLabel="#{item.nome}" itemValue="#{item}">
                             <p:column>#{item.nome}</p:column>
+                            <p:column>#{item.evento}</p:column>
                         </p:autoComplete>
                         <h:outputText value="Categoria: " />
                         <h:selectOneMenu value="#{listaPresencaController.categoria}">

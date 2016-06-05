@@ -20,7 +20,9 @@ package br.edu.ifnmg.GerenciamentoEventos.Apresentacao.Relatorios;
 
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBaseRelatorio;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Evento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.LancamentoRepositorio;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 
@@ -56,6 +59,9 @@ public class LancamentosController
     }
     
     @EJB
+    EventoRepositorio daoE;
+    
+    @EJB
     LancamentoRepositorio daoLancamento;
     
     Lancamento filtro;
@@ -63,6 +69,21 @@ public class LancamentosController
     Date inicio;
     
     Date termino;
+    
+    @PostConstruct
+    public void init() {
+        checaEventoPadrao();
+    }
+
+    public void checaEventoPadrao() {
+        if (getEvento() == null) {
+            String evt = getConfiguracao("EVENTO_PADRAO");
+            if (evt != null) {
+                Evento padrao = daoE.Abrir(Long.parseLong(evt));
+                setEvento(padrao);
+            }
+        }
+    }
     
              
     @Override

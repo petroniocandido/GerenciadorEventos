@@ -127,11 +127,15 @@ public class Inscricao implements Entidade, Serializable {
     }
 
     public boolean isPendente() {
-        return status == InscricaoStatus.Criada || status == InscricaoStatus.Aceita;
+        return (getEvento().requerPagamento() && status == InscricaoStatus.Criada) || status == InscricaoStatus.Aceita;
     }
     
     public boolean isNaoPago() {
-        return isPendente() && !pago && (getLancamento() == null || getLancamento().getStatus() == LancamentoStatus.Aberto);
+        return isPendente() 
+                && getEvento().requerPagamento() && !pago 
+                && (getLancamento() == null 
+                    || getLancamento().getStatus() == LancamentoStatus.Aberto
+                    || getLancamento().getStatus() == LancamentoStatus.AguardandoConfirmacao);
     }
 
     public boolean isCancelada() {

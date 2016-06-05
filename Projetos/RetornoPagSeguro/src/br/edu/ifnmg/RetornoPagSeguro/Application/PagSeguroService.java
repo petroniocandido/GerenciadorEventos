@@ -42,6 +42,9 @@ public class PagSeguroService {
 
         List<PagSeguroPerfil> perfis = perfDAO.Buscar();
 
+        int sucesso = 0;
+        int erro = 0;
+        
         for (PagSeguroPerfil perfil : perfis) {
             AccountCredentials cred = new AccountCredentials(
                     perfil.getEmail(),
@@ -59,20 +62,21 @@ public class PagSeguroService {
                             LancamentoStatus s = ConverteStatus(t.getStatus());
                             l = AtualizaLancamento(l, s);
                             if (lancDAO.Salvar(l)) {
-                                System.out.println("Atualizando lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
-                                log.Append("Atualizando lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
+                                sucesso++;
+                                //log.Append("Atualizando lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
                             } else {
-                                System.out.println("Falha ao atualizar lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
+                                erro++;
                                 log.Append("Falha ao atualizar lançamento " + l.getId().toString() + " no PagSeguro. Situacção: " + t.getStatus());
                             }
                         }
                     }
                 } catch(Exception e){
-                    System.out.println("Falha ao atualizar lançamento " + t.getReference() + ", " + t.getPaymentLink());
+                    erro++;
                     log.Append("Falha ao atualizar lançamento " + t.getReference() + ", " + t.getPaymentLink());
                 }
             }
         }
+        log.Append("Final da atualização de lançamentos no PagSeguro: Sucessos: " + sucesso + " . Falhas: " + erro);
     }
 
     public LancamentoStatus receber(Lancamento l) throws Exception {

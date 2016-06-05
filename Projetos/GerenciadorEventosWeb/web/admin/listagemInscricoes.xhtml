@@ -44,7 +44,9 @@
                                 <p:autoComplete converter="#{usuarioConverter}" value="#{inscricaoController.filtro.pessoa}"
                                                 completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
-                                    #{item.nome}
+                                    <p:column headerText="CPF">#{item.cpf}</p:column>
+                                    <p:column headerText="E-Mail">#{item.email}</p:column>
+                                    <p:column headerText="Nome">#{item.nome}</p:column>
                                 </p:autoComplete>
                                 <h:outputText value="ID: " />
                                 <p:inputText id="txtID" size="50" value="#{inscricaoController.filtro.id}">
