@@ -21,6 +21,8 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Questao;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestaoResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioResposta;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.QuestionarioSecao;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -31,7 +33,7 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao> {
     @Override
     protected StringBuilder gerarCabecalho(Inscricao obj) {
         StringBuilder sb = new StringBuilder();
-        sb.append("pessoa;email;cpf;inscricao;");
+        sb.append("dataInscricao;pessoa;email;cpf;inscricao;situacao;");
 
         if (obj.getEvento() == null) {
             return sb;
@@ -48,6 +50,7 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao> {
 
     @Override
     protected StringBuilder gerarLinha(Inscricao obj) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm");
         StringBuilder sb = new StringBuilder();
         try {
             if (obj.getResposta() == null) {
@@ -57,9 +60,11 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao> {
             QuestionarioResposta resp = obj.getResposta();
 
             sb.append(limparTexto(obj.getPessoa().getNome()))
+                    .append(";").append(df.format(obj.getDataInscricao()))
                     .append(";").append(limparTexto(obj.getPessoa().getEmail()))
                     .append(";").append(limparTexto(obj.getPessoa().getCpf()))
                     .append(";").append(limparTexto(obj.getId().toString()))
+                    .append(";").append(limparTexto(obj.getStatus().toString()))
                     .append(";");
             for (QuestionarioSecao s : resp.getQuestionario().getSecoes()) {
                 for (Questao q : s.getQuestoes()) {

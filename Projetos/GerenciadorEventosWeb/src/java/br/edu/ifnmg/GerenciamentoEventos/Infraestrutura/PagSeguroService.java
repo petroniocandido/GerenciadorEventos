@@ -12,6 +12,7 @@ import br.com.uol.pagseguro.enums.DocumentType;
 import br.com.uol.pagseguro.exception.PagSeguroServiceException;
 import br.edu.ifnmg.DomainModel.Services.LogService;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Inscricao;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Lancamento;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LancamentoStatus;
@@ -62,7 +63,7 @@ public class PagSeguroService {
                 0L, new BigDecimal("0.00"));
 
         for (InscricaoItem it : i.getItens()) {
-            if(it.getAtividade().requerPagamento())
+            if(it.getAtividade().requerPagamento() && it.getCategoria() == InscricaoCategoria.Normal)
                 checkout.addItem(it.getId().toString(), it.getAtividade().getNome(), 1, it.getAtividade().getValorInscricao(),
                     0L, new BigDecimal("0.00"));
         }

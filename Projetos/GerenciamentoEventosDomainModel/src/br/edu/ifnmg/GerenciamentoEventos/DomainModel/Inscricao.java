@@ -134,8 +134,7 @@ public class Inscricao implements Entidade, Serializable {
         return isPendente() 
                 && getEvento().requerPagamento() && !pago 
                 && (getLancamento() == null 
-                    || getLancamento().getStatus() == LancamentoStatus.Aberto
-                    || getLancamento().getStatus() == LancamentoStatus.AguardandoConfirmacao);
+                    || getLancamento().getStatus() != LancamentoStatus.Baixado);
     }
 
     public boolean isCancelada() {

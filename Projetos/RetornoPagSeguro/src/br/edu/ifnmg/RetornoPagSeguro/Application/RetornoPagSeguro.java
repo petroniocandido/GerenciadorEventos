@@ -5,6 +5,9 @@
  */
 package br.edu.ifnmg.RetornoPagSeguro.Application;
 
+import br.edu.ifnmg.DomainModel.Configuracao;
+import br.edu.ifnmg.DomainModel.Services.ConfiguracaoRepositorio;
+import br.edu.ifnmg.RetornoPagSeguro.DataAccess.ConfiguracaoDAO;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -17,13 +20,15 @@ import java.util.logging.Logger;
  */
 public class RetornoPagSeguro {
 
+    
+    
     /**
      * @param args the command line arguments
      */
-    protected static Date HojeMenos5Dias() {
+    protected static Date CalculaData(int qtdDias) {
         Calendar cal = GregorianCalendar.getInstance();
         cal.setTime(new Date());
-        cal.add(Calendar.DAY_OF_YEAR, -4);
+        cal.add(Calendar.DAY_OF_YEAR, -qtdDias);
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.set(Calendar.MINUTE, 0);
         return cal.getTime();
@@ -39,10 +44,14 @@ public class RetornoPagSeguro {
 
     public static void main(String[] args) {
         PagSeguroService pagseguro = new PagSeguroService();
+        ConfiguracaoRepositorio conf = new ConfiguracaoDAO();
         while (true) {            
             int total = 0, totalConfirmado = 0, totalCancelado = 0, totalErro = 0;
             try {
-        /*        Date d = HojeMenos5Dias();
+                
+                Configuracao dias = conf.Abrir("PagSeguroQuantidadeDias");
+                
+        /*        Date d = CalculaData();
                 List<Lancamento> lancamentos = lancDAO
                         .MaiorOuIgualA("criacao", d)
                         .IgualA("status", LancamentoStatus.AguardandoConfirmacao)
@@ -63,7 +72,7 @@ public class RetornoPagSeguro {
                     }
                 }
             */
-                pagseguro.Sincronizar(new Date(), HojeMenos5Dias());
+                pagseguro.Sincronizar(new Date(), CalculaData( Integer.parseInt(dias.getValor())  ));
 
             } catch (Exception ex) {
                 String msg = ex.getMessage();

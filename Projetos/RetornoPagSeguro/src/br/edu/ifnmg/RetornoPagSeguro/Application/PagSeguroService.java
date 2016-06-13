@@ -36,6 +36,7 @@ public class PagSeguroService {
     LancamentoRepositorio lancDAO = new LancamentoDAO();
     InscricaoRepositorio inscDAO = new InscricaoDAO();
     LogServiceImpl log = new LogServiceImpl();
+    
 
     public void Sincronizar(Date dataInicio, Date dataFim) throws PagSeguroServiceException {
         PagSeguroPerfilRepositorio perfDAO = new PagSeguroPerfilDAO();
