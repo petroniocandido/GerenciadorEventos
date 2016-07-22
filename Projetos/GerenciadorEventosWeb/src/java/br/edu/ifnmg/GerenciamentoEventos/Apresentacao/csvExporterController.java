@@ -135,6 +135,7 @@ public class csvExporterController
     public void exportaEvento() {
         ServletOutputStream servletOutputStream = null;
         Inscricao tmp = new Inscricao();
+        tmp.setStatus(null);
         CSVExporter csv = new InscricaoRespostaCSVExporter();
         tmp.setEvento(padrao);
         List<Inscricao> dados = daoI.Buscar(tmp);

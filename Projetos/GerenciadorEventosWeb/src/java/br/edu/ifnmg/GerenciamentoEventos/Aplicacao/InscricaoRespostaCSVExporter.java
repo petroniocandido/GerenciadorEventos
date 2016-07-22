@@ -33,7 +33,7 @@ public class InscricaoRespostaCSVExporter extends CSVExporter<Inscricao> {
     @Override
     protected StringBuilder gerarCabecalho(Inscricao obj) {
         StringBuilder sb = new StringBuilder();
-        sb.append("dataInscricao;pessoa;email;cpf;inscricao;situacao;");
+        sb.append("pessoa;dataInscricao;email;cpf;inscricao;situacao;");
 
         if (obj.getEvento() == null) {
             return sb;

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <body>
+        <ui:composition template="./AdminTemplate.xhtml">
+
+            <ui:define name="content">
+                <p:panel>
+                    <f:facet name="header">
+                        Editar Categorias de Inscrição por Evento 
+                    </f:facet>
+                    <p:tabView id="tabView">  
+                        <p:tab id="tabDados" title="Dados Gerais">  
+                            <h:panelGrid columns="2">
+                                Nome: 
+                                <p:inputText value="#{eventoInscricaoCategoriaController.entidade.nome}" size="100"
+                                             required="true" requiredMessage="O campo nome é obrigatório" />                      
+                                Descrição: 
+                                <p:editor id="editor" value="#{eventoInscricaoCategoriaController.entidade.descricao}" width="600"/>
+                                Valor Inscrição: 
+                                <pe:inputNumber symbol="R$ " thousandSeparator="" value="#{eventoInscricaoCategoriaController.entidade.valorInscricao}" >
+                                    <f:convertNumber currencyCode="pt-BR" />
+                                </pe:inputNumber>
+                            </h:panelGrid>
+                        </p:tab> 
+                         <p:tab rendered="#{eventoInscricaoCategoriaController.entidade.id gt 0}" title="Limites de Inscrição por Atividade">  
+                            <h:panelGrid columns="5" cellpadding="3"> 
+                                Atividade: 
+                                <p:selectOneMenu converter="#{atividadeTipoConverter}" value="#{eventoInscricaoCategoriaController.atividadeTipo}">
+                                    <f:selectItem noSelectionOption="true" itemValue="Escolha um Tipo de Atividade" />
+                                    <f:selectItems value="#{atividadeTipoController.listagemGeral}" />
+                                </p:selectOneMenu>>
+                                <h:outputText value="Limite: " />
+                                <pe:inputNumber value="#{eventoInscricaoCategoriaController.limite}"  
+                                                thousandSeparator="" decimalPlaces="0" converter="#{integerConverter}" />
+                                <p:commandButton value="Adicionar" action="#{eventoInscricaoCategoriaController.addLimite()}" update="tblLimites" />
+                            </h:panelGrid>
+                            <p:dataTable id="tblLimites" value="#{eventoInscricaoCategoriaController.limitesAtividades}" var="item"
+                                         paginator="true" lazy="true" 
+                                         >  
+
+                                <p:column headerText="Atividade" sortBy="#{item.key}"  >
+                                    #{item.key}                            
+                                </p:column>
+                                <p:column headerText="Limite" sortBy="#{item.value}"  >
+                                    #{item.value}                            
+                                </p:column>
+                                <p:column >
+                                    <p:commandButton value="Remover" action="#{eventoInscricaoCategoriaController.removeLimite}" >
+                                        <f:setPropertyActionListener target="#{eventoInscricaoCategoriaController.atividade}" value="#{item.key}" />
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <ui:include src="./comum/tabSeguranca.xhtml">
+                            <ui:param name="controller" value="#{eventoInscricaoCategoriaController}"  />
+                        </ui:include>
+                    </p:tabView>
+                    <ui:include src="./comum/botoesEntidade.xhtml">
+                        <ui:param name="controller" value="#{eventoInscricaoCategoriaController}"  />
+                    </ui:include>
+                </p:panel>
+            </ui:define>                     
+        </ui:composition>
+    </body>
+</html>

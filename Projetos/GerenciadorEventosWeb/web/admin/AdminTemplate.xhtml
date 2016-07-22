@@ -47,6 +47,7 @@
                 </p:submenu>
                 <p:submenu rendered="#{autenticacaoController.autorizacao('admin/Eventos')}" label="Eventos">
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemEventos.xhtml')}" value="Eventos" url="listagemEventos.xhtml" />
+                    <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemEventoInscricaoCategorias.xhtml')}" value="Categorias de Inscrição"  url="listagemEventoInscricaoCategorias.xhtml"  />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemAtividades.xhtml')}" value="Atividades"  url="listagemAtividades.xhtml"  />
                     <p:menuitem rendered="#{autenticacaoController.autorizacao('admin/listagemQuestionarios.xhtml')}" value="Formulários"  url="listagemQuestionarios.xhtml"  />
                     <p:submenu label="Inscrições">

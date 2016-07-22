@@ -58,8 +58,15 @@ public class PagSeguroService {
         Lancamento lanc = i.getLancamento();
 
         Checkout checkout = new Checkout();
+        
+        BigDecimal valor = new BigDecimal("0.00");
+        
+        if (i.getEventoInscricaoCategoria() != null)
+            valor = i.getEventoInscricaoCategoria().getValorInscricao();
+        else
+            valor = i.getEvento().getValorInscricao();
 
-        checkout.addItem(i.getId().toString(), i.getEvento().getNome(), 1, i.getEvento().getValorInscricao(),
+        checkout.addItem(i.getId().toString(), i.getEvento().getNome(), 1, valor,
                 0L, new BigDecimal("0.00"));
 
         for (InscricaoItem it : i.getItens()) {

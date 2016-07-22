@@ -21,14 +21,21 @@ import br.edu.ifnmg.DomainModel.Entidade;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,10 +59,27 @@ public class EventoInscricaoCategoria implements Entidade, Serializable {
 
     @Column(length = 500, nullable = false, unique = true)
     private String nome;
+    
+    @Lob
+    private String descricao;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal valorInscricao;
+    
+    @ElementCollection
+    @CollectionTable(name = "eventosinscricoescategorias_inscricoesPorAtividade",
+            joinColumns = @JoinColumn(name = "evento"))
+    @MapKeyJoinColumn(name = "atividadeTipo", referencedColumnName = "id")
+    @Column(name = "quantidadeInscricoes")
+    private Map<AtividadeTipo, Integer> inscricoesPorAtividade;
 
+    public EventoInscricaoCategoria() {
+        inscricoesPorAtividade = new HashMap<>();
+        valorInscricao = new BigDecimal("0.00");
+    }
+
+    
+    
     @Override
     public Long getId() {
         return id;
@@ -89,12 +113,49 @@ public class EventoInscricaoCategoria implements Entidade, Serializable {
     public void setValorInscricao(BigDecimal valorInscricao) {
         this.valorInscricao = valorInscricao;
     }
+    
+    public int getLimiteInscricoes(AtividadeTipo a){
+        if(inscricoesPorAtividade.containsKey(a)){
+            return inscricoesPorAtividade.get(a).intValue();
+        } else {
+            return 0;
+        }
+    }
+    
+    public void addLimite(AtividadeTipo a, int l){
+        if(inscricoesPorAtividade.containsKey(a)){
+            inscricoesPorAtividade.remove(a);
+        }
+        inscricoesPorAtividade.put(a, l);
+    }
+    
+    public void removeLimite(AtividadeTipo a){
+        inscricoesPorAtividade.remove(a);        
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Map<AtividadeTipo, Integer> getInscricoesPorAtividade() {
+        return inscricoesPorAtividade;
+    }
+
+    public void setInscricoesPorAtividade(Map<AtividadeTipo, Integer> inscricoesPorAtividade) {
+        this.inscricoesPorAtividade = inscricoesPorAtividade;
+    }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.evento);
-        hash = 17 * hash + Objects.hashCode(this.nome);
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.evento);
+        hash = 47 * hash + Objects.hashCode(this.nome);
+        hash = 47 * hash + Objects.hashCode(this.valorInscricao);
         return hash;
     }
 
@@ -107,14 +168,22 @@ public class EventoInscricaoCategoria implements Entidade, Serializable {
             return false;
         }
         final EventoInscricaoCategoria other = (EventoInscricaoCategoria) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
         if (!Objects.equals(this.evento, other.evento)) {
             return false;
         }
         if (!Objects.equals(this.nome, other.nome)) {
             return false;
         }
+        if (!Objects.equals(this.valorInscricao, other.valorInscricao)) {
+            return false;
+        }
         return true;
     }
+
+    
 
     @Override
     public String toString() {

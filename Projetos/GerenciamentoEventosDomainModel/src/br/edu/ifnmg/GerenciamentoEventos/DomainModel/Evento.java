@@ -175,6 +175,9 @@ public class Evento implements Entidade, Serializable {
     @Column(name = "quantidadeInscricoes")
     private Map<EventoInscricaoCategoria, Integer> inscricoesPorCategoria;
     
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evento")
+    private List<EventoInscricaoCategoria> categoriasInscricoes;
+    
     @ManyToOne
     private MensagemPerfil mensagemPerfil;
     
@@ -738,8 +741,14 @@ public class Evento implements Entidade, Serializable {
     public void setAvaliadores(List<Pessoa> avaliadores) {
         this.avaliadores = avaliadores;
     }
-    
-    
+
+    public List<EventoInscricaoCategoria> getCategoriasInscricoes() {
+        return categoriasInscricoes;
+    }
+
+    public void setCategoriasInscricoes(List<EventoInscricaoCategoria> categoriasInscricoes) {
+        this.categoriasInscricoes = categoriasInscricoes;
+    }
     
     @Override
     public int hashCode() {

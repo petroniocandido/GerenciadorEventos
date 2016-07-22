@@ -26,6 +26,7 @@ import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoItem;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.EventoInscricaoCategoria;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.InscricaoStatus;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,11 @@ public class InscricaoService {
     @EJB
     InscricaoRepositorio inscricaoDAO;
     
-    public Inscricao inscrever(Evento e, Pessoa p){
+    public Inscricao inscrever(Evento e, Pessoa p) {
+        return inscrever(e, p, null);
+    }
+    
+    public Inscricao inscrever(Evento e, Pessoa p, EventoInscricaoCategoria eic){
         
         Inscricao tmp = new Inscricao();
         tmp.setPessoa(p);
@@ -66,13 +71,13 @@ public class InscricaoService {
         if(e.getNumeroVagas() > 0){
             
             if(c.getQuantidadeGeral() < e.getNumeroVagas()){
-                return criaInscricao(c, e, p, InscricaoCategoria.Normal);
+                return criaInscricao(c, e, p, InscricaoCategoria.Normal,eic);
             } 
             else  if(c.getQuantidadeListaEspera() < (e.getNumeroVagas()*0.1)){
-                return criaInscricao(c, e, p, InscricaoCategoria.ListaEspera);
+                return criaInscricao(c, e, p, InscricaoCategoria.ListaEspera,eic);
             }
         } else {
-            return criaInscricao(c, e, p, InscricaoCategoria.Normal);
+            return criaInscricao(c, e, p, InscricaoCategoria.Normal,eic);
         }
         
         return null;
@@ -116,15 +121,21 @@ public class InscricaoService {
         Controle c = controleDAO.Abrir(e);
         
         if(e.getNumeroVagas() > 0){           
-            
-            int inscPorTipo = i.getEvento().getLimiteInscricoes(e.getTipo());
+            int inscPorTipo = 0;
+            if(i.getEventoInscricaoCategoria() == null){
+                inscPorTipo = i.getEvento().getLimiteInscricoes(e.getTipo());
+            } else {
+                inscPorTipo = i.getEventoInscricaoCategoria().getLimiteInscricoes(e.getTipo());
+            }
             
             if(inscPorTipo > 0){
                 Long inscs = inscricaoDAO.QuantidadeInscricoes(i, e);
                 if(inscs >= inscPorTipo)
                     throw new LimiteInscricoesExcedidoException(inscPorTipo,e.getTipo());
-            }
-            
+            } else if(inscPorTipo == 0){
+                throw new LimiteInscricoesExcedidoException(inscPorTipo,e.getTipo());
+            } 
+
             if(c.getQuantidadeGeral() < e.getNumeroVagas()){
                 return criaInscricaoItem(c, i, e, p, InscricaoCategoria.Normal);
             } 
@@ -183,7 +194,7 @@ public class InscricaoService {
         }
     }
 
-    private Inscricao criaInscricao(Controle ctl, Evento e, Pessoa p, InscricaoCategoria c) {
+    private Inscricao criaInscricao(Controle ctl, Evento e, Pessoa p, InscricaoCategoria c, EventoInscricaoCategoria eic) {
         Inscricao i = new Inscricao();
         i.setEvento(e);
         i.setPessoa(p);
@@ -191,6 +202,7 @@ public class InscricaoService {
         i.setDataCriacao(new Date());
         i.setDataInscricao(new Date());
         i.setCategoria(c);
+        i.setEventoInscricaoCategoria(eic);
         i.setOrdem(c == InscricaoCategoria.Normal ? ctl.getQuantidadeGeral() : ctl.getQuantidadeListaEspera());
         if(!e.requerPagamento()) i.setStatus(InscricaoStatus.Confirmada);
         

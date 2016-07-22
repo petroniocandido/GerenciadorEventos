@@ -271,7 +271,12 @@ public class Inscricao implements Entidade, Serializable {
 
     public BigDecimal getValorTotal() {
         BigDecimal valor = new BigDecimal("0.00");
-        valor = valor.add(this.getEvento().getValorInscricao());
+        
+        if(getEventoInscricaoCategoria() != null)
+            valor = valor.add(this.getEventoInscricaoCategoria().getValorInscricao());
+        else
+            valor = valor.add(this.getEvento().getValorInscricao());
+        
         for (InscricaoItem i : getItens()) {
             if (i.getStatus() != InscricaoStatus.Cancelada && i.getStatus() != InscricaoStatus.Recusada
                     && i.getCategoria() == InscricaoCategoria.Normal) {

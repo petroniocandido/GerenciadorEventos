@@ -38,6 +38,8 @@ import br.edu.ifnmg.GerenciamentoEventos.Aplicacao.ControllerBase;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.ConflitoHorarioException;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.LimiteInscricoesExcedidoException;
 import br.edu.ifnmg.DomainModel.Pessoa;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.EventoInscricaoCategoria;
+import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.EventoInscricaoCategoriaRepositorio;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Servicos.PessoaRepositorioLocal;
 import br.edu.ifnmg.GerenciamentoEventos.DomainModel.Submissao;
 import br.edu.ifnmg.GerenciamentoEventos.Infraestrutura.PagSeguroService;
@@ -89,6 +91,9 @@ public class PublicoController extends ControllerBase implements Serializable {
     
     @EJB
     PagSeguroService pagseguro;
+    
+    @EJB
+    EventoInscricaoCategoriaRepositorio categoriaDAO;
 
     Evento evento;
 
@@ -103,6 +108,8 @@ public class PublicoController extends ControllerBase implements Serializable {
     Questionario questionario;
     
     Submissao submissao;
+    
+    EventoInscricaoCategoria categoria;
 
     /**
      * Creates a new instance of PublicoController
@@ -128,6 +135,18 @@ public class PublicoController extends ControllerBase implements Serializable {
     public void setInscricao(Inscricao i) {
         inscricao = i;
         setSessao("inscricao", i);
+    }
+
+    public EventoInscricaoCategoria getCategoria() {
+        if(categoria == null){
+            categoria = (EventoInscricaoCategoria) getSessao("categoria", categoriaDAO);
+        }
+        return categoria;
+    }
+
+    public void setCategoria(EventoInscricaoCategoria categoria) {
+        this.categoria = categoria;
+        setSessao("categoria", categoria);
     }
 
     public Inscricao getInscricao() {
@@ -176,7 +195,7 @@ public class PublicoController extends ControllerBase implements Serializable {
     
     
     public void inscreverEvento() throws IOException {
-        setInscricao(inscricaoservice.inscrever(getEvento(), getUsuarioCorrente()));
+        setInscricao(inscricaoservice.inscrever(getEvento(), getUsuarioCorrente(), getCategoria()));
 
         if (inscricao != null) {
             processaQuestionarioEvento(inscricao);

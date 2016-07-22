@@ -34,20 +34,20 @@
                     <p:accordionPanel styleClass="teste">
                         <p:tab title="Filtros">
                             <p:panelGrid columns="2">
-                                <h:outputText value="Evento: " />
+                                Evento:
                                 <p:autoComplete converter="#{eventoConverter}" value="#{atividadeController.filtro.evento}"
                                                 completeMethod="#{eventoConverter.autoCompleteEvento}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}
                                 </p:autoComplete>
-                                <h:outputText value="Nome: " />
+                                Nome: 
                                 <p:inputText id="txtNome" size="50" value="#{atividadeController.filtro.nome}"/> 
-                                <h:outputText value="Situação: " />
+                                Situação: 
                                 <p:selectOneMenu value="#{atividadeController.filtro.status}">
                                     <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                                     <f:selectItems value="#{atividadeController.status}" />
                                 </p:selectOneMenu>
-                                <h:outputText value="Tipo: " />
+                                Tipo: 
                                 <p:selectOneMenu value="#{atividadeController.filtro.tipo}" converter="#{atividadeTipoConverter}">
                                     <f:selectItem noSelectionOption="true" itemLabel="Todos" />
                                     <f:selectItems value="#{atividadeController.listagemTipos}" />
