@@ -38,10 +38,14 @@
                             <h:panelGrid columns="2" cellpadding="3">
                                 <h:outputText value="Inscrição: " />
                                 <h:outputText value="#{inscricaoController.entidade.id}" />
-                                <h:outputText value="Categoria: " />
+                                <h:outputText value="Tipo: " />
                                 <h:selectOneMenu value="#{inscricaoController.entidade.categoria}" 
                                                  required="true" requiredMessage="A campo Categoria é de preenchimento obrigatório!">
                                     <f:selectItems value="#{inscricaoController.categorias}" />
+                                </h:selectOneMenu>
+                                <h:outputText value="Categoria: " />
+                                <h:selectOneMenu value="#{inscricaoController.entidade.eventoInscricaoCategoria}" >
+                                    <f:selectItems value="#{inscricaoController.entidade.evento.inscricoesCategorias}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Situação: " />
                                 <h:selectOneMenu value="#{inscricaoController.entidade.status}" 

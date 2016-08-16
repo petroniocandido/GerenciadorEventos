@@ -56,15 +56,22 @@
                                                             style="background-color: yellow">
                                                 <f:param value="#{publicoController.evento.terminoInscricao}" />
                                             </h:outputFormat>
-                                            Valor Inscrição
-                                            <p:outputLabel rendered="#{publicoController.evento.valorInscricao gt 0}" value="#{publicoController.evento.valorInscricao}">
-                                                <f:converter binding="#{moedaConverter}"  />
-                                            </p:outputLabel>
-                                            <p:outputLabel rendered="#{publicoController.evento.valorInscricao.unscaledValue() == 0}" value="Inscrição Gratuita." />
-
+                                            
+                                            <c:if test="#{empty publicoController.evento.categoriasInscricoes}">
+                                                Valor Inscrição
+                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao gt 0}" value="#{publicoController.evento.valorInscricao}">
+                                                    <f:converter binding="#{moedaConverter}"  />
+                                                </p:outputLabel>
+                                                <p:outputLabel rendered="#{publicoController.evento.valorInscricao.unscaledValue() == 0}" value="Inscrição Gratuita." />
+                                            </c:if>
                                             <c:if test="#{not empty publicoController.inscricao}">
                                                 Nº Inscrição
                                                 <h:outputText value="#{publicoController.inscricao.id}" />                                                    
+                                            </c:if>
+                                            
+                                            <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricao.eventoInscricaoCategoria}">
+                                                Tipo:
+                                                <h:outputText value="#{publicoController.inscricao.eventoInscricaoCategoria}" />                                                    
                                             </c:if>
 
                                             <c:if test="#{not empty publicoController.inscricao and not empty publicoController.inscricao.lancamento}">
