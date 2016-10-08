@@ -112,7 +112,7 @@ public class Inscricao implements Entidade, Serializable {
     @JoinTable(name = "inscricoesarquivos")
     private List<Arquivo> arquivos;
     
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "inscricao")
     private List<Submissao> submissoes;
 
     public Inscricao() {

@@ -67,9 +67,9 @@ public class InscricaoItem extends Inscricao implements Serializable {
             prontoParaCertificado = prontoParaCertificado 
                     && atividade.isGeraCertificado() 
                     && atividade.getStatus() == Status.Concluido 
-                    && isCompareceu();
+                    && isCompareceu();                        
         }
-        return prontoParaCertificado;
+        return prontoParaCertificado;        
     }
     
     @Override

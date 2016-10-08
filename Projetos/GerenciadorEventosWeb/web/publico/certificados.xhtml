@@ -41,13 +41,23 @@
                                     </p:commandButton> 
                                 </c:if>
                                 <c:forEach items="#{publicoController.inscricao.itens}" var="insc">
-                                    <c:if test="#{insc.prontoParaCertificado}">
+                                    <c:if test="#{insc.prontoParaCertificado and not insc.atividade.aceitaSubmissoes}">
                                         #{insc.atividade.nome}
                                         <p:commandButton ajax="false" value="Visualizar" action="#{certificadoAtividadeController.executaRelatorioPDF()}">
                                             <f:setPropertyActionListener target="#{certificadoAtividadeController.inscricao}" value="#{publicoController.inscricao}" />
                                             <f:setPropertyActionListener target="#{certificadoAtividadeController.atividade}" value="#{insc.atividade}" />
                                             <f:setPropertyActionListener target="#{certificadoAtividadeController.funcao}" value="participante" />
                                         </p:commandButton>    
+                                    </c:if>
+                                    <c:if test="#{insc.atividade.aceitaSubmissoes}">
+                                        <c:forEach items="#{insc.submissoes}" var="sub">
+                                            <c:if test="#{sub.prontoParaCertificado}">
+                                                #{insc.atividade.nome} - #{sub.titulo}
+                                                <p:commandButton ajax="false" value="Visualizar" action="#{certificadoSubmissaoController.executaRelatorioPDF()}">
+                                                    <f:setPropertyActionListener target="#{certificadoSubmissaoController.submissao}" value="#{sub}" />
+                                                </p:commandButton>
+                                            </c:if>
+                                        </c:forEach>
                                     </c:if>
                                 </c:forEach>
                                 <c:forEach items="#{publicoController.responsavelPorAtividades}" var="ativ">

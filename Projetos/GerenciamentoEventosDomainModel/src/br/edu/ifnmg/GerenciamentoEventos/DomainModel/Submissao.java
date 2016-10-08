@@ -220,6 +220,10 @@ public class Submissao implements Entidade, Serializable {
         return getStatus() == SubmissaoStatus.Atribuido;
     }
     
+    public boolean isProntoParaCertificado() {
+        return getStatus() == SubmissaoStatus.Aprovado;
+    }
+    
     public int countAutores() {
         int tmp = 0;
         if(autor1 != null && !autor1.isEmpty()) tmp++;
@@ -532,6 +536,9 @@ public class Submissao implements Entidade, Serializable {
         return au;
     }
     
+    public String getAutores() {
+        return this.autores();
+    }
 
     @Override
     public String toString() {
