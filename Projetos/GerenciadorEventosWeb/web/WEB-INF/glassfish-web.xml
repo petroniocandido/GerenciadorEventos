@@ -8,7 +8,7 @@
     </property>
     
   </jsp-config>
-  <property name="alternatedocroot_1" value="from=/arquivos/* dir=/home/petronio/" />
+  <property name="alternatedocroot_1" value="from=/arquivos/* dir=/home/iodo/" />
   <!-- Change the default character encoding from ISO-8859-1 to UTF-8 -->
     <parameter-encoding default-charset="ISO-8859-1"/>
 </glassfish-web-app>

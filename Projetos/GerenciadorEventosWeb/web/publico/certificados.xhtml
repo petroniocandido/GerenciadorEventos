@@ -75,6 +75,12 @@
                                         <f:setPropertyActionListener target="#{certificadoAtividadeEquipeController.evento}" value="#{ativ.evento}" />
                                     </p:commandButton>    
                                 </c:forEach>
+                                <c:forEach items="#{publicoController.avaliador}" var="aval">
+                                    Avaliador Ad Hoc de trabalhos científicos
+                                    <p:commandButton ajax="false" value="Visualizar" action="#{certificadoAvaliadorController.executaRelatorioPDF()}">
+                                        <f:setPropertyActionListener target="#{certificadoAvaliadorController.evento}" value="#{aval}" />
+                                    </p:commandButton>    
+                                </c:forEach>
                             </p:panelGrid>
                         </c:when>
                         <c:otherwise>

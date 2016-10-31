@@ -170,7 +170,7 @@
                         <p:tab id="tabAvaliadores" rendered="#{eventoController.entidade.id gt 0}" title="Avaliadores">
                             <p:panelGrid columns="2">
                                 Avaliador
-                                <p:autoComplete converter="#{usuarioConverter}" value="#{submissaoController.avaliador}"
+                                <p:autoComplete converter="#{usuarioConverter}" value="#{eventoController.avaliador}"
                                                 completeMethod="#{usuarioConverter.autoCompletePessoa}" var="item"
                                                 itemLabel="#{item.nome}" itemValue="#{item}">
                                     #{item.nome}

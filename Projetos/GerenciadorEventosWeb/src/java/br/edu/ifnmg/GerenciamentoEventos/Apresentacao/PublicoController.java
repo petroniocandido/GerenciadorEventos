@@ -445,7 +445,6 @@ public class PublicoController extends ControllerBase implements Serializable {
     
     public List<Atividade> getResponsavelPorAtividades() {
         return atividadeDAO
-                .IgualA("geraCertificado", true)
                 .IgualA("responsavelPrincipal", getUsuarioCorrente())
                 .IgualA("evento", getEvento())
                 .Ordenar("nome", "ASC")
@@ -459,6 +458,14 @@ public class PublicoController extends ControllerBase implements Serializable {
                 .IgualA("r.id", getUsuarioCorrente().getId())
                 .IgualA("evento", getEvento())
                 .Ordenar("nome", "ASC")
+                .Buscar();
+    }
+    
+    public List<Evento> getAvaliador() {
+        return eventoDAO
+                .Join("avaliadores", "a")
+                .IgualA("a.id", getUsuarioCorrente().getId())
+                .IgualA("id", getEvento().getId())
                 .Buscar();
     }
 

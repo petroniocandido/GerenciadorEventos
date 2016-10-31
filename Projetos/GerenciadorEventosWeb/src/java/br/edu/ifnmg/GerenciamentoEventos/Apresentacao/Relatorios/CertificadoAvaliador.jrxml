@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificado Evento" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Certificado Atividade Participante" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6678dd91-0a89-46a1-8959-428d4bc3bc82">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="552"/>
 	<parameter name="background" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="assinatura1" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="assinatura2" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="data" class="java.util.Date" isForPrompting="false"/>
-	<field name="titulo" class="java.lang.String"/>
-	<field name="autores" class="java.lang.String"/>
-	<field name="inscricao.evento.nome" class="java.lang.String"/>
-	<field name="inscricao.evento.inicio" class="java.util.Date"/>
-	<field name="inscricao.evento.termino" class="java.util.Date"/>
-	<field name="inscricao.evento.local" class="java.lang.Object"/>
-	<field name="inscricao.evento.certificadoTextoAssinatura1" class="java.lang.String"/>
-	<field name="inscricao.evento.certificadoTextoAssinatura2" class="java.lang.String"/>
-	<field name="inscricao.evento.certificadoCidade" class="java.lang.String"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="inicio" class="java.util.Date"/> 
+	<field name="termino" class="java.util.Date"/>
+	<field name="local" class="java.lang.Object"/>
+	<field name="certificadoTextoAssinatura1" class="java.lang.String"/>
+	<field name="certificadoTextoAssinatura2" class="java.lang.String"/>
+	<field name="certificadoCidade" class="java.lang.String"/>
 	<variable name="texto" class="java.lang.String">
-		<variableExpression><![CDATA["Certificamos que o trabalho intitulado <br/> <b>"+$F{titulo}+"</b><br/> de autoria de <br/><b>" + $F{autores} + "</b><br/> foi apresentado durante o <b>" + $F{inscricao.evento.nome} +"</b> realizado no " +$F{inscricao.evento.local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{inscricao.evento.inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{inscricao.evento.termino}) +"."]]></variableExpression>
+		<variableExpression><![CDATA["Certificamos que <b>"+$P{usuario}+"</b> foi <b>avaliador ad hoc</b> dos trabalhos inscritos no evento <b>" + $F{nome} +"</b> realizado no " +$F{local}.toString() + " no período de " + (new SimpleDateFormat("dd")).format($F{inicio}) +" à " +(new SimpleDateFormat("dd' de 'MMMMM' de 'yyyy",new Locale("pt","BR"))).format($F{termino}) +"."]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -29,9 +28,9 @@
 				<imageExpression><![CDATA[$P{background}]]></imageExpression>
 			</image>
 			<textField isStretchWithOverflow="true" evaluationTime="Report">
-				<reportElement positionType="Float" x="132" y="133" width="659" height="162" uuid="af102d61-47d7-4b7e-81fb-de248b0844f9"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="html">
-					<font size="12"/>
+				<reportElement positionType="Float" x="175" y="133" width="623" height="162" uuid="af102d61-47d7-4b7e-81fb-de248b0844f9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="html">
+					<font size="16"/>
 					<paragraph lineSpacing="1_1_2"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{texto}]]></textFieldExpression>
@@ -62,21 +61,21 @@
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{inscricao.evento.certificadoTextoAssinatura1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{certificadoTextoAssinatura1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="556" y="388" width="201" height="44" uuid="ed3b269a-ae3d-47f1-aa0e-135522eca484"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{inscricao.evento.certificadoTextoAssinatura2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{certificadoTextoAssinatura2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="139" y="305" width="311" height="25" uuid="e58f7a06-bccd-45c6-89bc-982a07a281a7"/>
 				<textElement textAlignment="Right">
 					<font size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{inscricao.evento.certificadoCidade}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{certificadoCidade}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="455" y="307" width="0" height="26" uuid="710c7fe1-de4e-46d6-a907-813c59d0bf9d"/>
