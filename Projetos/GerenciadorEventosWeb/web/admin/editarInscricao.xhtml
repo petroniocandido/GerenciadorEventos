@@ -44,7 +44,8 @@
                                     <f:selectItems value="#{inscricaoController.categorias}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Categoria: " />
-                                <h:selectOneMenu value="#{inscricaoController.entidade.eventoInscricaoCategoria}" >
+                                <h:selectOneMenu value="#{inscricaoController.entidade.eventoInscricaoCategoria}" 
+                                                 converter="#{eventoInscricaoCategoriaConverter}" >
                                     <f:selectItems value="#{inscricaoController.entidade.evento.inscricoesCategorias}" />
                                 </h:selectOneMenu>
                                 <h:outputText value="Situação: " />
